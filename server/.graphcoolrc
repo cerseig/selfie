@@ -1,0 +1,3 @@
+targets:
+  selfie: shared-eu-west-1/cjub9iuxu781f0187a99rywuq
+  default: selfie
