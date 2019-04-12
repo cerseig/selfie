@@ -104,9 +104,6 @@ Pour le déploiement de l'application, nous utiliserons la plateforme **[Netlify
 
 ![](https://i.imgur.com/oDLKump.jpg)
 
-
-* *Les liens back et front, le découpage de ce qui doit se passer ou. Par exemple : si je construis une API que mon front va interroger, ou si mon back communique en temps réel avec mon front. Un schéma pourrait aider à mieux comprendre ces découpages et échanges !*
-
 <br/>
 
 ### Schéma des données
