@@ -1,5 +1,10 @@
 # Selfie
-Web Experiment where user can do the "perfect" selfie.
+Web Experiment where user can learn to do the "perfect" selfie.
+
+A website made with **VueJs** (Vue CLI 3), **GraphQL** and **Howler**. Face detection made with **Beyond Reality Face v4**.
+
+🚧 In progress, finished project planned for the 12th of June 🚧
+
 
 ## Project setup
 ```
