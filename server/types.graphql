@@ -5,5 +5,12 @@ type Avatar @model {
   id: ID! @isUnique
   url: String!
   createdAt: DateTime!
+  userRepresentation: UserRepresentation @relation(name:"AvatarUserRepresentation")
+}
+
+type UserRepresentation @model {
+  id: ID! @isUnique
+  picture: String!
+  avatar: Avatar @relation(name:"AvatarUserRepresentation")
 }
 
