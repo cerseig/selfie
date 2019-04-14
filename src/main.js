@@ -7,6 +7,7 @@ import VueApollo from 'vue-apollo'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
+import { ApolloQuery } from 'vue-apollo'
 
 // HTTP connexion to the API
 const httpLink = new HttpLink({
@@ -20,13 +21,19 @@ const cache = new InMemoryCache()
 // Create the apollo client
 const apolloClient = new ApolloClient({
   link: httpLink,
-  cache,
+  cache
 })
 
-
-
 const apolloProvider = new VueApollo({
-  defaultClient: apolloClient
+  defaultClient: apolloClient,
+  defaultOptions: {
+    $loadingKey: 'loading'
+  },
+  // Global error handler for all smart queries and subscriptions
+  errorHandler (error) {
+    console.log('Global error handler')
+    console.error(error)
+  }
 })
 
 Vue.config.productionTip = false
@@ -34,6 +41,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  apolloProvider,
+  provide: apolloProvider.provide(),
   render: h => h(App)
 }).$mount('#app')
