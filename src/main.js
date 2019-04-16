@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './store/index'
 import './registerServiceWorker'
 import VueApollo from 'vue-apollo'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
-import { ApolloQuery } from 'vue-apollo'
 
 // HTTP connexion to the API
 const httpLink = new HttpLink({
