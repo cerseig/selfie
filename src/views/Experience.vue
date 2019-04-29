@@ -11,19 +11,20 @@
 </template>
 
 <script>
-//Modules
+// Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
 
 export default {
   name: 'Experience',
-  data() {
+  data () {
     return {
       isDebug: true,
       showCamera: false
     }
   },
-  mounted() {
-    new DetectionManager()
+  mounted () {
+    this.detectionManager = new DetectionManager()
+    this.detectionManager()
   }
 }
 </script>

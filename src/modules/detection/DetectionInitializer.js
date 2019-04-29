@@ -8,8 +8,7 @@
  * It uses a lot of BRFv4 lib exemples behaviors
  */
 class DetectionInitializer {
-  constructor(params) {
-
+  constructor (params) {
     // this.brfv4Example = { stats: {} }
     this.brfv4 = null // the library namespace
     this.brfManager = null // the API
@@ -19,8 +18,8 @@ class DetectionInitializer {
     this.timeoutId = -1
 
     this.paths = {
-      brfv4BaseURL: '/', //Directory where is located the lib
-      brfv4SDKName : 'BRFv4_JS_TK210219_v4.2.0_trial', //The current available library,
+      brfv4BaseURL: '/', // Directory where is located the lib
+      brfv4SDKName: 'BRFv4_JS_TK210219_v4.2.0_trial', // The current available library,
       brfv4FilePath: '/BRFv4_JS_TK210219_v4.2.0_trial'
     }
 
@@ -43,8 +42,8 @@ class DetectionInitializer {
     this.isIOS = (/iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream)
   }
 
-  init(params) {
-    this.paths.brfv4BaseURL = params.libPath //Directory where is located the lib
+  init (params) {
+    this.paths.brfv4BaseURL = params.libPath // Directory where is located the lib
     this.paths.brfv4FilePath = `${params.libPath}BRFv4_JS_TK210219_v4.2.0_trial`
 
     this.onReady = params.onReady
@@ -60,7 +59,7 @@ class DetectionInitializer {
    * Test storing to and loading from a non-zero location via a parameter.
    * Safari on iOS 11.2.5 returns 0 unexpectedly at non-zero locations
    */
-  testSafariWebAssemblyBug() {
+  testSafariWebAssemblyBug () {
     const bin = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 6, 1, 96, 1, 127, 1, 127, 3, 2, 1, 0, 5, 3, 1, 0, 1, 7, 8, 1, 4, 116, 101, 115, 116, 0, 0, 10, 16, 1, 14, 0, 32, 0, 65, 1, 54, 2, 0, 32, 0, 40, 2, 0, 11])
     const mod = new WebAssembly.Module(bin)
     const inst = new WebAssembly.Instance(mod, {})
@@ -71,7 +70,7 @@ class DetectionInitializer {
    * Checks if WebAssembly is supported
    * @return boolean
    */
-  isWebAssemblySupported() {
+  isWebAssemblySupported () {
     let isWebAssemblySupported = (typeof WebAssembly === 'object')
 
     if (isWebAssemblySupported && !this.testSafariWebAssemblyBug()) {
@@ -84,11 +83,11 @@ class DetectionInitializer {
   /**
    * Detect WebAssembly support and load either WASM or ASM version of BRFv4
    */
-  loadBRFv4Version() {
-    console.log(`Detection Initializer => Checking support of WebAssembly: ${this.isWebAssemblySupported ? 'loading WASM (not ASM).' : 'loading ASM (not WASM).'} `);
+  loadBRFv4Version () {
+    console.log(`Detection Initializer => Checking support of WebAssembly: ${this.isWebAssemblySupported ? 'loading WASM (not ASM).' : 'loading ASM (not WASM).'} `)
 
     if (this.isWebAssemblySupported) {
-      this.readWASMBinary( `${this.paths.brfv4FilePath}.wasm`,
+      this.readWASMBinary(`${this.paths.brfv4FilePath}.wasm`,
         (r) => {
           this.brfv4WASMBuffer = r // see function waitForSDK. The ArrayBuffer needs to be added to the module object.
           this.addBRFScript()
@@ -110,13 +109,13 @@ class DetectionInitializer {
    * @param {*} onerror  callback
    * @param {*} onprogress callback
    */
-  readWASMBinary(url, onload, onerror, onprogress) {
+  readWASMBinary (url, onload, onerror, onprogress) {
     const xhr = new XMLHttpRequest()
 
     xhr.open('GET', url, true)
     xhr.responseType = 'arraybuffer'
-    xhr.onload = function xhr_onload() {
-      if (xhr.status === 200 || xhr.status === 0 && xhr.response) {
+    xhr.onload = function xhrOnLoad () {
+      if ((xhr.status === 200 || xhr.status === 0) && xhr.response) {
         onload(xhr.response)
         return
       }
@@ -130,7 +129,7 @@ class DetectionInitializer {
   /**
    * Creates a script html tag with the wasm file and adds it at the end
    */
-  addBRFScript() {
+  addBRFScript () {
     const script = document.createElement('script')
     script.setAttribute('type', 'text/javascript')
     script.setAttribute('async', true)
@@ -143,32 +142,32 @@ class DetectionInitializer {
    * The brfv4 namespace is now filled with the API classes and objects.
    * Initializes the BRFManager and the tracking API.
    */
-  initSDK() {
-      const brfv4 = this.brfv4
-      this.resolution = new brfv4.Rectangle(0, 0, this.ui.$imageData.width, this.ui.$imageData.height)
-      this.brfManager = new brfv4.BRFManager()
-      this.brfManager.init(this.resolution, this.resolution, 'com.tastenkunst.brfv4.js.examples.minimal.webcam')
+  initSDK () {
+    const brfv4 = this.brfv4
+    this.resolution = new brfv4.Rectangle(0, 0, this.ui.$imageData.width, this.ui.$imageData.height)
+    this.brfManager = new brfv4.BRFManager()
+    this.brfManager.init(this.resolution, this.resolution, 'com.tastenkunst.brfv4.js.examples.minimal.webcam')
 
-      if (this.isIOS) {
-        // Start the camera stream again on iOS.
+    if (this.isIOS) {
+      // Start the camera stream again on iOS.
 
-        setTimeout(() => {
-          console.log('Detection Initializer => delayed camera restart for iOS')
+      setTimeout(() => {
+        console.log('Detection Initializer => delayed camera restart for iOS')
 
-          this.startCamera()
-        }, 2000)
-      } else {
-        this.onInitBRFv4(brfv4, this.brfManager, this.resolution)
-      }
+        this.startCamera()
+      }, 2000)
+    } else {
+      this.onInitBRFv4(brfv4, this.brfManager, this.resolution)
+    }
   }
 
   /**
    * Sets up the namespace and initializes BRFv4.
    */
-  waitForSDK() {
+  waitForSDK () {
     if (this.brfv4 === null && window.hasOwnProperty('initializeBRF')) {
       this.brfv4 = {
-        locateFile: fileName => `${this.paths.brfv4BaseURL} ${fileName}`, //locateFile tells the asm.js version where to find the .mem file.
+        locateFile: fileName => `${this.paths.brfv4BaseURL} ${fileName}`, // locateFile tells the asm.js version where to find the .mem file.
         wasmBinary: this.brfv4WASMBuffer // Add loaded WASM file to Module
       }
       window.initializeBRF(this.brfv4)
@@ -186,7 +185,7 @@ class DetectionInitializer {
    * @param {*} brfManager
    * @param {*} resolution
    */
-  onInitBRFv4(brfv4, brfManager, resolution) {
+  onInitBRFv4 (brfv4, brfManager, resolution) {
     console.log('Detection Initializer => BRFv4 initialized')
     this.onReady(brfv4, brfManager, resolution)
   }
@@ -194,14 +193,14 @@ class DetectionInitializer {
   /**
    * Resize the canvas to match the webcam video size.
    */
-  onResize() {
+  onResize () {
     if (this.ui) {
       this.ui.$imageData.width = this.ui.$camera.videoWidth
       this.ui.$imageData.height = this.ui.$camera.videoHeight
     }
   }
 
-  startCamera() {
+  startCamera () {
     window.navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480, frameRate: 30 } })
       .then((mediaStream) => {
         this.onStreamFetched(mediaStream)
@@ -226,11 +225,11 @@ class DetectionInitializer {
     // }
   }
 
-  onStreamDimensionsAvailable() {
+  onStreamDimensionsAvailable () {
     console.log(`Detection Initializer => onStreamDimensionsAvailable: ${this.ui.$camera.videoWidth !== 0}`)
 
     if (this.ui.$camera.videoWidth === 0) {
-      setTimeout(() => this.onStreamDimensionsAvailable(), 100) //Recursive if no dimensions
+      setTimeout(() => this.onStreamDimensionsAvailable(), 100) // Recursive if no dimensions
     } else {
       this.onResize()
       // this.ctxs.imageData = this.ui.$imageData.getContext('2d')
@@ -252,4 +251,4 @@ class DetectionInitializer {
   }
 }
 
-export default new DetectionInitializer();
+export default new DetectionInitializer()
