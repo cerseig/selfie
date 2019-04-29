@@ -8,3 +8,7 @@ export const ALL_AVATARS = gql`
     }
   }
 `
+
+export default {
+  ALL_AVATARS
+}

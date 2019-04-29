@@ -1,6 +1,6 @@
 <template>
   <ul class="avatarsGrid">
-    <h4 v-if="loading">Loading...</h4>
+    <p v-if="loading">Loading...</p>
     <li
       v-for="avatar in allAvatars"
       :key="avatar.id">
@@ -21,7 +21,7 @@
       }
     },
     apollo: {
-      allLinks: {
+      allAvatars: {
         query: ALL_AVATARS
       }
     }
