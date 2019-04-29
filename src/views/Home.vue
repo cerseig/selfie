@@ -1,17 +1,30 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Bienvenue sur le selfie parfait"/>
+    <label><h1>{{ $t('home.select') }}</h1></label>
+    <select v-model="$i18n.locale">
+      <option v-for="lang in availableLanguages" :key="`lang-${lang.ident}`" :value="lang.ident">{{lang.lang}}</option>
+    </select>
+    <br>
+    <button>{{ $t('home.start') }}</button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: 'home',
-  components: {
-    HelloWorld
+  data () {
+    return {
+      availableLanguages: [
+        {
+          ident: 'fr',
+          lang: 'Français'
+        },
+        {
+          ident: 'en',
+          lang: 'English'
+        }
+      ]
+    }
   }
 }
 </script>

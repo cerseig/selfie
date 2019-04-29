@@ -1,5 +1,5 @@
 <template>
   <div class="conclusion">
-    <h1>This is a conclusion page</h1>
+    <h1>{{ $t('conclusion.title') }}</h1>
   </div>
 </template>
