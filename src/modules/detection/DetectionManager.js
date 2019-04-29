@@ -6,8 +6,7 @@ import DetectionInitializer from './DetectionInitializer'
  */
 
 class DetectionManager {
-  constructor() {
-
+  constructor () {
     this.brfv4Example = { stats: {} }
 
     this.libPath = '/js/libs/BRFv4/brf_wasm/'
@@ -15,7 +14,7 @@ class DetectionManager {
     this.ui = {
       $detection: document.querySelector('.js-detection'),
       $imageData: null,
-      $camera: null,
+      $camera: null
     }
 
     this.ctxs = {
@@ -28,7 +27,7 @@ class DetectionManager {
     this.init()
   }
 
-  init() {
+  init () {
     this.createDetectionElements()
 
     DetectionInitializer.init({
@@ -41,18 +40,18 @@ class DetectionManager {
     })
   }
 
-  createDetectionElements() {
+  createDetectionElements () {
     const camera = document.createElement('video')
     camera.setAttribute('class', 'detection__camera')
-    camera.setAttribute( 'id', '_camera')
+    camera.setAttribute('id', '_camera')
 
     const imageData = document.createElement('canvas')
     const pointsData = imageData.cloneNode(true)
     imageData.setAttribute('class', 'detection__image')
-    imageData.setAttribute( 'id', '_imageData')
+    imageData.setAttribute('id', '_imageData')
 
     pointsData.setAttribute('class', 'detection__points')
-    pointsData.setAttribute( 'id', '_points')
+    pointsData.setAttribute('id', '_points')
 
     this.ui.$imageData = imageData
     this.ui.$camera = camera
@@ -63,7 +62,7 @@ class DetectionManager {
     this.ui.$detection.appendChild(pointsData)
   }
 
-  onDetectionReady(brfv4, brfManager, resolution) {
+  onDetectionReady (brfv4, brfManager, resolution) {
     this.brfv4 = brfv4
     this.brfManager = brfManager
     this.resolution = resolution
@@ -76,8 +75,7 @@ class DetectionManager {
     this.trackFaces()
   }
 
-
-  trackFaces() {
+  trackFaces () {
     if (this.brfv4Example.stats.start) this.brfv4Example.stats.start()
 
     const timeStart = window.performance.now()
@@ -110,7 +108,7 @@ class DetectionManager {
    * @param {*} faces
    * @param {*} pointsDataCtx
    */
-  handleTrackingResults(brfv4, faces, pointsDataCtx) {
+  handleTrackingResults (brfv4, faces, pointsDataCtx) {
     // Overwrite this function in your minimal example HTML file.
 
     for (let i = 0; i < faces.length; i++) {
@@ -118,7 +116,7 @@ class DetectionManager {
 
       if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
         face.state === brfv4.BRFState.FACE_TRACKING) {
-          pointsDataCtx.strokeStyle = '#000000'
+        pointsDataCtx.strokeStyle = '#000000'
 
         for (let k = 0; k < face.vertices.length; k += 2) {
           pointsDataCtx.beginPath()
@@ -129,7 +127,6 @@ class DetectionManager {
       }
     }
   }
-
 }
 
-export default DetectionManager;
+export default DetectionManager
