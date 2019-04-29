@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-link to="/about">A propos</router-link>
+    <router-link to="/about">{{ $t('about.title') }}</router-link>
     <router-view/>
   </div>
 </template>

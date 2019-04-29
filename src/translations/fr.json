@@ -1,0 +1,27 @@
+{
+  "home": {
+    "select": "Choisissez votre langue",
+    "start": "Commencer"
+  },
+  "about": {
+    "title": "À propos"
+  },
+  "experience": {
+    "title": "La page expérience",
+    "posing": {
+      "title": "Étape de pose"
+    }
+  },
+  "gallery": {
+    "title": "La page galerie"
+  },
+  "intro": {
+    "title": "La page intro"
+  },
+  "share": {
+    "title": "La page partage"
+  },
+  "conclusion": {
+    "title": "La page conclusion"
+  }
+}
