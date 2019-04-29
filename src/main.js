@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './store/index'
 import './registerServiceWorker'
 import VueApollo from 'vue-apollo'
 import { HttpLink } from 'apollo-link-http'
@@ -25,7 +25,15 @@ const apolloClient = new ApolloClient({
 })
 
 const apolloProvider = new VueApollo({
-  defaultClient: apolloClient
+  defaultClient: apolloClient,
+  defaultOptions: {
+    $loadingKey: 'loading'
+  },
+  // Global error handler for all smart queries and subscriptions
+  errorHandler (error) {
+    console.log('Global error handler')
+    console.error(error)
+  }
 })
 
 Vue.config.productionTip = false

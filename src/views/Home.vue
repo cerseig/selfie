@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import store from '../store/index'
+
 export default {
   name: 'home',
   data () {
@@ -25,6 +27,9 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    hairCut: () => store.state.hairCut
   }
 }
 </script>
