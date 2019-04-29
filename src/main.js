@@ -8,6 +8,8 @@ import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 
+Vue.use(VueApollo)
+
 // HTTP connexion to the API
 const httpLink = new HttpLink({
   // You should use an absolute URL here
