@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <label><h1>{{ $t('home.select') }}</h1></label>
-    <select v-model="$i18n.locale">
+    <select v-model="$i18n.locale" @change="onChangeLang">
       <option v-for="lang in availableLanguages" :key="`lang-${lang.ident}`" :value="lang.ident">{{lang.lang}}</option>
     </select>
     <br>
@@ -28,8 +28,15 @@ export default {
       ]
     }
   },
+  methods: {
+    onChangeLang() {
+      store.commit('setLang', this.$i18n.locale);
+
+    }
+  },
   computed: {
-    hairCut: () => store.state.hairCut
+    hairCut: () => store.getters.getHairCut,
+    lang: () => store.getters.getLang
   }
 }
 </script>
