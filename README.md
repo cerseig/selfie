@@ -12,8 +12,14 @@ npm install
 ```
 
 ##### Compiles and hot-reloads for development
+###### APP
 ```
 npm run serve
+```
+
+###### PHP Scripts server
+```
+php -S localhost:8000
 ```
 
 ##### Compiles and minifies for production
