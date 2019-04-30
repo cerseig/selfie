@@ -1,5 +1,18 @@
 import gql from 'graphql-tag'
 
+export const GET_USER_REPRESENTATION = gql`
+  query UserRepresentationQuery($id: ID!) {
+    UserRepresentation(id: $id) {
+      id
+      avatar {
+        id
+        url
+      }
+      picture
+    }
+  }
+`
+
 export const ALL_USER_REPRESENTATION = gql`
   query AllUserRepresentationQuery {
     allUserRepresentation {
@@ -23,5 +36,5 @@ export const ALL_AVATARS = gql`
 `
 
 export default {
-  ALL_AVATARS, LAST_AVATAR
+  ALL_AVATARS, ALL_USER_REPRESENTATION, GET_USER_REPRESENTATION
 }

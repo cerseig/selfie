@@ -14,6 +14,7 @@
 import AvatarsGrid from '@/components/AvatarsGrid.vue'
 import { CREATE_AVATAR_MUTATION, CREATE_USER_REPRESENTATION_MUTATION } from '@/graphQL/mutations.js'
 import { ALL_AVATARS } from '@/graphQL/queries'
+import store from '../store/index'
 
 export default {
   name: 'gallery',
@@ -55,8 +56,18 @@ export default {
         variables: {
           avatarId : avatarId,
           picture : picture
+        },
+        update: (store, { data: { createUserRepresentation } }) => {
+          // Get ID of this temporary table
+          let temporaryTableId = createUserRepresentation.id
+          this.updateTemporaryTableId(temporaryTableId)
         }
       })
+    },
+    updateTemporaryTableId (tableId) {
+      // Update temporary table store ID
+      store.commit('setTemporaryTableId', tableId);
+      console.log('form gallery', tableId)
     }
   }
 }
