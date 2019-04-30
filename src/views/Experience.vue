@@ -1,6 +1,6 @@
 <template>
   <div class="experience">
-    <h1>This is an experience page</h1>
+    <h1>{{ $t('experience.title') }}</h1>
     <a href="#" @click="isDebug = !isDebug" class="btn btn--debug">{{isDebug ? 'Switch to Normal mode' : 'Switch to Debug mode' }}</a>
     <div class="form__item" v-if="isDebug">
       <label for="show_camera" >Show camera</label>

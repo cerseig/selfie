@@ -1,0 +1,27 @@
+{
+  "home": {
+    "select": "Choose your language",
+    "start": "Start"
+  },
+  "about": {
+    "title": "About"
+  },
+  "experience": {
+    "title": "This is an experience page",
+    "posing": {
+      "title": "Posing"
+    }
+  },
+  "gallery": {
+    "title": "This is a gallery page"
+  },
+  "intro": {
+    "title": "This is an intro page"
+  },
+  "share": {
+    "title": "This is a share page"
+  },
+  "conclusion": {
+    "title": "This is a conclusion page"
+  }
+}
