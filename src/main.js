@@ -9,6 +9,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import i18n from './i18n'
 
+Vue.use(VueApollo)
+
 // HTTP connexion to the API
 const httpLink = new HttpLink({
   // You should use an absolute URL here

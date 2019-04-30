@@ -5,13 +5,17 @@ import translation from './translation'
 const state = {
   translation: translation,
   avatar: avatar,
-  background: ''
+  background: '',
+  temporaryTableId: ''
 }
 
 // getters
 const getters = {
   getBackground (state) {
     return state.background
+  },
+  getTemporaryTableId (state) {
+    return state.temporaryTableId
   }
 }
 
@@ -23,6 +27,9 @@ const actions = {
 const mutations = {
   setBackground (state, background) {
     state.background = background
+  },
+  setTemporaryTableId (state, temporaryTableId) {
+    state.temporaryTableId = temporaryTableId
   }
 }
 
