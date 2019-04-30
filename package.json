@@ -13,6 +13,7 @@
     "apollo-client": "^2.5.1",
     "apollo-link": "^1.2.11",
     "apollo-link-http": "^1.5.14",
+    "axios": "^0.18.0",
     "core-js": "^2.6.5",
     "graphql": "^14.2.1",
     "howler": "^2.1.1",
