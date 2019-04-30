@@ -26,6 +26,15 @@ export const ALL_USER_REPRESENTATION = gql`
   }
 `
 
+export const GET_AVATAR = gql`
+  query AvatarQuery($id: ID!) {
+    Avatar(id: $id) {
+      id
+      url
+    }
+  }
+`
+
 export const ALL_AVATARS = gql`
   query AllAvatarsQuery {
     allAvatars {
@@ -36,5 +45,5 @@ export const ALL_AVATARS = gql`
 `
 
 export default {
-  ALL_AVATARS, ALL_USER_REPRESENTATION, GET_USER_REPRESENTATION
+  ALL_AVATARS, ALL_USER_REPRESENTATION, GET_USER_REPRESENTATION, GET_AVATAR
 }
