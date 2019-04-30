@@ -19,7 +19,22 @@
     "title": "La page intro"
   },
   "share": {
-    "title": "La page partage"
+    "title": "La page partage",
+    "message": "Hey ! Venez créer votre selfie parfait sur {appName}",
+    "links": {
+      "facebook": {
+        "title": "Partager sur Facebook",
+        "alt": "Partager sur Facebook"
+      },
+      "twitter": {
+        "title": "Partager sur Twitter",
+        "alt": "Partager sur Twitter"
+      },
+      "email": {
+        "title": "Envoyer par e-mail",
+        "alt": "Envoyer par e-mail"
+      } 
+    } 
   },
   "conclusion": {
     "title": "La page conclusion"

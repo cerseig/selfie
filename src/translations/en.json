@@ -19,7 +19,22 @@
     "title": "This is an intro page"
   },
   "share": {
-    "title": "This is a share page"
+    "title": "This is a share page",
+    "message": "Hey ! Come create your perfect selfie on {appName} ",
+    "share": {
+      "facebook": {
+        "title": "Share on Facebook",
+        "alt": "Share on  Facebook"
+      },
+      "twitter": {
+        "title": "Share on  Twitter",
+        "alt": "Share on  Twitter"
+      },
+      "email": {
+        "title": "Send by e-mail",
+        "alt": "Send by e-mail"
+      } 
+    } 
   },
   "conclusion": {
     "title": "This is a conclusion page"

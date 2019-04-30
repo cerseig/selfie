@@ -29,9 +29,8 @@ export default {
     }
   },
   methods: {
-    onChangeLang() {
-      store.commit('setLang', this.$i18n.locale);
-
+    onChangeLang () {
+      store.commit('setLang', this.$i18n.locale)
     }
   },
   computed: {
