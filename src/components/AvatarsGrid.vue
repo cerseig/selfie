@@ -11,22 +11,22 @@
 </template>
 
 <script>
-  import { ALL_AVATARS } from '@/graphQL/queries';
+import { ALL_AVATARS } from '@/graphQL/queries'
 
-  export default {
-    name: 'AvatarsGrid',
-    data () {
-      return {
-        allAvatars: [],
-        loading: 0
-      }
-    },
-    apollo: {
-      allAvatars: {
-        query: ALL_AVATARS
-      }
+export default {
+  name: 'AvatarsGrid',
+  data () {
+    return {
+      allAvatars: [],
+      loading: 0
+    }
+  },
+  apollo: {
+    allAvatars: {
+      query: ALL_AVATARS
     }
   }
+}
 </script>
 
 <style scoped lang="scss">

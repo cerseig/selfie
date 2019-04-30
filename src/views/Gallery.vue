@@ -1,9 +1,10 @@
 <template>
   <div class="gallery">
     <h1>This is a gallery page</h1>
-    <div class="addAvatar">
-      <input v-model="url" type="text" />
-      <button @click="addAvatar()">ajouter</button>
+    <div class="addAvatars">
+      <input class="addAvatar__avatar" v-model="url" type="text" />
+      <input class="addAvatar__picture" v-model="picture" type="text" />
+      <button type="button" @click="createAvatar()">ajouter</button>
     </div>
     <AvatarsGrid />
   </div>
@@ -11,31 +12,51 @@
 
 <script>
 import AvatarsGrid from '@/components/AvatarsGrid.vue'
-import { CREATE_AVATAR_MUTATION } from '@/graphQL/mutations.js'
+import { CREATE_AVATAR_MUTATION, CREATE_USER_REPRESENTATION_MUTATION } from '@/graphQL/mutations.js'
+import { ALL_AVATARS } from '@/graphQL/queries'
 
 export default {
   name: 'gallery',
   data () {
     return {
-      url: ''
+      avatarId: '',
+      url: '',
+      picture: ''
     }
   },
   components: {
     AvatarsGrid
   },
   methods: {
-    addAvatar() {
+    createAvatar () {
       const { url } = this.$data
+      // Add avatar to avatars list
       this.$apollo.mutate({
         mutation: CREATE_AVATAR_MUTATION,
         variables: {
           url
+        },
+        update: (store, { data: { createAvatar } }) => {
+          // Update avatars list when we had an avatar
+          const data = store.readQuery({ query: ALL_AVATARS })
+          data.allAvatars.push(createAvatar)
+          store.writeQuery({ query: ALL_AVATARS, data })
+          // Get ID of last avatar
+          let avatarId = createAvatar.id
+          this.addUserRepresentation(avatarId)
         }
       })
-      this.addUserRepresentation(idAvatar)
     },
-    addUserRepresentation() {
-
+    addUserRepresentation (avatarId) {
+      const { picture } = this.$data
+      // Add picture + avatar ID to temporary table
+      this.$apollo.mutate({
+        mutation: CREATE_USER_REPRESENTATION_MUTATION,
+        variables: {
+          avatarId : avatarId,
+          picture : picture
+        }
+      })
     }
   }
 }
