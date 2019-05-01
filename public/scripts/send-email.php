@@ -18,11 +18,15 @@
     $lang = $data['lang'];
     $to = $data['email'];
     $urlAvatar = $data['urlAvatar'];
+    $urlPicture = $data['urlPicture'];
     $translations = $translations[$lang];
+
+    $urlPictureImg = $urlPicture ? '<img src="'.$urlPicture.'"/>' : '';
 
     $subject =  $translations['subject'];
     $message =  '<h1>'.$translations['subject'].'</h1>'.
                 '<img src="'.$urlAvatar.'"/>'.
+                $urlPictureImg.
                 '<p>'.$translations['body'].'</p>';
     $headers =  'From: '.$to."\r\n".
                 'Reply-To: '.$to."\r\n".

@@ -54,8 +54,8 @@ export default {
     twitterShareLink () {
       return encodeURI(`https://twitter.com/intent/tweet?text=${this.shareMessage}&url=${this.location}`)
     },
-    facebookShareLink ()  {
-      encodeURI(`https://www.facebook.com/sharer/sharer.php?u=${'http://twitter.com'}&amp;text=${this.shareMessage}`)
+    facebookShareLink () {
+      return encodeURI(`https://www.facebook.com/sharer/sharer.php?u=${'http://twitter.com'}&amp;text=${this.shareMessage}`)
     }
   },
   methods: {
@@ -100,6 +100,7 @@ export default {
     },
     onSubmitEmail (e) {
       const isValid = this.$refs.emailInput.checkValidity() || this.$refs.emailInput.reportValidity()
+      const temporaryPictures = this.$children[0].temporaryPictures
 
       if (isValid) {
         this.email.sent = true
@@ -107,7 +108,8 @@ export default {
         axios
           .post('http://localhost:8000/send-email.php', {
             lang: this.lang,
-            urlAvatar: this.avatarImage,
+            urlAvatar: temporaryPictures.avatar.url,
+            urlPicture: temporaryPictures.picture,
             email: this.email.adress
           }).then(response => {
             this.email.success = response.data.success
