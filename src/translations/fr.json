@@ -32,7 +32,9 @@
       },
       "email": {
         "title": "Envoyer par e-mail",
-        "alt": "Envoyer par e-mail"
+        "alt": "Envoyer par e-mail",
+        "success": "Le mail a été envoyé avec succès à l'adresse {emailAdress}, n'hésitez pas à consulter votre boîte mail.",
+        "error": "Il y a une erreur avec le serveur. Veuillez ré-essayer plus tard."
       } 
     } 
   },

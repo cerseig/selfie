@@ -2,20 +2,41 @@
   <div class="share">
     <h1>{{ $t('share.title') }}</h1>
     <img :src="avatarImage" /><br>
-    <a href="avatarImage" class="" rel="noopener" @click="onClickEmail" :title="$t('share.links.email.alt')">{{ $t('share.links.email.title') }}</a><br><br>
+
+    <a href="#" class="" rel="noopener" @click="onClickEmail" :title="$t('share.links.email.alt')">{{ $t('share.links.email.title') }}</a><br>
+    <div class="" v-if="email.share">
+      <br>
+      <input type="email" v-model="email.adress" ref="emailInput" required />
+      <a href="#" @click="onSubmitEmail">Envoyer</a><br>
+      <p v-if="email.sent">
+        <span v-if="email.success">{{ $t('share.links.email.success', { emailAdress: email.adress }) }}</span>
+        <span v-else>{{ $t('share.links.email.error') }}</span>
+      </p>
+    </div><br>
+
     <a :href="twitterShareLink" data-type="twitter" @click="onClickSocialShare" :title="$t('share.links.twitter.alt')" class="">{{ $t('share.links.twitter.title') }}</a><br><br>
     <a :href="facebookShareLink" data-type="facebook" @click="onClickSocialShare" :title="$t('share.links.facebook.alt')" class="">{{ $t('share.links.facebook.title') }}</a><br><br>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import store from '../store/index'
+
 export default {
   name: 'share',
   data () {
     return {
       avatarImage: 'https://dummyimage.com/400x400/a9f5e3/a5a8d1.png&text=Avatar+Image',
       appName: 'Selfish',
-      location: window.location
+      location: window.location,
+      email: {
+        share: false,
+        adress: 'leaztanda@gmail.com',
+        sent: false,
+        success: false
+      },
+      message: null
     }
   },
   computed: {
@@ -27,7 +48,8 @@ export default {
     },
     facebookShareLink () {
       return encodeURI(`https://www.facebook.com/sharer/sharer.php?u=${'http://twitter.com'}&amp;text=${this.shareMessage}`)
-    }
+    },
+    lang: () => store.getters.getLang
   },
   methods: {
     setInitialParams () {
@@ -65,8 +87,27 @@ export default {
         top=${this.popupOptions.pos.top}`
       )
     },
-    onClickEmail () {
+    onClickEmail (e) {
+      e.preventDefault()
+      this.email.share = true
+    },
+    onSubmitEmail (e) {
+      const isValid = this.$refs.emailInput.checkValidity() || this.$refs.emailInput.reportValidity()
 
+      if (isValid) {
+        this.email.sent = true
+
+        axios
+          .post('http://localhost:8000/send-email.php', {
+            lang: this.lang,
+            urlAvatar: this.avatarImage,
+            email: this.email.adress
+          }).then(response => {
+            this.email.success = response.data.success
+          }).catch(() => {
+            this.email.success = false
+          })
+      }
     }
   },
   mounted () {

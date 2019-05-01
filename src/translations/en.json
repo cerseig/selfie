@@ -32,7 +32,9 @@
       },
       "email": {
         "title": "Send by e-mail",
-        "alt": "Send by e-mail"
+        "alt": "Send by e-mail",
+        "success": "The mail was sent with success to {emailAdress}, do not hesitate to check your mailbox",
+        "error": "There was an error with the servor, please try again later."
       } 
     } 
   },
