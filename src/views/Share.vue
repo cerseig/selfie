@@ -1,8 +1,9 @@
 <template>
   <div class="share">
     <h1>{{ $t('share.title') }}</h1>
-    <img :src="avatarImage" /><br>
-
+    <div v-if="temporaryTableId.length > 0" >
+      <TemporaryPictures :id="temporaryTableId" />
+    </div>
     <a href="#" class="" rel="noopener" @click="onClickEmail" :title="$t('share.links.email.alt')">{{ $t('share.links.email.title') }}</a><br>
     <div class="" v-if="email.share">
       <br>
@@ -16,15 +17,20 @@
 
     <a :href="twitterShareLink" data-type="twitter" @click="onClickSocialShare" :title="$t('share.links.twitter.alt')" class="">{{ $t('share.links.twitter.title') }}</a><br><br>
     <a :href="facebookShareLink" data-type="facebook" @click="onClickSocialShare" :title="$t('share.links.facebook.alt')" class="">{{ $t('share.links.facebook.title') }}</a><br><br>
+
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import store from '../store/index'
+import TemporaryPictures from '@/components/TemporaryPictures.vue'
 
 export default {
   name: 'share',
+  components: {
+    TemporaryPictures
+  },
   data () {
     return {
       avatarImage: 'https://dummyimage.com/400x400/a9f5e3/a5a8d1.png&text=Avatar+Image',
@@ -40,16 +46,17 @@ export default {
     }
   },
   computed: {
+    temporaryTableId: () => store.getters.getTemporaryTableId,
+    lang: () => store.getters.getLang,
     shareMessage () {
       return `${this.$t('share.message', { appName: this.appName })}`
     },
     twitterShareLink () {
       return encodeURI(`https://twitter.com/intent/tweet?text=${this.shareMessage}&url=${this.location}`)
     },
-    facebookShareLink () {
-      return encodeURI(`https://www.facebook.com/sharer/sharer.php?u=${'http://twitter.com'}&amp;text=${this.shareMessage}`)
-    },
-    lang: () => store.getters.getLang
+    facebookShareLink ()  {
+      encodeURI(`https://www.facebook.com/sharer/sharer.php?u=${'http://twitter.com'}&amp;text=${this.shareMessage}`)
+    }
   },
   methods: {
     setInitialParams () {
