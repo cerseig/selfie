@@ -54,8 +54,8 @@ export default {
       this.$apollo.mutate({
         mutation: CREATE_USER_REPRESENTATION_MUTATION,
         variables: {
-          avatarId : avatarId,
-          picture : picture
+          avatarId: avatarId,
+          picture: picture
         },
         update: (store, { data: { createUserRepresentation } }) => {
           // Get ID of this temporary table
@@ -66,7 +66,7 @@ export default {
     },
     updateTemporaryTableId (tableId) {
       // Update temporary table store ID
-      store.commit('setTemporaryTableId', tableId);
+      store.commit('setTemporaryTableId', tableId)
       console.log('form gallery', tableId)
     }
   }
