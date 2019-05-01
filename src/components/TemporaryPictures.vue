@@ -1,7 +1,7 @@
 <template>
   <div class="temporary__pictures">
     <h1>Avatar</h1>
-    <img :src="temporaryPictures.avatar.url">
+    <img v-if="temporaryPictures.avatar" :src="temporaryPictures.avatar.url">
 
     <h1>Picture</h1>
     <img :src="temporaryPictures.picture">
@@ -22,7 +22,7 @@ export default {
   },
   data () {
     return {
-      temporaryPictures: ''
+      temporaryPictures: {}
     }
   },
   methods: {
@@ -32,7 +32,9 @@ export default {
         variables: {
           id: this.id
         }
-      }).then(result => this.temporaryPictures = result.data.UserRepresentation)
+      }).then(result => {
+        this.temporaryPictures = result.data.UserRepresentation
+      })
     }
   },
   mounted () {

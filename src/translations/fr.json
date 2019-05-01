@@ -19,7 +19,24 @@
     "title": "La page intro"
   },
   "share": {
-    "title": "La page partage"
+    "title": "La page partage",
+    "message": "Hey ! Venez créer votre selfie parfait sur {appName}",
+    "links": {
+      "facebook": {
+        "title": "Partager sur Facebook",
+        "alt": "Partager sur Facebook"
+      },
+      "twitter": {
+        "title": "Partager sur Twitter",
+        "alt": "Partager sur Twitter"
+      },
+      "email": {
+        "title": "Envoyer par e-mail",
+        "alt": "Envoyer par e-mail",
+        "success": "Le mail a été envoyé avec succès à l'adresse {emailAdress}, n'hésitez pas à consulter votre boîte mail.",
+        "error": "Il y a une erreur avec le serveur. Veuillez ré-essayer plus tard."
+      } 
+    } 
   },
   "conclusion": {
     "title": "La page conclusion"
