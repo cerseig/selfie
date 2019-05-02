@@ -1,15 +1,30 @@
 /**
- * This Face class object will be used to determine the 67 points of the user's face.
+ * This Face class object will be used to determine the 68 points of the user's face.
  * It receives positions of this different points by face's elements.
  */
 
 class Face {
   constructor (params) {
-    this.points = params.points
+    this.brfv4 = params.brfv4 // get brfv4 object
+    this.brfManager = params.brfManager // get brf manager
+    this.facePoints = this.brfManager.getFaces() // get array faces
+    this.points = this.facePoints[0].points // get the 68 points of the face's array
 
     this.rotationX = params.rotationX
     this.rotationY = params.rotationY
     this.rotationZ = params.rotationZ
+
+    this.p0 = new this.brfv4.Point()
+    this.p1 = new this.brfv4.Point()
+
+    this.smileInitial = 0
+    this.smileLeftInitial = 0
+    this.smileRightInitial = 0
+    this.mouthOpenInitial = 0
+    this.eyeLeftInitial = 0
+    this.eyeRightInitial = 0
+    this.eyeBrowLeftInitial = 0
+    this.eyeBrowLeftInitial = 0
 
     this.eyeBrowLeft = {
       1: { x: this.points[17].x, y: this.points[17].y },
@@ -68,55 +83,191 @@ class Face {
       21: { x: this.points[67].x, y: this.points[67].y }
     }
 
-    this.init()
+    this.initFace(this.brfv4, this.facePoints)
   }
   init () {
     console.log('Face object')
   }
-  getMouthOpen () {
-    console.log(this.mouth)
+  initFace (brfv4, faces) {
+    for (let i = 0; i < faces.length; i++) {
+      const face = faces[i]
+
+      if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
+        face.state === brfv4.BRFState.FACE_TRACKING) {
+        if (this.getAllExpressionsFunction) {
+          this.getAllExpressionsFunction(face)
+        }
+      }
+    }
   }
-  getDuckFace () {
+  getAllExpressionsFunction (face) {
+    this.getMouthOpen(face)
+    this.getDuckFace(face)
+    this.getSmile(face)
+    this.getSmileLeft(face)
+    this.getSmileRight(face)
+    this.getEyeRightClose(face)
+    this.getEyeLeftClose(face)
+    this.getEyeBrowRightDown(face)
+    this.getEyeBrowLeftDown(face)
+    this.getEyeBrowRightUp(face)
+    this.getEyeBrowLeftUp(face)
+    this.getRotationLeft(face)
+    this.getRotationRight(face)
+    this.getRotationUp(face)
+    this.getRotationDown(face)
+  }
+  /* ALL GETTERS FUNCTIONS */
+  getMouthOpen (face) {
+    if (this.mouthOpenInitial !== 0) {
+      let mouthOpen = this.calcMouthOpen(face)
+      if (mouthOpen > this.mouthOpenInitial) {
+        let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
+
+        if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
+        if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
+
+        let mouthOpenPourcent = (mouthOpenFactor * 100).toFixed(0)
+        /*console.log('Mouth Open :', mouthOpenPourcent,'%')*/
+      }
+    } else {
+      this.mouthOpenInitial = this.calcMouthOpen(face)
+    }
+  }
+  getDuckFace (face) {
 
   }
-  getSmile () {
+  getSmile (face) {
+    if (this.smileInitial !== 0) {
+      let smileFactor = this.calcSmile(face)
+      let smilePourcent = (smileFactor * 100).toFixed(0)
+      /*console.log('Smile :', smilePourcent,'%')*/
+    } else {
+      this.smileInitial = this.calcSmile(face)
+    }
+  }
+  getSmileLeft (face) {
 
   }
-  getSmileLeft () {
+  getSmileRight (face) {
 
   }
-  getSmileRight () {
+  getEyeRightClose (face) {
+    if (this.eyeRightInitial !== 0) {
+      let eyeRightOpen = this.calcEyeRight(face)
+      if (eyeRightOpen < this.eyeRightInitial) {
+        let eyeRightOpenFactor = (eyeRightOpen - (this.eyeRightInitial / 4)) / (this.eyeRightInitial - (this.eyeRightInitial / 4))
+
+        if (eyeRightOpenFactor > 1.0) { eyeRightOpenFactor = 1.0 }
+        if (eyeRightOpenFactor < 0.0) { eyeRightOpenFactor = 0.0 }
+
+        let eyeRightOpenPourcent = (eyeRightOpenFactor * 100).toFixed(0)
+        if (eyeRightOpenPourcent < 50) {
+          console.log('EYE RIGHT CLOSE')
+        }
+      }
+    } else {
+      this.eyeRightInitial = this.calcEyeRight(face)
+    }
+  }
+  getEyeLeftClose (face) {
+    if (this.eyeLeftInitial !== 0) {
+      let eyeLeftOpen = this.calcEyeLeft(face)
+      if (eyeLeftOpen < this.eyeLeftInitial) {
+        let eyeLeftOpenFactor = (eyeLeftOpen - (this.eyeLeftInitial / 4)) / (this.eyeLeftInitial - (this.eyeLeftInitial / 4))
+
+        if (eyeLeftOpenFactor > 1.0) { eyeLeftOpenFactor = 1.0 }
+        if (eyeLeftOpenFactor < 0.0) { eyeLeftOpenFactor = 0.0 }
+
+        let eyeLeftOpenPourcent = (eyeLeftOpenFactor * 100).toFixed(0)
+        if (eyeLeftOpenPourcent < 50) {
+          console.log('EYE LEFT CLOSE')
+        }
+      }
+    } else {
+      this.eyeLeftInitial = this.calcEyeLeft(face)
+      console.log(this.eyeLeftInitial)
+    }
+  }
+  getEyeBrowRightDown (face) {
 
   }
-  getEyeRightClose () {
+  getEyeBrowLeftDown (face) {
 
   }
-  getEyeLeftClose () {
+  getEyeBrowRightUp (face) {
 
   }
-  getEyeBrowRightDown () {
+  getEyeBrowLeftUp (face) {
 
   }
-  getEyeBrowLeftDown () {
+  getRotationLeft (face) {
 
   }
-  getEyeBrowRightUp () {
+  getRotationRight (face) {
 
   }
-  getEyeBrowLeftUp () {
+  getRotationUp (face) {
 
   }
-  getRotationLeft () {
+  getRotationDown (face) {
 
   }
-  getRotationRight () {
+  /* ALL CALCULATE FUNCTIONS */
+  calcMouthOpen (face) {
+    // Open Mouth Detection
+    this.setPoint(face.vertices, 62, this.p0) // mouth upper inner lip
+    this.setPoint(face.vertices, 66, this.p1) // mouth lower inner lip
 
+    let mouthOpen = this.calcDistance(this.p0, this.p1)
+    return mouthOpen
   }
-  getRotationUp () {
+  calcSmile (face) {
+    // Smile Detection
+    this.setPoint(face.vertices, 48, this.p0) // mouth corner left
+    this.setPoint(face.vertices, 54, this.p1) // mouth corner right
 
+    let mouthWidth = this.calcDistance(this.p0, this.p1)
+
+    this.setPoint(face.vertices, 39, this.p1) // left eye inner corner
+    this.setPoint(face.vertices, 42, this.p0) // right eye outer corner
+
+    let eyeDist = this.calcDistance(this.p0, this.p1)
+    let smileFactor = mouthWidth / eyeDist
+
+    smileFactor -= 1.40 // 1.40 - neutral, 1.70 smiling
+
+    if (smileFactor > 0.25) smileFactor = 0.25
+    if (smileFactor < 0.00) smileFactor = 0.00
+
+    smileFactor *= 4.0
+
+    if (smileFactor < 0.0) { smileFactor = 0.0 }
+    if (smileFactor > 1.0) { smileFactor = 1.0 }
+
+    return smileFactor
   }
-  getRotationDown () {
+  calcEyeLeft (face) {
+    this.setPoint(face.vertices, 37, this.p0) // mouth upper inner lip
+    this.setPoint(face.vertices, 41, this.p1) // mouth lower inner lip
 
+    let eyeLeftOpen = this.calcDistance(this.p0, this.p1)
+    return eyeLeftOpen
+  }
+  calcEyeRight (face) {
+    this.setPoint(face.vertices, 44, this.p0) // mouth upper inner lip
+    this.setPoint(face.vertices, 46, this.p1) // mouth lower inner lip
+
+    let eyeRightOpen = this.calcDistance(this.p0, this.p1)
+    return eyeRightOpen
+  }
+  /* ALL UTILS FUNCTIONS */
+  setPoint (v, i, p) {
+    p.x = v[i * 2]; p.y = v[i * 2 + 1]
+  }
+  calcDistance (p0, p1) {
+    return Math.sqrt(
+      (p1.x - p0.x) * (p1.x - p0.x) + (p1.y - p0.y) * (p1.y - p0.y))
   }
 }
 

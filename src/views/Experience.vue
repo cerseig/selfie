@@ -24,7 +24,6 @@ export default {
   },
   mounted () {
     this.detectionManager = new DetectionManager()
-    this.detectionManager()
   }
 }
 </script>
