@@ -147,7 +147,21 @@ class Face {
     }
   }
   getSmileLeft (face) {
+    if (this.smileLeftInitial !== 0) {
+      let smileLeft = this.calcSmileLeft(face)
+      if (smileLeft < this.smileLeftInitial) {
+        console.log(smileLeft)
+        let smileLeftFactor = (smileLeft - this.smileLeftInitial) / ((this.smileLeftInitial - 20) - this.smileLeftInitial)
 
+        if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
+        if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }
+
+        let smileLeftPourcent = (smileLeftFactor * 100).toFixed(0)
+        /*console.log('Smile Left :', smileLeftPourcent,'%')*/
+      }
+    } else {
+      this.smileLeftInitial = this.calcSmileLeft(face)
+    }
   }
   getSmileRight (face) {
 
@@ -246,6 +260,14 @@ class Face {
     if (smileFactor > 1.0) { smileFactor = 1.0 }
 
     return smileFactor
+  }
+  calcSmileLeft (face) {
+    // Smile Left Detection
+    this.setPoint(face.vertices, 36, this.p0)
+    this.setPoint(face.vertices, 48, this.p1)
+
+    let smileLeft = this.calcDistance(this.p0, this.p1)
+    return smileLeft
   }
   calcEyeLeft (face) {
     this.setPoint(face.vertices, 37, this.p0) // mouth upper inner lip
