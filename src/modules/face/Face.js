@@ -150,7 +150,6 @@ class Face {
     if (this.smileLeftInitial !== 0) {
       let smileLeft = this.calcSmileLeft(face)
       if (smileLeft < this.smileLeftInitial) {
-        console.log(smileLeft)
         let smileLeftFactor = (smileLeft - this.smileLeftInitial) / ((this.smileLeftInitial - 20) - this.smileLeftInitial)
 
         if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
@@ -164,7 +163,20 @@ class Face {
     }
   }
   getSmileRight (face) {
+    if (this.smileRightInitial !== 0) {
+      let smileRight = this.calcSmileRight(face)
+      if (smileRight < this.smileRightInitial) {
+        let smileRightFactor = (smileRight - this.smileRightInitial) / ((this.smileRightInitial - 20) - this.smileRightInitial)
 
+        if (smileRightFactor < 0.0) { smileRightFactor = 0.0 }
+        if (smileRightFactor > 1.0) { smileRightFactor = 1.0 }
+
+        let smileRightPourcent = (smileRightFactor * 100).toFixed(0)
+        /*console.log('Smile Right :', smileRightPourcent,'%')*/
+      }
+    } else {
+      this.smileRightInitial = this.calcSmileRight(face)
+    }
   }
   getEyeRightClose (face) {
     if (this.eyeRightInitial !== 0) {
@@ -268,6 +280,14 @@ class Face {
 
     let smileLeft = this.calcDistance(this.p0, this.p1)
     return smileLeft
+  }
+  calcSmileRight (face) {
+    // Smile Right Detection
+    this.setPoint(face.vertices, 45, this.p0)
+    this.setPoint(face.vertices, 54, this.p1)
+
+    let smileRight = this.calcDistance(this.p0, this.p1)
+    return smileRight
   }
   calcEyeLeft (face) {
     this.setPoint(face.vertices, 37, this.p0) // mouth upper inner lip
