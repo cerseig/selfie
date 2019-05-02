@@ -1,4 +1,5 @@
 import DetectionInitializer from './DetectionInitializer'
+import Face from '../face/Face'
 
 /**
  * This class handles Detection Iinitialization with BRFv4
@@ -73,6 +74,9 @@ class DetectionManager {
     this.ctxs.pointsData = this.ui.$pointsData.getContext('2d')
 
     this.trackFaces()
+
+    let facePoints = this.brfManager.getFaces()
+    let face = new Face(facePoints[0])
   }
 
   trackFaces () {

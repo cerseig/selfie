@@ -67,7 +67,6 @@ export default {
     updateTemporaryTableId (tableId) {
       // Update temporary table store ID
       store.commit('setTemporaryTableId', tableId)
-      console.log('form gallery', tableId)
     }
   }
 }
