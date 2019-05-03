@@ -1,4 +1,5 @@
 import DetectionInitializer from './DetectionInitializer'
+import Face from '../face/Face'
 
 /**
  * This class handles Detection Iinitialization with BRFv4
@@ -23,6 +24,8 @@ class DetectionManager {
     }
 
     this.timeoutId = -1
+
+    this.face = {}
 
     this.init()
   }
@@ -73,6 +76,11 @@ class DetectionManager {
     this.ctxs.pointsData = this.ui.$pointsData.getContext('2d')
 
     this.trackFaces()
+
+    this.face = new Face({
+      brfv4: this.brfv4,
+      brfManager: this.brfManager
+    })
   }
 
   trackFaces () {
@@ -116,6 +124,10 @@ class DetectionManager {
 
       if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
         face.state === brfv4.BRFState.FACE_TRACKING) {
+        if (this.face.getAllExpressionsFunction) {
+          this.face.getAllExpressionsFunction(face)
+        }
+
         pointsDataCtx.strokeStyle = '#000000'
 
         for (let k = 0; k < face.vertices.length; k += 2) {
