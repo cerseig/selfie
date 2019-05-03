@@ -8,6 +8,9 @@
   },
   "experience": {
     "title": "This is an experience page",
+    "personnalisation": {
+      "nextStep": "Go to next step"
+    },
     "posing": {
       "title": "Posing"
     }
@@ -21,6 +24,7 @@
   "share": {
     "title": "This is a share page",
     "message": "Hey ! Come create your perfect selfie on {appName} ",
+    "subtitle": "Share",
     "share": {
       "facebook": {
         "title": "Share on Facebook",

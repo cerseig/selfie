@@ -1,9 +1,13 @@
 // initial state
 const state = {
-  hairCut: 'longhair',
-  hairColor: 'brown',
-  skinColor: 'white',
-  eyeColor: 'brown'
+  hairCut: '',
+  hairColor: 'red',
+  skinColor: '',
+  eyeColor: '',
+  facialHair: '',
+  facialHairColor: '',
+  glasses: '',
+  glassesColor: ''
 }
 
 // getters
@@ -19,6 +23,18 @@ const getters = {
   },
   getEyeColor (state) {
     return state.eyeColor
+  },
+  getFacialHair (state) {
+    return state.facialHair
+  },
+  getFacialHairColor (state) {
+    return state.facialHairColor
+  },
+  getGlasses (state) {
+    return state.glasses
+  },
+  getGlassesColor (state) {
+    return state.glassesColor
   }
 }
 
@@ -39,6 +55,18 @@ const mutations = {
   },
   setEyeColor (state, eyeColor) {
     state.eyeColor = eyeColor
+  },
+  setFacialHair (state, facialHair) {
+    state.facialHair = facialHair
+  },
+  setFacialHairColor (state, facialHairColor) {
+    state.facialHairColor = facialHairColor
+  },
+  setGlasses (state, glasses) {
+    state.glasses = glasses
+  },
+  setGlassesColor (state, glassesColor) {
+    state.glassesColor = glassesColor
   }
 }
 
