@@ -117,6 +117,9 @@ class Face {
     this.getEyeBrowLeftUp(face)
     this.getRotationLeft(face)
     this.getRotationRight(face)
+    this.getRotationUp(face)
+    this.getRotationDown(face)
+    this.getEyeBlink(face)
   }
   /* ALL GETTERS FUNCTIONS */
   getMouthOpen (face) {
@@ -128,8 +131,8 @@ class Face {
         if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
         if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
-        let mouthOpenPourcent = (mouthOpenFactor * 100).toFixed(0)
-        /*console.log('Mouth Open :', mouthOpenPourcent,'%')*/
+        /* let mouthOpenPourcent = (mouthOpenFactor * 100).toFixed(0)
+        console.log('Mouth Open :', mouthOpenPourcent,'%') */
       }
     } else {
       this.mouthOpenInitial = this.calcMouthOpen(face)
@@ -141,8 +144,8 @@ class Face {
   getSmile (face) {
     if (this.smileInitial !== 0) {
       let smileFactor = this.calcSmile(face)
-      let smilePourcent = (smileFactor * 100).toFixed(0)
-      /*console.log('Smile :', smilePourcent,'%')*/
+      /* let smilePourcent = (smileFactor * 100).toFixed(0)
+      console.log('Smile :', smilePourcent,'%') */
     } else {
       this.smileInitial = this.calcSmile(face)
     }
@@ -156,8 +159,8 @@ class Face {
         if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
         if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }
 
-        let smileLeftPourcent = (smileLeftFactor * 100).toFixed(0)
-        /*console.log('Smile Left :', smileLeftPourcent,'%')*/
+        /* let smileLeftPourcent = (smileLeftFactor * 100).toFixed(0)
+        console.log('Smile Left :', smileLeftPourcent,'%') */
       }
     } else {
       this.smileLeftInitial = this.calcSmileLeft(face)
@@ -172,11 +175,25 @@ class Face {
         if (smileRightFactor < 0.0) { smileRightFactor = 0.0 }
         if (smileRightFactor > 1.0) { smileRightFactor = 1.0 }
 
-        let smileRightPourcent = (smileRightFactor * 100).toFixed(0)
-        /*console.log('Smile Right :', smileRightPourcent,'%')*/
+        /* let smileRightPourcent = (smileRightFactor * 100).toFixed(0)
+        console.log('Smile Right :', smileRightPourcent,'%') */
       }
     } else {
       this.smileRightInitial = this.calcSmileRight(face)
+    }
+  }
+  getEyeBlink (face) {
+    let eyeRight = this.getEyeRightClose(face)
+    let eyeLeft = this.getEyeLeftClose(face)
+
+    if (eyeRight < 50 && eyeLeft < 50) {
+      if ((eyeRight - eyeLeft) > 10) { // detect that eye left is closed compare to the right
+        console.log('LEFT EYE IS CLOSED')
+      } else if ((eyeLeft - eyeRight) > 10) { // detect that eye right is closed compose to the left
+        console.log('RIGHT EYE IS CLOSED')
+      } else { // detect eyes are closed
+        console.log('EYES ARE CLOSED')
+      }
     }
   }
   getEyeRightClose (face) {
@@ -188,10 +205,11 @@ class Face {
         if (eyeRightOpenFactor > 1.0) { eyeRightOpenFactor = 1.0 }
         if (eyeRightOpenFactor < 0.0) { eyeRightOpenFactor = 0.0 }
 
-        let eyeRightOpenPourcent = (eyeRightOpenFactor * 100).toFixed(0)
-        if (eyeRightOpenPourcent < 50) {
-          /*console.log('EYE RIGHT CLOSE')*/
-        }
+        let eyeRightOpenPercent = (eyeRightOpenFactor * 100).toFixed(0)
+        return eyeRightOpenPercent
+        /* if (eyeRightOpenPercent < 50) {
+          console.log('EYE RIGHT CLOSE'
+        } */
       }
     } else {
       this.eyeRightInitial = this.calcEyeRight(face)
@@ -206,14 +224,14 @@ class Face {
         if (eyeLeftOpenFactor > 1.0) { eyeLeftOpenFactor = 1.0 }
         if (eyeLeftOpenFactor < 0.0) { eyeLeftOpenFactor = 0.0 }
 
-        let eyeLeftOpenPourcent = (eyeLeftOpenFactor * 100).toFixed(0)
-        if (eyeLeftOpenPourcent < 50) {
-/*          console.log('EYE LEFT CLOSE')*/
-        }
+        let eyeLeftOpenPercent = (eyeLeftOpenFactor * 100).toFixed(0)
+        return eyeLeftOpenPercent
+        /* if (eyeLeftOpenPercent < 50) {
+          console.log('EYE LEFT CLOSE')
+        } */
       }
     } else {
       this.eyeLeftInitial = this.calcEyeLeft(face)
-      console.log(this.eyeLeftInitial)
     }
   }
   getEyeBrowRightDown (face) {
@@ -228,19 +246,34 @@ class Face {
   getEyeBrowLeftUp (face) {
 
   }
-  getRotationX (face) {
-    let rotationX = this.toDegree(face.rotationX)
+  getRotationUp (face) {
+    let rotationUp = this.toDegree(face.rotationX)
     const X_CENTER_GAP = 5
-    const MAX_X_ROTATION = 30
+    const MAX_X_ROTATION = -20
 
-    if (rotationX > (this.rotationX + X_CENTER_GAP)) {
-      let rotationXFactor = (rotationX - (this.rotationY + X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX + X_CENTER_GAP))
+    if (rotationUp < (this.rotationX - X_CENTER_GAP)) {
+      let rotationUpFactor = (rotationUp - (this.rotationX - X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX - X_CENTER_GAP))
 
-      if (rotationXFactor < 0.0) { rotationXFactor = 0.0 }
-      if (rotationXFactor > 1.0) { rotationXFactor = 1.0 }
+      if (rotationUpFactor < 0.0) { rotationUpFactor = 0.0 }
+      if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
 
-      /* let rotationYPercent = (rotationYFactor * 100).toFixed(0)
-      console.log('Rotation Y :', rotationYPercent,'%') */
+      /* let rotationUpPercent = (rotationUpFactor * 100).toFixed(0)
+      console.log('Rotation Up :', rotationUpPercent, '%') */
+    }
+  }
+  getRotationDown (face) {
+    let rotationDown = this.toDegree(face.rotationX)
+    const X_CENTER_GAP = 5
+    const MAX_X_ROTATION = 20
+
+    if (rotationDown > (this.rotationX + X_CENTER_GAP)) {
+      let rotationDownFactor = (rotationDown - (this.rotationX + X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX + X_CENTER_GAP))
+
+      if (rotationDownFactor < 0.0) { rotationDownFactor = 0.0 }
+      if (rotationDownFactor > 1.0) { rotationDownFactor = 1.0 }
+
+      /* let rotationDownPercent = (rotationDownFactor * 100).toFixed(0)
+      console.log('Rotation Down :', rotationDownPercent, '%') */
     }
   }
   getRotationLeft (face) {
@@ -346,7 +379,7 @@ class Face {
       (p1.x - p0.x) * (p1.x - p0.x) + (p1.y - p0.y) * (p1.y - p0.y))
   }
   toDegree (x) {
-    return x * 180.0 / Math.PI;
+    return x * 180.0 / Math.PI
   }
 }
 
