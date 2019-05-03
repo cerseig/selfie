@@ -10,9 +10,9 @@ class Face {
     this.facePoints = this.brfManager.getFaces() // get array faces
     this.points = this.facePoints[0].points // get the 68 points of the face's array
 
-    this.rotationX = params.rotationX
-    this.rotationY = params.rotationY
-    this.rotationZ = params.rotationZ
+    this.rotationX = this.toDegree(this.facePoints[0].rotationX) // up/down
+    this.rotationY = this.toDegree(this.facePoints[0].rotationY) // left / right
+    this.rotationZ = this.toDegree(this.facePoints[0].rotationZ) // tilt to left / right
 
     this.p0 = new this.brfv4.Point()
     this.p1 = new this.brfv4.Point()
@@ -100,6 +100,9 @@ class Face {
       }
     }
   }
+  restrictToCenter (face) {
+
+  }
   getAllExpressionsFunction (face) {
     this.getMouthOpen(face)
     this.getDuckFace(face)
@@ -114,8 +117,6 @@ class Face {
     this.getEyeBrowLeftUp(face)
     this.getRotationLeft(face)
     this.getRotationRight(face)
-    this.getRotationUp(face)
-    this.getRotationDown(face)
   }
   /* ALL GETTERS FUNCTIONS */
   getMouthOpen (face) {
@@ -189,7 +190,7 @@ class Face {
 
         let eyeRightOpenPourcent = (eyeRightOpenFactor * 100).toFixed(0)
         if (eyeRightOpenPourcent < 50) {
-          console.log('EYE RIGHT CLOSE')
+          /*console.log('EYE RIGHT CLOSE')*/
         }
       }
     } else {
@@ -207,7 +208,7 @@ class Face {
 
         let eyeLeftOpenPourcent = (eyeLeftOpenFactor * 100).toFixed(0)
         if (eyeLeftOpenPourcent < 50) {
-          console.log('EYE LEFT CLOSE')
+/*          console.log('EYE LEFT CLOSE')*/
         }
       }
     } else {
@@ -227,17 +228,50 @@ class Face {
   getEyeBrowLeftUp (face) {
 
   }
-  getRotationLeft (face) {
+  getRotationX (face) {
+    let rotationX = this.toDegree(face.rotationX)
+    const X_CENTER_GAP = 5
+    const MAX_X_ROTATION = 30
 
+    if (rotationX > (this.rotationX + X_CENTER_GAP)) {
+      let rotationXFactor = (rotationX - (this.rotationY + X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX + X_CENTER_GAP))
+
+      if (rotationXFactor < 0.0) { rotationXFactor = 0.0 }
+      if (rotationXFactor > 1.0) { rotationXFactor = 1.0 }
+
+      /* let rotationYPercent = (rotationYFactor * 100).toFixed(0)
+      console.log('Rotation Y :', rotationYPercent,'%') */
+    }
+  }
+  getRotationLeft (face) {
+    let rotationLeft = this.toDegree(face.rotationY)
+    const Y_CENTER_GAP = 5
+    const MAX_Y_ROTATION = 30
+
+    if (rotationLeft > (this.rotationY + Y_CENTER_GAP)) { // HEAD TURN TO THE LEFT
+      let rotationLeftFactor = (rotationLeft - (this.rotationY + Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY + Y_CENTER_GAP))
+
+      if (rotationLeftFactor < 0.0) { rotationLeftFactor = 0.0 }
+      if (rotationLeftFactor > 1.0) { rotationLeftFactor = 1.0 }
+
+      /* let rotationLeftPercent = (rotationLeftFactor * 100).toFixed(0)
+      console.log('Rotation Left :', rotationLeftPercent,'%') */
+    }
   }
   getRotationRight (face) {
+    let rotationRight = this.toDegree(face.rotationY)
+    const Y_CENTER_GAP = 5
+    const MAX_Y_ROTATION = -30
 
-  }
-  getRotationUp (face) {
+    if (rotationRight < (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE LEFT
+      let rotationRightFactor = (rotationRight - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))
 
-  }
-  getRotationDown (face) {
+      if (rotationRightFactor < 0.0) { rotationRightFactor = 0.0 }
+      if (rotationRightFactor > 1.0) { rotationRightFactor = 1.0 }
 
+      /* let rotationRightPercent = (rotationRightFactor * 100).toFixed(0)
+      console.log('Rotation Right :', rotationRightPercent,'%') */
+    }
   }
   /* ALL CALCULATE FUNCTIONS */
   calcMouthOpen (face) {
@@ -310,6 +344,9 @@ class Face {
   calcDistance (p0, p1) {
     return Math.sqrt(
       (p1.x - p0.x) * (p1.x - p0.x) + (p1.y - p0.y) * (p1.y - p0.y))
+  }
+  toDegree (x) {
+    return x * 180.0 / Math.PI;
   }
 }
 
