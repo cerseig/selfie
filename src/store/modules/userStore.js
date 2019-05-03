@@ -5,7 +5,7 @@ import translation from './translation'
 const state = {
   translation: translation,
   avatar: avatar,
-  background: '',
+  background: 'yellow',
   temporaryTableId: ''
 }
 
@@ -16,6 +16,9 @@ const getters = {
   },
   getTemporaryTableId (state) {
     return state.temporaryTableId
+  },
+  getAvatar (state) {
+    return state.avatar
   }
 }
 
