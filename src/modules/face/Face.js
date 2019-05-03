@@ -85,9 +85,6 @@ class Face {
 
     this.initFace(this.brfv4, this.facePoints)
   }
-  init () {
-    console.log('Face object')
-  }
   initFace (brfv4, faces) {
     for (let i = 0; i < faces.length; i++) {
       const face = faces[i]
@@ -99,9 +96,6 @@ class Face {
         }
       }
     }
-  }
-  restrictToCenter (face) {
-
   }
   getAllExpressionsFunction (face) {
     this.getMouthOpen(face)
@@ -119,9 +113,10 @@ class Face {
     this.getRotationRight(face)
     this.getRotationUp(face)
     this.getRotationDown(face)
-    this.getEyeBlink(face)
+    this.getTiltRight(face)
+    this.getTiltLeft(face)
   }
-  /* ALL GETTERS FUNCTIONS */
+  /* ----- ALL GETTERS FUNCTIONS ----- */
   getMouthOpen (face) {
     if (this.mouthOpenInitial !== 0) {
       let mouthOpen = this.calcMouthOpen(face)
@@ -182,7 +177,7 @@ class Face {
       this.smileRightInitial = this.calcSmileRight(face)
     }
   }
-  getEyeBlink (face) {
+  /* getEyeBlink (face) {
     let eyeRight = this.getEyeRightClose(face)
     let eyeLeft = this.getEyeLeftClose(face)
 
@@ -191,11 +186,9 @@ class Face {
         console.log('LEFT EYE IS CLOSED')
       } else if ((eyeLeft - eyeRight) > 10) { // detect that eye right is closed compose to the left
         console.log('RIGHT EYE IS CLOSED')
-      } else { // detect eyes are closed
-        console.log('EYES ARE CLOSED')
       }
     }
-  }
+  } */
   getEyeRightClose (face) {
     if (this.eyeRightInitial !== 0) {
       let eyeRightOpen = this.calcEyeRight(face)
@@ -306,7 +299,37 @@ class Face {
       console.log('Rotation Right :', rotationRightPercent,'%') */
     }
   }
-  /* ALL CALCULATE FUNCTIONS */
+  getTiltRight (face) {
+    let tiltRight = this.toDegree(face.rotationZ)
+    const Z_CENTER_GAP = 5
+    const MAX_Z_ROTATION = 30
+
+    if (tiltRight > (this.rotationZ + Z_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
+      let titltRightFactor = (tiltRight - (this.rotationZ + Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ + Z_CENTER_GAP))
+
+      if (titltRightFactor < 0.0) { titltRightFactor = 0.0 }
+      if (titltRightFactor > 1.0) { titltRightFactor = 1.0 }
+
+      /* let tiltRightPercent = (titltRightFactor * 100).toFixed(0)
+      console.log('Tilt Right :', tiltRightPercent, '%') */
+    }
+  }
+  getTiltLeft (face) {
+    let tiltLeft = this.toDegree(face.rotationZ)
+    const Z_CENTER_GAP = 5
+    const MAX_Z_ROTATION = -30
+
+    if (tiltLeft < (this.rotationZ - Z_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
+      let titltLeftFactor = (tiltLeft - (this.rotationZ - Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ - Z_CENTER_GAP))
+
+      if (titltLeftFactor < 0.0) { titltLeftFactor = 0.0 }
+      if (titltLeftFactor > 1.0) { titltLeftFactor = 1.0 }
+
+      /* let tiltLeftPercent = (titltLeftFactor * 100).toFixed(0)
+      console.log('Tilt Left :', tiltLeftPercent, '%') */
+    }
+  }
+  /* ----- ALL CALCULATE FUNCTIONS ----- */
   calcMouthOpen (face) {
     // Open Mouth Detection
     this.setPoint(face.vertices, 62, this.p0) // mouth upper inner lip
@@ -370,7 +393,7 @@ class Face {
     let eyeRightOpen = this.calcDistance(this.p0, this.p1)
     return eyeRightOpen
   }
-  /* ALL UTILS FUNCTIONS */
+  /* ----- ALL UTILS FUNCTIONS ----- */
   setPoint (v, i, p) {
     p.x = v[i * 2]; p.y = v[i * 2 + 1]
   }
