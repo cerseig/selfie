@@ -17,71 +17,71 @@ class Face {
     this.p0 = new this.brfv4.Point()
     this.p1 = new this.brfv4.Point()
 
+    this.eyeBrowLeft = {
+      0: { x: this.points[17].x, y: this.points[17].y },
+      1: { x: this.points[18].x, y: this.points[18].y },
+      2: { x: this.points[19].x, y: this.points[19].y },
+      3: { x: this.points[20].x, y: this.points[20].y },
+      4: { x: this.points[21].x, y: this.points[21].y }
+    }
+
+    this.eyeBrowRight = {
+      0: { x: this.points[22].x, y: this.points[22].y },
+      1: { x: this.points[23].x, y: this.points[23].y },
+      2: { x: this.points[24].x, y: this.points[24].y },
+      3: { x: this.points[25].x, y: this.points[25].y },
+      4: { x: this.points[26].x, y: this.points[26].y }
+    }
+
+    this.eyeLeft = {
+      0: { x: this.points[36].x, y: this.points[36].y },
+      1: { x: this.points[37].x, y: this.points[37].y },
+      2: { x: this.points[38].x, y: this.points[38].y },
+      3: { x: this.points[39].x, y: this.points[39].y },
+      4: { x: this.points[40].x, y: this.points[40].y },
+      5: { x: this.points[41].x, y: this.points[41].y }
+    }
+
+    this.eyeRight = {
+      0: { x: this.points[42].x, y: this.points[42].y },
+      1: { x: this.points[43].x, y: this.points[43].y },
+      2: { x: this.points[44].x, y: this.points[44].y },
+      3: { x: this.points[45].x, y: this.points[45].y },
+      4: { x: this.points[46].x, y: this.points[46].y },
+      5: { x: this.points[47].x, y: this.points[47].y }
+    }
+
+    this.mouth = {
+      0: { x: this.points[48].x, y: this.points[48].y },
+      1: { x: this.points[49].x, y: this.points[49].y },
+      2: { x: this.points[50].x, y: this.points[50].y },
+      3: { x: this.points[51].x, y: this.points[51].y },
+      4: { x: this.points[52].x, y: this.points[52].y },
+      5: { x: this.points[53].x, y: this.points[53].y },
+      6: { x: this.points[54].x, y: this.points[54].y },
+      7: { x: this.points[55].x, y: this.points[55].y },
+      8: { x: this.points[56].x, y: this.points[56].y },
+      9: { x: this.points[57].x, y: this.points[57].y },
+      10: { x: this.points[58].x, y: this.points[58].y },
+      11: { x: this.points[59].x, y: this.points[59].y },
+      12: { x: this.points[60].x, y: this.points[60].y },
+      13: { x: this.points[61].x, y: this.points[61].y },
+      14: { x: this.points[62].x, y: this.points[62].y },
+      15: { x: this.points[63].x, y: this.points[63].y },
+      16: { x: this.points[64].x, y: this.points[64].y },
+      17: { x: this.points[65].x, y: this.points[65].y },
+      18: { x: this.points[66].x, y: this.points[66].y },
+      19: { x: this.points[67].x, y: this.points[67].y }
+    }
+
     this.smileInitial = 0
     this.smileLeftInitial = 0
     this.smileRightInitial = 0
     this.mouthOpenInitial = 0
     this.eyeLeftInitial = 0
     this.eyeRightInitial = 0
-    this.eyeBrowLeftInitial = 0
-    this.eyeBrowLeftInitial = 0
-
-    this.eyeBrowLeft = {
-      1: { x: this.points[17].x, y: this.points[17].y },
-      2: { x: this.points[18].x, y: this.points[18].y },
-      3: { x: this.points[19].x, y: this.points[19].y },
-      4: { x: this.points[20].x, y: this.points[20].y },
-      5: { x: this.points[21].x, y: this.points[21].y }
-    }
-
-    this.eyeBrowRight = {
-      1: { x: this.points[22].x, y: this.points[22].y },
-      2: { x: this.points[23].x, y: this.points[23].y },
-      3: { x: this.points[24].x, y: this.points[24].y },
-      4: { x: this.points[25].x, y: this.points[25].y },
-      5: { x: this.points[26].x, y: this.points[26].y }
-    }
-
-    this.eyeLeft = {
-      1: { x: this.points[36].x, y: this.points[36].y },
-      2: { x: this.points[37].x, y: this.points[37].y },
-      3: { x: this.points[38].x, y: this.points[38].y },
-      4: { x: this.points[39].x, y: this.points[39].y },
-      5: { x: this.points[40].x, y: this.points[40].y },
-      6: { x: this.points[41].x, y: this.points[41].y }
-    }
-
-    this.eyeRight = {
-      1: { x: this.points[42].x, y: this.points[42].y },
-      2: { x: this.points[43].x, y: this.points[43].y },
-      3: { x: this.points[44].x, y: this.points[44].y },
-      4: { x: this.points[45].x, y: this.points[45].y },
-      5: { x: this.points[46].x, y: this.points[46].y },
-      6: { x: this.points[47].x, y: this.points[47].y }
-    }
-
-    this.mouth = {
-      1: { x: this.points[48].x, y: this.points[48].y },
-      2: { x: this.points[49].x, y: this.points[49].y },
-      3: { x: this.points[50].x, y: this.points[50].y },
-      4: { x: this.points[51].x, y: this.points[51].y },
-      5: { x: this.points[52].x, y: this.points[52].y },
-      6: { x: this.points[53].x, y: this.points[53].y },
-      7: { x: this.points[54].x, y: this.points[54].y },
-      9: { x: this.points[55].x, y: this.points[55].y },
-      10: { x: this.points[56].x, y: this.points[56].y },
-      11: { x: this.points[57].x, y: this.points[57].y },
-      12: { x: this.points[58].x, y: this.points[58].y },
-      13: { x: this.points[59].x, y: this.points[59].y },
-      14: { x: this.points[60].x, y: this.points[60].y },
-      15: { x: this.points[61].x, y: this.points[61].y },
-      16: { x: this.points[62].x, y: this.points[62].y },
-      17: { x: this.points[63].x, y: this.points[63].y },
-      18: { x: this.points[64].x, y: this.points[64].y },
-      19: { x: this.points[65].x, y: this.points[65].y },
-      20: { x: this.points[66].x, y: this.points[66].y },
-      21: { x: this.points[67].x, y: this.points[67].y }
-    }
+    this.eyeBrowRightInitial = this.calcDistance(this.eyeBrowRight[2], this.eyeRight[2])
+    this.eyeBrowLeftInitial = this.calcDistance(this.eyeBrowLeft[2], this.eyeLeft[2])
 
     this.initFace(this.brfv4, this.facePoints)
   }
@@ -126,6 +126,8 @@ class Face {
         if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
         if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
+        return mouthOpenFactor
+
         /* let mouthOpenPourcent = (mouthOpenFactor * 100).toFixed(0)
         console.log('Mouth Open :', mouthOpenPourcent,'%') */
       }
@@ -139,6 +141,9 @@ class Face {
   getSmile (face) {
     if (this.smileInitial !== 0) {
       let smileFactor = this.calcSmile(face)
+
+      return smileFactor
+
       /* let smilePourcent = (smileFactor * 100).toFixed(0)
       console.log('Smile :', smilePourcent,'%') */
     } else {
@@ -153,6 +158,8 @@ class Face {
 
         if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
         if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }
+
+        return smileLeftFactor
 
         /* let smileLeftPourcent = (smileLeftFactor * 100).toFixed(0)
         console.log('Smile Left :', smileLeftPourcent,'%') */
@@ -169,6 +176,8 @@ class Face {
 
         if (smileRightFactor < 0.0) { smileRightFactor = 0.0 }
         if (smileRightFactor > 1.0) { smileRightFactor = 1.0 }
+
+        return smileRightFactor
 
         /* let smileRightPourcent = (smileRightFactor * 100).toFixed(0)
         console.log('Smile Right :', smileRightPourcent,'%') */
@@ -228,16 +237,60 @@ class Face {
     }
   }
   getEyeBrowRightDown (face) {
+    let eyeBrowRight = this.calcEyeBrowRight(face)
+    if (eyeBrowRight < this.eyeBrowRightInitial) {
+      let eyeBrowRightFactor = (eyeBrowRight - (this.eyeBrowRightInitial - 0.5)) / ((this.eyeBrowRightInitial - 3) - (this.eyeBrowRightInitial - 0.5))
 
+      if (eyeBrowRightFactor > 1.0) { eyeBrowRightFactor = 1.0 }
+      if (eyeBrowRightFactor < 0.0) { eyeBrowRightFactor = 0.0 }
+
+      return eyeBrowRightFactor
+
+      /* let eyeBrowRightPercent = (eyeBrowRightFactor * 100).toFixed(0)
+      console.log('Eye Brow Right Down :', eyeBrowRightPercent,'%') */
+    }
   }
   getEyeBrowLeftDown (face) {
+    let eyeBrowLeft = this.calcEyeBrowLeft(face)
+    if (eyeBrowLeft < this.eyeBrowLeftInitial) {
+      let eyeBrowLeftFactor = (eyeBrowLeft - (this.eyeBrowLeftInitial - 0.5)) / ((this.eyeBrowLeftInitial - 3) - (this.eyeBrowLeftInitial - 0.5))
 
+      if (eyeBrowLeftFactor > 1.0) { eyeBrowLeftFactor = 1.0 }
+      if (eyeBrowLeftFactor < 0.0) { eyeBrowLeftFactor = 0.0 }
+
+      return eyeBrowLeftFactor
+
+      /* let eyeBrowRightPercent = (eyeBrowRightFactor * 100).toFixed(0)
+      console.log('Eye Brow Right Down :', eyeBrowRightPercent,'%') */
+    }
   }
   getEyeBrowRightUp (face) {
+    let eyeBrowRight = this.calcEyeBrowRight(face)
+    if (eyeBrowRight > this.eyeBrowRightInitial) {
+      let eyeBrowRightFactor = (eyeBrowRight - (this.eyeBrowRightInitial + 0.5)) / ((this.eyeBrowRightInitial + 3) - (this.eyeBrowRightInitial + 0.5))
 
+      if (eyeBrowRightFactor > 1.0) { eyeBrowRightFactor = 1.0 }
+      if (eyeBrowRightFactor < 0.0) { eyeBrowRightFactor = 0.0 }
+
+      return eyeBrowRightFactor
+
+      /* let eyeBrowRightPercent = (eyeBrowRightFactor * 100).toFixed(0)
+      console.log('Eye Brow Right Up :', eyeBrowRightPercent,'%') */
+    }
   }
   getEyeBrowLeftUp (face) {
+    let eyeBrowLeft = this.calcEyeBrowLeft(face)
+    if (eyeBrowLeft > this.eyeBrowLeftInitial) {
+      let eyeBrowLeftFactor = (eyeBrowLeft - (this.eyeBrowLeftInitial + 0.5)) / ((this.eyeBrowLeftInitial + 3) - (this.eyeBrowLeftInitial + 0.5))
 
+      if (eyeBrowLeftFactor > 1.0) { eyeBrowLeftFactor = 1.0 }
+      if (eyeBrowLeftFactor < 0.0) { eyeBrowLeftFactor = 0.0 }
+
+      return eyeBrowLeftFactor
+
+      /* let eyeBrowRightPercent = (eyeBrowRightFactor * 100).toFixed(0)
+      console.log('Eye Brow Right Up :', eyeBrowRightPercent,'%') */
+    }
   }
   getRotationUp (face) {
     let rotationUp = this.toDegree(face.rotationX)
@@ -249,6 +302,8 @@ class Face {
 
       if (rotationUpFactor < 0.0) { rotationUpFactor = 0.0 }
       if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
+
+      return rotationUpFactor
 
       /* let rotationUpPercent = (rotationUpFactor * 100).toFixed(0)
       console.log('Rotation Up :', rotationUpPercent, '%') */
@@ -265,6 +320,8 @@ class Face {
       if (rotationDownFactor < 0.0) { rotationDownFactor = 0.0 }
       if (rotationDownFactor > 1.0) { rotationDownFactor = 1.0 }
 
+      return rotationDownFactor
+
       /* let rotationDownPercent = (rotationDownFactor * 100).toFixed(0)
       console.log('Rotation Down :', rotationDownPercent, '%') */
     }
@@ -279,6 +336,8 @@ class Face {
 
       if (rotationLeftFactor < 0.0) { rotationLeftFactor = 0.0 }
       if (rotationLeftFactor > 1.0) { rotationLeftFactor = 1.0 }
+
+      return rotationLeftFactor
 
       /* let rotationLeftPercent = (rotationLeftFactor * 100).toFixed(0)
       console.log('Rotation Left :', rotationLeftPercent,'%') */
@@ -295,6 +354,8 @@ class Face {
       if (rotationRightFactor < 0.0) { rotationRightFactor = 0.0 }
       if (rotationRightFactor > 1.0) { rotationRightFactor = 1.0 }
 
+      return rotationRightFactor
+
       /* let rotationRightPercent = (rotationRightFactor * 100).toFixed(0)
       console.log('Rotation Right :', rotationRightPercent,'%') */
     }
@@ -310,6 +371,8 @@ class Face {
       if (titltRightFactor < 0.0) { titltRightFactor = 0.0 }
       if (titltRightFactor > 1.0) { titltRightFactor = 1.0 }
 
+      return titltRightFactor
+
       /* let tiltRightPercent = (titltRightFactor * 100).toFixed(0)
       console.log('Tilt Right :', tiltRightPercent, '%') */
     }
@@ -324,6 +387,8 @@ class Face {
 
       if (titltLeftFactor < 0.0) { titltLeftFactor = 0.0 }
       if (titltLeftFactor > 1.0) { titltLeftFactor = 1.0 }
+
+      return titltLeftFactor
 
       /* let tiltLeftPercent = (titltLeftFactor * 100).toFixed(0)
       console.log('Tilt Left :', tiltLeftPercent, '%') */
@@ -393,6 +458,22 @@ class Face {
     let eyeRightOpen = this.calcDistance(this.p0, this.p1)
     return eyeRightOpen
   }
+  calcEyeBrowLeft (face) {
+    this.setPoint(face.vertices, 37, this.p0)
+    this.setPoint(face.vertices, 19, this.p1)
+
+    let eyeBrowLeft = this.calcDistance(this.p0, this.p1)
+
+    return eyeBrowLeft
+  }
+  calcEyeBrowRight (face) {
+    this.setPoint(face.vertices, 44, this.p0)
+    this.setPoint(face.vertices, 24, this.p1)
+
+    let eyeBrowRight = this.calcDistance(this.p0, this.p1)
+
+    return eyeBrowRight
+  }
   /* ----- ALL UTILS FUNCTIONS ----- */
   setPoint (v, i, p) {
     p.x = v[i * 2]; p.y = v[i * 2 + 1]
@@ -403,6 +484,9 @@ class Face {
   }
   toDegree (x) {
     return x * 180.0 / Math.PI
+  }
+  toValuesArray (obj) {
+    return Object.values(obj)
   }
 }
 
