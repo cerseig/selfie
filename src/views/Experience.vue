@@ -7,19 +7,42 @@
       <input type="checkbox" id="show_camera" value="true" v-model="showCamera">
     </div>
     <div :class="['detection js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']"></div>
+    <SVGSprite />
+    <PersonnalisationStep v-if="currentStep === 0" :validateStep="onValidateStep" />
+    <div class="" v-if="currentStep === 1">
+      <h1>Etape : la pose</h1>
+      <a href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }} : {{ $t('share.subtitle') }}</a>
+    </div>
   </div>
 </template>
 
 <script>
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
+import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
+import SVGSprite from '@/components/icons/SVGSprite'
 
 export default {
   name: 'Experience',
+  components: {
+    PersonnalisationStep,
+    SVGSprite
+  },
   data () {
     return {
       isDebug: true,
-      showCamera: false
+      showCamera: false,
+      currentStep: 0
+    }
+  },
+  methods: {
+    onValidateStep () {
+      this.currentStep++
+
+      if (this.currentStep >= 2) {
+        // todo : camera screenshot
+        this.$router.push({ name: 'gallery' })
+      }
     }
   },
   mounted () {
@@ -50,6 +73,7 @@ export default {
   &__points {
     position: relative;
     z-index: 1;
+    border: .25px solid black;
   }
 
   &__image,

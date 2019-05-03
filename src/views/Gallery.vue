@@ -5,8 +5,10 @@
       <input class="addAvatar__avatar" v-model="url" type="text" />
       <input class="addAvatar__picture" v-model="picture" type="text" />
       <button type="button" @click="createAvatar()">ajouter</button>
+      <router-link to="/share">{{ $t('share.title') }}</router-link>
     </div>
     <AvatarsGrid />
+
   </div>
 </template>
 

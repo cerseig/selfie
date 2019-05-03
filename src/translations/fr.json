@@ -8,6 +8,9 @@
   },
   "experience": {
     "title": "La page expérience",
+    "personnalisation": {
+      "nextStep": "Aller à la page suivante"
+    },
     "posing": {
       "title": "Étape de pose"
     }
@@ -20,6 +23,7 @@
   },
   "share": {
     "title": "La page partage",
+    "subtitle": "Partager",
     "message": "Hey ! Venez créer votre selfie parfait sur {appName}",
     "links": {
       "facebook": {
