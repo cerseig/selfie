@@ -10,7 +10,7 @@ class Face {
     this.facePoints = this.brfManager.getFaces() // get array faces
     this.points = this.facePoints[0].points // get the 68 points of the face's array
 
-    this.rotationX = this.toDegree(this.facePoints[0].rotationX) // up/down
+    this.rotationX = this.toDegree(this.facePoints[0].rotationX) // up / down
     this.rotationY = this.toDegree(this.facePoints[0].rotationY) // left / right
     this.rotationZ = this.toDegree(this.facePoints[0].rotationZ) // tilt to left / right
 
@@ -24,7 +24,6 @@ class Face {
       3: { x: this.points[20].x, y: this.points[20].y },
       4: { x: this.points[21].x, y: this.points[21].y }
     }
-
     this.eyeBrowRight = {
       0: { x: this.points[22].x, y: this.points[22].y },
       1: { x: this.points[23].x, y: this.points[23].y },
@@ -32,7 +31,6 @@ class Face {
       3: { x: this.points[25].x, y: this.points[25].y },
       4: { x: this.points[26].x, y: this.points[26].y }
     }
-
     this.eyeLeft = {
       0: { x: this.points[36].x, y: this.points[36].y },
       1: { x: this.points[37].x, y: this.points[37].y },
@@ -41,7 +39,6 @@ class Face {
       4: { x: this.points[40].x, y: this.points[40].y },
       5: { x: this.points[41].x, y: this.points[41].y }
     }
-
     this.eyeRight = {
       0: { x: this.points[42].x, y: this.points[42].y },
       1: { x: this.points[43].x, y: this.points[43].y },
@@ -50,7 +47,6 @@ class Face {
       4: { x: this.points[46].x, y: this.points[46].y },
       5: { x: this.points[47].x, y: this.points[47].y }
     }
-
     this.mouth = {
       0: { x: this.points[48].x, y: this.points[48].y },
       1: { x: this.points[49].x, y: this.points[49].y },
@@ -74,12 +70,11 @@ class Face {
       19: { x: this.points[67].x, y: this.points[67].y }
     }
 
-    this.smileInitial = 0
-    this.smileLeftInitial = 0
-    this.smileRightInitial = 0
-    this.mouthOpenInitial = 0
-    this.eyeLeftInitial = 0
-    this.eyeRightInitial = 0
+    this.smileLeftInitial = this.calcDistance(this.eyeLeft[0], this.mouth[0])
+    this.smileRightInitial = this.calcDistance(this.eyeRight[0], this.mouth[6])
+    this.mouthOpenInitial = this.calcDistance(this.mouth[14], this.mouth[18])
+    this.eyeLeftInitial = this.calcDistance(this.eyeLeft[1], this.eyeLeft[5])
+    this.eyeRightInitial = this.calcDistance(this.eyeRight[2], this.eyeRight[4])
     this.eyeBrowRightInitial = this.calcDistance(this.eyeBrowRight[2], this.eyeRight[2])
     this.eyeBrowLeftInitial = this.calcDistance(this.eyeBrowLeft[2], this.eyeLeft[2])
 
@@ -99,7 +94,6 @@ class Face {
   }
   getAllExpressionsFunction (face) {
     this.getMouthOpen(face)
-    this.getDuckFace(face)
     this.getSmile(face)
     this.getSmileLeft(face)
     this.getSmileRight(face)
@@ -118,54 +112,30 @@ class Face {
   }
   /* ----- ALL GETTERS FUNCTIONS ----- */
   getMouthOpen (face) {
-    if (this.mouthOpenInitial !== 0) {
-      let mouthOpen = this.calcMouthOpen(face)
-      if (mouthOpen > this.mouthOpenInitial) {
-        let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
+    let mouthOpen = this.calcMouthOpen(face)
+    if (mouthOpen > this.mouthOpenInitial) {
+      let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
 
-        if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
-        if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
+      if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
+      if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
-        return mouthOpenFactor
-
-        /* let mouthOpenPourcent = (mouthOpenFactor * 100).toFixed(0)
-        console.log('Mouth Open :', mouthOpenPourcent,'%') */
-      }
-    } else {
-      this.mouthOpenInitial = this.calcMouthOpen(face)
+      return mouthOpenFactor
     }
-  }
-  getDuckFace (face) {
-
   }
   getSmile (face) {
-    if (this.smileInitial !== 0) {
-      let smileFactor = this.calcSmile(face)
+    let smileFactor = this.calcSmile(face)
 
-      return smileFactor
-
-      /* let smilePourcent = (smileFactor * 100).toFixed(0)
-      console.log('Smile :', smilePourcent,'%') */
-    } else {
-      this.smileInitial = this.calcSmile(face)
-    }
+    return smileFactor
   }
   getSmileLeft (face) {
-    if (this.smileLeftInitial !== 0) {
-      let smileLeft = this.calcSmileLeft(face)
-      if (smileLeft < this.smileLeftInitial) {
-        let smileLeftFactor = (smileLeft - this.smileLeftInitial) / ((this.smileLeftInitial - 20) - this.smileLeftInitial)
+    let smileLeft = this.calcSmileLeft(face)
+    if (smileLeft < this.smileLeftInitial) {
+      let smileLeftFactor = (smileLeft - this.smileLeftInitial) / ((this.smileLeftInitial - 20) - this.smileLeftInitial)
 
-        if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
-        if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }
+      if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
+      if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }
 
-        return smileLeftFactor
-
-        /* let smileLeftPourcent = (smileLeftFactor * 100).toFixed(0)
-        console.log('Smile Left :', smileLeftPourcent,'%') */
-      }
-    } else {
-      this.smileLeftInitial = this.calcSmileLeft(face)
+      return smileLeftFactor
     }
   }
   getSmileRight (face) {
@@ -186,35 +156,15 @@ class Face {
       this.smileRightInitial = this.calcSmileRight(face)
     }
   }
-  /* getEyeBlink (face) {
-    let eyeRight = this.getEyeRightClose(face)
-    let eyeLeft = this.getEyeLeftClose(face)
-
-    if (eyeRight < 50 && eyeLeft < 50) {
-      if ((eyeRight - eyeLeft) > 10) { // detect that eye left is closed compare to the right
-        console.log('LEFT EYE IS CLOSED')
-      } else if ((eyeLeft - eyeRight) > 10) { // detect that eye right is closed compose to the left
-        console.log('RIGHT EYE IS CLOSED')
-      }
-    }
-  } */
   getEyeRightClose (face) {
-    if (this.eyeRightInitial !== 0) {
-      let eyeRightOpen = this.calcEyeRight(face)
-      if (eyeRightOpen < this.eyeRightInitial) {
-        let eyeRightOpenFactor = (eyeRightOpen - (this.eyeRightInitial / 4)) / (this.eyeRightInitial - (this.eyeRightInitial / 4))
+    let eyeRightOpen = this.calcEyeRight(face)
+    if (eyeRightOpen < this.eyeRightInitial) {
+      let eyeRightOpenFactor = (eyeRightOpen - (this.eyeRightInitial / 4)) / (this.eyeRightInitial - (this.eyeRightInitial / 4))
 
-        if (eyeRightOpenFactor > 1.0) { eyeRightOpenFactor = 1.0 }
-        if (eyeRightOpenFactor < 0.0) { eyeRightOpenFactor = 0.0 }
+      if (eyeRightOpenFactor > 1.0) { eyeRightOpenFactor = 1.0 }
+      if (eyeRightOpenFactor < 0.0) { eyeRightOpenFactor = 0.0 }
 
-        let eyeRightOpenPercent = (eyeRightOpenFactor * 100).toFixed(0)
-        return eyeRightOpenPercent
-        /* if (eyeRightOpenPercent < 50) {
-          console.log('EYE RIGHT CLOSE'
-        } */
-      }
-    } else {
-      this.eyeRightInitial = this.calcEyeRight(face)
+      return eyeRightOpenFactor
     }
   }
   getEyeLeftClose (face) {
@@ -245,9 +195,6 @@ class Face {
       if (eyeBrowRightFactor < 0.0) { eyeBrowRightFactor = 0.0 }
 
       return eyeBrowRightFactor
-
-      /* let eyeBrowRightPercent = (eyeBrowRightFactor * 100).toFixed(0)
-      console.log('Eye Brow Right Down :', eyeBrowRightPercent,'%') */
     }
   }
   getEyeBrowLeftDown (face) {
@@ -259,9 +206,6 @@ class Face {
       if (eyeBrowLeftFactor < 0.0) { eyeBrowLeftFactor = 0.0 }
 
       return eyeBrowLeftFactor
-
-      /* let eyeBrowRightPercent = (eyeBrowRightFactor * 100).toFixed(0)
-      console.log('Eye Brow Right Down :', eyeBrowRightPercent,'%') */
     }
   }
   getEyeBrowRightUp (face) {
@@ -273,9 +217,6 @@ class Face {
       if (eyeBrowRightFactor < 0.0) { eyeBrowRightFactor = 0.0 }
 
       return eyeBrowRightFactor
-
-      /* let eyeBrowRightPercent = (eyeBrowRightFactor * 100).toFixed(0)
-      console.log('Eye Brow Right Up :', eyeBrowRightPercent,'%') */
     }
   }
   getEyeBrowLeftUp (face) {
@@ -287,9 +228,6 @@ class Face {
       if (eyeBrowLeftFactor < 0.0) { eyeBrowLeftFactor = 0.0 }
 
       return eyeBrowLeftFactor
-
-      /* let eyeBrowRightPercent = (eyeBrowRightFactor * 100).toFixed(0)
-      console.log('Eye Brow Right Up :', eyeBrowRightPercent,'%') */
     }
   }
   getRotationUp (face) {
@@ -304,9 +242,6 @@ class Face {
       if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
 
       return rotationUpFactor
-
-      /* let rotationUpPercent = (rotationUpFactor * 100).toFixed(0)
-      console.log('Rotation Up :', rotationUpPercent, '%') */
     }
   }
   getRotationDown (face) {
@@ -321,9 +256,6 @@ class Face {
       if (rotationDownFactor > 1.0) { rotationDownFactor = 1.0 }
 
       return rotationDownFactor
-
-      /* let rotationDownPercent = (rotationDownFactor * 100).toFixed(0)
-      console.log('Rotation Down :', rotationDownPercent, '%') */
     }
   }
   getRotationLeft (face) {
@@ -338,9 +270,6 @@ class Face {
       if (rotationLeftFactor > 1.0) { rotationLeftFactor = 1.0 }
 
       return rotationLeftFactor
-
-      /* let rotationLeftPercent = (rotationLeftFactor * 100).toFixed(0)
-      console.log('Rotation Left :', rotationLeftPercent,'%') */
     }
   }
   getRotationRight (face) {
@@ -355,9 +284,6 @@ class Face {
       if (rotationRightFactor > 1.0) { rotationRightFactor = 1.0 }
 
       return rotationRightFactor
-
-      /* let rotationRightPercent = (rotationRightFactor * 100).toFixed(0)
-      console.log('Rotation Right :', rotationRightPercent,'%') */
     }
   }
   getTiltRight (face) {
@@ -372,9 +298,6 @@ class Face {
       if (titltRightFactor > 1.0) { titltRightFactor = 1.0 }
 
       return titltRightFactor
-
-      /* let tiltRightPercent = (titltRightFactor * 100).toFixed(0)
-      console.log('Tilt Right :', tiltRightPercent, '%') */
     }
   }
   getTiltLeft (face) {
@@ -389,31 +312,26 @@ class Face {
       if (titltLeftFactor > 1.0) { titltLeftFactor = 1.0 }
 
       return titltLeftFactor
-
-      /* let tiltLeftPercent = (titltLeftFactor * 100).toFixed(0)
-      console.log('Tilt Left :', tiltLeftPercent, '%') */
     }
   }
   /* ----- ALL CALCULATE FUNCTIONS ----- */
   calcMouthOpen (face) {
-    // Open Mouth Detection
     this.setPoint(face.vertices, 62, this.p0) // mouth upper inner lip
     this.setPoint(face.vertices, 66, this.p1) // mouth lower inner lip
 
-    let mouthOpen = this.calcDistance(this.p0, this.p1)
+    let mouthOpen = this.calcDistance(this.p0, this.p1) // distance between mouth upper inner lip and mouth lower inner lip
     return mouthOpen
   }
   calcSmile (face) {
-    // Smile Detection
     this.setPoint(face.vertices, 48, this.p0) // mouth corner left
     this.setPoint(face.vertices, 54, this.p1) // mouth corner right
 
-    let mouthWidth = this.calcDistance(this.p0, this.p1)
+    let mouthWidth = this.calcDistance(this.p0, this.p1) // distance between mouth's corners
 
     this.setPoint(face.vertices, 39, this.p1) // left eye inner corner
     this.setPoint(face.vertices, 42, this.p0) // right eye outer corner
 
-    let eyeDist = this.calcDistance(this.p0, this.p1)
+    let eyeDist = this.calcDistance(this.p0, this.p1) // distance between the 2 eyes
     let smileFactor = mouthWidth / eyeDist
 
     smileFactor -= 1.40 // 1.40 - neutral, 1.70 smiling
@@ -429,7 +347,6 @@ class Face {
     return smileFactor
   }
   calcSmileLeft (face) {
-    // Smile Left Detection
     this.setPoint(face.vertices, 36, this.p0)
     this.setPoint(face.vertices, 48, this.p1)
 
@@ -437,7 +354,6 @@ class Face {
     return smileLeft
   }
   calcSmileRight (face) {
-    // Smile Right Detection
     this.setPoint(face.vertices, 45, this.p0)
     this.setPoint(face.vertices, 54, this.p1)
 
@@ -445,15 +361,15 @@ class Face {
     return smileRight
   }
   calcEyeLeft (face) {
-    this.setPoint(face.vertices, 37, this.p0) // mouth upper inner lip
-    this.setPoint(face.vertices, 41, this.p1) // mouth lower inner lip
+    this.setPoint(face.vertices, 37, this.p0)
+    this.setPoint(face.vertices, 41, this.p1)
 
     let eyeLeftOpen = this.calcDistance(this.p0, this.p1)
     return eyeLeftOpen
   }
   calcEyeRight (face) {
-    this.setPoint(face.vertices, 44, this.p0) // mouth upper inner lip
-    this.setPoint(face.vertices, 46, this.p1) // mouth lower inner lip
+    this.setPoint(face.vertices, 44, this.p0)
+    this.setPoint(face.vertices, 46, this.p1)
 
     let eyeRightOpen = this.calcDistance(this.p0, this.p1)
     return eyeRightOpen
@@ -484,9 +400,6 @@ class Face {
   }
   toDegree (x) {
     return x * 180.0 / Math.PI
-  }
-  toValuesArray (obj) {
-    return Object.values(obj)
   }
 }
 
