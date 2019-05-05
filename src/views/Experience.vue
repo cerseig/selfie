@@ -1,18 +1,23 @@
 <template>
   <div class="experience">
     <h1>{{ $t('experience.title') }}</h1>
+
     <a href="#" @click="isDebug = !isDebug" class="btn btn--debug">{{isDebug ? 'Switch to Normal mode' : 'Switch to Debug mode' }}</a>
+
     <div class="form__item" v-if="isDebug">
       <label for="show_camera" >Show camera</label>
       <input type="checkbox" id="show_camera" value="true" v-model="showCamera">
     </div>
     <div :class="['detection js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']"></div>
-    <SVGSprite />
+
     <PersonnalisationStep v-if="currentStep === 0" :validateStep="onValidateStep" />
+
     <div class="" v-if="currentStep === 1">
       <h1>Etape : la pose</h1>
       <a href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }} : {{ $t('share.subtitle') }}</a>
     </div>
+
+    <SVGSprite />
   </div>
 </template>
 
@@ -43,53 +48,64 @@ export default {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
+    },
+    update () {
+      requestAnimationFrame(this.update)
     }
   },
   mounted () {
     this.detectionManager = new DetectionManager()
+    this.update()
+  },
+  beforeDestroy () {
+    if (this.detectionManager) {
+      this.detectionManager.destroy()
+    }
   }
 }
 </script>
 
 <style lang="scss">
 
-.detection {
-  $self: &;
-  position:  relative;
-  display: flex;
-  justify-content: space-between;
+.experience {
+  .detection {
+    $self: &;
+    position:  relative;
+    display: flex;
+    justify-content: space-between;
 
-  &__camera {
-    display: none;
-  }
-
-  &__image {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 0;
-  }
-
-  &__points {
-    position: relative;
-    z-index: 1;
-    border: .25px solid black;
-  }
-
-  &__image,
-  &__points {
-    opacity: 0;
-  }
-
-  &.is-debug {
-    &.is-camera-shown {
-      #{$self}__image {
-        opacity: .15;
-      }
+    &__camera {
+      display: none;
     }
 
-    #{$self}__points{
-      opacity: 1;
+    &__image {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 0;
+    }
+
+    &__points {
+      position: relative;
+      z-index: 1;
+      border: .25px solid black;
+    }
+
+    &__image,
+    &__points {
+      opacity: 0;
+    }
+
+    &.is-debug {
+      &.is-camera-shown {
+        #{$self}__image {
+          opacity: .15;
+        }
+      }
+
+      #{$self}__points{
+        opacity: 1;
+      }
     }
   }
 }
