@@ -159,11 +159,12 @@ class Face {
   getEyeRightClose (face) {
     let eyeRightOpen = this.calcEyeRight(face)
     if (eyeRightOpen < this.eyeRightInitial) {
-      let eyeRightOpenFactor = (eyeRightOpen - (this.eyeRightInitial / 4)) / (this.eyeRightInitial - (this.eyeRightInitial / 4))
+      let eyeRightOpenFactor = (eyeRightOpen - this.eyeRightInitial) / ((this.eyeRightInitial / 4) - this.eyeRightInitial)
 
       if (eyeRightOpenFactor > 1.0) { eyeRightOpenFactor = 1.0 }
       if (eyeRightOpenFactor < 0.0) { eyeRightOpenFactor = 0.0 }
 
+      console.log(eyeRightOpenFactor)
       return eyeRightOpenFactor
     }
   }
@@ -171,16 +172,13 @@ class Face {
     if (this.eyeLeftInitial !== 0) {
       let eyeLeftOpen = this.calcEyeLeft(face)
       if (eyeLeftOpen < this.eyeLeftInitial) {
-        let eyeLeftOpenFactor = (eyeLeftOpen - (this.eyeLeftInitial / 4)) / (this.eyeLeftInitial - (this.eyeLeftInitial / 4))
+        let eyeLeftOpenFactor = (eyeLeftOpen - this.eyeLeftInitial) / ((this.eyeLeftInitial / 4) - this.eyeLeftInitial)
 
         if (eyeLeftOpenFactor > 1.0) { eyeLeftOpenFactor = 1.0 }
         if (eyeLeftOpenFactor < 0.0) { eyeLeftOpenFactor = 0.0 }
 
-        let eyeLeftOpenPercent = (eyeLeftOpenFactor * 100).toFixed(0)
-        return eyeLeftOpenPercent
-        /* if (eyeLeftOpenPercent < 50) {
-          console.log('EYE LEFT CLOSE')
-        } */
+        console.log(eyeLeftOpenFactor)
+        return eyeLeftOpenFactor
       }
     } else {
       this.eyeLeftInitial = this.calcEyeLeft(face)
@@ -277,7 +275,7 @@ class Face {
     const Y_CENTER_GAP = 5
     const MAX_Y_ROTATION = -30
 
-    if (rotationRight < (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE LEFT
+    if (rotationRight < (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
       let rotationRightFactor = (rotationRight - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))
 
       if (rotationRightFactor < 0.0) { rotationRightFactor = 0.0 }
@@ -291,7 +289,7 @@ class Face {
     const Z_CENTER_GAP = 5
     const MAX_Z_ROTATION = 30
 
-    if (tiltRight > (this.rotationZ + Z_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
+    if (tiltRight > (this.rotationZ + Z_CENTER_GAP)) { // HEAD TILT TO THE RIGHT
       let titltRightFactor = (tiltRight - (this.rotationZ + Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ + Z_CENTER_GAP))
 
       if (titltRightFactor < 0.0) { titltRightFactor = 0.0 }
@@ -305,7 +303,7 @@ class Face {
     const Z_CENTER_GAP = 5
     const MAX_Z_ROTATION = -30
 
-    if (tiltLeft < (this.rotationZ - Z_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
+    if (tiltLeft < (this.rotationZ - Z_CENTER_GAP)) { // HEAD TILT TO THE LEFT
       let titltLeftFactor = (tiltLeft - (this.rotationZ - Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ - Z_CENTER_GAP))
 
       if (titltLeftFactor < 0.0) { titltLeftFactor = 0.0 }
