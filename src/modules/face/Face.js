@@ -94,6 +94,7 @@ class Face {
   }
   getAllExpressionsFunction (face) {
     this.getMouthOpen(face)
+    this.getDuckFace(face)
     this.getSmile(face)
     this.getSmileLeft(face)
     this.getSmileRight(face)
@@ -121,6 +122,9 @@ class Face {
 
       return mouthOpenFactor
     }
+  }
+  getDuckFace (face) {
+
   }
   getSmile (face) {
     let smileFactor = this.calcSmile(face)
@@ -319,6 +323,9 @@ class Face {
 
     let mouthOpen = this.calcDistance(this.p0, this.p1) // distance between mouth upper inner lip and mouth lower inner lip
     return mouthOpen
+  }
+  calcDuckFace (face) {
+
   }
   calcSmile (face) {
     this.setPoint(face.vertices, 48, this.p0) // mouth corner left
