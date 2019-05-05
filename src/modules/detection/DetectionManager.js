@@ -26,6 +26,7 @@ class DetectionManager {
     this.timeoutId = -1
 
     this.face = {}
+    this.positions = {}
 
     this.init()
   }
@@ -41,6 +42,15 @@ class DetectionManager {
         imageData: this.ui.$imageData
       }
     })
+  }
+
+  getPositions () {
+    return this.positions
+  }
+
+  destroy () {
+    clearTimeout(this.timeoutId)
+    DetectionInitializer.destroy()
   }
 
   createDetectionElements () {
@@ -125,7 +135,7 @@ class DetectionManager {
       if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
         face.state === brfv4.BRFState.FACE_TRACKING) {
         if (this.face.getAllExpressionsFunction) {
-          this.face.getAllExpressionsFunction(face)
+          this.positions = this.face.getAllExpressionsFunction(face)
         }
 
         pointsDataCtx.strokeStyle = '#000000'

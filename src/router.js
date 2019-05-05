@@ -5,6 +5,7 @@ import Intro from './views/Intro.vue'
 import About from './views/About.vue'
 import Gallery from './views/Gallery.vue'
 import Experience from './views/Experience.vue'
+import DebugExperience from './views/DebugExperience.vue'
 import Conclusion from './views/Conclusion.vue'
 import Share from './views/Share.vue'
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/conclusion',
       name: 'conclusion',
       component: Conclusion
+    },
+    {
+      path: '/debug-experience',
+      name: 'debugExperience',
+      component: DebugExperience
     }
   ]
 })
