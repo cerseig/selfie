@@ -30,6 +30,7 @@
 <script>
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
+import Avatar from '@/modules/avatar/Avatar.js'
 
 export default {
   name: 'DebugExperience',
@@ -44,11 +45,17 @@ export default {
       this.rafID = requestAnimationFrame(this.update)
 
       this.positions = this.detectionManager.getPositions()
+      this.avatar.update(this.positions)
     }
   },
   mounted () {
     this.rafID = null
     this.detectionManager = new DetectionManager()
+    this.avatar = new Avatar({
+      modelPath: '/models/koala.glb'
+    })
+    this.avatar.init()
+
     this.update()
   },
   beforeDestroy () {
