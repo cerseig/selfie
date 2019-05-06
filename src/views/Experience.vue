@@ -91,8 +91,7 @@ export default {
       border: .25px solid black;
     }
 
-    &__image,
-    &__points {
+    &__image {
       opacity: 0;
     }
 

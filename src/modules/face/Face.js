@@ -124,6 +124,9 @@ class Face {
       return mouthOpenFactor
     }
   }
+  getDuckFace (face) {
+
+  }
   getSmile (face) {
     let smileFactor = this.calcSmile(face)
 
@@ -150,9 +153,6 @@ class Face {
         if (smileRightFactor > 1.0) { smileRightFactor = 1.0 }
 
         return smileRightFactor
-
-        /* let smileRightPourcent = (smileRightFactor * 100).toFixed(0)
-        console.log('Smile Right :', smileRightPourcent,'%') */
       }
     } else {
       this.smileRightInitial = this.calcSmileRight(face)
@@ -166,7 +166,6 @@ class Face {
       if (eyeRightOpenFactor > 1.0) { eyeRightOpenFactor = 1.0 }
       if (eyeRightOpenFactor < 0.0) { eyeRightOpenFactor = 0.0 }
 
-      console.log(eyeRightOpenFactor)
       return eyeRightOpenFactor
     }
   }
@@ -179,7 +178,6 @@ class Face {
         if (eyeLeftOpenFactor > 1.0) { eyeLeftOpenFactor = 1.0 }
         if (eyeLeftOpenFactor < 0.0) { eyeLeftOpenFactor = 0.0 }
 
-        console.log(eyeLeftOpenFactor)
         return eyeLeftOpenFactor
       }
     } else {
@@ -321,6 +319,9 @@ class Face {
 
     let mouthOpen = this.calcDistance(this.p0, this.p1) // distance between mouth upper inner lip and mouth lower inner lip
     return mouthOpen
+  }
+  calcDuckFace (face) {
+
   }
   calcSmile (face) {
     this.setPoint(face.vertices, 48, this.p0) // mouth corner left
