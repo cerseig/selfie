@@ -52,4 +52,4 @@ graphcool playground
 ```
 
 ## Specs
-**[Technical specs](https://github.com/cerseig/selfie/blob/dev/specs.md)**
+**[Technical specs](https://github.com/cerseig/selfie/blob/dev/specs.md)** (fr)
