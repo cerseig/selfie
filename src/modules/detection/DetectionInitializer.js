@@ -148,7 +148,6 @@ class DetectionInitializer {
    * Initializes the BRFManager and the tracking API.
    */
   initSDK () {
-    alert('ini sdk')
     const brfv4 = this.brfv4
     this.resolution = new brfv4.Rectangle(0, 0, this.ui.$imageData.width, this.ui.$imageData.height)
     this.brfManager = new brfv4.BRFManager()
@@ -169,7 +168,6 @@ class DetectionInitializer {
    * Sets up the namespace and initializes BRFv4.
    */
   waitForSDK () {
-    alert('wait for sdk')
     if (this.brfv4 === null && window.hasOwnProperty('initializeBRF')) {
       this.brfv4 = {
         locateFile: fileName => `${this.paths.brfv4BaseURL} ${fileName}`, // locateFile tells the asm.js version where to find the .mem file.
@@ -206,7 +204,7 @@ class DetectionInitializer {
   }
 
   handleErrorCamera (error) {
-    alert('navigator.MediaDevices.getUserMedia error 3 : ' + error.message + error.name)
+    alert('navigator.MediaDevices.getUserMedia error : ' + error.message + error.name)
   }
 
   startCamera () {
@@ -219,7 +217,6 @@ class DetectionInitializer {
       audio: false
     })
       .then((mediaStream) => {
-        alert('handle sucss')
         this.onStreamFetched(mediaStream)
       }).catch((this.handleErrorCamera))
   }
@@ -236,7 +233,6 @@ class DetectionInitializer {
    * @param {*} mediaStream (return by the camera)
    */
   onStreamFetched (mediaStream) {
-    alert('on strean fetched')
     const webcam = this.ui.$camera
     webcam.srcObject = mediaStream
     this.ui.$camera.play()
@@ -252,7 +248,6 @@ class DetectionInitializer {
   }
 
   onStreamDimensionsAvailable () {
-    alert('on stream dimension available')
     console.log(`Detection Initializer => onStreamDimensionsAvailable: ${this.ui.$camera.videoWidth !== 0}`)
 
     if (this.ui.$camera.videoWidth === 0) {
