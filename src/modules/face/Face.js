@@ -93,23 +93,24 @@ class Face {
     }
   }
   getAllExpressionsFunction (face) {
-    this.getMouthOpen(face)
-    this.getDuckFace(face)
-    this.getSmile(face)
-    this.getSmileLeft(face)
-    this.getSmileRight(face)
-    this.getEyeRightClose(face)
-    this.getEyeLeftClose(face)
-    this.getEyeBrowRightDown(face)
-    this.getEyeBrowLeftDown(face)
-    this.getEyeBrowRightUp(face)
-    this.getEyeBrowLeftUp(face)
-    this.getRotationLeft(face)
-    this.getRotationRight(face)
-    this.getRotationUp(face)
-    this.getRotationDown(face)
-    this.getTiltRight(face)
-    this.getTiltLeft(face)
+    return {
+      mouthOpen: this.getMouthOpen(face),
+      smile: this.getSmile(face),
+      smileLeft: this.getSmileLeft(face),
+      smileRight: this.getSmileRight(face),
+      eyeLeftClose: this.getEyeLeftClose(face),
+      eyeRightClose: this.getEyeRightClose(face),
+      eyeBrowLeftDown: this.getEyeBrowLeftDown(face),
+      eyeBrowRightDown: this.getEyeBrowRightDown(face),
+      eyeBrowLefttUp: this.getEyeBrowLeftUp(face),
+      eyeBrowRightUp: this.getEyeBrowRightUp(face),
+      rotationLeft: this.getRotationLeft(face),
+      rotationRight: this.getRotationRight(face),
+      rotationUp: this.getRotationUp(face),
+      rotationDown: this.getRotationDown(face),
+      tiltRight: this.getTiltRight(face),
+      tiltLeft: this.getTiltLeft(face)
+    }
   }
   /* ----- ALL GETTERS FUNCTIONS ----- */
   getMouthOpen (face) {
@@ -152,9 +153,6 @@ class Face {
         if (smileRightFactor > 1.0) { smileRightFactor = 1.0 }
 
         return smileRightFactor
-
-        /* let smileRightPourcent = (smileRightFactor * 100).toFixed(0)
-        console.log('Smile Right :', smileRightPourcent,'%') */
       }
     } else {
       this.smileRightInitial = this.calcSmileRight(face)
@@ -168,7 +166,6 @@ class Face {
       if (eyeRightOpenFactor > 1.0) { eyeRightOpenFactor = 1.0 }
       if (eyeRightOpenFactor < 0.0) { eyeRightOpenFactor = 0.0 }
 
-      console.log(eyeRightOpenFactor)
       return eyeRightOpenFactor
     }
   }
@@ -181,7 +178,6 @@ class Face {
         if (eyeLeftOpenFactor > 1.0) { eyeLeftOpenFactor = 1.0 }
         if (eyeLeftOpenFactor < 0.0) { eyeLeftOpenFactor = 0.0 }
 
-        console.log(eyeLeftOpenFactor)
         return eyeLeftOpenFactor
       }
     } else {

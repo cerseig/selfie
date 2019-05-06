@@ -55,6 +55,11 @@ class DetectionInitializer {
     this.loadBRFv4Version()
   }
 
+  destroy () {
+    this.stopCamera()
+    this.removeEvents()
+  }
+
   /**
    * Test storing to and loading from a non-zero location via a parameter.
    * Safari on iOS 11.2.5 returns 0 unexpectedly at non-zero locations
@@ -207,6 +212,14 @@ class DetectionInitializer {
       }).catch(() => { alert('No camera available.') })
   }
 
+  stopCamera () {
+    this.ui.$camera.srcObject.getTracks().forEach(track => track.stop())
+  }
+
+  removeEvents () {
+    window.removeEventListener('resize', this.onResize)
+  }
+
   /**
    * @param {*} mediaStream (return by the camera)
    */
@@ -243,7 +256,7 @@ class DetectionInitializer {
       // as discussed above, close the stream on iOS and wait for BRFv4 to be initialized.
       if (this.isIOS) {
         this.ui.$camera.pause()
-        this.ui.$camera.srcObject.getTracks().forEach(track => this.track.stop())
+        this.stopCamera()
       }
 
       this.waitForSDK()
