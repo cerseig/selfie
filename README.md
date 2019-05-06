@@ -50,3 +50,6 @@ To try our queries and mutations
 cd server
 graphcool playground
 ```
+
+## Specs
+**[Technical specs](https://github.com/cerseig/selfie/blob/dev/specs.md)** (fr)
