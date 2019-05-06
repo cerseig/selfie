@@ -148,6 +148,7 @@ class DetectionInitializer {
    * Initializes the BRFManager and the tracking API.
    */
   initSDK () {
+    alert('ini sdk')
     const brfv4 = this.brfv4
     this.resolution = new brfv4.Rectangle(0, 0, this.ui.$imageData.width, this.ui.$imageData.height)
     this.brfManager = new brfv4.BRFManager()
@@ -155,10 +156,8 @@ class DetectionInitializer {
 
     if (this.isIOS) {
       // Start the camera stream again on iOS.
-
       setTimeout(() => {
         console.log('Detection Initializer => delayed camera restart for iOS')
-
         this.startCamera()
       }, 2000)
     } else {
@@ -170,6 +169,7 @@ class DetectionInitializer {
    * Sets up the namespace and initializes BRFv4.
    */
   waitForSDK () {
+    alert('wait for sdk')
     if (this.brfv4 === null && window.hasOwnProperty('initializeBRF')) {
       this.brfv4 = {
         locateFile: fileName => `${this.paths.brfv4BaseURL} ${fileName}`, // locateFile tells the asm.js version where to find the .mem file.
@@ -205,11 +205,23 @@ class DetectionInitializer {
     }
   }
 
+  handleErrorCamera (error) {
+    alert('navigator.MediaDevices.getUserMedia error 3 : ' + error.message + error.name)
+  }
+
   startCamera () {
-    window.navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480, frameRate: 30 } })
+    window.navigator.mediaDevices.getUserMedia({
+      video: {
+        width: 640,
+        height: 480,
+        frameRate: 30
+      },
+      audio: false
+    })
       .then((mediaStream) => {
+        alert('handle sucss')
         this.onStreamFetched(mediaStream)
-      }).catch(() => { alert('No camera available.') })
+      }).catch((this.handleErrorCamera))
   }
 
   stopCamera () {
@@ -224,6 +236,7 @@ class DetectionInitializer {
    * @param {*} mediaStream (return by the camera)
    */
   onStreamFetched (mediaStream) {
+    alert('on strean fetched')
     const webcam = this.ui.$camera
     webcam.srcObject = mediaStream
     this.ui.$camera.play()
@@ -239,6 +252,7 @@ class DetectionInitializer {
   }
 
   onStreamDimensionsAvailable () {
+    alert('on stream dimension available')
     console.log(`Detection Initializer => onStreamDimensionsAvailable: ${this.ui.$camera.videoWidth !== 0}`)
 
     if (this.ui.$camera.videoWidth === 0) {
