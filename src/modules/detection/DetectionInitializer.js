@@ -33,6 +33,8 @@ class DetectionInitializer {
       imageData: null
     }
 
+    this.restart = false
+
     this.onReady = () => {}
 
     // iOS has this weird behavior that it freezes the camera stream, if the CPU get's
@@ -153,11 +155,12 @@ class DetectionInitializer {
     this.brfManager = new brfv4.BRFManager()
     this.brfManager.init(this.resolution, this.resolution, 'com.tastenkunst.brfv4.js.examples.minimal.webcam')
 
-    if (this.isIOS) {
+    if (this.isIOS && !this.restart) {
       // Start the camera stream again on iOS.
       setTimeout(() => {
         console.log('Detection Initializer => delayed camera restart for iOS')
         this.startCamera()
+        this.restart = true
       }, 2000)
     } else {
       this.onInitBRFv4(brfv4, this.brfManager, this.resolution)
@@ -263,7 +266,7 @@ class DetectionInitializer {
       // Once that is done, we start the stream again.
 
       // as discussed above, close the stream on iOS and wait for BRFv4 to be initialized.
-      if (this.isIOS) {
+      if (this.isIOS && !this.restart) {
         this.ui.$camera.pause()
         this.stopCamera()
       }
