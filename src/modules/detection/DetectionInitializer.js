@@ -271,7 +271,7 @@ class DetectionInitializer {
       // Once that is done, we start the stream again.
 
       // as discussed above, close the stream on iOS and wait for BRFv4 to be initialized.
-      if (this.isIOS) {
+      if (this.isIOS && !this.restart) {
         this.ui.$camera.pause()
         this.stopCamera()
       }
