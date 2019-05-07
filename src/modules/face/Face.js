@@ -70,6 +70,23 @@ class Face {
       19: { x: this.points[67].x, y: this.points[67].y }
     }
 
+    this.mouthOpenFactor = 0
+    this.smileFactor = 0
+    this.smileLeftFactor = 0
+    this.smileRightFactor = 0
+    this.eyeRightCloseFactor = 0
+    this.eyeLeftCloseFactor = 0
+    this.eyeBrowRightUpFactor = 0
+    this.eyeBrowLeftUpFactor = 0
+    this.eyeBrowRightDownFactor = 0
+    this.eyeBrowLeftDownFactor = 0
+    this.rotationUpFactor = 0
+    this.rotationDownFactor = 0
+    this.rotationRightFactor = 0
+    this.rotationLeftFactor = 0
+    this.tiltRightFactor = 0
+    this.tiltLeftFactor = 0
+
     this.smileLeftInitial = this.calcDistance(this.eyeLeft[0], this.mouth[0])
     this.smileRightInitial = this.calcDistance(this.eyeRight[0], this.mouth[6])
     this.mouthOpenInitial = this.calcDistance(this.mouth[14], this.mouth[18])
@@ -121,6 +138,7 @@ class Face {
       if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
       if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
+      this.mouthOpenFactor = mouthOpenFactor
       return mouthOpenFactor
     }
   }
@@ -130,6 +148,7 @@ class Face {
   getSmile (face) {
     let smileFactor = this.calcSmile(face)
 
+    this.smileFactor = smileFactor
     return smileFactor
   }
   getSmileLeft (face) {
@@ -140,92 +159,91 @@ class Face {
       if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
       if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }
 
+      this.smileLeftFactor = smileLeftFactor
       return smileLeftFactor
     }
   }
   getSmileRight (face) {
-    if (this.smileRightInitial !== 0) {
-      let smileRight = this.calcSmileRight(face)
-      if (smileRight < this.smileRightInitial) {
-        let smileRightFactor = (smileRight - this.smileRightInitial) / ((this.smileRightInitial - 20) - this.smileRightInitial)
+    let smileRight = this.calcSmileRight(face)
+    if (smileRight < this.smileRightInitial) {
+      let smileRightFactor = (smileRight - this.smileRightInitial) / ((this.smileRightInitial - 20) - this.smileRightInitial)
 
-        if (smileRightFactor < 0.0) { smileRightFactor = 0.0 }
-        if (smileRightFactor > 1.0) { smileRightFactor = 1.0 }
+      if (smileRightFactor < 0.0) { smileRightFactor = 0.0 }
+      if (smileRightFactor > 1.0) { smileRightFactor = 1.0 }
 
-        return smileRightFactor
-      }
-    } else {
-      this.smileRightInitial = this.calcSmileRight(face)
+      this.smileRightFactor = smileRightFactor
+      return smileRightFactor
     }
   }
   getEyeRightClose (face) {
-    let eyeRightOpen = this.calcEyeRight(face)
-    if (eyeRightOpen < this.eyeRightInitial) {
-      let eyeRightOpenFactor = (eyeRightOpen - this.eyeRightInitial) / ((this.eyeRightInitial / 4) - this.eyeRightInitial)
+    let eyeRightClose = this.calcEyeRight(face)
+    if (eyeRightClose < this.eyeRightInitial) {
+      let eyeRightCloseFactor = (eyeRightClose - this.eyeRightInitial) / ((this.eyeRightInitial / 4) - this.eyeRightInitial)
 
-      if (eyeRightOpenFactor > 1.0) { eyeRightOpenFactor = 1.0 }
-      if (eyeRightOpenFactor < 0.0) { eyeRightOpenFactor = 0.0 }
+      if (eyeRightCloseFactor > 1.0) { eyeRightCloseFactor = 1.0 }
+      if (eyeRightCloseFactor < 0.0) { eyeRightCloseFactor = 0.0 }
 
-      return eyeRightOpenFactor
+      this.eyeRightCloseFactor = eyeRightCloseFactor
+      return eyeRightCloseFactor
     }
   }
   getEyeLeftClose (face) {
-    if (this.eyeLeftInitial !== 0) {
-      let eyeLeftOpen = this.calcEyeLeft(face)
-      if (eyeLeftOpen < this.eyeLeftInitial) {
-        let eyeLeftOpenFactor = (eyeLeftOpen - this.eyeLeftInitial) / ((this.eyeLeftInitial / 4) - this.eyeLeftInitial)
+    let eyeLeftClose = this.calcEyeLeft(face)
+    if (eyeLeftClose < this.eyeLeftInitial) {
+      let eyeLeftCloseFactor = (eyeLeftClose - this.eyeLeftInitial) / ((this.eyeLeftInitial / 4) - this.eyeLeftInitial)
 
-        if (eyeLeftOpenFactor > 1.0) { eyeLeftOpenFactor = 1.0 }
-        if (eyeLeftOpenFactor < 0.0) { eyeLeftOpenFactor = 0.0 }
+      if (eyeLeftCloseFactor > 1.0) { eyeLeftCloseFactor = 1.0 }
+      if (eyeLeftCloseFactor < 0.0) { eyeLeftCloseFactor = 0.0 }
 
-        return eyeLeftOpenFactor
-      }
-    } else {
-      this.eyeLeftInitial = this.calcEyeLeft(face)
+      return eyeLeftCloseFactor
     }
   }
   getEyeBrowRightDown (face) {
     let eyeBrowRight = this.calcEyeBrowRight(face)
     if (eyeBrowRight < this.eyeBrowRightInitial) {
-      let eyeBrowRightFactor = (eyeBrowRight - (this.eyeBrowRightInitial - 0.5)) / ((this.eyeBrowRightInitial - 3) - (this.eyeBrowRightInitial - 0.5))
+      let eyeBrowRightDownFactor = (eyeBrowRight - (this.eyeBrowRightInitial - 0.5)) / ((this.eyeBrowRightInitial - 3) - (this.eyeBrowRightInitial - 0.5))
 
-      if (eyeBrowRightFactor > 1.0) { eyeBrowRightFactor = 1.0 }
-      if (eyeBrowRightFactor < 0.0) { eyeBrowRightFactor = 0.0 }
+      if (eyeBrowRightDownFactor > 1.0) { eyeBrowRightDownFactor = 1.0 }
+      if (eyeBrowRightDownFactor < 0.0) { eyeBrowRightDownFactor = 0.0 }
 
-      return eyeBrowRightFactor
+      this.eyeBrowRightDownFactor = eyeBrowRightDownFactor
+      return eyeBrowRightDownFactor
     }
   }
   getEyeBrowLeftDown (face) {
     let eyeBrowLeft = this.calcEyeBrowLeft(face)
     if (eyeBrowLeft < this.eyeBrowLeftInitial) {
-      let eyeBrowLeftFactor = (eyeBrowLeft - (this.eyeBrowLeftInitial - 0.5)) / ((this.eyeBrowLeftInitial - 3) - (this.eyeBrowLeftInitial - 0.5))
+      let eyeBrowLeftDownFactor = (eyeBrowLeft - (this.eyeBrowLeftInitial - 0.5)) / ((this.eyeBrowLeftInitial - 3) - (this.eyeBrowLeftInitial - 0.5))
 
-      if (eyeBrowLeftFactor > 1.0) { eyeBrowLeftFactor = 1.0 }
-      if (eyeBrowLeftFactor < 0.0) { eyeBrowLeftFactor = 0.0 }
+      if (eyeBrowLeftDownFactor > 1.0) { eyeBrowLeftDownFactor = 1.0 }
+      if (eyeBrowLeftDownFactor < 0.0) { eyeBrowLeftDownFactor = 0.0 }
 
-      return eyeBrowLeftFactor
+      this.eyeBrowLeftDownFactor = eyeBrowLeftDownFactor
+      return eyeBrowLeftDownFactor
     }
   }
   getEyeBrowRightUp (face) {
     let eyeBrowRight = this.calcEyeBrowRight(face)
     if (eyeBrowRight > this.eyeBrowRightInitial) {
-      let eyeBrowRightFactor = (eyeBrowRight - (this.eyeBrowRightInitial + 0.5)) / ((this.eyeBrowRightInitial + 3) - (this.eyeBrowRightInitial + 0.5))
+      let eyeBrowRightUpFactor = (eyeBrowRight - (this.eyeBrowRightInitial + 0.5)) / ((this.eyeBrowRightInitial + 3) - (this.eyeBrowRightInitial + 0.5))
 
-      if (eyeBrowRightFactor > 1.0) { eyeBrowRightFactor = 1.0 }
-      if (eyeBrowRightFactor < 0.0) { eyeBrowRightFactor = 0.0 }
+      if (eyeBrowRightUpFactor > 1.0) { eyeBrowRightUpFactor = 1.0 }
+      if (eyeBrowRightUpFactor < 0.0) { eyeBrowRightUpFactor = 0.0 }
 
-      return eyeBrowRightFactor
+      this.eyeBrowRightUpFactor = eyeBrowRightUpFactor
+      return eyeBrowRightUpFactor
     }
   }
   getEyeBrowLeftUp (face) {
     let eyeBrowLeft = this.calcEyeBrowLeft(face)
     if (eyeBrowLeft > this.eyeBrowLeftInitial) {
-      let eyeBrowLeftFactor = (eyeBrowLeft - (this.eyeBrowLeftInitial + 0.5)) / ((this.eyeBrowLeftInitial + 3) - (this.eyeBrowLeftInitial + 0.5))
+      let eyeBrowLeftUpFactor = (eyeBrowLeft - (this.eyeBrowLeftInitial + 0.5)) / ((this.eyeBrowLeftInitial + 3) - (this.eyeBrowLeftInitial + 0.5))
 
-      if (eyeBrowLeftFactor > 1.0) { eyeBrowLeftFactor = 1.0 }
-      if (eyeBrowLeftFactor < 0.0) { eyeBrowLeftFactor = 0.0 }
+      if (eyeBrowLeftUpFactor > 1.0) { eyeBrowLeftUpFactor = 1.0 }
+      if (eyeBrowLeftUpFactor < 0.0) { eyeBrowLeftUpFactor = 0.0 }
 
-      return eyeBrowLeftFactor
+      this.eyeBrowLeftUpFactor = eyeBrowLeftUpFactor
+      return eyeBrowLeftUpFactor
     }
   }
   getRotationUp (face) {
@@ -239,6 +257,7 @@ class Face {
       if (rotationUpFactor < 0.0) { rotationUpFactor = 0.0 }
       if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
 
+      this.rotationUpFactor = rotationUpFactor
       return rotationUpFactor
     }
   }
@@ -253,6 +272,7 @@ class Face {
       if (rotationDownFactor < 0.0) { rotationDownFactor = 0.0 }
       if (rotationDownFactor > 1.0) { rotationDownFactor = 1.0 }
 
+      this.rotationDownFactor = rotationDownFactor
       return rotationDownFactor
     }
   }
@@ -267,6 +287,7 @@ class Face {
       if (rotationLeftFactor < 0.0) { rotationLeftFactor = 0.0 }
       if (rotationLeftFactor > 1.0) { rotationLeftFactor = 1.0 }
 
+      this.rotationLeftFactor = rotationLeftFactor
       return rotationLeftFactor
     }
   }
@@ -281,6 +302,7 @@ class Face {
       if (rotationRightFactor < 0.0) { rotationRightFactor = 0.0 }
       if (rotationRightFactor > 1.0) { rotationRightFactor = 1.0 }
 
+      this.rotationRightFactor = rotationRightFactor
       return rotationRightFactor
     }
   }
@@ -290,12 +312,13 @@ class Face {
     const MAX_Z_ROTATION = 30
 
     if (tiltRight > (this.rotationZ + Z_CENTER_GAP)) { // HEAD TILT TO THE RIGHT
-      let titltRightFactor = (tiltRight - (this.rotationZ + Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ + Z_CENTER_GAP))
+      let tiltRightFactor = (tiltRight - (this.rotationZ + Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ + Z_CENTER_GAP))
 
-      if (titltRightFactor < 0.0) { titltRightFactor = 0.0 }
-      if (titltRightFactor > 1.0) { titltRightFactor = 1.0 }
+      if (tiltRightFactor < 0.0) { tiltRightFactor = 0.0 }
+      if (tiltRightFactor > 1.0) { tiltRightFactor = 1.0 }
 
-      return titltRightFactor
+      this.tiltRightFactor = tiltRightFactor
+      return tiltRightFactor
     }
   }
   getTiltLeft (face) {
@@ -304,12 +327,13 @@ class Face {
     const MAX_Z_ROTATION = -30
 
     if (tiltLeft < (this.rotationZ - Z_CENTER_GAP)) { // HEAD TILT TO THE LEFT
-      let titltLeftFactor = (tiltLeft - (this.rotationZ - Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ - Z_CENTER_GAP))
+      let tiltLeftFactor = (tiltLeft - (this.rotationZ - Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ - Z_CENTER_GAP))
 
-      if (titltLeftFactor < 0.0) { titltLeftFactor = 0.0 }
-      if (titltLeftFactor > 1.0) { titltLeftFactor = 1.0 }
+      if (tiltLeftFactor < 0.0) { tiltLeftFactor = 0.0 }
+      if (tiltLeftFactor > 1.0) { tiltLeftFactor = 1.0 }
 
-      return titltLeftFactor
+      this.tiltLeftFactor = tiltLeftFactor
+      return tiltLeftFactor
     }
   }
   /* ----- ALL CALCULATE FUNCTIONS ----- */
