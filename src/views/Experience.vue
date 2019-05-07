@@ -1,12 +1,9 @@
 <template>
   <div class="experience">
-    <a href="#" @click="isDebug = !isDebug" class="btn btn--debug">{{isDebug ? 'Switch to Normal mode' : 'Switch to Debug mode' }}</a>
 
-    <div class="form__item" v-if="isDebug">
-      <label for="show_camera" >Show camera</label>
-      <input type="checkbox" id="show_camera" value="true" v-model="showCamera">
+    <div class="detection">
+      <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']"></div>
     </div>
-    <div :class="['detection js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']"></div>
 
     <PersonnalisationStep v-if="currentStep === 0" :validateStep="onValidateStep" />
 
@@ -66,21 +63,23 @@ export default {
 <style lang="scss">
 
 .experience {
+  width: 100%;
+  height: 100%;
+  position: relative;
   .detection {
     $self: &;
     position:  relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
 
     &__camera {
       display: none;
-      width: 100%;
     }
 
     &__image {
-      width: 100%;
       position: absolute;
       left: 0;
       top: 0;
@@ -91,7 +90,6 @@ export default {
       position: relative;
       z-index: 1;
       border: .25px solid black;
-      width: 100%;
     }
 
     &__image {

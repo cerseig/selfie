@@ -211,10 +211,11 @@ class DetectionInitializer {
   }
 
   startCamera () {
+    console.log('height', (9 / 16) * window.innerWidth)
     window.navigator.mediaDevices.getUserMedia({
       video: {
-        width: 100,
-        height: 80,
+        width: window.innerWidth,
+        height: (3 / 4) * window.innerWidth,
         frameRate: 30
       },
       audio: false
