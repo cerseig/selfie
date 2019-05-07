@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+
+  font-family: $font__montserrat;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  color: $color__black;
+  background-color: $color__green--pastel;
+}
+
+h1, h2, h3, h4, h5, h6, ul, li, ol, p {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+
+  color: $color__black;
+}

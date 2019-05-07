@@ -85,7 +85,9 @@ class DetectionManager {
     this.ctxs.imageData = this.ui.$imageData.getContext('2d')
     this.ctxs.pointsData = this.ui.$pointsData.getContext('2d')
 
-    this.trackFaces()
+    let faceDetectionFrame = this.onRestrictToCenter(brfv4, brfManager, resolution)
+
+    this.trackFaces(faceDetectionFrame)
 
     this.face = new Face({
       brfv4: this.brfv4,
@@ -93,7 +95,33 @@ class DetectionManager {
     })
   }
 
-  trackFaces () {
+  onRestrictToCenter (brfv4, brfManager, resolution) {
+    let faceDetectionRegion = new brfv4.Rectangle()
+    let maxFaceSize = faceDetectionRegion.height
+
+    faceDetectionRegion.setTo(
+      resolution.width * 0.25, resolution.height * 0.10,
+      resolution.width * 0.50, resolution.height * 0.80
+    )
+    brfManager.setFaceDetectionRoi(faceDetectionRegion)
+
+    if (faceDetectionRegion.width < faceDetectionRegion.height) {
+      maxFaceSize = faceDetectionRegion.width
+    }
+    brfManager.setFaceDetectionParams(maxFaceSize * 0.30, maxFaceSize * 0.90, 12, 8)
+    brfManager.setFaceTrackingStartParams(maxFaceSize * 0.50, maxFaceSize * 0.70, 15, 15, 15)
+    brfManager.setFaceTrackingResetParams(maxFaceSize * 0.45, maxFaceSize * 0.75, 25, 25, 25)
+
+    return faceDetectionRegion
+  }
+
+  drawCenterFrame (faceDetectionRegion, ctx) {
+    ctx.strokeStyle = 'green'
+    ctx.rect(faceDetectionRegion.x, faceDetectionRegion.y, faceDetectionRegion.width, faceDetectionRegion.height)
+    ctx.stroke()
+  }
+
+  trackFaces (faceDetectionFrame) {
     if (this.brfv4Example.stats.start) this.brfv4Example.stats.start()
 
     const timeStart = window.performance.now()
@@ -106,7 +134,7 @@ class DetectionManager {
 
     this.brfManager.update(this.ctxs.imageData.getImageData(0, 0, this.resolution.width, this.resolution.height).data)
 
-    this.handleTrackingResults(this.brfv4, this.brfManager.getFaces(), this.ctxs.pointsData)
+    this.handleTrackingResults(this.brfv4, this.brfManager.getFaces(), this.ctxs.pointsData, faceDetectionFrame)
 
     if (this.brfv4Example.stats.end) this.brfv4Example.stats.end()
 
@@ -117,7 +145,7 @@ class DetectionManager {
     const elapstedMs = window.performance.now() - timeStart
 
     // We don't need 60 FPS, the camera will deliver at 30 FPS anyway.
-    this.timeoutId = setTimeout(() => { this.trackFaces() }, (1000 / 30) - elapstedMs)
+    this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
   }
 
   /**
@@ -126,7 +154,7 @@ class DetectionManager {
    * @param {*} faces
    * @param {*} pointsDataCtx
    */
-  handleTrackingResults (brfv4, faces, pointsDataCtx) {
+  handleTrackingResults (brfv4, faces, pointsDataCtx, faceDetectionFrame) {
     // Overwrite this function in your minimal example HTML file.
 
     for (let i = 0; i < faces.length; i++) {
