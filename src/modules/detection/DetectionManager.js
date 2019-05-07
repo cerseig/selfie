@@ -109,8 +109,6 @@ class DetectionManager {
       maxFaceSize = faceDetectionRegion.width
     }
     brfManager.setFaceDetectionParams(maxFaceSize * 0.30, maxFaceSize * 0.90, 12, 8)
-    brfManager.setFaceTrackingStartParams(maxFaceSize * 0.50, maxFaceSize * 0.70, 15, 15, 15)
-    brfManager.setFaceTrackingResetParams(maxFaceSize * 0.45, maxFaceSize * 0.75, 25, 25, 25)
 
     return faceDetectionRegion
   }
@@ -156,6 +154,8 @@ class DetectionManager {
    */
   handleTrackingResults (brfv4, faces, pointsDataCtx, faceDetectionFrame) {
     // Overwrite this function in your minimal example HTML file.
+
+    this.drawCenterFrame(faceDetectionFrame, pointsDataCtx)
 
     for (let i = 0; i < faces.length; i++) {
       const face = faces[i]

@@ -201,6 +201,7 @@ class DetectionInitializer {
    */
   onResize () {
     if (this.ui) {
+      console.log(this.ui.$camera.videoWidth)
       this.ui.$imageData.width = this.ui.$camera.videoWidth
       this.ui.$imageData.height = this.ui.$camera.videoHeight
     }
@@ -211,11 +212,14 @@ class DetectionInitializer {
   }
 
   startCamera () {
-    console.log('height', (9 / 16) * window.innerWidth)
+    let container = document.querySelector('.detection__content')
+    let containerHeight = container.offsetHeight
+    let getWidth = (16 / 9) * containerHeight
+    console.log(Math.round(getWidth))
     window.navigator.mediaDevices.getUserMedia({
       video: {
-        width: window.innerWidth,
-        height: (3 / 4) * window.innerWidth,
+        width: getWidth,
+        height: containerHeight,
         frameRate: 30
       },
       audio: false

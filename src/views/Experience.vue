@@ -66,6 +66,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+
   .detection {
     $self: &;
     position:  relative;
@@ -75,62 +76,44 @@ export default {
     width: 100%;
     height: 100%;
 
+    &__content {
+      overflow: hidden;
+      width: calc(100vw - 200px);
+      height: calc(100vh - 300px);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     &__camera {
       display: none;
     }
 
     &__image {
       position: absolute;
-      left: 0;
-      top: 0;
+      opacity: 0.5;
+      height: 100%;
       z-index: 0;
     }
 
     &__points {
       position: relative;
       z-index: 1;
-      border: .25px solid black;
     }
+  }
+}
 
-    &__image {
-      opacity: 0;
-    }
-
-    &.is-debug {
-      &.is-camera-shown {
-        #{$self}__image {
-          opacity: .15;
-        }
-      }
-
-      #{$self}__points{
-        opacity: 1;
+@media screen and (max-width: 600px){
+  .experience {
+    .detection {
+      &__content {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 200px);
+        background-color: yellow;
       }
     }
   }
 }
 
-.btn--debug {
-  position: fixed;
-  top: 2rem;
-  right: 2rem;
-  padding: .5rem 1rem;
-  display: block;
-  background: pink;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: .8rem;
-  color: white;
-  cursor: pointer;
-
-  &:hover {
-    background: red;
-  }
-}
-
-.form__item {
-  display: flex;
-  align-items: center;
-}
 </style>
