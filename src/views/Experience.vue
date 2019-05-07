@@ -1,7 +1,5 @@
 <template>
   <div class="experience">
-    <h1>{{ $t('experience.title') }}</h1>
-
     <a href="#" @click="isDebug = !isDebug" class="btn btn--debug">{{isDebug ? 'Switch to Normal mode' : 'Switch to Debug mode' }}</a>
 
     <div class="form__item" v-if="isDebug">
@@ -73,12 +71,16 @@ export default {
     position:  relative;
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    height: 100%;
 
     &__camera {
       display: none;
+      width: 100%;
     }
 
     &__image {
+      width: 100%;
       position: absolute;
       left: 0;
       top: 0;
@@ -89,6 +91,7 @@ export default {
       position: relative;
       z-index: 1;
       border: .25px solid black;
+      width: 100%;
     }
 
     &__image {
