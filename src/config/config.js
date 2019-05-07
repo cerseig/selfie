@@ -1,5 +1,6 @@
 import steps from './steps'
 import categories from './categories'
+import webgl from './webgl'
 
 const config = {
   languages: ['fr', 'en'],
@@ -11,8 +12,10 @@ const config = {
     bathroom: 'https://cdn.dribbble.com/users/398658/screenshots/4865939/bath_idea.gif',
     cosy: 'https://cdn.dribbble.com/users/579362/screenshots/5072758/____9-4.jpg'
   },
+  modelPath: '/models/koala.glb',
   steps: steps,
-  categories: categories
+  categories: categories,
+  webgl: webgl
 }
 
 export default config
