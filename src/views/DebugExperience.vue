@@ -59,6 +59,7 @@ export default {
     }
   },
   mounted () {
+    document.querySelector('body').classList.add('debug-mode')
     this.rafID = null
     this.detectionManager = new DetectionManager()
     this.scene = new Scene({
