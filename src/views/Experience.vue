@@ -110,7 +110,6 @@ export default {
       &__content {
         width: calc(100vw - 20px);
         height: calc(100vh - 200px);
-        background-color: yellow;
       }
     }
   }
