@@ -1,0 +1,32 @@
+/* ----- MIXIN ----- */
+@mixin containedButton() { // button with background
+  padding: toRem(25px) toRem(130px);
+
+  color: $color__white;
+  background-color: $color__black;
+
+  border-radius: 50px;
+
+  font-family: $font__sintony;
+  font-size: toRem(28px);
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+@mixin outlinedButton() { // button with border but NO background
+  cursor: pointer;
+}
+
+@mixin textButton() { // juste text, NO border, NO background
+  color: $color__black;
+
+  font-family: $font__montserrat;
+  font-size: toRem(20px);
+  font-weight: 700;
+  text-decoration: none;
+
+  cursor: pointer;
+}

@@ -1,7 +1,8 @@
 {
   "home": {
-    "select": "Choisissez votre langue",
-    "start": "Commencer"
+    "baseline": "Un tuto de selfie parfait",
+    "start": "Lancer",
+    "about": "Histoire du projet"
   },
   "about": {
     "title": "À propos"
