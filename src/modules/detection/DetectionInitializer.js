@@ -213,8 +213,8 @@ class DetectionInitializer {
   startCamera () {
     window.navigator.mediaDevices.getUserMedia({
       video: {
-        width: 440,
-        height: 380,
+        width: 540,
+        height: 480,
         frameRate: 30
       },
       audio: false
