@@ -85,9 +85,10 @@ class DetectionManager {
     this.ctxs.imageData = this.ui.$imageData.getContext('2d')
     this.ctxs.pointsData = this.ui.$pointsData.getContext('2d')
 
-    let faceDetectionFrame = this.onRestrictToCenter(brfv4, brfManager, resolution)
+    // let faceDetectionFrame = this.onRestrictToCenter(brfv4, brfManager, resolution)
 
-    this.trackFaces(faceDetectionFrame)
+    // this.trackFaces(faceDetectionFrame)
+    this.trackFaces()
 
     this.face = new Face({
       brfv4: this.brfv4,
@@ -119,7 +120,8 @@ class DetectionManager {
     ctx.stroke()
   }
 
-  trackFaces (faceDetectionFrame) {
+  // trackFaces (faceDetectionFrame) {
+  trackFaces () {
     if (this.brfv4Example.stats.start) this.brfv4Example.stats.start()
 
     const timeStart = window.performance.now()
@@ -132,7 +134,8 @@ class DetectionManager {
 
     this.brfManager.update(this.ctxs.imageData.getImageData(0, 0, this.resolution.width, this.resolution.height).data)
 
-    this.handleTrackingResults(this.brfv4, this.brfManager.getFaces(), this.ctxs.pointsData, faceDetectionFrame)
+    // this.handleTrackingResults(this.brfv4, this.brfManager.getFaces(), this.ctxs.pointsData, faceDetectionFrame)
+    this.handleTrackingResults(this.brfv4, this.brfManager.getFaces(), this.ctxs.pointsData)
 
     if (this.brfv4Example.stats.end) this.brfv4Example.stats.end()
 
@@ -143,7 +146,8 @@ class DetectionManager {
     const elapstedMs = window.performance.now() - timeStart
 
     // We don't need 60 FPS, the camera will deliver at 30 FPS anyway.
-    this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
+    // this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
+    this.timeoutId = setTimeout(() => { this.trackFaces() }, (1000 / 30) - elapstedMs)
   }
 
   /**
@@ -152,7 +156,8 @@ class DetectionManager {
    * @param {*} faces
    * @param {*} pointsDataCtx
    */
-  handleTrackingResults (brfv4, faces, pointsDataCtx, faceDetectionFrame) {
+  // handleTrackingResults (brfv4, faces, pointsDataCtx, faceDetectionFrame) {
+  handleTrackingResults (brfv4, faces, pointsDataCtx) {
     // Overwrite this function in your minimal example HTML file.
 
     this.drawCenterFrame(faceDetectionFrame, pointsDataCtx)
