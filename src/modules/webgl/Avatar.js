@@ -1,7 +1,7 @@
 import GLTFLoader from 'three-gltf-loader'
 import { guiAvatar } from './gui'
-import { config } from '@/config/config'
-import utils from '@/modules/utils.js'
+import utils from '@/modules/helpers/utils.js'
+import easings from '@/modules/helpers/easings.js'
 
 class Avatar {
   constructor (params) {
@@ -18,18 +18,44 @@ class Avatar {
 
     this.model = null
 
-    this.init()
-  }
+    this.frameDuration = 8
+    this.durationTime = (this.frameDuration / 60) * 1000
+    this.startTime = 0
+    this.currentFrame = 0
 
-  getModel () {
-    return this.model
+    this.rotation = {
+      x: {
+        beginValue: 0,
+        currentValue: 0,
+        endValue: 0
+      },
+      y: {
+        beginValue: 0,
+        currentValue: 0,
+        endValue: 0
+      },
+      z: {
+        beginValue: 0,
+        currentValue: 0,
+        endValue: 0
+      }
+    }
+
+    this.beginValue = 0
+    this.endValue = 0
+
+    this.init()
   }
 
   init () {
     this.loadModel()
   }
 
-  initGui() {
+  getModel () {
+    return this.model
+  }
+
+  initGui () {
     guiAvatar.open()
     guiAvatar.add(this.model.position, 'x', -20, 20).name('Position X')
     guiAvatar.add(this.model.position, 'y', -20, 20).name('Position Y')
@@ -58,35 +84,42 @@ class Avatar {
       })
   }
 
-  /**
-   *
-   * @param {*} positions Array of Objects
-   */
-  interpolate (positions) {
+  updateRotationValues (positions) {
+    const rotation = positions.rotation
 
+    this.updateRotationValue('x', rotation.x)
+    this.updateRotationValue('y', rotation.y)
+    this.updateRotationValue('z', rotation.z)
   }
 
-  handleRotation(positions) {
-    if (positions.rotationLeft) {
-      const rotationLeft = utils.lerp(this.positions.rotationLeft, -(positions.rotationLeft * 0.6), .5)
-      this.model.rotation.y = rotationLeft
-      // this.positions.rotationLeft = rotationLeft
+  updateRotationValue (keyAxis, rotation) {
+    this.rotation[keyAxis].beginValue = this.rotation[keyAxis].beginValue ? this.rotation[keyAxis].currentValue : rotation // Retrieves former rotation
+    this.rotation[keyAxis].endValue = rotation // Retrieves rotation from api
+  }
+
+  updateModelRotations (deltaTime) {
+    this.updateModelRotation('x', deltaTime)
+    this.updateModelRotation('y', deltaTime)
+    this.updateModelRotation('z', deltaTime)
+  }
+
+  updateModelRotation (key, deltaTime) {
+    this.rotation[key].currentValue = easings.linear(deltaTime, this.rotation[key].beginValue, this.rotation[key].endValue - this.rotation[key].beginValue, this.durationTime) // Get interpolled value
+    this.model.rotation[key] = this.rotation[key].currentValue
+  }
+
+  handleRotation (positions) {
+    if (this.currentFrame % this.frameDuration === 0) {
+      this.updateRotationValues(positions)
+      this.startTime = Date.now() // Retrieve start time
     }
-    if (positions.rotationRight) {
-      this.model.rotation.y = positions.rotationRight * 0.6
-    }
-    if (positions.rotationDown) {
-      this.model.rotation.x = positions.rotationDown * 0.3
-    }
-    if (positions.rotationUp) {
-      this.model.rotation.x = -(positions.rotationUp * 0.3)
-    }
-    if (positions.tiltRight) {
-      this.model.rotation.z = -(positions.tiltRight * 0.3)
-    }
-    if (positions.tiltLeft) {
-      this.model.rotation.z = positions.tiltLeft * 0.3
-    }
+
+    const now = Date.now()
+    const deltaTime = now - this.startTime // Delta time between start & now
+
+    this.updateModelRotations(deltaTime)
+
+    this.currentFrame++
   }
 
   /**
@@ -96,7 +129,6 @@ class Avatar {
   update (positions) {
     if (utils.isEmptyObject(this.positions)) {
       this.positions = positions
-      console.log(this.positions)
     } else {
       this.handleRotation(positions)
     }

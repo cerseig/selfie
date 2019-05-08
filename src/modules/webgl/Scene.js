@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import { guiScene } from './gui'
 import Avatar from './Avatar'
 import config from '@/config/config'
-import { LogLuvEncoding } from 'three';
 
 class Scene {
   constructor (params) {
@@ -19,6 +18,12 @@ class Scene {
       ready: false
     }
 
+    this.timing = {
+      duration: 10000
+    }
+
+    this.startTime = 'now' in window.performance ? performance.now() : new Date().getTime()
+
     this.initScene()
   }
 
@@ -34,16 +39,12 @@ class Scene {
     this.renderer.render(this.scene, this.camera)
     this.element.appendChild(this.renderer.domElement)
 
-
-    console.log('HEY MAGGLEEE')
     this.avatar = new Avatar({
       scene: this.scene,
       modelPath: this.config.modelPath,
       mode: this.mode,
       onReadyClb: () => this.onAvatarReady()
     })
-    console.log('HEEEY')
-
 
     const lightConfig = this.configScene.lights.directional
     if (lightConfig) {
@@ -61,8 +62,6 @@ class Scene {
 
   onAvatarReady () {
     this.state.ready = true
-
-
   }
 
   initGUI () {

@@ -21,7 +21,7 @@
       <div class="panel__body">
         <div :class="['detection js-detection', showCamera ? 'is-camera-shown' : '']"></div>
         <ul class="list list--events">
-          <li class="list__item" v-for="(position, key) in positions" :key="key">
+          <li class="list__item" v-for="(position, key) in positions.events" :key="key">
             <span class="list__title">{{key}}</span>
             <div class="progress">
               <span class="progress__bar" :style="{ transform: `scaleX(${position})` }" ></span>
@@ -89,6 +89,7 @@ export default {
     background: #fef0de;
     z-index: 3;
     text-align: left;
+    font-family: 'Montserrat';
 
     .panel {
       &__inner {
