@@ -44,10 +44,12 @@ export default {
     onChangeLang () {
       let selectLanguage = document.querySelector('.is-selected').nextSibling
       if (selectLanguage !== null) {
-        store.commit('setLang', selectLanguage.getAttribute('data-value'))
+        this.$i18n.locale = selectLanguage.getAttribute('data-value')
+        store.commit('setLang', this.$i18n.locale)
       } else {
         selectLanguage = document.querySelector('.is-selected').previousSibling
-        store.commit('setLang', selectLanguage.getAttribute('data-value'))
+        this.$i18n.locale = selectLanguage.getAttribute('data-value')
+        store.commit('setLang', this.$i18n.locale)
       }
       document.querySelector('.is-selected').classList.remove('is-selected')
       selectLanguage.classList.add('is-selected')
