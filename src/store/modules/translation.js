@@ -18,7 +18,7 @@ const actions = {
 const mutations = {
   setLang (state, lang) {
     state.lang = lang
-  },
+  }
 }
 
 export default {

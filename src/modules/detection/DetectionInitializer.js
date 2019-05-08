@@ -33,6 +33,8 @@ class DetectionInitializer {
       imageData: null
     }
 
+    this.restart = false
+
     this.onReady = () => {}
 
     // iOS has this weird behavior that it freezes the camera stream, if the CPU get's
@@ -53,6 +55,11 @@ class DetectionInitializer {
     }
 
     this.loadBRFv4Version()
+  }
+
+  destroy () {
+    this.stopCamera()
+    this.removeEvents()
   }
 
   /**
@@ -148,13 +155,12 @@ class DetectionInitializer {
     this.brfManager = new brfv4.BRFManager()
     this.brfManager.init(this.resolution, this.resolution, 'com.tastenkunst.brfv4.js.examples.minimal.webcam')
 
-    if (this.isIOS) {
+    if (this.isIOS && !this.restart) {
       // Start the camera stream again on iOS.
-
       setTimeout(() => {
         console.log('Detection Initializer => delayed camera restart for iOS')
-
         this.startCamera()
+        this.restart = true
       }, 2000)
     } else {
       this.onInitBRFv4(brfv4, this.brfManager, this.resolution)
@@ -200,11 +206,30 @@ class DetectionInitializer {
     }
   }
 
+  handleErrorCamera (error) {
+    alert('navigator.MediaDevices.getUserMedia error : ' + error.message + error.name)
+  }
+
   startCamera () {
-    window.navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480, frameRate: 30 } })
+    window.navigator.mediaDevices.getUserMedia({
+      video: {
+        width: 540,
+        height: 480,
+        frameRate: 30
+      },
+      audio: false
+    })
       .then((mediaStream) => {
         this.onStreamFetched(mediaStream)
-      }).catch(() => { alert('No camera available.') })
+      }).catch((this.handleErrorCamera))
+  }
+
+  stopCamera () {
+    this.ui.$camera.srcObject.getTracks().forEach(track => track.stop())
+  }
+
+  removeEvents () {
+    window.removeEventListener('resize', this.onResize)
   }
 
   /**
@@ -241,9 +266,9 @@ class DetectionInitializer {
       // Once that is done, we start the stream again.
 
       // as discussed above, close the stream on iOS and wait for BRFv4 to be initialized.
-      if (this.isIOS) {
+      if (this.isIOS && !this.restart) {
         this.ui.$camera.pause()
-        this.ui.$camera.srcObject.getTracks().forEach(track => this.track.stop())
+        this.stopCamera()
       }
 
       this.waitForSDK()

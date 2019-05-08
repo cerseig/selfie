@@ -12,8 +12,14 @@ npm install
 ```
 
 ##### Compiles and hot-reloads for development
+###### APP
 ```
 npm run serve
+```
+
+###### PHP Scripts server
+```
+php -S localhost:8000
 ```
 
 ##### Compiles and minifies for production
@@ -44,3 +50,6 @@ To try our queries and mutations
 cd server
 graphcool playground
 ```
+
+## Specs
+**[Technical specs](https://github.com/cerseig/selfie/blob/dev/specs.md)** (fr)

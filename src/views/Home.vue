@@ -5,7 +5,7 @@
       <option v-for="lang in availableLanguages" :key="`lang-${lang.ident}`" :value="lang.ident">{{lang.lang}}</option>
     </select>
     <br>
-    <button>{{ $t('home.start') }}</button>
+    <router-link :to="{ name: 'intro' }"><button>{{ $t('home.start') }}</button></router-link>
   </div>
 </template>
 
@@ -29,9 +29,8 @@ export default {
     }
   },
   methods: {
-    onChangeLang() {
-      store.commit('setLang', this.$i18n.locale);
-
+    onChangeLang () {
+      store.commit('setLang', this.$i18n.locale)
     }
   },
   computed: {
