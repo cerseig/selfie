@@ -111,22 +111,29 @@ class Face {
   }
   getAllExpressionsFunction (face) {
     return {
-      mouthOpen: this.getMouthOpen(face),
-      smile: this.getSmile(face),
-      smileLeft: this.getSmileLeft(face),
-      smileRight: this.getSmileRight(face),
-      eyeLeftClose: this.getEyeLeftClose(face),
-      eyeRightClose: this.getEyeRightClose(face),
-      eyeBrowLeftDown: this.getEyeBrowLeftDown(face),
-      eyeBrowRightDown: this.getEyeBrowRightDown(face),
-      eyeBrowLefttUp: this.getEyeBrowLeftUp(face),
-      eyeBrowRightUp: this.getEyeBrowRightUp(face),
-      rotationLeft: this.getRotationLeft(face),
-      rotationRight: this.getRotationRight(face),
-      rotationUp: this.getRotationUp(face),
-      rotationDown: this.getRotationDown(face),
-      tiltRight: this.getTiltRight(face),
-      tiltLeft: this.getTiltLeft(face)
+      events: {
+        mouthOpen: this.getMouthOpen(face),
+        smile: this.getSmile(face),
+        smileLeft: this.getSmileLeft(face),
+        smileRight: this.getSmileRight(face),
+        eyeLeftClose: this.getEyeLeftClose(face),
+        eyeRightClose: this.getEyeRightClose(face),
+        eyeBrowLeftDown: this.getEyeBrowLeftDown(face),
+        eyeBrowRightDown: this.getEyeBrowRightDown(face),
+        eyeBrowLefttUp: this.getEyeBrowLeftUp(face),
+        eyeBrowRightUp: this.getEyeBrowRightUp(face),
+        rotationLeft: this.getRotationLeft(face),
+        rotationRight: this.getRotationRight(face),
+        rotationUp: this.getRotationUp(face),
+        rotationDown: this.getRotationDown(face),
+        tiltRight: this.getTiltRight(face),
+        tiltLeft: this.getTiltLeft(face)
+      },
+      rotation: {
+        x: this.getRotationX(face),
+        y: this.getRotationY(face),
+        z: this.getRotationZ(face)
+      }
     }
   }
   /* ----- ALL GETTERS FUNCTIONS ----- */
@@ -248,11 +255,11 @@ class Face {
   }
   getRotationUp (face) {
     let rotationUp = this.toDegree(face.rotationX)
-    const X_CENTER_GAP = 5
+    // const X_CENTER_GAP = 5
     const MAX_X_ROTATION = -20
 
-    if (rotationUp < (this.rotationX - X_CENTER_GAP)) {
-      let rotationUpFactor = (rotationUp - (this.rotationX - X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX - X_CENTER_GAP))
+    if (rotationUp < (this.rotationX)) {
+      let rotationUpFactor = (rotationUp - (this.rotationX)) / (MAX_X_ROTATION - (this.rotationX))
 
       if (rotationUpFactor < 0.0) { rotationUpFactor = 0.0 }
       if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
@@ -263,11 +270,11 @@ class Face {
   }
   getRotationDown (face) {
     let rotationDown = this.toDegree(face.rotationX)
-    const X_CENTER_GAP = 5
+    // const X_CENTER_GAP = 5
     const MAX_X_ROTATION = 20
 
-    if (rotationDown > (this.rotationX + X_CENTER_GAP)) {
-      let rotationDownFactor = (rotationDown - (this.rotationX + X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX + X_CENTER_GAP))
+    if (rotationDown > (this.rotationX)) {
+      let rotationDownFactor = (rotationDown - (this.rotationX)) / (MAX_X_ROTATION - (this.rotationX))
 
       if (rotationDownFactor < 0.0) { rotationDownFactor = 0.0 }
       if (rotationDownFactor > 1.0) { rotationDownFactor = 1.0 }
@@ -276,13 +283,26 @@ class Face {
       return rotationDownFactor
     }
   }
+
+  getRotationX (face) {
+    return face.rotationX.toFixed(3) * 1
+  }
+
+  getRotationY (face) {
+    return face.rotationY.toFixed(3) * (-1)
+  }
+
+  getRotationZ (face) {
+    return face.rotationZ.toFixed(3) * (-1)
+  }
+
   getRotationLeft (face) {
     let rotationLeft = this.toDegree(face.rotationY)
-    const Y_CENTER_GAP = 5
+    // const Y_CENTER_GAP = 5
     const MAX_Y_ROTATION = 30
 
-    if (rotationLeft > (this.rotationY + Y_CENTER_GAP)) { // HEAD TURN TO THE LEFT
-      let rotationLeftFactor = (rotationLeft - (this.rotationY + Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY + Y_CENTER_GAP))
+    if (rotationLeft > (this.rotationY)) { // HEAD TURN TO THE LEFT
+      let rotationLeftFactor = (rotationLeft - (this.rotationY)) / (MAX_Y_ROTATION - (this.rotationY))
 
       if (rotationLeftFactor < 0.0) { rotationLeftFactor = 0.0 }
       if (rotationLeftFactor > 1.0) { rotationLeftFactor = 1.0 }
@@ -293,11 +313,11 @@ class Face {
   }
   getRotationRight (face) {
     let rotationRight = this.toDegree(face.rotationY)
-    const Y_CENTER_GAP = 5
+    // const Y_CENTER_GAP = 5
     const MAX_Y_ROTATION = -30
 
-    if (rotationRight < (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
-      let rotationRightFactor = (rotationRight - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))
+    if (rotationRight < (this.rotationY)) { // HEAD TURN TO THE RIGHT
+      let rotationRightFactor = (rotationRight - (this.rotationY)) / (MAX_Y_ROTATION - (this.rotationY))
 
       if (rotationRightFactor < 0.0) { rotationRightFactor = 0.0 }
       if (rotationRightFactor > 1.0) { rotationRightFactor = 1.0 }
@@ -308,11 +328,11 @@ class Face {
   }
   getTiltRight (face) {
     let tiltRight = this.toDegree(face.rotationZ)
-    const Z_CENTER_GAP = 5
+    // const Z_CENTER_GAP = 5
     const MAX_Z_ROTATION = 30
 
-    if (tiltRight > (this.rotationZ + Z_CENTER_GAP)) { // HEAD TILT TO THE RIGHT
-      let tiltRightFactor = (tiltRight - (this.rotationZ + Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ + Z_CENTER_GAP))
+    if (tiltRight > (this.rotationZ)) { // HEAD TILT TO THE RIGHT
+      let tiltRightFactor = (tiltRight - (this.rotationZ)) / (MAX_Z_ROTATION - (this.rotationZ))
 
       if (tiltRightFactor < 0.0) { tiltRightFactor = 0.0 }
       if (tiltRightFactor > 1.0) { tiltRightFactor = 1.0 }
@@ -323,11 +343,11 @@ class Face {
   }
   getTiltLeft (face) {
     let tiltLeft = this.toDegree(face.rotationZ)
-    const Z_CENTER_GAP = 5
+    // const Z_CENTER_GAP = 5
     const MAX_Z_ROTATION = -30
 
-    if (tiltLeft < (this.rotationZ - Z_CENTER_GAP)) { // HEAD TILT TO THE LEFT
-      let tiltLeftFactor = (tiltLeft - (this.rotationZ - Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ - Z_CENTER_GAP))
+    if (tiltLeft < (this.rotationZ)) { // HEAD TILT TO THE LEFT
+      let tiltLeftFactor = (tiltLeft - (this.rotationZ)) / (MAX_Z_ROTATION - (this.rotationZ))
 
       if (tiltLeftFactor < 0.0) { tiltLeftFactor = 0.0 }
       if (tiltLeftFactor > 1.0) { tiltLeftFactor = 1.0 }
