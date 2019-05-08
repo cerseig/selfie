@@ -1,6 +1,6 @@
 /* ----- MIXIN ----- */
-@mixin containedButton() { // button with background
-  padding: toRem(25px) toRem(130px);
+@mixin containedButton($padding, $font-size) { // button with background
+  padding: $padding;
 
   color: $color__white;
   background-color: $color__black;
@@ -8,7 +8,7 @@
   border-radius: 50px;
 
   font-family: $font__sintony;
-  font-size: toRem(28px);
+  font-size: $font-size;
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
@@ -20,11 +20,11 @@
   cursor: pointer;
 }
 
-@mixin textButton() { // juste text, NO border, NO background
+@mixin textButton($font-size) { // juste text, NO border, NO background
   color: $color__black;
 
   font-family: $font__montserrat;
-  font-size: toRem(20px);
+  font-size: $font-size;
   font-weight: 700;
   text-decoration: none;
 
