@@ -1,5 +1,3 @@
-import utils from '@/modules/helpers/utils'
-
 /**
  * This Face class object will be used to determine the 68 points of the user's face.
  * It receives positions of this different points by face's elements.
@@ -113,7 +111,7 @@ class Face {
   }
   getAllExpressionsFunction (face) {
     return {
-      events : {
+      events: {
         mouthOpen: this.getMouthOpen(face),
         smile: this.getSmile(face),
         smileLeft: this.getSmileLeft(face),
@@ -131,7 +129,7 @@ class Face {
         tiltRight: this.getTiltRight(face),
         tiltLeft: this.getTiltLeft(face)
       },
-      rotation : {
+      rotation: {
         x: this.getRotationX(face),
         y: this.getRotationY(face),
         z: this.getRotationZ(face)
@@ -257,7 +255,7 @@ class Face {
   }
   getRotationUp (face) {
     let rotationUp = this.toDegree(face.rotationX)
-    const X_CENTER_GAP = 5
+    // const X_CENTER_GAP = 5
     const MAX_X_ROTATION = -20
 
     if (rotationUp < (this.rotationX)) {
@@ -272,7 +270,7 @@ class Face {
   }
   getRotationDown (face) {
     let rotationDown = this.toDegree(face.rotationX)
-    const X_CENTER_GAP = 5
+    // const X_CENTER_GAP = 5
     const MAX_X_ROTATION = 20
 
     if (rotationDown > (this.rotationX)) {
@@ -286,22 +284,21 @@ class Face {
     }
   }
 
-  getRotationX(face) {
+  getRotationX (face) {
     return face.rotationX.toFixed(3) * 1
   }
 
-  getRotationY(face) {
+  getRotationY (face) {
     return face.rotationY.toFixed(3) * (-1)
   }
 
-  getRotationZ(face) {
-   return face.rotationZ.toFixed(3) * (-1)
+  getRotationZ (face) {
+    return face.rotationZ.toFixed(3) * (-1)
   }
-
 
   getRotationLeft (face) {
     let rotationLeft = this.toDegree(face.rotationY)
-    const Y_CENTER_GAP = 5
+    // const Y_CENTER_GAP = 5
     const MAX_Y_ROTATION = 30
 
     if (rotationLeft > (this.rotationY)) { // HEAD TURN TO THE LEFT
@@ -316,7 +313,7 @@ class Face {
   }
   getRotationRight (face) {
     let rotationRight = this.toDegree(face.rotationY)
-    const Y_CENTER_GAP = 5
+    // const Y_CENTER_GAP = 5
     const MAX_Y_ROTATION = -30
 
     if (rotationRight < (this.rotationY)) { // HEAD TURN TO THE RIGHT
@@ -331,7 +328,7 @@ class Face {
   }
   getTiltRight (face) {
     let tiltRight = this.toDegree(face.rotationZ)
-    const Z_CENTER_GAP = 5
+    // const Z_CENTER_GAP = 5
     const MAX_Z_ROTATION = 30
 
     if (tiltRight > (this.rotationZ)) { // HEAD TILT TO THE RIGHT
@@ -346,7 +343,7 @@ class Face {
   }
   getTiltLeft (face) {
     let tiltLeft = this.toDegree(face.rotationZ)
-    const Z_CENTER_GAP = 5
+    // const Z_CENTER_GAP = 5
     const MAX_Z_ROTATION = -30
 
     if (tiltLeft < (this.rotationZ)) { // HEAD TILT TO THE LEFT

@@ -3,7 +3,7 @@ const webgl = {
     scene: {
       lights: {
         directional: {
-          color: "rgb(255, 241, 226)",
+          color: 'rgb(255, 241, 226)',
           intensity: 2,
           position: {
             x: 200,
@@ -18,7 +18,7 @@ const webgl = {
     scene: {
       lights: {
         directional: {
-          color: "rgb(255, 186, 186)",
+          color: 'rgb(255, 186, 186)',
           intensity: 2,
           position: {
             x: 200,
