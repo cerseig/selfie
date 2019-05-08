@@ -1,7 +1,8 @@
 {
   "home": {
-    "select": "Choose your language",
-    "start": "Start"
+    "baseline": "A tutorial for a perfect selfie",
+    "start": "Launch",
+    "about": "Project history"
   },
   "about": {
     "title": "About"
