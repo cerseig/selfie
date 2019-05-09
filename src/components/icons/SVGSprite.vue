@@ -6,8 +6,17 @@
         <line x1="21.5" y1="49.5" x2="77.5" y2="49.5"/>
         <line x1="49.5" y1="77.5" x2="49.5" y2="21.5"/>
       </symbol>
+      <!-- ICON LITTLE ARROW -->
+      <symbol id="icon-little-arrow" stroke-width="4px" stroke-linecap="round" fill="none" viewBox="0 0 19.3 32.8">
+        <polyline points="2.3,2.6 16.1,16.4 2.3,30.2 "/>
+      </symbol>
+      <!-- ICON MENU -->
+      <symbol id="icon-menu" viewBox="0 0 39 16">
+        <rect width="39" height="3" rx="1.25" ry="1.25"/>
+        <rect y="13" width="39" height="3" rx="1.25" ry="1.25"/>
+      </symbol>
       <!-- ICON CHECK -->
-      <symbol id="icon-check" stroke-width="4px" viewBox="0 0 99 99">
+      <symbol id="icon-check" stroke-width="4px" stroke-linecap="round" viewBox="0 0 99 99">
         <line x1="22.85" y1="45.51" x2="43.28" y2="65.94"/>
         <line x1="43.28" y1="65.94" x2="76.15" y2="33.06"/>
       </symbol>

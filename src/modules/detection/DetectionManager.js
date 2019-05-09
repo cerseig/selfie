@@ -1,5 +1,6 @@
 import DetectionInitializer from './DetectionInitializer'
 import Face from '../face/Face'
+import utils from '@/modules/helpers/utils.js'
 
 /**
  * This class handles Detection Iinitialization with BRFv4
@@ -31,6 +32,8 @@ class DetectionManager {
     this.outOfCamera = false
     this.tooClose = false
     this.tooFar = false
+    this.elementToIncrease = 0
+    this.isAnalyse = true
 
     this.init()
   }
@@ -66,6 +69,10 @@ class DetectionManager {
 
   getTooFar () {
     return this.tooFar
+  }
+
+  getIsAnalyse () {
+    return this.isAnalyse
   }
 
   destroy () {
@@ -108,11 +115,6 @@ class DetectionManager {
     let faceDetectionFrame = this.onRestrictToCenter(brfv4, brfManager, resolution)
 
     this.trackFaces(faceDetectionFrame)
-
-    this.face = new Face({
-      brfv4: this.brfv4,
-      brfManager: this.brfManager
-    })
   }
 
   onRestrictToCenter (brfv4, brfManager, resolution) {
@@ -226,6 +228,22 @@ class DetectionManager {
 
           pointsDataCtx.stroke()
         }
+      }
+
+      if (this.tooFar === false && this.tooClose === false && this.outOfCamera === false) {
+        if (this.elementToIncrease < 50) {
+          this.elementToIncrease = utils.increase(this.elementToIncrease, 50)
+        } else if (this.elementToIncrease === 50) {
+          this.isAnalyse = true
+          this.face = new Face({
+            brfv4: this.brfv4,
+            brfManager: this.brfManager
+          })
+          this.elementToIncrease++
+        }
+      } else {
+        this.elementToIncrease = 0
+        this.isAnalyse = false
       }
     }
   }

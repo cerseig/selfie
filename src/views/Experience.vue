@@ -16,7 +16,7 @@
         </p>
       </div>
       <div class="detection__check">
-        <Icon name="check" width="50" height="50" stroke="#FFFFFF" />
+        <Icon name="check" width="70" height="70" stroke="#FFFFFF" />
       </div>
     </div>
     <PersonnalisationStep v-if="currentStep === 0" :validateStep="onValidateStep" />
@@ -42,6 +42,7 @@ export default {
   },
   data () {
     return {
+      isAnalyse: true,
       isDebug: true,
       showCamera: false,
       currentStep: 0,
@@ -54,6 +55,14 @@ export default {
     }
   },
   methods: {
+    updateBodyClass () {
+      document.querySelector('body').className = ""
+      if (this.isAnalyse === true) {
+        document.querySelector('body').classList.add('application')
+      } else {
+        document.querySelector('body').classList.add('experience')
+      }
+    },
     onValidateStep () {
       this.currentStep++
 
@@ -75,6 +84,7 @@ export default {
       this.outOfCamera = this.detectionManager.getOutOfCamera()
       this.tooClose = this.detectionManager.getTooClose()
       this.tooFar = this.detectionManager.getTooFar()
+      this.isAnalyse = this.detectionManager.getIsAnalyse()
 
       if (this.outOfCamera === true || this.tooClose === true || this.tooFar === true) {
         this.errorDetection = true
@@ -90,6 +100,7 @@ export default {
     }
   },
   mounted () {
+    this.updateBodyClass()
     this.detectionManager = new DetectionManager()
     this.update()
   },
@@ -119,8 +130,9 @@ export default {
 
     &__content {
       overflow: hidden;
-      width: calc(100vw - 200px);
-      height: calc(100vh - 300px);
+      width: calc(100vw - 20%);
+      height: calc(100vh - 25%);
+      max-width: 824px;
       position: relative;
       display: flex;
       justify-content: center;
@@ -134,7 +146,6 @@ export default {
       &.hasError {
         border-color: red;
       }
-
     }
 
     &__errors {
@@ -142,6 +153,15 @@ export default {
       top: 5em;
       left: 50%;
       transform: translateX(-50%);
+    }
+
+    &__check {
+      position: absolute;
+      bottom: 5rem;
+      background-color: $color__black;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
     }
 
     &__message {
