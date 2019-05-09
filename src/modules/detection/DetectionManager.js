@@ -180,11 +180,9 @@ class DetectionManager {
    * @param {*} faces
    * @param {*} pointsDataCtx
    */
-  // handleTrackingResults (brfv4, faces, pointsDataCtx, faceDetectionFrame) {
-  handleTrackingResults (brfv4, brfManager, faces, pointsDataCtx, faceDetectionFrame) {
-    // Overwrite this function in your minimal example HTML file.
 
-    this.drawCenterFrame(faceDetectionFrame, pointsDataCtx)
+  handleTrackingResults (brfv4, brfManager, faces, pointsDataCtx, faceDetectionFrame) {
+    // this.drawCenterFrame(faceDetectionFrame, pointsDataCtx)
 
     for (let i = 0; i < faces.length; i++) {
       const face = faces[i]

@@ -3,7 +3,7 @@
 
     <div class="detection">
       <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']"></div>
-      <div class="detection__restriction" :style="resolutionFrameSize.width !== null && resolutionFrameSize.height !== null ? {width: resolutionFrameSize.width + 'px', height: resolutionFrameSize.height + 'px'} : {}"></div>
+      <div :class="`detection__restriction ${errorDetection === true ? `hasError` : ``}`" :style="resolutionFrameSize.width !== null && resolutionFrameSize.height !== null ? {width: resolutionFrameSize.width + 'px', height: resolutionFrameSize.height + 'px'} : {}"></div>
       <div class="detection__errors">
         <p :class="`detection__message ${outOfCamera === true ? `detection__message--active` : ``}`">
           {{ $t('experience.analyse.errors.outOfCamera') }}
@@ -14,6 +14,9 @@
         <p :class="`detection__message ${tooFar === true ? `detection__message--active` : ``}`">
           {{ $t('experience.analyse.errors.tooFar') }}
         </p>
+      </div>
+      <div class="detection__check">
+        <Icon name="check" width="50" height="50" stroke="#FFFFFF" />
       </div>
     </div>
     <PersonnalisationStep v-if="currentStep === 0" :validateStep="onValidateStep" />
@@ -29,11 +32,13 @@
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
+import Icon from '@/components/icons/Icon.vue'
 
 export default {
   name: 'Experience',
   components: {
-    PersonnalisationStep
+    PersonnalisationStep,
+    Icon
   },
   data () {
     return {
@@ -71,8 +76,10 @@ export default {
       this.tooClose = this.detectionManager.getTooClose()
       this.tooFar = this.detectionManager.getTooFar()
 
-      if (this.outOfCamera || this.tooClose || this.tooFar) {
+      if (this.outOfCamera === true || this.tooClose === true || this.tooFar === true) {
         this.errorDetection = true
+      } else {
+        this.errorDetection = false
       }
 
       if (this.resolutionFrame !== null) {
@@ -121,8 +128,13 @@ export default {
     }
 
     &__restriction {
-      border: 5px solid $color__white;
+      border: 4px solid $color__white;
       position: absolute;
+
+      &.hasError {
+        border-color: red;
+      }
+
     }
 
     &__errors {
