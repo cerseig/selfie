@@ -13,6 +13,13 @@ const utils = {
 
   isEmptyObject (obj) {
     return Object.keys(obj).length === 0 && obj.constructor === Object
+  },
+
+  increase (i, maxLength) {
+    if (i < maxLength) {
+      i++
+      return i
+    }
   }
 }
 
