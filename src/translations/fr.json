@@ -21,6 +21,13 @@
     },
     "posing": {
       "title": "Étape de pose"
+    },
+    "analyse": {
+      "errors": {
+        "outOfCamera": "Tu es hors de la zone de détection, place toi bien au centre du repère.",
+        "tooClose": "Tu es trop prêt de la caméra, recule un peu pour te placer au centre du repère.",
+        "tooFar": "Tu es trop loin de la caméra, rapproche toi un peu en restant placé au centre du repère."
+      }
     }
   },
   "gallery": {
