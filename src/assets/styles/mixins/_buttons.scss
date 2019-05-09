@@ -20,7 +20,7 @@
   cursor: pointer;
 }
 
-@mixin textButton($font-size) { // juste text, NO border, NO background
+@mixin textButton($font-size) { // just text, NO border, NO background
   color: $color__black;
 
   font-family: $font__montserrat;

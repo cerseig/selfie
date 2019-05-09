@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Intro from './views/Intro.vue'
-import About from './views/About.vue'
 import Gallery from './views/Gallery.vue'
 import Experience from './views/Experience.vue'
 import DebugExperience from './views/DebugExperience.vue'
@@ -22,11 +21,6 @@ export default new Router({
       path: '/intro',
       name: 'intro',
       component: Intro
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About
     },
     {
       path: '/gallery',

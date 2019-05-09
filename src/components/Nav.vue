@@ -1,14 +1,19 @@
 <template>
   <nav class="nav">
-    nav
+    <SVGSprite />
   </nav>
 </template>
 
 <script>
 
-  export default {
-    name: 'Nav',
+import SVGSprite from '@/components/icons/SVGSprite.vue'
+
+export default {
+  name: 'Nav',
+  components: {
+    SVGSprite
   }
+}
 
 </script>
 
