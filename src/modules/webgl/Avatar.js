@@ -57,15 +57,15 @@ class Avatar {
 
   initGui () {
     guiAvatar.open()
-    guiAvatar.add(this.model.position, 'x', -20, 20).name('Position X')
-    guiAvatar.add(this.model.position, 'y', -20, 20).name('Position Y')
-    guiAvatar.add(this.model.position, 'z', -20, 20).name('Position Z')
-    guiAvatar.add(this.model.rotation, 'x', -20, 20).name('Rotation X')
-    guiAvatar.add(this.model.rotation, 'y', -20, 20).name('Rotation Y')
-    guiAvatar.add(this.model.rotation, 'z', -20, 20).name('Rotation Z')
-    guiAvatar.add(this.model.scale, 'x', 200, 250).name('Scale X')
-    guiAvatar.add(this.model.scale, 'y', 200, 250).name('Scale Y')
-    guiAvatar.add(this.model.scale, 'z', 200, 250).name('Scale Z')
+    guiAvatar.add(this.model.position, 'x', -10, 10).name('Position X')
+    guiAvatar.add(this.model.position, 'y', -10, 10).name('Position Y')
+    guiAvatar.add(this.model.position, 'z', -10, 10).name('Position Z')
+    guiAvatar.add(this.model.rotation, 'x', -10, 10).name('Rotation X')
+    guiAvatar.add(this.model.rotation, 'y', -10, 10).name('Rotation Y')
+    guiAvatar.add(this.model.rotation, 'z', -10, 10).name('Rotation Z')
+    guiAvatar.add(this.model.scale, 'x', 0, 10).name('Scale X')
+    guiAvatar.add(this.model.scale, 'y', 0, 10).name('Scale Y')
+    guiAvatar.add(this.model.scale, 'z', 0, 10).name('Scale Z')
   }
 
   loadModel () {
@@ -75,9 +75,8 @@ class Avatar {
       this.paths.model,
       (gltf) => {
         this.model = gltf.scene
-        this.model.scale.set(250, 250, 250)
-        this.model.position.y = 2
-
+        this.model.scale.set(4, 4, 4)
+        this.model.position.set(-0.9, -1.1, 2)
         this.scene.add(this.model)
         this.initGui()
         this.onReadyClb()
