@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     updateBodyClass () {
-      document.querySelector('body').className = ""
+      document.querySelector('body').className = ''
       if (this.isAnalyse === true) {
         document.querySelector('body').classList.add('application')
       } else {

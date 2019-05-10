@@ -1,5 +1,5 @@
 module.exports = {
-  baseUrl: process.env.NODE_ENV === 'production' ? 'https://a-m-y.netlify.com' : 'https://localhost:8080',
+  publicPath: process.env.NODE_ENV === 'production' ? 'https://a-m-y.netlify.com' : 'https://localhost:8080',
   css: {
     loaderOptions: {
       sass: {

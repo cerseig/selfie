@@ -77,7 +77,6 @@ export default {
       e.preventDefault()
       Capture.takeScreenshot(this.$refs.avatarElement, (params) => {
         this.avatarId = params.uniqId
-        console.log('take screenshot maggle')
         store.commit('setAvatarPath', params.path)
       })
     },
@@ -94,7 +93,9 @@ export default {
 
     this.rafID = null
     this.avatarId = null
-    this.detectionManager = new DetectionManager()
+    this.detectionManager = new DetectionManager({
+      mode: 'debug'
+    })
 
     const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
 

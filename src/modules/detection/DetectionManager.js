@@ -8,7 +8,7 @@ import utils from '@/modules/helpers/utils.js'
  */
 
 class DetectionManager {
-  constructor () {
+  constructor (params) {
     this.brfv4Example = { stats: {} }
 
     this.libPath = '/js/libs/BRFv4/brf_wasm/'
@@ -23,6 +23,8 @@ class DetectionManager {
       $imageData: null,
       $camera: null
     }
+
+    this.isDebug = !!(params && params.mode === 'debug')
 
     this.timeoutId = -1
 
@@ -44,6 +46,7 @@ class DetectionManager {
     DetectionInitializer.init({
       libPath: this.libPath,
       onReady: (brfv4, brfManager, resolution) => this.onDetectionReady(brfv4, brfManager, resolution),
+      isDebug: this.isDebug,
       elements: {
         camera: this.ui.$camera,
         imageData: this.ui.$imageData
@@ -116,9 +119,17 @@ class DetectionManager {
     this.ctxs.imageData = this.ui.$imageData.getContext('2d')
     this.ctxs.pointsData = this.ui.$pointsData.getContext('2d')
 
-    let faceDetectionFrame = this.onRestrictToCenter(brfv4, brfManager, resolution)
+    if (!this.isDebug) {
+      let faceDetectionFrame = this.onRestrictToCenter(brfv4, brfManager, resolution)
+      this.trackFaces(faceDetectionFrame)
+    } else {
+      this.trackFaces()
 
-    this.trackFaces(faceDetectionFrame)
+      this.face = new Face({
+        brfv4: this.brfv4,
+        brfManager: this.brfManager
+      })
+    }
   }
 
   onRestrictToCenter (brfv4, brfManager, resolution) {
@@ -150,7 +161,6 @@ class DetectionManager {
     ctx.stroke()
   }
 
-  // trackFaces (faceDetectionFrame) {
   trackFaces (faceDetectionFrame) {
     if (this.brfv4Example.stats.start) this.brfv4Example.stats.start()
 
@@ -165,7 +175,11 @@ class DetectionManager {
     this.brfManager.update(this.ctxs.imageData.getImageData(0, 0, this.resolution.width, this.resolution.height).data)
 
     // this.handleTrackingResults(this.brfv4, this.brfManager.getFaces(), this.ctxs.pointsData, faceDetectionFrame)
-    this.handleTrackingResults(this.brfv4, this.brfManager, this.brfManager.getFaces(), this.ctxs.pointsData, faceDetectionFrame)
+    if (!this.isDebug) {
+      this.handleTrackingResults(this.brfv4, this.brfManager, this.brfManager.getFaces(), this.ctxs.pointsData, faceDetectionFrame)
+    } else {
+      this.handleTrackingResults(this.brfv4, this.brfManager, this.brfManager.getFaces(), this.ctxs.pointsData)
+    }
 
     if (this.brfv4Example.stats.end) this.brfv4Example.stats.end()
 
@@ -176,8 +190,11 @@ class DetectionManager {
     const elapstedMs = window.performance.now() - timeStart
 
     // We don't need 60 FPS, the camera will deliver at 30 FPS anyway.
-    // this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
-    this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
+    if (!this.isDebug) {
+      this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
+    } else {
+      this.timeoutId = setTimeout(() => { this.trackFaces() }, (1000 / 30) - elapstedMs)
+    }
   }
 
   /**
@@ -193,29 +210,31 @@ class DetectionManager {
     for (let i = 0; i < faces.length; i++) {
       const face = faces[i]
 
-      let positionX = face.bounds.x
-      let positionY = face.bounds.y
+      if (!this.isDebug) {
+        let positionX = face.bounds.x
+        let positionY = face.bounds.y
 
-      var mergedFaces = brfManager.getMergedDetectedFaces()
+        var mergedFaces = brfManager.getMergedDetectedFaces()
 
-      if (positionX < faceDetectionFrame.x || (positionX + face.bounds.width) > (faceDetectionFrame.x + faceDetectionFrame.width) || positionY < faceDetectionFrame.y || (positionY + face.bounds.height) > (faceDetectionFrame.y + faceDetectionFrame.height)) {
-        this.outOfCamera = true
-      } else {
-        this.outOfCamera = false
-      }
-
-      if (mergedFaces.length > 0) {
-        var mergedFace = mergedFaces[0]
-        if (mergedFace.width < faceDetectionFrame.width * 0.50) { // startMinFaceSize
-          this.tooFar = true
-          this.tooClose = false
-        } else if (mergedFace.width > faceDetectionFrame.width * 0.70) { // startMaxFaceSize
-          this.tooClose = true
-          this.tooFar = false
+        if (positionX < faceDetectionFrame.x || (positionX + face.bounds.width) > (faceDetectionFrame.x + faceDetectionFrame.width) || positionY < faceDetectionFrame.y || (positionY + face.bounds.height) > (faceDetectionFrame.y + faceDetectionFrame.height)) {
+          this.outOfCamera = true
+        } else {
+          this.outOfCamera = false
         }
-      } else {
-        this.tooFar = false
-        this.tooClose = false
+
+        if (mergedFaces.length > 0) {
+          var mergedFace = mergedFaces[0]
+          if (mergedFace.width < faceDetectionFrame.width * 0.50) { // startMinFaceSize
+            this.tooFar = true
+            this.tooClose = false
+          } else if (mergedFace.width > faceDetectionFrame.width * 0.70) { // startMaxFaceSize
+            this.tooClose = true
+            this.tooFar = false
+          }
+        } else {
+          this.tooFar = false
+          this.tooClose = false
+        }
       }
 
       if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
@@ -234,20 +253,22 @@ class DetectionManager {
         }
       }
 
-      if (this.tooFar === false && this.tooClose === false && this.outOfCamera === false) {
-        if (this.elementToIncrease < 50) {
-          this.elementToIncrease = utils.increase(this.elementToIncrease, 50)
-        } else if (this.elementToIncrease === 50) {
-          this.isAnalyse = true
-          this.face = new Face({
-            brfv4: this.brfv4,
-            brfManager: this.brfManager
-          })
-          this.elementToIncrease++
+      if (!this.isDebug) {
+        if (this.tooFar === false && this.tooClose === false && this.outOfCamera === false) {
+          if (this.elementToIncrease < 50) {
+            this.elementToIncrease = utils.increase(this.elementToIncrease, 50)
+          } else if (this.elementToIncrease === 50) {
+            this.isAnalyse = true
+            this.face = new Face({
+              brfv4: this.brfv4,
+              brfManager: this.brfManager
+            })
+            this.elementToIncrease++
+          }
+        } else {
+          this.elementToIncrease = 0
+          this.isAnalyse = false
         }
-      } else {
-        this.elementToIncrease = 0
-        this.isAnalyse = false
       }
     }
   }
