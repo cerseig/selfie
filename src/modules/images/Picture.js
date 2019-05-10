@@ -1,7 +1,7 @@
 import saveImage from './SaveImage.js'
 
 const Picture = {
-  takePicture(element, clb) {
+  takePicture (element, clb) {
     const canvas = document.createElement('canvas')
     const width = element.videoWidth
     const height = element.videoHeight

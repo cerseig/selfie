@@ -19,4 +19,4 @@ const saveImage = (imageUrl, type, clb) => {
     })
 }
 
-export default saveImage;
+export default saveImage

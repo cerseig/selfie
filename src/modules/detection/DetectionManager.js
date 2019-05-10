@@ -48,7 +48,7 @@ class DetectionManager {
     return this.positions
   }
 
-  getVideo() {
+  getVideo () {
     return this.ui.$camera
   }
 

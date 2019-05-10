@@ -4,7 +4,7 @@
       <img class="home__logo" :src="require(`@/assets/img/logo.png`)">
       <h1 class="home__baseline">{{ $t('home.baseline') }}</h1>
       <div class="home__select">
-        <span class="select__arrow" @click="onChangeLang"> < </span>
+        <span class="select__arrow" @click="onChangeLang"> <code> < </code> </span>
         <ul class="select__languages">
           <li v-for="(lang, index) in availableLanguages"
               :class="`select__language ${index === 0 ? 'is-selected' : ''}`"
@@ -13,7 +13,7 @@
             {{lang.lang}}
           </li>
         </ul>
-        <span class="select__arrow" @click="onChangeLang"> > </span>
+        <span class="select__arrow" @click="onChangeLang"> <code>></code> </span>
       </div>
       <router-link class="home__start" :to="{ name: 'intro' }"><button class="home__start--button">{{ $t('home.start') }}</button></router-link>
       <button class="home__about home__about--button" @click="openAboutPopUp">{{ $t('home.about') }}</button>
