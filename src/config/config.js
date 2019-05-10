@@ -12,7 +12,11 @@ const config = {
     bathroom: 'https://cdn.dribbble.com/users/398658/screenshots/4865939/bath_idea.gif',
     cosy: 'https://cdn.dribbble.com/users/579362/screenshots/5072758/____9-4.jpg'
   },
-  modelPath: '/models/koala.glb',
+  server: {
+    sendEmail: '/scripts/send-email.php',
+    saveImage: '/scripts/save-image.php'
+  },
+  modelPath: '/models/avatar_2.glb',
   steps: steps,
   categories: categories,
   webgl: webgl

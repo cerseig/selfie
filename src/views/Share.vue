@@ -24,6 +24,7 @@
 <script>
 import axios from 'axios'
 import store from '../store/index'
+import config from '@/config/config.js'
 import TemporaryPictures from '@/components/TemporaryPictures.vue'
 
 export default {
@@ -101,12 +102,11 @@ export default {
     onSubmitEmail (e) {
       const isValid = this.$refs.emailInput.checkValidity() || this.$refs.emailInput.reportValidity()
       const temporaryPictures = this.$children[0].temporaryPictures
-
       if (isValid) {
         this.email.sent = true
 
         axios
-          .post('http://localhost:8000/send-email.php', {
+          .post(`${process.env.VUE_APP_SCRIPT_BASEURL}${config.server.sendEmail}`, {
             lang: this.lang,
             urlAvatar: temporaryPictures.avatar.url,
             urlPicture: temporaryPictures.picture,
