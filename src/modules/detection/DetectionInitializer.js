@@ -211,10 +211,13 @@ class DetectionInitializer {
   }
 
   startCamera () {
+    let container = document.querySelector('.detection__content')
+    let containerHeight = container.offsetHeight
+    let getWidth = (16 / 9) * containerHeight
     window.navigator.mediaDevices.getUserMedia({
       video: {
-        width: 540,
-        height: 480,
+        width: getWidth,
+        height: containerHeight,
         frameRate: 30
       },
       audio: false

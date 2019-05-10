@@ -21,6 +21,13 @@
     },
     "posing": {
       "title": "Posing"
+    },
+    "analyse": {
+      "errors": {
+        "outOfCamera": "You are out of the range, place yourself in the center of the landmark.",
+        "tooClose": "You are too close to the camera, go back to place yourself in the center of the landmark.",
+        "tooFar": "You are too far to the camera, put yourself closer."
+      }
     }
   },
   "gallery": {

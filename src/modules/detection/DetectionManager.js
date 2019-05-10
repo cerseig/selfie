@@ -1,5 +1,6 @@
 import DetectionInitializer from './DetectionInitializer'
 import Face from '../face/Face'
+import utils from '@/modules/helpers/utils.js'
 
 /**
  * This class handles Detection Iinitialization with BRFv4
@@ -27,6 +28,12 @@ class DetectionManager {
 
     this.face = {}
     this.positions = {}
+    this.resolutionFrame = {}
+    this.outOfCamera = false
+    this.tooClose = false
+    this.tooFar = false
+    this.elementToIncrease = 0
+    this.isAnalyse = true
 
     this.init()
   }
@@ -50,6 +57,26 @@ class DetectionManager {
 
   getVideo () {
     return this.ui.$camera
+  }
+
+  getResolutionFrame () {
+    return this.resolutionFrame
+  }
+
+  getOutOfCamera () {
+    return this.outOfCamera
+  }
+
+  getTooClose () {
+    return this.tooClose
+  }
+
+  getTooFar () {
+    return this.tooFar
+  }
+
+  getIsAnalyse () {
+    return this.isAnalyse
   }
 
   destroy () {
@@ -89,15 +116,9 @@ class DetectionManager {
     this.ctxs.imageData = this.ui.$imageData.getContext('2d')
     this.ctxs.pointsData = this.ui.$pointsData.getContext('2d')
 
-    // let faceDetectionFrame = this.onRestrictToCenter(brfv4, brfManager, resolution)
+    let faceDetectionFrame = this.onRestrictToCenter(brfv4, brfManager, resolution)
 
-    // this.trackFaces(faceDetectionFrame)
-    this.trackFaces()
-
-    this.face = new Face({
-      brfv4: this.brfv4,
-      brfManager: this.brfManager
-    })
+    this.trackFaces(faceDetectionFrame)
   }
 
   onRestrictToCenter (brfv4, brfManager, resolution) {
@@ -113,21 +134,24 @@ class DetectionManager {
     if (faceDetectionRegion.width < faceDetectionRegion.height) {
       maxFaceSize = faceDetectionRegion.width
     }
+    // Use the usual detection distances to be able to tell the user what to do.
     brfManager.setFaceDetectionParams(maxFaceSize * 0.30, maxFaceSize * 0.90, 12, 8)
-    brfManager.setFaceTrackingStartParams(maxFaceSize * 0.50, maxFaceSize * 0.70, 15, 15, 15)
+    // Face tracking will reset to face detection, if the face turns too much or leaves
+    // the desired distance to the camera.
     brfManager.setFaceTrackingResetParams(maxFaceSize * 0.45, maxFaceSize * 0.75, 25, 25, 25)
 
+    this.resolutionFrame = faceDetectionRegion
     return faceDetectionRegion
   }
 
-  drawCenterFrame (faceDetectionRegion, ctx) {
+  drawCenterFrame (faceDetectionFrame, ctx) {
     ctx.strokeStyle = 'green'
-    ctx.rect(faceDetectionRegion.x, faceDetectionRegion.y, faceDetectionRegion.width, faceDetectionRegion.height)
+    ctx.rect(faceDetectionFrame.x, faceDetectionFrame.y, faceDetectionFrame.width, faceDetectionFrame.height)
     ctx.stroke()
   }
 
   // trackFaces (faceDetectionFrame) {
-  trackFaces () {
+  trackFaces (faceDetectionFrame) {
     if (this.brfv4Example.stats.start) this.brfv4Example.stats.start()
 
     const timeStart = window.performance.now()
@@ -141,7 +165,7 @@ class DetectionManager {
     this.brfManager.update(this.ctxs.imageData.getImageData(0, 0, this.resolution.width, this.resolution.height).data)
 
     // this.handleTrackingResults(this.brfv4, this.brfManager.getFaces(), this.ctxs.pointsData, faceDetectionFrame)
-    this.handleTrackingResults(this.brfv4, this.brfManager.getFaces(), this.ctxs.pointsData)
+    this.handleTrackingResults(this.brfv4, this.brfManager, this.brfManager.getFaces(), this.ctxs.pointsData, faceDetectionFrame)
 
     if (this.brfv4Example.stats.end) this.brfv4Example.stats.end()
 
@@ -153,7 +177,7 @@ class DetectionManager {
 
     // We don't need 60 FPS, the camera will deliver at 30 FPS anyway.
     // this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
-    this.timeoutId = setTimeout(() => { this.trackFaces() }, (1000 / 30) - elapstedMs)
+    this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
   }
 
   /**
@@ -162,12 +186,37 @@ class DetectionManager {
    * @param {*} faces
    * @param {*} pointsDataCtx
    */
-  // handleTrackingResults (brfv4, faces, pointsDataCtx, faceDetectionFrame) {
-  handleTrackingResults (brfv4, faces, pointsDataCtx) {
-    // Overwrite this function in your minimal example HTML file.
+
+  handleTrackingResults (brfv4, brfManager, faces, pointsDataCtx, faceDetectionFrame) {
+    // this.drawCenterFrame(faceDetectionFrame, pointsDataCtx)
 
     for (let i = 0; i < faces.length; i++) {
       const face = faces[i]
+
+      let positionX = face.bounds.x
+      let positionY = face.bounds.y
+
+      var mergedFaces = brfManager.getMergedDetectedFaces()
+
+      if (positionX < faceDetectionFrame.x || (positionX + face.bounds.width) > (faceDetectionFrame.x + faceDetectionFrame.width) || positionY < faceDetectionFrame.y || (positionY + face.bounds.height) > (faceDetectionFrame.y + faceDetectionFrame.height)) {
+        this.outOfCamera = true
+      } else {
+        this.outOfCamera = false
+      }
+
+      if (mergedFaces.length > 0) {
+        var mergedFace = mergedFaces[0]
+        if (mergedFace.width < faceDetectionFrame.width * 0.50) { // startMinFaceSize
+          this.tooFar = true
+          this.tooClose = false
+        } else if (mergedFace.width > faceDetectionFrame.width * 0.70) { // startMaxFaceSize
+          this.tooClose = true
+          this.tooFar = false
+        }
+      } else {
+        this.tooFar = false
+        this.tooClose = false
+      }
 
       if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
         face.state === brfv4.BRFState.FACE_TRACKING) {
@@ -183,6 +232,22 @@ class DetectionManager {
 
           pointsDataCtx.stroke()
         }
+      }
+
+      if (this.tooFar === false && this.tooClose === false && this.outOfCamera === false) {
+        if (this.elementToIncrease < 50) {
+          this.elementToIncrease = utils.increase(this.elementToIncrease, 50)
+        } else if (this.elementToIncrease === 50) {
+          this.isAnalyse = true
+          this.face = new Face({
+            brfv4: this.brfv4,
+            brfManager: this.brfManager
+          })
+          this.elementToIncrease++
+        }
+      } else {
+        this.elementToIncrease = 0
+        this.isAnalyse = false
       }
     }
   }

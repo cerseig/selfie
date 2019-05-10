@@ -14,7 +14,18 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 
   color: $color__black;
-  background-color: $color__green--pastel;
+}
+
+body {
+  &.default {
+    background-color: $color__green--pastel;
+  }
+  &.application {
+    background-color: $color__white;
+  }
+  &.experience {
+    background-color: $color__blue--pastel;
+  }
 }
 
 h1, h2, h3, h4, h5, h6, ul, li, ol, p {
@@ -32,6 +43,10 @@ a {
   color: $color__black;
 }
 
+.svg-sprite {
+  display: none;
+}
+
 button:focus, select:focus, input:focus, textarea:focus {
   outline: none;
 }
@@ -40,6 +55,7 @@ button {
   background: none;
   border: none;
   display: block;
+  cursor: pointer;
 }
 
 .dg.ac {

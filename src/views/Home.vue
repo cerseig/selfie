@@ -4,7 +4,9 @@
       <img class="home__logo" :src="require(`@/assets/img/logo.png`)">
       <h1 class="home__baseline">{{ $t('home.baseline') }}</h1>
       <div class="home__select">
-        <span class="select__arrow" @click="onChangeLang"> <code> < </code> </span>
+        <span class="select__arrow" @click="onChangeLang">
+          <Icon name="little-arrow" width="15" height="15" stroke="#000000" />
+        </span>
         <ul class="select__languages">
           <li v-for="(lang, index) in availableLanguages"
               :class="`select__language ${index === 0 ? 'is-selected' : ''}`"
@@ -13,7 +15,9 @@
             {{lang.lang}}
           </li>
         </ul>
-        <span class="select__arrow" @click="onChangeLang"> <code>></code> </span>
+        <span class="select__arrow" @click="onChangeLang">
+          <Icon name="little-arrow" width="15" height="15" stroke="#000000" />
+        </span>
       </div>
       <router-link class="home__start" :to="{ name: 'intro' }"><button class="home__start--button">{{ $t('home.start') }}</button></router-link>
       <button class="home__about home__about--button" @click="openAboutPopUp">{{ $t('home.about') }}</button>
@@ -54,6 +58,10 @@ export default {
     }
   },
   methods: {
+    updateBodyClass () {
+      document.querySelector('body').className = ""
+      document.querySelector('body').classList.add('default')
+    },
     onChangeLang () {
       let selectLanguage = document.querySelector('.is-selected').nextSibling
       if (selectLanguage !== null) {
@@ -76,6 +84,9 @@ export default {
   },
   computed: {
     lang: () => store.getters.getLang
+  },
+  mounted () {
+    this.updateBodyClass()
   }
 }
 </script>
@@ -104,6 +115,16 @@ export default {
       @include flexCenter();
 
       .select {
+
+        &__arrow {
+          cursor: pointer;
+
+          &:first-child {
+            svg {
+              transform: rotate(180deg)
+            }
+          }
+        }
 
         &__languages {
           width: 150px;
