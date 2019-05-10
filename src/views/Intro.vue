@@ -44,6 +44,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+
     &__animation {
       font-size: 15rem;
       animation: blink 2s infinite;
