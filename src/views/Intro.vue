@@ -1,6 +1,6 @@
 <template>
   <div class="intro">
-    <h1>{{ $t('intro.title') }}</h1>
+    <h1 class="intro__animation">A.M.Y</h1>
   </div>
 </template>
 
@@ -12,9 +12,9 @@ export default {
   methods: {
     initSounds () {
       this.sound = new Howl({
-        src: ['/sounds/voice_fr.mp4'],
+        src: ['/sounds/voice_fr.mp3'],
         sprite: {
-          intro: [70, 12000]
+          intro: [0, 20000]
         }
       })
 
@@ -36,3 +36,17 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .intro {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__animation {
+      font-size: 15rem;
+      animation: blink 2s infinite;
+    }
+  }
+</style>
