@@ -55,6 +55,10 @@ class DetectionManager {
     return this.positions
   }
 
+  getVideo () {
+    return this.ui.$camera
+  }
+
   getResolutionFrame () {
     return this.resolutionFrame
   }

@@ -16,6 +16,13 @@
               <span class="form__label__text">Show GUI</span>
             </label>
           </div>
+          <div class="form__item form__item--button">
+            <button class="form__button" @click="takeScreenshot">Screenshot</button>
+          </div>
+          <div class="form__item form__item--button">
+            <button class="form__button" @click="takePicture">Take Picture</button>
+          </div>
+          <router-link :to="{name: 'gallery'}" class="link">Go to gallery</router-link>
         </div>
       </div>
       <div class="panel__body">
@@ -36,10 +43,18 @@
 </template>
 
 <script>
+
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
-import Scene from '@/modules/webgl/Scene.js'
+import Capture from '@/modules/images/Capture.js'
+import Picture from '@/modules/images/Picture.js'
+import store from '@/store/index'
+
+// Config
 import config from '@/config/config'
+
+// webgl
+import Scene from '@/modules/webgl/Scene.js'
 
 export default {
   name: 'DebugExperience',
@@ -56,19 +71,40 @@ export default {
 
       this.positions = this.detectionManager.getPositions()
       this.scene.update(this.positions)
+    },
+
+    takeScreenshot (e) {
+      e.preventDefault()
+      Capture.takeScreenshot(this.$refs.avatarElement, (params) => {
+        this.avatarId = params.uniqId
+        console.log('take screenshot maggle')
+        store.commit('setAvatarPath', params.path)
+      })
+    },
+
+    takePicture () {
+      const video = this.detectionManager.getVideo()
+      Picture.takePicture(video, (params) => {
+        store.commit('setPicturePath', params.path)
+      })
     }
   },
   mounted () {
     document.querySelector('body').classList.add('debug-mode')
+
     this.rafID = null
+    this.avatarId = null
     this.detectionManager = new DetectionManager()
+
+    const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
+
     this.scene = new Scene({
       config: config,
       element: this.$refs.avatarElement,
       mode: 'debug',
       sizes: {
         width: this.$refs.avatarElement.clientWidth,
-        height: this.$refs.avatarElement.clientWidth / 16 * 9
+        height: sceneHeight
       }
     })
 
@@ -85,6 +121,7 @@ export default {
 
 <style lang="scss">
   .panel--debug {
+    position: relative;
     min-height: 100vh;
     width: 100vw;
     background: #fef0de;
@@ -104,8 +141,18 @@ export default {
       }
     }
 
+    .link {
+      font-family: $font__sintony;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      text-decoration: underline;
+    }
+
     .panel__settings {
       display: flex;
+      margin: 2rem 0;
+      padding: 2rem;
+      align-items: center;
 
       .form__item {
         margin-right: 2rem;
@@ -113,6 +160,11 @@ export default {
     }
 
     .form__item {
+      &--button {
+        .form__button {
+          @include outlinedButton(1.3rem 4rem, 1.2rem);
+        }
+      }
       &--checkbox {
         .form {
           &__input {
@@ -132,14 +184,14 @@ export default {
           &__label {
             display: flex;
             align-items: center;
-            font-size: .8rem;
+            font-size: 1.5rem;
             cursor: pointer;
 
             &:before {
               content: '';
               display: block;
-              width: 1.2rem;
-              height: 1.2rem;
+              width: 2rem;
+              height: 2rem;
               margin-right: .5rem;
               border: 2px solid black;
               border-radius: .3rem;
@@ -154,23 +206,23 @@ export default {
               &:after {
                 content: '';
                 position: absolute;
-                height: .3rem;
+                height: .5rem;
                 background: black;
                 opacity: 0;
               }
 
               &:before {
-                left: -1.5rem;
-                top: .2rem;
-                width: .6rem;
+                left: -2.3rem;
+                top: .6rem;
+                width: 1rem;
                 transform: rotate(45deg);
                 transform-origin: top left;
               }
 
               &:after {
-                top: .05rem;
-                left: -1.7rem;
-                width: .8rem;
+                top: .07rem;
+                left: -2.7rem;
+                width: 1.6rem;
                 background: black;
                 transform: rotate(-45deg);
                 transform-origin: top right;
@@ -187,13 +239,15 @@ export default {
     }
     .heading-1 {
       font-family: 'Montserrat';
-      font-size: 1.5rem;
+      font-size: 3rem;
+      text-transform: uppercase;
+      text-align: center;
     }
 
     .progress {
       position: relative;
       width: 100%;
-      height: .5rem;
+      height: 1rem;
       background: rgba(255, 255, 255, 0.7);
       border-radius: .5rem;
       overflow: hidden;
@@ -219,12 +273,12 @@ export default {
         display: flex;
         justify-content: space-between;
         flex-direction: column;
-        margin-bottom: .4rem;
+        margin-bottom: .8rem;
       }
 
       .list__title {
         flex: 1 1 60%;
-        font-size: 0.7rem;
+        font-size: 1.2rem;
         font-weight: 700;
         margin-bottom: .3rem;
       }
@@ -235,9 +289,11 @@ export default {
       }
     }
     .avatar {
-      flex: 1;
       min-width: 30%;
       margin-left: 4rem;
+      background: url('/img/team.png');
+      background-size: cover;
+      background-position: center;
     }
 
     .detection {
