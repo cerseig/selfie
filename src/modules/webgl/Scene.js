@@ -33,7 +33,7 @@ class Scene {
     this.camera.position.set(0, 0, 10)
     this.camera.lookAt(new THREE.Vector3(0, 2, 0))
 
-    this.renderer = new THREE.WebGLRenderer({ alpha: true })
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, preserveDrawingBuffer: true })
     this.renderer.setClearColor(0x000000, 0)
     this.renderer.setSize(this.sizes.width, this.sizes.height)
     this.renderer.render(this.scene, this.camera)

@@ -48,6 +48,10 @@ class DetectionManager {
     return this.positions
   }
 
+  getVideo() {
+    return this.ui.$camera
+  }
+
   destroy () {
     clearTimeout(this.timeoutId)
     DetectionInitializer.destroy()
