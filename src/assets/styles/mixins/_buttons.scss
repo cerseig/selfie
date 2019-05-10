@@ -16,8 +16,24 @@
   cursor: pointer;
 }
 
-@mixin outlinedButton() { // button with border but NO background
+@mixin outlinedButton($padding, $font-size) { // button with border but NO background
+  padding: $padding;
+
+  border: 2.5px solid $color__black;
+  border-radius: 50px;
+  
+  font-family: $font__sintony;
+  font-size: $font-size;
+  text-transform: uppercase;
+
   cursor: pointer;
+
+  transition: background .3s;
+
+  &:hover {
+    background: $color__black;
+    color: $color__white;
+  }
 }
 
 @mixin textButton($font-size) { // just text, NO border, NO background
