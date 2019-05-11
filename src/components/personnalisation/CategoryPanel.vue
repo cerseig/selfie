@@ -10,12 +10,27 @@
     <div class="panel__subpanel">
       <div :class="`panel__inner ${isActive === index ? 'is-active' : ''}`" v-for="(category, index) in categories" :key="`panel-${index}`">
         <ul class="list--colors" v-if="category && category.colors && category.colors.length > 0">
-          <li v-for="(color, indexColor) in category.colors" :class="`list__item ${selection[index] && selection[index].color === indexColor ? 'is-selected' : ''}`" @click="onClickItem"  data-type="color" :data-index-item="indexColor" :data-index-category="index" :key="`color-${indexColor}`">
+          <li
+            v-for="(color, indexColor) in category.colors"
+            :class="`list__item ${selection[index] && selection[index].colors === indexColor ? 'is-selected' : ''}`"
+            @click="onClickItem"
+            data-type="colors"
+            :data-index-item="indexColor"
+            :data-index-category="index"
+            :key="`color-${indexColor}`"
+          >
            <button class="list__button" :style="{ backgroundColor: color }"></button>
           </li>
         </ul>
          <ul class="list--attributes" v-if="category && category.attributes && category.attributes.length > 0">
-          <li v-for="(attribute, indexAttr) in category.attributes" :class="`list__item ${selection[index] && selection[index].attribute === indexAttr ? 'is-selected' : ''}`" :key="`attribute-${indexAttr}`" @click="onClickItem"  data-type="attribute" :data-index-item="indexAttr" :data-index-category="index">
+          ∏<li
+            v-for="(attribute, indexAttr) in category.attributes"
+            :class="`list__item ${selection[index] && selection[index].attributes === indexAttr ? 'is-selected' : ''}`"
+            :key="`attribute-${indexAttr}`"
+            @click="onClickItem"
+            data-type="attributes"
+            :data-index-item="indexAttr"
+            :data-index-category="index">
            <a href="#" class="list__thumbnail" :style="{ backgroundImage: `url(${attribute.icon})` }"></a>
           </li>
         </ul>
@@ -48,10 +63,10 @@ export default {
       this.categories.forEach(category => {
         const selection = {}
         if (category.colors && category.colors.length > 0) {
-          selection.color = 0
+          selection.colors = category.default.colors ? category.default.colors : 0
         }
         if (category.attributes && category.colors.length > 0) {
-          selection.attribute = 0
+          selection.attributes = category.default.attributes ? category.default.attributes : 0
         }
         this.selection.push(selection)
       })
@@ -71,7 +86,16 @@ export default {
 
       this.selection[indexCategory][type] = indexItem
 
-      this.selectionChange(this.selection)
+      const category = this.categories[indexCategory]
+      const option = category[type]
+
+      this.selectionChange(this.selection, {
+        category: indexCategory,
+        type: type,
+        value: type === 'colors' ? option[indexItem] : option[indexItem].ref,
+        title: category.title,
+        item: indexItem
+      })
     }
   },
   mounted () {
@@ -86,6 +110,7 @@ export default {
   .list--colors {
     display: flex;
     align-items: center;
+    justify-content: center;
     .list__item {
       list-style: none;
       margin-right: .5rem;
@@ -93,8 +118,6 @@ export default {
     .list__thumbnail {
       cursor: pointer;
       display: block;
-      width: 3rem;
-      height: 3rem;
       background-size: 100% 100%;
       background-position: center;
     }
@@ -113,7 +136,10 @@ export default {
   .list--attributes {
     .list__item {
       &.is-selected {
-        border: .2rem solid green;
+        .list__button,
+        .list__thumbnail {
+          border: .5rem solid green;
+        }
       }
     }
   }
@@ -121,7 +147,7 @@ export default {
     .list__item {
       &.is-active {
         .list__button {
-          border: .2rem solid green;
+          border: .5rem solid green;
         }
       }
     }
@@ -133,6 +159,33 @@ export default {
 
       &.is-active {
         display: block;
+      }
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px)  {
+    .list--category {
+      margin-bottom: 2rem;
+      .list__item {
+        .list__button {
+          font-family: $font__montserrat;
+          font-size: 3rem;
+        }
+      }
+    }
+    .list--colors {
+      margin-bottom: 2rem;
+    }
+    .list__thumbnail {
+      width: 100%;
+      height: 100%;
+    }
+    .list--colors,
+    .list--attributes {
+      .list__button,
+      .list__item {
+        width: 6rem;
+        height: 6rem;
       }
     }
   }

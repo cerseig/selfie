@@ -15,8 +15,9 @@ class DetectionManager {
 
     this.ui = {
       $detection: document.querySelector('.js-detection'),
-      $imageData: null,
-      $camera: null
+      $imageData: params && params.imageData ? params.imageData : null,
+      $camera: params && params.camera ? params.camera : null,
+      $pointsData: params && params.pointsData ? params.pointsData : null
     }
 
     this.ctxs = {
@@ -37,6 +38,8 @@ class DetectionManager {
     this.elementToIncrease = 0
     this.isAnalyse = true
 
+    this.onManagerReady = () => {}
+
     this.init()
   }
 
@@ -49,7 +52,8 @@ class DetectionManager {
       isDebug: this.isDebug,
       elements: {
         camera: this.ui.$camera,
-        imageData: this.ui.$imageData
+        imageData: this.ui.$imageData,
+        pointsData: this.ui.$pointsData
       }
     })
   }
@@ -88,25 +92,29 @@ class DetectionManager {
   }
 
   createDetectionElements () {
-    const camera = document.createElement('video')
-    camera.setAttribute('class', 'detection__camera')
-    camera.setAttribute('id', '_camera')
+    if (!this.ui.$camera) {
+      const camera = document.createElement('video')
+      camera.setAttribute('class', 'detection__camera')
+      camera.setAttribute('id', '_camera')
+      this.ui.$camera = camera
+      this.ui.$detection.appendChild(camera)
+    }
 
-    const imageData = document.createElement('canvas')
-    const pointsData = imageData.cloneNode(true)
-    imageData.setAttribute('class', 'detection__image')
-    imageData.setAttribute('id', '_imageData')
+    if (!this.ui.$imageData) {
+      const imageData = document.createElement('canvas')
+      imageData.setAttribute('class', 'detection__image')
+      imageData.setAttribute('id', '_imageData')
+      this.ui.$imageData = imageData
+      this.ui.$detection.appendChild(imageData)
+    }
 
-    pointsData.setAttribute('class', 'detection__points')
-    pointsData.setAttribute('id', '_points')
-
-    this.ui.$imageData = imageData
-    this.ui.$camera = camera
-    this.ui.$pointsData = pointsData
-
-    this.ui.$detection.appendChild(camera)
-    this.ui.$detection.appendChild(imageData)
-    this.ui.$detection.appendChild(pointsData)
+    if (!this.ui.$pointsData) {
+      const pointsData = document.createElement('canvas')
+      pointsData.setAttribute('class', 'detection__points')
+      pointsData.setAttribute('id', '_points')
+      this.ui.$pointsData = pointsData
+      this.ui.$detection.appendChild(pointsData)
+    }
   }
 
   onDetectionReady (brfv4, brfManager, resolution) {
@@ -259,6 +267,7 @@ class DetectionManager {
             this.elementToIncrease = utils.increase(this.elementToIncrease, 50)
           } else if (this.elementToIncrease === 50) {
             this.isAnalyse = true
+            console.log('analysis done')
             this.face = new Face({
               brfv4: this.brfv4,
               brfManager: this.brfManager

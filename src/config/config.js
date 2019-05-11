@@ -16,7 +16,7 @@ const config = {
     sendEmail: '/scripts/send-email.php',
     saveImage: '/scripts/save-image.php'
   },
-  modelPath: '/models/avatar_2.glb',
+  modelPath: '/models/avatar_1.glb', // Parented
   steps: steps,
   categories: categories,
   webgl: webgl

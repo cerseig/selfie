@@ -1,33 +1,16 @@
 <template>
   <div class="panel panel--debug">
     <div class="panel__inner">
-      <div class="panel__top">
+      <div class="panel__cover gui__wrapper">
         <h1 class="heading-1">Debug Experience</h1>
-        <div class="panel__settings">
-          <div class="form__item form__item--checkbox">
-            <input class="form__input" type="checkbox" id="show_camera" v-model="showCamera">
-            <label class="form__label" for="show_camera">
-              <span class="form__label__text">Show camera</span>
-            </label>
-          </div>
-          <div class="form__item form__item--checkbox">
-            <input class="form__input" type="checkbox" id="show_gui" v-model="showGUI">
-            <label class="form__label" for="show_gui">
-              <span class="form__label__text">Show GUI</span>
-            </label>
-          </div>
-          <div class="form__item form__item--button">
-            <button class="form__button" @click="takeScreenshot">Screenshot</button>
-          </div>
-          <div class="form__item form__item--button">
-            <button class="form__button" @click="takePicture">Take Picture</button>
-          </div>
-          <router-link :to="{name: 'gallery'}" class="link">Go to gallery</router-link>
-        </div>
       </div>
-      <div class="panel__body">
-        <div :class="['detection js-detection', showCamera ? 'is-camera-shown' : '']"></div>
-        <ul class="list list--events">
+      <div class="panel__top">
+        <router-link :to="{name: 'gallery'}" class="link">Go to gallery</router-link>
+        <button class="panel__button" @click="onClickSettings">Settings</button>
+      </div>
+      <div class="panel__body" ref="panelBodyElement">
+        <div :class="['detection js-detection', show.camera ? 'is-camera-shown' : '']"></div>
+        <ul class="list list--events" v-if="show.events">
           <li class="list__item" v-for="(position, key) in positions.events" :key="key">
             <span class="list__title">{{key}}</span>
             <div class="progress">
@@ -37,6 +20,16 @@
         </ul>
         <div class="avatar" ref="avatarElement">
         </div>
+      </div>
+      <PersonnalisationStep :class="`${show.personnalisation ? 'is-active' : ''}`"/>
+      <div class="panel__settings">
+        <Settings
+          :showSettings="show.settings"
+          :showCamera="show.camera"
+          :showPersonnalisation="show.personnalisation"
+          :showEvents="show.events"
+          :showGUI="show.gui"
+           />
       </div>
     </div>
   </div>
@@ -53,19 +46,76 @@ import store from '@/store/index'
 // Config
 import config from '@/config/config'
 
+// Components
+import Settings from '@/components/debug/Settings'
+import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
+
 // webgl
 import Scene from '@/modules/webgl/Scene.js'
 
 export default {
   name: 'DebugExperience',
+  components: {
+    Settings,
+    PersonnalisationStep
+  },
   data () {
     return {
-      showCamera: false,
-      showGUI: true,
+      show: {
+        settings: false,
+        camera: false,
+        personnalisation: true,
+        events: false,
+        gui: false
+      },
       positions: {}
     }
   },
   methods: {
+    initSettingsEvents () {
+      this.$on('Settings:showCamera', (showCamera) => {
+        this.show.camera = showCamera
+      })
+      this.$on('Settings:showSettings', (showSettings) => {
+        this.show.settings = false
+      })
+      this.$on('Settings:showEvents', (showEvents) => {
+        this.show.events = showEvents
+      })
+      this.$on('Settings:showPersonnalisation', (showPersonnalisation) => {
+        this.show.personnalisation = showPersonnalisation
+      })
+      this.$on('Settings:showGui', (showGui) => {
+        if (this.scene && this.scene.gui) {
+          this.show.gui = showGui
+          this.scene.gui.closed = !showGui
+        }
+      })
+      this.$on('Settings:takeScreenshot', this.takeScreenshot)
+      this.$on('Settings:takePicture', this.takePicture)
+      this.$on('Settings:updateSizes', this.updateSizes)
+    },
+
+    initScene () {
+      this.rafID = null
+      this.avatarId = null
+      this.detectionManager = new DetectionManager({
+        mode: 'debug'
+      })
+
+      const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
+
+      this.scene = new Scene({
+        config: config,
+        element: this.$refs.avatarElement,
+        mode: 'debug',
+        sizes: {
+          width: this.$refs.avatarElement.clientWidth,
+          height: sceneHeight
+        }
+      })
+    },
+
     update () {
       this.rafID = requestAnimationFrame(this.update)
 
@@ -73,8 +123,18 @@ export default {
       this.scene.update(this.positions)
     },
 
-    takeScreenshot (e) {
-      e.preventDefault()
+    updateSizes () {
+      if (window.innerWidth <= 1024) {
+        const sceneWidth = this.$refs.panelBodyElement.clientWidth / 2
+        const sceneHeight = Math.floor(sceneWidth / 16 * 9)
+        this.scene.updateSizes(sceneWidth, sceneHeight)
+      } else {
+        const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
+        this.scene.updateSizes(this.$refs.avatarElement.clientWidth, sceneHeight)
+      }
+    },
+
+    takeScreenshot () {
       Capture.takeScreenshot(this.$refs.avatarElement, (params) => {
         this.avatarId = params.uniqId
         store.commit('setAvatarPath', params.path)
@@ -86,28 +146,22 @@ export default {
       Picture.takePicture(video, (params) => {
         store.commit('setPicturePath', params.path)
       })
+    },
+
+    onClickSettings () {
+      this.show.settings = true
+    },
+
+    onPersonnalisationChange (change) {
+      this.scene.avatar.handlePersonnalisation(change)
     }
   },
   mounted () {
     document.querySelector('body').classList.add('debug-mode')
+    this.initSettingsEvents()
+    this.initScene()
 
-    this.rafID = null
-    this.avatarId = null
-    this.detectionManager = new DetectionManager({
-      mode: 'debug'
-    })
-
-    const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
-
-    this.scene = new Scene({
-      config: config,
-      element: this.$refs.avatarElement,
-      mode: 'debug',
-      sizes: {
-        width: this.$refs.avatarElement.clientWidth,
-        height: sceneHeight
-      }
-    })
+    this.$on('Personnalisation:Change', this.onPersonnalisationChange)
 
     this.update()
   },
@@ -133,6 +187,34 @@ export default {
     .panel {
       &__inner {
         padding: 2rem;
+        overflow-x: hidden;
+      }
+
+      &__settings {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        pointer-events: none;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+
+      &__button {
+        position: fixed;
+        bottom: 3rem;
+        right: 3rem;
+        @include outlinedButton(1rem 2rem, 1rem);
+      }
+
+      &__top {
+        position: relative;
+        z-index: 4;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
 
       &__body {
@@ -147,91 +229,6 @@ export default {
       font-size: 1.5rem;
       text-transform: uppercase;
       text-decoration: underline;
-    }
-
-    .panel__settings {
-      display: flex;
-      margin: 2rem 0;
-      padding: 2rem;
-      align-items: center;
-
-      .form__item {
-        margin-right: 2rem;
-      }
-    }
-
-    .form__item {
-      &--button {
-        .form__button {
-          @include outlinedButton(1.3rem 4rem, 1.2rem);
-        }
-      }
-      &--checkbox {
-        .form {
-          &__input {
-            display: none;
-            &:checked {
-              + .form__label {
-                .form__label__text {
-                  &:before,
-                  &:after {
-                    opacity: 1;
-                  }
-                }
-              }
-            }
-          }
-
-          &__label {
-            display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-
-            &:before {
-              content: '';
-              display: block;
-              width: 2rem;
-              height: 2rem;
-              margin-right: .5rem;
-              border: 2px solid black;
-              border-radius: .3rem;
-              cursor: pointer;
-            }
-
-            &__text {
-              position: relative;
-              display: block;
-
-              &:before,
-              &:after {
-                content: '';
-                position: absolute;
-                height: .5rem;
-                background: black;
-                opacity: 0;
-              }
-
-              &:before {
-                left: -2.3rem;
-                top: .6rem;
-                width: 1rem;
-                transform: rotate(45deg);
-                transform-origin: top left;
-              }
-
-              &:after {
-                top: .07rem;
-                left: -2.7rem;
-                width: 1.6rem;
-                background: black;
-                transform: rotate(-45deg);
-                transform-origin: top right;
-              }
-            }
-          }
-        }
-      }
     }
 
     .detection {
@@ -326,6 +323,20 @@ export default {
         }
       }
 
+    }
+
+    @media (min-width: 768px) and (max-width: 1024px)  {
+      .panel__body {
+        flex-wrap: wrap;
+        padding: 8rem;
+      }
+
+      .list--events {
+        order: 3;
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: 100%;
+      }
     }
   }
 
