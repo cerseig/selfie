@@ -1,7 +1,7 @@
 <template>
   <div class="experience gui__wrapper">
     <div :class="`avatar ${currentStep === 1 ? 'is-active' : ''}`" ref="avatarElement"></div>
-    <div :class="['detection']">
+    <div :class="`detection ${currentStep === 0 ? 'is-active' : ''}`">
       <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']">
         <video class="detection__camera" id="_camera"></video>
         <canvas class="detection__image" id="_imageData"></canvas>
@@ -159,6 +159,8 @@ export default {
   position: relative;
 
   .avatar {
+    position: absolute;
+    top: 0;
     border: 2px solid black;
     width: 100%;
     height: 100%;
@@ -177,6 +179,13 @@ export default {
     align-items: center;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    pointer-events: none;
+
+    &.is-active {
+      opacity: 1;
+      pointer-events: all;
+    }
 
     &__content {
       overflow: hidden;
