@@ -10,6 +10,7 @@
 import CategoryPanel from '@/components/personnalisation/CategoryPanel'
 import config from '@/config/config'
 import store from '@/store/index'
+import utils from '@/modules/helpers/utils.js'
 
 export default {
   name: 'PersonnalisationStep',
@@ -18,7 +19,7 @@ export default {
   },
   props: {
     validateStep: {
-      required: true,
+      required: false,
       type: Function
     }
   },
@@ -68,7 +69,9 @@ export default {
         }
       })
 
-      this.validateStep()
+      if (utils.isFunction(this.validateStep)) {
+        this.validateStep()
+      }
     },
     onSelectionChange (selection) {
       this.selection = selection
@@ -87,7 +90,23 @@ export default {
   .personnalisation {
     width: 100%;
     position: absolute;
+    left: 0;
+    right: 0;
     bottom: 0;
     display: none;
+    z-index: 3;
+
+    &.is-active {
+      display: block;
+    }
   }
+
+  @media (min-width: 768px) and (max-width: 1024px)  {
+    .personnalisation {
+      position: fixed;
+      bottom: 5rem;
+      text-align: center;
+    }
+  }
+
 </style>
