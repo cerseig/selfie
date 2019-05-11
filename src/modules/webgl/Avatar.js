@@ -1,7 +1,9 @@
 import GLTFLoader from 'three-gltf-loader'
-import { guiAvatar } from './gui'
+import { guiAvatar, gui } from './gui'
+import config from '@/config/config'
 import utils from '@/modules/helpers/utils.js'
 import easings from '@/modules/helpers/easings.js'
+import Hair from './Hair';
 
 class Avatar {
   constructor (params) {
@@ -17,6 +19,9 @@ class Avatar {
     this.positions = {}
 
     this.model = null
+
+    this.mode = params.mode ? params.mode : 'default'
+    this.config = config.webgl[this.mode].avatar
 
     this.frameDuration = 8
     this.durationTime = (this.frameDuration / 60) * 1000
@@ -56,16 +61,26 @@ class Avatar {
   }
 
   initGui () {
-    guiAvatar.open()
-    guiAvatar.add(this.model.position, 'x', -10, 10).name('Position X')
-    guiAvatar.add(this.model.position, 'y', -10, 10).name('Position Y')
-    guiAvatar.add(this.model.position, 'z', -10, 10).name('Position Z')
-    guiAvatar.add(this.model.rotation, 'x', -10, 10).name('Rotation X')
-    guiAvatar.add(this.model.rotation, 'y', -10, 10).name('Rotation Y')
-    guiAvatar.add(this.model.rotation, 'z', -10, 10).name('Rotation Z')
-    guiAvatar.add(this.model.scale, 'x', 0, 10).name('Scale X')
-    guiAvatar.add(this.model.scale, 'y', 0, 10).name('Scale Y')
-    guiAvatar.add(this.model.scale, 'z', 0, 10).name('Scale Z')
+    if (guiAvatar.__controllers.length <= 0) {
+      guiAvatar.open()
+      guiAvatar.add(this.model.position, 'x', -10, 10).name('Position X')
+      guiAvatar.add(this.model.position, 'y', -10, 10).name('Position Y')
+      guiAvatar.add(this.model.position, 'z', -10, 10).name('Position Z')
+      guiAvatar.add(this.model.rotation, 'x', -10, 10).name('Rotation X')
+      guiAvatar.add(this.model.rotation, 'y', -10, 10).name('Rotation Y')
+      guiAvatar.add(this.model.rotation, 'z', -10, 10).name('Rotation Z')
+      guiAvatar.add(this.model.scale, 'x', 0, 10).name('Scale X')
+      guiAvatar.add(this.model.scale, 'y', 0, 10).name('Scale Y')
+      guiAvatar.add(this.model.scale, 'z', 0, 10).name('Scale Z')
+    }
+  }
+
+  initHair () {
+    // this.hair = new Hair({
+    //   hairList: ,
+    //   hair: 0,
+    //   hairColor:
+    // })
   }
 
   loadModel () {
@@ -75,9 +90,10 @@ class Avatar {
       this.paths.model,
       (gltf) => {
         this.model = gltf.scene
-        this.model.scale.set(4, 4, 4)
-        this.model.position.set(-0.9, -1.1, 2)
+        this.model.scale.set(this.config.scale.x, this.config.scale.y, this.config.scale.z)
+        this.model.position.set(this.config.position.x, this.config.position.y, this.config.position.z)
         this.scene.add(this.model)
+
         this.initGui()
         this.onReadyClb()
       })
@@ -104,7 +120,7 @@ class Avatar {
 
   updateModelRotation (key, deltaTime) {
     this.rotation[key].currentValue = easings.linear(deltaTime, this.rotation[key].beginValue, this.rotation[key].endValue - this.rotation[key].beginValue, this.durationTime) // Get interpolled value
-    this.model.rotation[key] = this.rotation[key].currentValue
+    this.model.children[3].rotation[key] = this.rotation[key].currentValue
   }
 
   handleRotation (positions) {
@@ -116,7 +132,9 @@ class Avatar {
     const now = Date.now()
     const deltaTime = now - this.startTime // Delta time between start & now
 
-    this.updateModelRotations(deltaTime)
+    if (this.model) {
+      this.updateModelRotations(deltaTime)
+    }
 
     this.currentFrame++
   }
