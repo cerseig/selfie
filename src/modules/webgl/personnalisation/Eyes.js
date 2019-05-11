@@ -1,3 +1,5 @@
+import * as THREE from 'three'
+
 class Eyes {
   /**
    * @param {*} params
@@ -24,7 +26,7 @@ class Eyes {
     return this.color
   }
 
-  getEyes() {
+  getEyes () {
     return this.eyes
   }
 

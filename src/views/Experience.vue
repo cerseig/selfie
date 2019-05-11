@@ -106,6 +106,9 @@ export default {
         this.setResolutionFrameSize(this.detection.resolutionFrame)
       }
     },
+    onPersonnalisationChange (change) {
+      this.scene.avatar.handlePersonnalisation(change)
+    },
     update () {
       this.rafID = requestAnimationFrame(this.update)
 
@@ -125,6 +128,8 @@ export default {
       imageData: document.getElementById('_imageData'),
       pointsData: document.getElementById('_points')
     })
+
+    this.$on('Personnalisation:Change', this.onPersonnalisationChange)
 
     this.scene = new Scene({
       config: config,

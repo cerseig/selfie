@@ -92,7 +92,6 @@ class DetectionManager {
   }
 
   createDetectionElements () {
-
     if (!this.ui.$camera) {
       const camera = document.createElement('video')
       camera.setAttribute('class', 'detection__camera')
@@ -116,7 +115,6 @@ class DetectionManager {
       this.ui.$pointsData = pointsData
       this.ui.$detection.appendChild(pointsData)
     }
-
   }
 
   onDetectionReady (brfv4, brfManager, resolution) {

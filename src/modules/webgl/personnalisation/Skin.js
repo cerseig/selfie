@@ -1,3 +1,5 @@
+import * as THREE from 'three'
+
 class Skin {
   /**
    * @param {*} params
@@ -30,7 +32,7 @@ class Skin {
     return this.color
   }
 
-  getFace() {
+  getFace () {
     return this.face
   }
 

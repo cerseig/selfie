@@ -23,7 +23,7 @@ const utils = {
   },
 
   isFunction (functionToCheck) {
-    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
   }
 }
 

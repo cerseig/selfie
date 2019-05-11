@@ -23,7 +23,13 @@
       </div>
       <PersonnalisationStep :class="`${show.personnalisation ? 'is-active' : ''}`"/>
       <div class="panel__settings">
-        <Settings :class="`${show.settings ? 'is-active' : ''}`" />
+        <Settings
+          :showSettings="show.settings"
+          :showCamera="show.camera"
+          :showPersonnalisation="show.personnalisation"
+          :showEvents="show.events"
+          :showGUI="show.gui"
+           />
       </div>
     </div>
   </div>
@@ -40,7 +46,7 @@ import store from '@/store/index'
 // Config
 import config from '@/config/config'
 
-//Components
+// Components
 import Settings from '@/components/debug/Settings'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
 
@@ -58,7 +64,7 @@ export default {
       show: {
         settings: false,
         camera: false,
-        personnalisation: false,
+        personnalisation: true,
         events: false,
         gui: false
       },
@@ -88,6 +94,26 @@ export default {
       this.$on('Settings:takeScreenshot', this.takeScreenshot)
       this.$on('Settings:takePicture', this.takePicture)
       this.$on('Settings:updateSizes', this.updateSizes)
+    },
+
+    initScene () {
+      this.rafID = null
+      this.avatarId = null
+      this.detectionManager = new DetectionManager({
+        mode: 'debug'
+      })
+
+      const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
+
+      this.scene = new Scene({
+        config: config,
+        element: this.$refs.avatarElement,
+        mode: 'debug',
+        sizes: {
+          width: this.$refs.avatarElement.clientWidth,
+          height: sceneHeight
+        }
+      })
     },
 
     update () {
@@ -124,30 +150,18 @@ export default {
 
     onClickSettings () {
       this.show.settings = true
+    },
+
+    onPersonnalisationChange (change) {
+      this.scene.avatar.handlePersonnalisation(change)
     }
   },
   mounted () {
     document.querySelector('body').classList.add('debug-mode')
-
-    this.rafID = null
-    this.avatarId = null
-    this.detectionManager = new DetectionManager({
-      mode: 'debug'
-    })
-
-    const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
-
-    this.scene = new Scene({
-      config: config,
-      element: this.$refs.avatarElement,
-      mode: 'debug',
-      sizes: {
-        width: this.$refs.avatarElement.clientWidth,
-        height: sceneHeight
-      }
-    })
-
     this.initSettingsEvents()
+    this.initScene()
+
+    this.$on('Personnalisation:Change', this.onPersonnalisationChange)
 
     this.update()
   },

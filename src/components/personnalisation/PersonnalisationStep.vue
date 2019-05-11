@@ -27,6 +27,7 @@ export default {
     return {
       configCategories: config.categories,
       selection: [],
+      change: {},
       avatarProperties: {}
     }
   },
@@ -73,7 +74,8 @@ export default {
         this.validateStep()
       }
     },
-    onSelectionChange (selection) {
+    onSelectionChange (selection, change) {
+      this.$parent.$emit('Personnalisation:Change', change)
       this.selection = selection
     },
     getConfigColor (category, color) {

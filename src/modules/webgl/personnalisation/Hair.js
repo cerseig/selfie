@@ -1,3 +1,5 @@
+import * as THREE from 'three'
+
 class Hair {
   /**
    * @param {*} params
@@ -10,7 +12,6 @@ class Hair {
   constructor (params) {
     this.haircutList = params.haircutList
     this.haircut = params.haircutList[params.haircut] ? params.haircutList[params.haircut] : params.haircutList[0]
-    console.log(params.haircutList[params.haircut])
     this.color = params.color
     this.haircutListlength = params.haircutList.length
 
@@ -42,8 +43,8 @@ class Hair {
 
   findHaircut (haircut) {
     for (let i = 0; i < this.haircutListlength; i++) {
-      const item = this.haircutList[i];
-      if (item.name == haircut) {
+      const item = this.haircutList[i]
+      if (item.name === haircut) {
         return item
       }
     }

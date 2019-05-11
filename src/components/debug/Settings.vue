@@ -1,5 +1,5 @@
 <template>
-  <div class="panel--settings">
+  <div :class="`panel--settings ${showSettings ? 'is-active' : ''}`">
     <button class="panel__close" @click="onClickClose">
       <Icon name="cross" width="50" height="50" stroke="#000000" />
     </button>
@@ -67,41 +67,60 @@ export default {
   components: {
     Icon
   },
-  data () {
-    return {
-      showCamera: false,
-      showPersonnalisation: false,
-      showEvents: false,
-      showGUI: false
+  props: {
+    showCamera: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    showSettings: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    showGUI: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    showEvents: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    showPersonnalisation: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
   methods: {
     onChangeShowCamera () {
-      this.$parent.$emit('Settings:showCamera', this.showCamera);
+      this.$parent.$emit('Settings:showCamera', this.showCamera)
     },
     onClickClose () {
-      this.$parent.$emit('Settings:showSettings', false);
+      this.$parent.$emit('Settings:showSettings', false)
     },
     onChangeShowEvents () {
-      this.$parent.$emit('Settings:showEvents', this.showEvents);
+      this.$parent.$emit('Settings:showEvents', this.showEvents)
     },
     onChangeShowGUI () {
-      this.$parent.$emit('Settings:showGui', this.showGUI);
+      this.$parent.$emit('Settings:showGui', this.showGUI)
     },
     onChangeShowPersonnalisation () {
-      this.$parent.$emit('Settings:showPersonnalisation', this.showPersonnalisation);
+      this.$parent.$emit('Settings:showPersonnalisation', this.showPersonnalisation)
     },
     onClickTakeScreenshot (e) {
       e.preventDefault()
-      this.$parent.$emit('Settings:takeScreenshot');
+      this.$parent.$emit('Settings:takeScreenshot')
     },
     onClickTakePicture (e) {
       e.preventDefault(e)
-      this.$parent.$emit('Settings:takePicture');
+      this.$parent.$emit('Settings:takePicture')
     },
     onClickUpdateSizes (e) {
       e.preventDefault(e)
-      this.$parent.$emit('Settings:updateSizes');
+      this.$parent.$emit('Settings:updateSizes')
     }
   }
 }
@@ -242,7 +261,7 @@ export default {
             width: 1.5rem;
             border-radius: 100%;
             background: white;
-            box-shadow: 0px 9px 3px rgba($color__black, .05), 0px 6px 6px rgba($color__black, .1), 0px 9px 9px rgba($color__black, .05), 0px 0px 0px 2px rgba($color__black, .04);
+            box-shadow: 0 .4rem .1rem rgba($color__black, .05), 0 .2rem .2rem rgba($color__black, .1), 0 .4rem .4rem rgba($color__black, .05), 0 0 0 2px rgba($color__black, .04);
           }
       }
 

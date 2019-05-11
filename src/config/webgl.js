@@ -2,14 +2,17 @@ const webgl = {
   debug: {
     scene: {
       lights: {
-        directional: {
-          color: 'rgb(255, 241, 226)',
-          intensity: 2,
+        point: {
+          color: 'rgb(253, 252, 255)',
+          intensity: 1.2,
           position: {
-            x: 200,
-            y: -100,
-            z: 500
-          }
+            x: 0,
+            y: 0,
+            z: 49
+          },
+          decay: 0.8,
+          distance: 460,
+          power: 17
         }
       }
     },
@@ -29,14 +32,17 @@ const webgl = {
   default: {
     scene: {
       lights: {
-        directional: {
+        point: {
           color: 'rgb(253, 252, 255)',
-          intensity: 1.5,
+          intensity: 1.2,
           position: {
-            x: 200,
-            y: -100,
-            z: 900
-          }
+            x: 0,
+            y: 0,
+            z: 49
+          },
+          decay: 0.8,
+          distance: 460,
+          power: 17
         }
       }
     },
