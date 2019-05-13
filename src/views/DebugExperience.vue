@@ -1,26 +1,16 @@
 <template>
   <div class="panel panel--debug">
     <div class="panel__inner">
-      <div class="panel__top">
+      <div class="panel__cover gui__wrapper">
         <h1 class="heading-1">Debug Experience</h1>
-        <div class="panel__settings">
-          <div class="form__item form__item--checkbox">
-            <input class="form__input" type="checkbox" id="show_camera" v-model="showCamera">
-            <label class="form__label" for="show_camera">
-              <span class="form__label__text">Show camera</span>
-            </label>
-          </div>
-          <div class="form__item form__item--checkbox">
-            <input class="form__input" type="checkbox" id="show_gui" v-model="showGUI">
-            <label class="form__label" for="show_gui">
-              <span class="form__label__text">Show GUI</span>
-            </label>
-          </div>
-        </div>
       </div>
-      <div class="panel__body">
-        <div :class="['detection js-detection', showCamera ? 'is-camera-shown' : '']"></div>
-        <ul class="list list--events">
+      <div class="panel__top">
+        <router-link :to="{name: 'gallery'}" class="link">Go to gallery</router-link>
+        <button class="panel__button" @click="onClickSettings">Settings</button>
+      </div>
+      <div class="panel__body" ref="panelBodyElement">
+        <div :class="['detection js-detection', show.camera ? 'is-camera-shown' : '']"></div>
+        <ul class="list list--events" v-if="show.events">
           <li class="list__item" v-for="(position, key) in positions.events" :key="key">
             <span class="list__title">{{key}}</span>
             <div class="progress">
@@ -31,46 +21,147 @@
         <div class="avatar" ref="avatarElement">
         </div>
       </div>
+      <PersonnalisationStep :class="`${show.personnalisation ? 'is-active' : ''}`"/>
+      <div class="panel__settings">
+        <Settings
+          :showSettings="show.settings"
+          :showCamera="show.camera"
+          :showPersonnalisation="show.personnalisation"
+          :showEvents="show.events"
+          :showGUI="show.gui"
+           />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
-import Scene from '@/modules/webgl/Scene.js'
+import Capture from '@/modules/images/Capture.js'
+import Picture from '@/modules/images/Picture.js'
+import store from '@/store/index'
+
+// Config
 import config from '@/config/config'
+
+// Components
+import Settings from '@/components/debug/Settings'
+import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
+
+// webgl
+import Scene from '@/modules/webgl/Scene.js'
 
 export default {
   name: 'DebugExperience',
+  components: {
+    Settings,
+    PersonnalisationStep
+  },
   data () {
     return {
-      showCamera: false,
-      showGUI: true,
+      show: {
+        settings: false,
+        camera: false,
+        personnalisation: true,
+        events: false,
+        gui: false
+      },
       positions: {}
     }
   },
   methods: {
+    initSettingsEvents () {
+      this.$on('Settings:showCamera', (showCamera) => {
+        this.show.camera = showCamera
+      })
+      this.$on('Settings:showSettings', (showSettings) => {
+        this.show.settings = false
+      })
+      this.$on('Settings:showEvents', (showEvents) => {
+        this.show.events = showEvents
+      })
+      this.$on('Settings:showPersonnalisation', (showPersonnalisation) => {
+        this.show.personnalisation = showPersonnalisation
+      })
+      this.$on('Settings:showGui', (showGui) => {
+        if (this.scene && this.scene.gui) {
+          this.show.gui = showGui
+          this.scene.gui.closed = !showGui
+        }
+      })
+      this.$on('Settings:takeScreenshot', this.takeScreenshot)
+      this.$on('Settings:takePicture', this.takePicture)
+      this.$on('Settings:updateSizes', this.updateSizes)
+    },
+
+    initScene () {
+      this.rafID = null
+      this.avatarId = null
+      this.detectionManager = new DetectionManager({
+        mode: 'debug'
+      })
+
+      const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
+
+      this.scene = new Scene({
+        config: config,
+        element: this.$refs.avatarElement,
+        mode: 'debug',
+        sizes: {
+          width: this.$refs.avatarElement.clientWidth,
+          height: sceneHeight
+        }
+      })
+    },
+
     update () {
       this.rafID = requestAnimationFrame(this.update)
 
       this.positions = this.detectionManager.getPositions()
       this.scene.update(this.positions)
+    },
+
+    updateSizes () {
+      if (window.innerWidth <= 1024) {
+        const sceneWidth = this.$refs.panelBodyElement.clientWidth / 2
+        const sceneHeight = Math.floor(sceneWidth / 16 * 9)
+        this.scene.updateSizes(sceneWidth, sceneHeight)
+      } else {
+        const sceneHeight = Math.floor(this.$refs.avatarElement.clientWidth / 16 * 9)
+        this.scene.updateSizes(this.$refs.avatarElement.clientWidth, sceneHeight)
+      }
+    },
+
+    takeScreenshot () {
+      Capture.takeScreenshot(this.$refs.avatarElement, (params) => {
+        this.avatarId = params.uniqId
+        store.commit('setAvatarPath', params.path)
+      })
+    },
+
+    takePicture () {
+      const video = this.detectionManager.getVideo()
+      Picture.takePicture(video, (params) => {
+        store.commit('setPicturePath', params.path)
+      })
+    },
+
+    onClickSettings () {
+      this.show.settings = true
+    },
+
+    onPersonnalisationChange (change) {
+      this.scene.avatar.handlePersonnalisation(change)
     }
   },
   mounted () {
     document.querySelector('body').classList.add('debug-mode')
-    this.rafID = null
-    this.detectionManager = new DetectionManager()
-    this.scene = new Scene({
-      config: config,
-      element: this.$refs.avatarElement,
-      mode: 'debug',
-      sizes: {
-        width: this.$refs.avatarElement.clientWidth,
-        height: this.$refs.avatarElement.clientWidth / 16 * 9
-      }
-    })
+    this.initSettingsEvents()
+    this.initScene()
+
+    this.$on('Personnalisation:Change', this.onPersonnalisationChange)
 
     this.update()
   },
@@ -85,6 +176,7 @@ export default {
 
 <style lang="scss">
   .panel--debug {
+    position: relative;
     min-height: 100vh;
     width: 100vw;
     background: #fef0de;
@@ -95,6 +187,34 @@ export default {
     .panel {
       &__inner {
         padding: 2rem;
+        overflow-x: hidden;
+      }
+
+      &__settings {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        pointer-events: none;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+
+      &__button {
+        position: fixed;
+        bottom: 3rem;
+        right: 3rem;
+        @include outlinedButton(1rem 2rem, 1rem);
+      }
+
+      &__top {
+        position: relative;
+        z-index: 4;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
 
       &__body {
@@ -104,81 +224,11 @@ export default {
       }
     }
 
-    .panel__settings {
-      display: flex;
-
-      .form__item {
-        margin-right: 2rem;
-      }
-    }
-
-    .form__item {
-      &--checkbox {
-        .form {
-          &__input {
-            display: none;
-            &:checked {
-              + .form__label {
-                .form__label__text {
-                  &:before,
-                  &:after {
-                    opacity: 1;
-                  }
-                }
-              }
-            }
-          }
-
-          &__label {
-            display: flex;
-            align-items: center;
-            font-size: .8rem;
-            cursor: pointer;
-
-            &:before {
-              content: '';
-              display: block;
-              width: 1.2rem;
-              height: 1.2rem;
-              margin-right: .5rem;
-              border: 2px solid black;
-              border-radius: .3rem;
-              cursor: pointer;
-            }
-
-            &__text {
-              position: relative;
-              display: block;
-
-              &:before,
-              &:after {
-                content: '';
-                position: absolute;
-                height: .3rem;
-                background: black;
-                opacity: 0;
-              }
-
-              &:before {
-                left: -1.5rem;
-                top: .2rem;
-                width: .6rem;
-                transform: rotate(45deg);
-                transform-origin: top left;
-              }
-
-              &:after {
-                top: .05rem;
-                left: -1.7rem;
-                width: .8rem;
-                background: black;
-                transform: rotate(-45deg);
-                transform-origin: top right;
-              }
-            }
-          }
-        }
-      }
+    .link {
+      font-family: $font__sintony;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      text-decoration: underline;
     }
 
     .detection {
@@ -187,13 +237,15 @@ export default {
     }
     .heading-1 {
       font-family: 'Montserrat';
-      font-size: 1.5rem;
+      font-size: 3rem;
+      text-transform: uppercase;
+      text-align: center;
     }
 
     .progress {
       position: relative;
       width: 100%;
-      height: .5rem;
+      height: 1rem;
       background: rgba(255, 255, 255, 0.7);
       border-radius: .5rem;
       overflow: hidden;
@@ -219,12 +271,12 @@ export default {
         display: flex;
         justify-content: space-between;
         flex-direction: column;
-        margin-bottom: .4rem;
+        margin-bottom: .8rem;
       }
 
       .list__title {
         flex: 1 1 60%;
-        font-size: 0.7rem;
+        font-size: 1.2rem;
         font-weight: 700;
         margin-bottom: .3rem;
       }
@@ -235,9 +287,11 @@ export default {
       }
     }
     .avatar {
-      flex: 1;
       min-width: 30%;
       margin-left: 4rem;
+      background: url('/img/team.png');
+      background-size: cover;
+      background-position: center;
     }
 
     .detection {
@@ -269,6 +323,20 @@ export default {
         }
       }
 
+    }
+
+    @media (min-width: 768px) and (max-width: 1024px)  {
+      .panel__body {
+        flex-wrap: wrap;
+        padding: 8rem;
+      }
+
+      .list--events {
+        order: 3;
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: 100%;
+      }
     }
   }
 

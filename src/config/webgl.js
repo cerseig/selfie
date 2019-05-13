@@ -2,30 +2,60 @@ const webgl = {
   debug: {
     scene: {
       lights: {
-        directional: {
-          color: 'rgb(255, 241, 226)',
-          intensity: 2,
+        point: {
+          color: 'rgb(253, 252, 255)',
+          intensity: 1.2,
           position: {
-            x: 200,
-            y: -100,
-            z: 500
-          }
+            x: 0,
+            y: 0,
+            z: 49
+          },
+          decay: 0.8,
+          distance: 460,
+          power: 17
         }
+      }
+    },
+    avatar: {
+      scale: {
+        x: 4,
+        y: 4,
+        z: 4
+      },
+      position: {
+        x: -0.9,
+        y: -1.1,
+        z: 2
       }
     }
   },
   default: {
     scene: {
       lights: {
-        directional: {
-          color: 'rgb(255, 186, 186)',
-          intensity: 2,
+        point: {
+          color: 'rgb(253, 252, 255)',
+          intensity: 1.2,
           position: {
-            x: 200,
-            y: -100,
-            z: 500
-          }
+            x: 0,
+            y: 0,
+            z: 49
+          },
+          decay: 0.8,
+          distance: 460,
+          power: 17
         }
+      }
+    },
+    avatar: {
+      scale: {
+        x: 3,
+        y: 3,
+        z: 3
+      },
+      position: {
+        x: 0,
+        y: 1,
+        z: 0
       }
     }
   }

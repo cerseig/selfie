@@ -1,26 +1,30 @@
 <template>
-  <div class="experience">
-
-    <div class="detection">
-      <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']"></div>
-      <div :class="`detection__restriction ${errorDetection === true ? `hasError` : ``}`" :style="resolutionFrameSize.width !== null && resolutionFrameSize.height !== null ? {width: resolutionFrameSize.width + 'px', height: resolutionFrameSize.height + 'px'} : {}"></div>
-      <div class="detection__errors">
-        <p :class="`detection__message ${outOfCamera === true ? `detection__message--active` : ``}`">
+  <div class="experience gui__wrapper">
+    <div :class="`avatar ${currentStep === 1 ? 'is-active' : ''}`" ref="avatarElement"></div>
+    <div :class="`detection ${currentStep === 0 ? 'is-active' : ''}`">
+      <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']">
+        <video class="detection__camera" id="_camera"></video>
+        <canvas class="detection__image" id="_imageData"></canvas>
+        <canvas class="detection__points" id="_points"></canvas>
+      </div>
+      <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === 0 ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px'} : {}"></div>
+      <div :class="`detection__errors ${currentStep === 0 ? 'is-active' : ''}`">
+        <p :class="`detection__message ${detection.outOfCamera === true ? `detection__message--active` : ``}`">
           {{ $t('experience.analyse.errors.outOfCamera') }}
         </p>
-        <p :class="`detection__message ${tooClose === true ? `detection__message--active` : ``}`">
+        <p :class="`detection__message ${detection.tooClose === true ? `detection__message--active` : ``}`">
           {{ $t('experience.analyse.errors.tooClose') }}
         </p>
-        <p :class="`detection__message ${tooFar === true ? `detection__message--active` : ``}`">
+        <p :class="`detection__message ${detection.tooFar === true ? `detection__message--active` : ``}`">
           {{ $t('experience.analyse.errors.tooFar') }}
         </p>
       </div>
-      <div class="detection__check">
+      <div :class="`detection__check ${currentStep === 0 ? 'is-active' : ''}`" @click="onValidateStep">
         <Icon name="check" width="70" height="70" stroke="#FFFFFF" />
       </div>
     </div>
-    <PersonnalisationStep v-if="currentStep === 0" :validateStep="onValidateStep" />
-    <div class="" v-if="currentStep === 1">
+    <PersonnalisationStep :validateStep="onValidateStep" :class="`${currentStep === 1 ? 'is-active' : ''}`" />
+    <div class="">
       <h1>Etape : la pose</h1>
       <a href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }} : {{ $t('share.subtitle') }}</a>
     </div>
@@ -35,6 +39,12 @@ import PersonnalisationStep from '@/components/personnalisation/Personnalisation
 import Icon from '@/components/icons/Icon.vue'
 import store from '@/store/index'
 
+// webgl
+import Scene from '@/modules/webgl/Scene.js'
+
+// Config
+import config from '@/config/config'
+
 export default {
   name: 'Experience',
   components: {
@@ -47,17 +57,19 @@ export default {
       isDebug: true,
       showCamera: false,
       currentStep: 0,
-      resolutionFrame: {},
-      resolutionFrameSize: {},
-      outOfCamera: false,
-      tooClose: false,
-      tooFar: false,
-      errorDetection: false
+      detection: {
+        resolutionFrame: {},
+        resolutionFrameSize: {},
+        outOfCamera: false,
+        tooClose: false,
+        tooFar: false,
+        errorDetection: false
+      }
     }
   },
   methods: {
     updateBodyClass () {
-      document.querySelector('body').className = ""
+      document.querySelector('body').className = ''
       if (this.isAnalyse === true) {
         document.querySelector('body').classList.add('application')
       } else {
@@ -67,7 +79,7 @@ export default {
     onValidateStep () {
       this.currentStep++
 
-      if (this.currentStep >= 2) {
+      if (this.currentStep >= 3) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
@@ -75,41 +87,72 @@ export default {
     playDetectionVoice () {
 
     },
-    getResolutionFrameSize (resolutionFrame) {
+    setResolutionFrameSize (resolutionFrame) {
       let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
       let height = Math.round((((coefficient * 2) * resolutionFrame.height) / 100) + resolutionFrame.height)
       let width = Math.round((((coefficient * 2) * resolutionFrame.width) / 100) + resolutionFrame.width)
-      this.resolutionFrameSize = { width: width, height: height }
-
-      return this.resolutionFrameSize
+      this.detection.resolutionFrameSize = { width: width, height: height }
     },
-    update () {
-      this.resolutionFrame = this.detectionManager.getResolutionFrame()
-      this.outOfCamera = this.detectionManager.getOutOfCamera()
-      this.tooClose = this.detectionManager.getTooClose()
-      this.tooFar = this.detectionManager.getTooFar()
+    handleSizes () {
+      this.detection.resolutionFrame = this.detectionManager.getResolutionFrame()
+      this.detection.outOfCamera = this.detectionManager.getOutOfCamera()
+      this.detection.tooClose = this.detectionManager.getTooClose()
+      this.detection.tooFar = this.detectionManager.getTooFar()
       this.isAnalyse = this.detectionManager.getIsAnalyse()
 
-      if (this.outOfCamera === true || this.tooClose === true || this.tooFar === true) {
-        this.errorDetection = true
+      if (this.detection.outOfCamera === true || this.detection.tooClose === true || this.detection.tooFar === true) {
+        this.detection.errorDetection = true
       } else {
-        this.errorDetection = false
+        this.detection.errorDetection = false
       }
 
-      if (this.resolutionFrame !== null) {
-        this.getResolutionFrameSize(this.resolutionFrame)
+      if (this.detection.resolutionFrame !== null && this.currentStep === 0) {
+        this.setResolutionFrameSize(this.detection.resolutionFrame)
       }
+    },
+    onPersonnalisationChange (change) {
+      this.scene.avatar.handlePersonnalisation(change)
+    },
+    update () {
+      this.rafID = requestAnimationFrame(this.update)
 
-      requestAnimationFrame(this.update)
+      this.handleSizes()
+
+      if (this.currentStep === 1) {
+        this.positions = this.detectionManager.getPositions()
+        this.scene.update(this.positions)
+      }
     }
   },
   mounted () {
+
+    if (this.$route.params && this.$route.params.step) {
+      this.currentStep = this.$route.params.step * 1
+    }
     this.updateBodyClass()
-    this.detectionManager = new DetectionManager()
+
+    this.detectionManager = new DetectionManager({
+      camera: document.getElementById('_camera'),
+      imageData: document.getElementById('_imageData'),
+      pointsData: document.getElementById('_points')
+    })
+
+    this.$on('Personnalisation:Change', this.onPersonnalisationChange)
+
+    this.scene = new Scene({
+      config: config,
+      element: this.$refs.avatarElement,
+      sizes: {
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+    })
+
     this.update()
   },
   beforeDestroy () {
     if (this.detectionManager) {
+      cancelAnimationFrame(this.rafID)
       this.detectionManager.destroy()
     }
   },
@@ -126,6 +169,19 @@ export default {
   height: 100%;
   position: relative;
 
+  .avatar {
+    position: absolute;
+    top: 0;
+    border: 2px solid black;
+    width: 100%;
+    height: 100%;
+    display: none;
+
+    &.is-active {
+      display: block;
+    }
+  }
+
   .detection {
     $self: &;
     position:  relative;
@@ -134,6 +190,13 @@ export default {
     align-items: center;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    pointer-events: none;
+
+    &.is-active {
+      opacity: 1;
+      pointer-events: all;
+    }
 
     &__content {
       overflow: hidden;
@@ -169,6 +232,7 @@ export default {
       width: 70px;
       height: 70px;
       border-radius: 50%;
+      cursor: pointer;
     }
 
     &__message {
@@ -196,6 +260,11 @@ export default {
     &__points {
       position: relative;
       z-index: 1;
+    }
+
+    &.is-hidden {
+      position: absolute;
+      opacity: 0;
     }
   }
 }

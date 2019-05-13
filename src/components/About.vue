@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <div class="about__container">
-      <img class="about__illustration" :src="require(`@/assets/img/team.png`)">
+      <img class="about__illustration" :src="`${publicPath}/img/team.png`">
       <p class="about__message">{{ $t('about.message') }}</p>
       <h2 class="about__title">{{ $t('about.team.title') }}:</h2>
       <ul class="about__list">
@@ -19,7 +19,12 @@
 <script>
 
 export default {
-  name: 'About'
+  name: 'About',
+  data () {
+    return {
+      publicPath: process.env.BASE_URL
+    }
+  }
 }
 
 </script>

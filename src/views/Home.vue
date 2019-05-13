@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     updateBodyClass () {
-      document.querySelector('body').className = ""
+      document.querySelector('body').className = ''
       document.querySelector('body').classList.add('default')
     },
     onChangeLang () {

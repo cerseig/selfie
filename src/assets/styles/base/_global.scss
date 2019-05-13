@@ -58,6 +58,12 @@ button {
   cursor: pointer;
 }
 
+.dg.main {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
 .dg.ac {
   display: none;
 }
@@ -65,5 +71,6 @@ button {
 .debug-mode {
   .dg.ac {
     display: block;
+    z-index: 3;
   }
 }
