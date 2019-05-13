@@ -1,0 +1,87 @@
+const sprites = {
+  intro: [0, 20000],
+  detection_posing_center_advice: [21000, 3850], // end: 24850
+  detection_posing_center_errors: [26000, 5200], // end: 31200
+  detection_posing_center_success: [32000, 1300], // end: 33300
+  detection_posing_right_advice: [34000, 1600], // end: 35600
+  detection_posing_right_errorTooMuch: [38000, 4400], // end: 42400
+  detection_posing_right_errorOpposite: [36000, 1300], // end: 37300
+  detection_posing_left_advice: [43000, 2300], // end: 45300
+  detection_posing_left_errorTooMuch: [38000, 4400], // end: 42400
+  detection_posing_left_errorOpposite: [46000, 1200], // end: 47200
+  detection_posing_normal_advice_1: [48000, 3400], // end: 51400
+  detection_posing_normal_advice_2: [53000, 6000], // end: 59000
+  avatarPersonnalisation_advice: [60000, 68800],
+  backgroundPersonnalisation_backgrounds_park_advice: [70000, 76300],
+  backgroundPersonnalisation_backgrounds_park_error: [86000, 88500],
+  backgroundPersonnalisation_backgrounds_mountain_advice: [90000, 95700],
+  backgroundPersonnalisation_backgrounds_mountain_error: [97000, 99300],
+  backgroundPersonnalisation_backgrounds_museum_advice: [100000, 105800],
+  backgroundPersonnalisation_backgrounds_museum_error: [107000, 109800],
+  backgroundPersonnalisation_backgrounds_eiffelTower_advice: [111000, 114500],
+  backgroundPersonnalisation_backgrounds_eiffelTower_error: [115000, 117400],
+  backgroundPersonnalisation_backgrounds_bathroom_advice: [118000, 121500],
+  backgroundPersonnalisation_backgrounds_bathroom_error: [122000, 124600],
+  backgroundPersonnalisation_backgrounds_cocooning_advice: [126000, 131000],
+  backgroundPersonnalisation_backgrounds_cocooning_error: [132000, 134400],
+  backgroundPersonnalisation_backgrounds_beach_advice: [174000, 177400],
+  backgroundPersonnalisation_backgrounds_beach_error: [178000, 184400],
+  backgroundPersonnalisation_errors_level1: [135000, 137700],
+  backgroundPersonnalisation_errors_level2_1: [139000, 141400],
+  backgroundPersonnalisation_errors_level2_2: [143000, 146600],
+  backgroundPersonnalisation_errors_level2_3: [148000, 152000],
+  backgroundPersonnalisation_errors_level2_4: [153000, 158200],
+  backgroundPersonnalisation_errors_level2_5: [159000, 162300],
+  backgroundPersonnalisation_errors_level3: [163000, 168700],
+  backgroundPersonnalisation_errors_level4: [170000, 171200],
+  backgroundPersonnalisation_errors_level5: [172000, 172900],
+  experience_posing_rotationLeft_advice: [185000, 187900],
+  experience_posing_rotationLeft_errorTooMuch_1: [191000, 191700],
+  experience_posing_rotationLeft_errorTooMuch_2: [192000, 193000],
+  experience_posing_rotationLeft_errorOpposite: [189000, 190200],
+  experience_posing_rotationLeft_errorsNotEnough_1: [194000, 195000],
+  experience_posing_rotationLeft_errorsNotEnough_2: [196000, 197100],
+  experience_posing_rotationRight_advice: [198000, 202000],
+  experience_posing_rotationRight_errorTooMuch_1: [191000, 191700],
+  experience_posing_rotationRight_errorTooMuch_2: [192000, 193000],
+  experience_posing_rotationRight_errorOpposite: [189000, 190200],
+  experience_posing_rotationRight_errorsNotEnough_1: [194000, 195000],
+  experience_posing_rotationRight_errorsNotEnough_2: [196000, 197100],
+  experience_posing_rotationRight_success: [203000, 205100],
+  experience_posing_smile_advice: [206000, 207100],
+  experience_posing_smile_errorsNotEnough: [208000, 195000],
+  experience_posing_smile_success: [203000, 205100],
+  experience_posing_teeth_advice: [212000, 213200],
+  experience_posing_teeth_errorsNotEnough: [215000, 216500],
+  experience_posing_teeth_success: [218000, 220500],
+  experience_posing_tiltRight_advice: [226000, 227700],
+  experience_posing_tiltRight_errorTooMuch_1: [191000, 191700],
+  experience_posing_tiltRight_errorTooMuch_2: [192000, 193000],
+  experience_posing_tiltRight_errorsNotEnough_1: [194000, 195000],
+  experience_posing_tiltRight_errorsNotEnough_2: [196000, 197100],
+  experience_posing_tiltRight_success: [229000, 231400],
+  experience_posing_rotationUp_advice: [232000, 234800],
+  experience_posing_rotationUp_errorTooMuch_1: [191000, 191700],
+  experience_posing_rotationUp_errorTooMuch_2: [192000, 193000],
+  experience_posing_rotationUp_errorsNotEnough_1: [194000, 195000],
+  experience_posing_rotationUp_errorsNotEnough_2: [196000, 197100],
+  experience_posing_rotationDown_advice: [236000, 237800],
+  experience_posing_rotationDown_errorTooMuch_1: [191000, 191700],
+  experience_posing_rotationDown_errorTooMuch_2: [192000, 193000],
+  experience_posing_rotationDown_errorsNotEnough_1: [194000, 195000],
+  experience_posing_rotationDown_errorsNotEnough_2: [196000, 197100],
+  experience_posing_rotationDown_success: [229000, 231400],
+  experience_posing_eyeBrowUp_advice: [240000, 242400],
+  experience_posing_eyeBrowUp_errorsNotEnough_1: [194000, 195000],
+  experience_posing_eyeBrowUp_errorsNotEnough_2: [196000, 197100],
+  experience_posing_eyeBrowUp_success: [243000, 244500],
+  experience_posing_smileLeft_advice: [246000, 247700],
+  experience_posing_smileLeft_errorsNotEnough_1: [249000, 252600],
+  experience_posing_smileLeft_errorsNotEnough_2: [196000, 197100],
+  experience_posing_eyeLeftClose_advice: [254000, 257800],
+  experience_posing_eyeLeftClose_errorsNotEnough_1: [259000, 262300],
+  experience_posing_eyeLeftClose_errorsNotEnough_2: [263000, 264600],
+  lost_posing: [270000, 274100]
+}
+
+export default sprites

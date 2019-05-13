@@ -6,22 +6,17 @@
 
 <script>
 import { Howl } from 'howler'
+import store from '@/store/index'
+import sprite from '@/config/voiceSprite'
 
 export default {
   name: 'intro',
   methods: {
-    initSounds () {
-      this.sound = new Howl({
-        src: ['/sounds/voice_fr.mp3'],
-        sprite: {
-          intro: [0, 20000]
-        }
-      })
-
-      const introSound = this.sound.play('intro')
+    playIntro () {
+      const introSound = this.soundContext.play('intro')
       this.audioId = introSound
 
-      this.sound.on('end', () => {
+      this.soundContext.on('end', () => {
         if (this.audioId === introSound) {
           this.$router.push({ name: 'experience' })
         }
@@ -29,11 +24,16 @@ export default {
     }
   },
   mounted () {
-    this.initSounds()
+    store.commit('setCurrentStep', this.intro)
+    this.playIntro()
   },
   beforeDestroy () {
-    this.sound.stop()
-  }
+    this.soundContext.stop()
+  },
+  computed: {
+    currentStep: () => store.getters.getCurrentStep,
+    soundContext: () => store.getters.getSound
+  },
 }
 </script>
 

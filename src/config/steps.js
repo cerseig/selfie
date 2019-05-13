@@ -7,7 +7,7 @@ const steps = {
   },
   detection: {
     index: 1,
-    posingSteps: [
+    posing: [
       {
         name: 'center',
         voices: {
@@ -156,8 +156,8 @@ const steps = {
         name: 'smile',
         voices: {
           advice: [{ start: 206000, end: 207100 }],
-          errorsNotEnough: [{ start: 208000, end: 209300 }],
-          success: [{ start: 210000, end: 211600 }]
+          errorsNotEnough: [{ start: 208000, end: 195000 }],
+          success: [{ start: 203000, end: 205100 }]
         }
       },
       {
@@ -197,15 +197,6 @@ const steps = {
       {
         name: 'eyeBrowUp',
         voices: {
-          advice: [{ start: 236000, end: 237800 }],
-          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
-          errorsTooMuch: [{ start: 191000, end: 191700 }, { start: 192000, end: 193000 }],
-          success: [{ start: 229000, end: 231400 }]
-        }
-      },
-      {
-        name: 'eyeBrowUp',
-        voices: {
           advice: [{ start: 240000, end: 242400 }],
           errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
           success: [{ start: 243000, end: 244500 }]
@@ -214,7 +205,7 @@ const steps = {
       {
         name: 'smileLeft',
         voices: {
-          advice: [{ start: 240000, end: 242400 }],
+          advice: [{ start: 246000, end: 247700 }],
           errorsNotEnough: [{ start: 249000, end: 252600 }, { start: 196000, end: 197100 }]
         }
       },

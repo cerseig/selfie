@@ -33,6 +33,7 @@
 import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
 import Icon from '@/components/icons/Icon.vue'
+import store from '@/store/index'
 
 export default {
   name: 'Experience',
@@ -71,6 +72,9 @@ export default {
         this.$router.push({ name: 'gallery' })
       }
     },
+    playDetectionVoice () {
+
+    },
     getResolutionFrameSize (resolutionFrame) {
       let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
       let height = Math.round((((coefficient * 2) * resolutionFrame.height) / 100) + resolutionFrame.height)
@@ -108,7 +112,10 @@ export default {
     if (this.detectionManager) {
       this.detectionManager.destroy()
     }
-  }
+  },
+  computed: {
+    soundContext: () => store.getters.getSound
+  },
 }
 </script>
 

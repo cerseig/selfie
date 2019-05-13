@@ -35,6 +35,7 @@
 import store from '../store/index'
 import About from '@/components/About.vue'
 import Icon from '@/components/icons/Icon.vue'
+import sprite from '@/config/voiceSprite'
 
 export default {
   name: 'home',
@@ -80,6 +81,14 @@ export default {
     },
     closePopUp () {
       this.isOpen = false
+    },
+    initSoundContext () {
+      const source = '/sounds/voice_fr.mp3'
+      this.sound = new Howl({
+        src: [source],
+        sprite: sprite
+      })
+      store.commit('setSound', this.sound)
     }
   },
   computed: {
@@ -87,6 +96,7 @@ export default {
   },
   mounted () {
     this.updateBodyClass()
+    this.initSoundContext()
   }
 }
 </script>
