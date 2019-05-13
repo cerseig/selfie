@@ -31,7 +31,8 @@
     }
   },
   "gallery": {
-    "title": "La page galerie"
+    "title": "Galerie",
+    "counter": "utilisateurs"
   },
   "intro": {
     "title": "La page intro"

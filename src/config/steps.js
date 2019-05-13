@@ -5,7 +5,7 @@ const steps = {
       {
         name: 'intro',
         sprite: {
-          intro: 'intro'
+          advice: 'intro'
         }
       }
     ]

@@ -33,20 +33,25 @@ export default {
 
   .avatars {
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    grid-gap: 10px;
+    grid-template-columns: 200px 200px 200px 200px;
+    grid-gap: 20px;
     padding: 0;
     margin: 0;
 
     &__item {
       list-style: none;
+      max-height: 200px;
+      overflow: hidden;
 
-      &__picture {
-        width: 100%;
+      &:first-child {
+        box-shadow: 5px 5px 10px #aaa;
       }
 
+      &__picture {
+        max-width: none;
+        width: 100%;
+      }
     }
-
   }
 
 </style>

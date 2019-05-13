@@ -23,6 +23,7 @@
         <Icon name="check" width="70" height="70" stroke="#FFFFFF" />
       </div>
     </div>
+    <Detection v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" />
     <PersonnalisationStep :validateStep="onValidateStep" :class="`${currentStep === 1 ? 'is-active' : ''}`" />
     <div class="">
       <h1>Etape : la pose</h1>
@@ -58,7 +59,8 @@ export default {
   },
   data () {
     return {
-      isVoiceReady: true,
+      isAnalyse: false,
+      isDetectionReady: false,
       isDebug: true,
       showCamera: false,
       currentStep: 0,
@@ -90,27 +92,6 @@ export default {
         this.$router.push({ name: 'gallery' })
       }
     },
-    getCurrentStepSprites () {
-      for (let property in sprite) {
-        var index = property.indexOf("_")
-        var result = property.substring(0, (index))
-        if (result === 'detection') {
-          this.currentStepSprite.push(property)
-        }
-      }
-    },
-    playDetectionVoice (spriteKey) {
-      const source = '/sounds/voice_fr.mp3'
-      this.sound = new Howl({
-        src: [source],
-        sprite: sprite
-      })
-      this.sound.play(spriteKey)
-      store.commit('setIsPlaySprite', true)
-      this.sound.on('end', () => {
-        store.commit('setIsPlaySprite', false)
-      })
-    },
     setResolutionFrameSize (resolutionFrame) {
       let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
       let height = Math.round((((coefficient * 2) * resolutionFrame.height) / 100) + resolutionFrame.height)
@@ -136,15 +117,19 @@ export default {
     onPersonnalisationChange (change) {
       this.scene.avatar.handlePersonnalisation(change)
     },
-    createStepObject () {
-      let stepObject = new Step(stepsConfig.detection)
-      this.stepObject = stepObject
-    },
     update () {
 
       this.rafID = requestAnimationFrame(this.update)
 
       this.handleSizes()
+
+      if (this.detectionManager.getIsDetectionReady()) {
+        this.isDetectionReady = this.detectionManager.getIsDetectionReady()
+      }
+
+      if (this.detectionManager.getIsAnalyse()) {
+        this.isAnalyse = this.detectionManager.getIsAnalyse()
+      }
 
       if (this.currentStep === 1) {
         this.positions = this.detectionManager.getPositions()
@@ -153,13 +138,9 @@ export default {
     }
   },
   mounted () {
-    this.createStepObject()
-
     if (this.$route.params && this.$route.params.step) {
       this.currentStep = this.$route.params.step * 1
     }
-
-    
 
     this.updateBodyClass()
 

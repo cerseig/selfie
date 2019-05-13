@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     soundContext: () => store.getters.getSound
-  },
+  }
 }
 </script>
 
