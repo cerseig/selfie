@@ -36,6 +36,7 @@ import store from '../store/index'
 import About from '@/components/About.vue'
 import Icon from '@/components/icons/Icon.vue'
 import sprite from '@/config/voiceSprite'
+import { Howl } from 'howler'
 
 export default {
   name: 'home',

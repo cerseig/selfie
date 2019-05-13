@@ -1,6 +1,7 @@
 import DetectionInitializer from './DetectionInitializer'
 import Face from '../face/Face'
 import utils from '@/modules/helpers/utils.js'
+import store from '@/store/index'
 
 /**
  * This class handles Detection Iinitialization with BRFv4
@@ -36,7 +37,8 @@ class DetectionManager {
     this.tooClose = false
     this.tooFar = false
     this.elementToIncrease = 0
-    this.isAnalyse = true
+    this.isAnalyse = false
+    this.isDetectionReady = false
 
     this.onManagerReady = () => {}
 
@@ -84,6 +86,10 @@ class DetectionManager {
 
   getIsAnalyse () {
     return this.isAnalyse
+  }
+
+  getIsDetectionReady () {
+    return this.isDetectionReady
   }
 
   destroy () {
@@ -138,6 +144,8 @@ class DetectionManager {
         brfManager: this.brfManager
       })
     }
+
+    this.isDetectionReady = true
   }
 
   onRestrictToCenter (brfv4, brfManager, resolution) {
@@ -261,11 +269,11 @@ class DetectionManager {
         }
       }
 
-      if (!this.isDebug) {
+      if (!this.isDebug && store.getters.getIsPlaySprite === false) {
         if (this.tooFar === false && this.tooClose === false && this.outOfCamera === false) {
-          if (this.elementToIncrease < 50) {
-            this.elementToIncrease = utils.increase(this.elementToIncrease, 50)
-          } else if (this.elementToIncrease === 50) {
+          if (this.elementToIncrease < 60) {
+            this.elementToIncrease = utils.increase(this.elementToIncrease, 60)
+          } else if (this.elementToIncrease === 60) {
             this.isAnalyse = true
             console.log('analysis done')
             this.face = new Face({

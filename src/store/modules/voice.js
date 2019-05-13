@@ -1,7 +1,8 @@
 // initial state
 const state = {
   sound: {},
-  currentSprites: []
+  currentSprites: [],
+  isPlaySprite: false
 }
 
 // getters
@@ -11,6 +12,9 @@ const getters = {
   },
   getCurrentSprites (state) {
     return state.currentSprites
+  },
+  getIsPlaySprite (state) {
+    return state.isPlaySprite
   }
 }
 // mutations
@@ -20,6 +24,9 @@ const mutations = {
   },
   setCurrentSprites (state, currentSprites) {
     state.currentSprites = currentSprites
+  },
+  setIsPlaySprite (state, isPlaySprite) {
+    state.isPlaySprite = isPlaySprite
   }
 }
 

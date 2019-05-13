@@ -5,15 +5,20 @@
 </template>
 
 <script>
-import { Howl } from 'howler'
 import store from '@/store/index'
-import sprite from '@/config/voiceSprite'
+import stepsConfig from '@/config/steps'
+import Step from '@/modules/step/Step'
 
 export default {
   name: 'intro',
+  data () {
+    return {
+      step: stepsConfig.intro,
+    }
+  },
   methods: {
     playIntro () {
-      const introSound = this.soundContext.play('intro')
+      const introSound = this.soundContext.play('intro_intro_advice')
       this.audioId = introSound
 
       this.soundContext.on('end', () => {
@@ -21,17 +26,21 @@ export default {
           this.$router.push({ name: 'experience' })
         }
       })
+    },
+    createStepObject () {
+      let stepObject = new Step(this.step)
+      store.commit('setCurrentStep', stepObject)
     }
   },
   mounted () {
-    store.commit('setCurrentStep', this.intro)
+    this.createStepObject()
     this.playIntro()
   },
   beforeDestroy () {
     this.soundContext.stop()
   },
   computed: {
-    currentStep: () => store.getters.getCurrentStep,
+    currentStepObject: () => store.getters.getCurrentStep,
     soundContext: () => store.getters.getSound
   },
 }

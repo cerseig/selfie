@@ -36,6 +36,7 @@
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
+import Detection from '@/components/experience/Detection'
 import Icon from '@/components/icons/Icon.vue'
 import store from '@/store/index'
 
@@ -44,19 +45,23 @@ import Scene from '@/modules/webgl/Scene.js'
 
 // Config
 import config from '@/config/config'
+import sprite from '@/config/voiceSprite'
+import steps from '@/config/steps'
 
 export default {
   name: 'Experience',
   components: {
     PersonnalisationStep,
+    Detection,
     Icon
   },
   data () {
     return {
-      isAnalyse: true,
+      isVoiceReady: true,
       isDebug: true,
       showCamera: false,
       currentStep: 0,
+      currentStepSprite: [],
       detection: {
         resolutionFrame: {},
         resolutionFrameSize: {},
@@ -70,10 +75,10 @@ export default {
   methods: {
     updateBodyClass () {
       document.querySelector('body').className = ''
-      if (this.isAnalyse === true) {
-        document.querySelector('body').classList.add('application')
-      } else {
+      if (this.isAnalyse) {
         document.querySelector('body').classList.add('experience')
+      } else {
+        document.querySelector('body').classList.add('application')
       }
     },
     onValidateStep () {
@@ -84,8 +89,29 @@ export default {
         this.$router.push({ name: 'gallery' })
       }
     },
-    playDetectionVoice () {
+    getCurrentStep () {
 
+    },
+    getCurrentStepSprites () {
+      for (let property in sprite) {
+        var index = property.indexOf("_")
+        var result = property.substring(0, (index))
+        if (result === 'detection') {
+          this.currentStepSprite.push(property)
+        }
+      }
+    },
+    playDetectionVoice (spriteKey) {
+      const source = '/sounds/voice_fr.mp3'
+      this.sound = new Howl({
+        src: [source],
+        sprite: sprite
+      })
+      this.sound.play(spriteKey)
+      store.commit('setIsPlaySprite', true)
+      this.sound.on('end', () => {
+        store.commit('setIsPlaySprite', false)
+      })
     },
     setResolutionFrameSize (resolutionFrame) {
       let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
@@ -98,7 +124,6 @@ export default {
       this.detection.outOfCamera = this.detectionManager.getOutOfCamera()
       this.detection.tooClose = this.detectionManager.getTooClose()
       this.detection.tooFar = this.detectionManager.getTooFar()
-      this.isAnalyse = this.detectionManager.getIsAnalyse()
 
       if (this.detection.outOfCamera === true || this.detection.tooClose === true || this.detection.tooFar === true) {
         this.detection.errorDetection = true
@@ -114,6 +139,7 @@ export default {
       this.scene.avatar.handlePersonnalisation(change)
     },
     update () {
+
       this.rafID = requestAnimationFrame(this.update)
 
       this.handleSizes()
@@ -125,10 +151,10 @@ export default {
     }
   },
   mounted () {
-
     if (this.$route.params && this.$route.params.step) {
       this.currentStep = this.$route.params.step * 1
     }
+
     this.updateBodyClass()
 
     this.detectionManager = new DetectionManager({
@@ -157,7 +183,8 @@ export default {
     }
   },
   computed: {
-    soundContext: () => store.getters.getSound
+    soundContext: () => store.getters.getSound,
+    currentStepObject: () => store.getters.getCurrentStep
   },
 }
 </script>
