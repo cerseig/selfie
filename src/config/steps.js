@@ -1,6 +1,6 @@
 const steps = {
   intro: {
-    index: 0,
+    name: 'intro',
     steps: [
       {
         name: 'intro',
@@ -11,14 +11,14 @@ const steps = {
     ]
   },
   detection: {
-    index: 1,
+    name: 'detection',
     steps: [
       {
         name: 'center',
         sprite: {
-          advice: 'detection_posing_center_advice',
-          success: 'detection_posing_center_success',
-          errors: 'detection_posing_center_errors'
+          advice: 'detection_center_advice',
+          success: 'detection_center_success',
+          errors: 'detection_center_errors'
         }
       },
       {
@@ -48,7 +48,7 @@ const steps = {
     ]
   },
   avatarPersonnalisation: {
-    index: 2,
+    name: 'avatarPersonnalisation',
     steps: [
       {
         name: 'avatar',
@@ -59,7 +59,7 @@ const steps = {
     ]
   },
   backgroundPersonnalisation: {
-    index: 3,
+    name: 'backgroundPersonnalisation',
     steps: [
       {
         name: 'park',
@@ -143,7 +143,7 @@ const steps = {
     }
   },
   experience: {
-    index: 4,
+    name: 'experience',
     steps: [
       {
         name: 'rotationLeft',

@@ -39,6 +39,7 @@ import PersonnalisationStep from '@/components/personnalisation/Personnalisation
 import Detection from '@/components/experience/Detection'
 import Icon from '@/components/icons/Icon.vue'
 import store from '@/store/index'
+import Step from '@/modules/step/Step'
 
 // webgl
 import Scene from '@/modules/webgl/Scene.js'
@@ -46,7 +47,7 @@ import Scene from '@/modules/webgl/Scene.js'
 // Config
 import config from '@/config/config'
 import sprite from '@/config/voiceSprite'
-import steps from '@/config/steps'
+import stepsConfig from '@/config/steps'
 
 export default {
   name: 'Experience',
@@ -88,9 +89,6 @@ export default {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
-    },
-    getCurrentStep () {
-
     },
     getCurrentStepSprites () {
       for (let property in sprite) {
@@ -138,6 +136,10 @@ export default {
     onPersonnalisationChange (change) {
       this.scene.avatar.handlePersonnalisation(change)
     },
+    createStepObject () {
+      let stepObject = new Step(stepsConfig.detection)
+      this.stepObject = stepObject
+    },
     update () {
 
       this.rafID = requestAnimationFrame(this.update)
@@ -151,9 +153,13 @@ export default {
     }
   },
   mounted () {
+    this.createStepObject()
+
     if (this.$route.params && this.$route.params.step) {
       this.currentStep = this.$route.params.step * 1
     }
+
+    
 
     this.updateBodyClass()
 
@@ -181,11 +187,8 @@ export default {
       cancelAnimationFrame(this.rafID)
       this.detectionManager.destroy()
     }
-  },
-  computed: {
-    soundContext: () => store.getters.getSound,
-    currentStepObject: () => store.getters.getCurrentStep
-  },
+    this.stepObject.sound.stop()
+  }
 }
 </script>
 

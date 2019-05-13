@@ -13,23 +13,18 @@ export default {
   name: 'intro',
   data () {
     return {
-      step: stepsConfig.intro,
+      step: stepsConfig.intro
     }
   },
   methods: {
     playIntro () {
-      const introSound = this.soundContext.play('intro_intro_advice')
-      this.audioId = introSound
-
-      this.soundContext.on('end', () => {
-        if (this.audioId === introSound) {
-          this.$router.push({ name: 'experience' })
-        }
+      this.stepObject.init(() => {
+        this.$router.push({ name: 'experience' })
       })
     },
     createStepObject () {
       let stepObject = new Step(this.step)
-      store.commit('setCurrentStep', stepObject)
+      this.stepObject = stepObject
     }
   },
   mounted () {
@@ -40,7 +35,6 @@ export default {
     this.soundContext.stop()
   },
   computed: {
-    currentStepObject: () => store.getters.getCurrentStep,
     soundContext: () => store.getters.getSound
   },
 }
