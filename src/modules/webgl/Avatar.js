@@ -217,10 +217,12 @@ class Avatar {
    * @param {*} positions Array of Objects
    */
   update (positions) {
-    if (utils.isEmptyObject(this.positions)) {
-      this.positions = positions
-    } else {
-      this.handleRotation(positions)
+    if (positions) {
+      if (utils.isEmptyObject(this.positions)) {
+        this.positions = positions
+      } else {
+        this.handleRotation(positions)
+      }
     }
   }
 }
