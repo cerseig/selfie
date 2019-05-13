@@ -1,10 +1,18 @@
 {
   "home": {
-    "select": "Choose your language",
-    "start": "Start"
+    "baseline": "A tutorial for a perfect selfie",
+    "start": "Launch",
+    "about": "Project history"
   },
   "about": {
-    "title": "About"
+    "message": "Quod si rectum statuerimus vel concedere amicis, quidquid velint, vel impetrare ab iis, quidquid velimus, perfecta quidem sapientia si simus, nihil habeat res vitii; sed loquimur de iis amicis qui ante oculos sunt, quos vidimus aut de quibus memoriam accepimus, quos novit vita communis. Ex hoc numero nobis exempla sumenda sunt, et eorum quidem maxime qui ad sapientiam proxime accedunt.",
+    "team": {
+      "title": "Our team"
+    },
+    "acknowledgements": {
+      "title": "Acknowledgements",
+      "message": "Quod si rectum statuerimus vel concedere amicis, quidquid velint, vel impetrare ab iis, quidquid velimus, perfecta quidem sapientia si simus, nihil habeat res vitii; sed loquimur de iis amicis qui ante oculos sunt, quos vidimus aut de quibus memoriam accepimus, quos novit vita communis. Ex hoc numero nobis exempla sumenda sunt, et eorum quidem maxime qui ad sapientiam proxime accedunt."
+    }
   },
   "experience": {
     "title": "This is an experience page",
@@ -13,6 +21,13 @@
     },
     "posing": {
       "title": "Posing"
+    },
+    "analyse": {
+      "errors": {
+        "outOfCamera": "You are out of the range, place yourself in the center of the landmark.",
+        "tooClose": "You are too close to the camera, go back to place yourself in the center of the landmark.",
+        "tooFar": "You are too far to the camera, put yourself closer."
+      }
     }
   },
   "gallery": {

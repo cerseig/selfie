@@ -1,10 +1,12 @@
 import avatar from './avatar'
+import images from './images'
 import translation from './translation'
 
 // initial state
 const state = {
   translation: translation,
   avatar: avatar,
+  images: images,
   background: 'yellow',
   temporaryTableId: ''
 }
@@ -19,6 +21,9 @@ const getters = {
   },
   getAvatar (state) {
     return state.avatar
+  },
+  getImages (state) {
+    return state.images
   }
 }
 

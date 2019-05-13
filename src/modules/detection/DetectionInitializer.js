@@ -48,6 +48,8 @@ class DetectionInitializer {
     this.paths.brfv4BaseURL = params.libPath // Directory where is located the lib
     this.paths.brfv4FilePath = `${params.libPath}BRFv4_JS_TK210219_v4.2.0_trial`
 
+    this.isDebug = params.isDebug ? params.isDebug : false
+
     this.onReady = params.onReady
     this.ui = {
       $camera: params.elements.camera,
@@ -211,10 +213,18 @@ class DetectionInitializer {
   }
 
   startCamera () {
+    let containerHeight = 0
+    let getWidth = 0
+
+    if (!this.isDebug) {
+      let container = document.querySelector('.detection__content')
+      containerHeight = container.offsetHeight
+      getWidth = (16 / 9) * containerHeight
+    }
     window.navigator.mediaDevices.getUserMedia({
       video: {
-        width: 540,
-        height: 480,
+        width: this.isDebug ? 640 : getWidth,
+        height: this.isDebug ? 480 : containerHeight,
         frameRate: 30
       },
       audio: false

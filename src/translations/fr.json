@@ -1,10 +1,18 @@
 {
   "home": {
-    "select": "Choisissez votre langue",
-    "start": "Commencer"
+    "baseline": "Un tuto de selfie parfait",
+    "start": "Lancer",
+    "about": "Histoire du projet"
   },
   "about": {
-    "title": "À propos"
+    "message": "Quod si rectum statuerimus vel concedere amicis, quidquid velint, vel impetrare ab iis, quidquid velimus, perfecta quidem sapientia si simus, nihil habeat res vitii; sed loquimur de iis amicis qui ante oculos sunt, quos vidimus aut de quibus memoriam accepimus, quos novit vita communis. Ex hoc numero nobis exempla sumenda sunt, et eorum quidem maxime qui ad sapientiam proxime accedunt.",
+    "team": {
+      "title": "Notre équipe"
+    },
+    "acknowledgements": {
+      "title": "Remerciements",
+      "message": "Quod si rectum statuerimus vel concedere amicis, quidquid velint, vel impetrare ab iis, quidquid velimus, perfecta quidem sapientia si simus, nihil habeat res vitii; sed loquimur de iis amicis qui ante oculos sunt, quos vidimus aut de quibus memoriam accepimus, quos novit vita communis. Ex hoc numero nobis exempla sumenda sunt, et eorum quidem maxime qui ad sapientiam proxime accedunt."
+    }
   },
   "experience": {
     "title": "La page expérience",
@@ -13,6 +21,13 @@
     },
     "posing": {
       "title": "Étape de pose"
+    },
+    "analyse": {
+      "errors": {
+        "outOfCamera": "Tu es hors de la zone de détection, place toi bien au centre du repère.",
+        "tooClose": "Tu es trop proche de la caméra, recule un peu pour te placer au centre du repère.",
+        "tooFar": "Tu es trop loin de la caméra, rapproche toi un peu en restant placé au centre du repère."
+      }
     }
   },
   "gallery": {

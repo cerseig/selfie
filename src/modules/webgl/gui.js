@@ -1,7 +1,7 @@
 import * as dat from 'dat.gui'
 import 'three-dat.gui'
 
-const gui = new dat.GUI()
+export const gui = new dat.GUI({ autoPlace: false })
 
 dat.GUI.prototype.addThreeColor = (obj, varName) => {
   // threejs & dat.gui have color incompatible formats so we use a dummy data as target :

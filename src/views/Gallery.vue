@@ -30,7 +30,21 @@ export default {
   components: {
     AvatarsGrid
   },
+  computed: {
+    isAvatarSavedInDB: () => store.getters.getIsAvatarSavedInDB,
+    isPictureSavedInDB: () => store.getters.getIsPictureSavedInDB,
+    avatarPath: () => store.getters.getAvatarPath,
+    picturePath: () => store.getters.getPicturePath
+  },
   methods: {
+    saveImagesInDB () {
+      if (!this.isAvatarSavedInDB && this.avatarPath.length > 0) {
+        this.url = this.avatarPath
+      }
+      if (!this.isPictureSavedInDB && this.picturePath.length > 0) {
+        this.picture = this.picturePath
+      }
+    },
     createAvatar () {
       const { url } = this.$data
       // Add avatar to avatars list
@@ -70,6 +84,15 @@ export default {
       // Update temporary table store ID
       store.commit('setTemporaryTableId', tableId)
     }
+  },
+  mounted () {
+    this.saveImagesInDB()
   }
 }
 </script>
+
+<style lang="scss">
+  .gallery {
+    margin-top: 10rem;
+  }
+</style>

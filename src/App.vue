@@ -1,9 +1,19 @@
 <template>
   <div id="app">
-    <!-- <router-link to="/about">{{ $t('about.title') }}</router-link> -->
+    <Nav />
     <router-view/>
   </div>
 </template>
+
+<script>
+import Nav from '@/components/Nav.vue'
+export default {
+  name: 'app',
+  components: {
+    Nav
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
