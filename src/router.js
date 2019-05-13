@@ -33,7 +33,7 @@ export default new Router({
       component: Share
     },
     {
-      path: '/experience',
+      path: '/experience/:step(\\d+)?',
       name: 'experience',
       component: Experience
     },

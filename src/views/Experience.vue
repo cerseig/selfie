@@ -121,6 +121,10 @@ export default {
     }
   },
   mounted () {
+
+    if (this.$route.params && this.$route.params.step) {
+      this.currentStep = this.$route.params.step * 1
+    }
     this.updateBodyClass()
 
     this.detectionManager = new DetectionManager({
