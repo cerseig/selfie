@@ -1,14 +1,14 @@
 <template>
   <div class="experience gui__wrapper">
-    <div :class="`avatar ${currentStep === 1 ? 'is-active' : ''}`" ref="avatarElement"></div>
-    <div :class="`detection ${currentStep === 0 ? 'is-active' : ''}`">
+    <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR ? 'is-active' : ''}`" ref="avatarElement"></div>
+    <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']">
         <video class="detection__camera" id="_camera"></video>
         <canvas class="detection__image" id="_imageData"></canvas>
         <canvas class="detection__points" id="_points"></canvas>
       </div>
-      <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === 0 ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px'} : {}"></div>
-      <div :class="`detection__errors ${currentStep === 0 ? 'is-active' : ''}`">
+      <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px'} : {}"></div>
+      <div :class="`detection__errors ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
         <p :class="`detection__message ${detection.outOfCamera === true ? `detection__message--active` : ``}`">
           {{ $t('experience.analyse.errors.outOfCamera') }}
         </p>
@@ -19,11 +19,12 @@
           {{ $t('experience.analyse.errors.tooFar') }}
         </p>
       </div>
-      <div :class="`detection__check ${currentStep === 0 ? 'is-active' : ''}`" @click="onValidateStep">
+      <div :class="`detection__check ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`" @click="onValidateStep">
         <Icon name="check" width="70" height="70" stroke="#FFFFFF" />
       </div>
     </div>
-    <PersonnalisationStep :validateStep="onValidateStep" :class="`${currentStep === 1 ? 'is-active' : ''}`" />
+    <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
+    <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
     <div class="">
       <h1>Etape : la pose</h1>
       <a href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }} : {{ $t('share.subtitle') }}</a>
@@ -36,6 +37,7 @@
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
+import DecorStep from '@/components/decor/DecorStep'
 import Icon from '@/components/icons/Icon.vue'
 
 // webgl
@@ -48,6 +50,7 @@ export default {
   name: 'Experience',
   components: {
     PersonnalisationStep,
+    DecorStep,
     Icon
   },
   data () {
@@ -63,6 +66,11 @@ export default {
         tooClose: false,
         tooFar: false,
         errorDetection: false
+      },
+      STEPS: {
+        ANALYSIS: 0,
+        PERSONNALISATION: 1,
+        DECOR: 2
       }
     }
   },
@@ -114,8 +122,12 @@ export default {
 
       this.handleSizes()
 
-      if (this.currentStep === 1) {
+      if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.positions = this.detectionManager.getPositions()
+        this.scene.update(this.positions)
+      }
+
+      if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR) {
         this.scene.update(this.positions)
       }
     }
