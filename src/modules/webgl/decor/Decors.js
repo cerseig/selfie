@@ -5,6 +5,7 @@ class Decors {
     this.scene = params.scene
     this.config = params.config
     this.mode = params.mode ? params.mode : 'default'
+    this.autoShow = params.autoShow
 
     this.decors = []
     this.decor = null
@@ -22,6 +23,7 @@ class Decors {
             mtl: background.modelPaths.mtl
           },
           name: background.title,
+          autoShow: this.autoShow,
           isShown: background.title === this.config.default,
           mode: this.mode
         })
@@ -29,6 +31,14 @@ class Decors {
       }
     })
     this.handleChange('mountain')
+  }
+
+  hide () {
+    this.decor.hide()
+  }
+
+  show () {
+    this.decor.show()
   }
 
   handleChange (change) {
