@@ -5,7 +5,7 @@ const backgrounds = {
     {
       title: 'park',
       width: 80,
-      height: 80,
+      height: 80
     },
     {
       title: 'beach',
@@ -48,22 +48,22 @@ const backgrounds = {
     {
       title: 'museum',
       width: 80,
-      height: 80,
+      height: 80
     },
     {
       title: 'bathroom',
       width: 80,
-      height: 80,
+      height: 80
     },
     {
       title: 'cocooning',
       width: 80,
-      height: 80,
+      height: 80
     },
     {
       title: 'eiffelTower',
       width: 80,
-      height: 80,
+      height: 80
     }
   ]
 }
