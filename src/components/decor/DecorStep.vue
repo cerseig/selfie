@@ -30,7 +30,7 @@ export default {
     isActive: {
       required: false,
       type: Boolean
-    },
+    }
   },
   components: {
     Icon
@@ -40,7 +40,7 @@ export default {
       backgrounds: config.backgrounds,
       selection: config.backgrounds.default,
       errorPlayed: 0,
-      maxLevelError: 5,
+      maxLevelError: 5
     }
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
 
       if (this.selection === this.backgrounds.wanted) {
         console.log('SUCCESS')
-        const timeOut = setTimeout( () => {
+        const timeOut = setTimeout(() => {
           this.step.changeSubStepState('success', () => {
             if (utils.isFunction(this.validateStep)) {
               this.validateStep()
@@ -57,9 +57,8 @@ export default {
           })
           clearTimeout(timeOut)
         }, 200)
-
       } else {
-        const timeOut = setTimeout( () => {
+        const timeOut = setTimeout(() => {
           if (this.errorPlayed <= this.maxLevelError && this.errorPlayed > 0) {
             this.step.changeSubStep(`level${this.errorPlayed}`)
             this.step.changeSubStepState('error')
@@ -71,16 +70,16 @@ export default {
             this.errorPlayed = 1
             this.step.changeSubStepState('error')
           }
-            clearTimeout(timeOut)
+          clearTimeout(timeOut)
         }, 200)
       }
     },
-    launchSound(timeout) {
+    launchSound (timeout) {
       this.step.changeSubStep(this.selection)
-      const timeOut = setTimeout( () => {
+      const timeOut = setTimeout(() => {
         this.step.changeSubStepState('advice')
         clearTimeout(timeOut)
-      }, timeout ? timeout : 1000)
+      }, timeout || 1000)
       this.errorPlayed = 0
     },
     onSelectItem (e) {
@@ -90,7 +89,7 @@ export default {
       this.launchSound()
     }
   },
-  mounted() {
+  mounted () {
     this.step = new Step(stepsConfig.backgroundPersonnalisation)
     this.backgrounds.list.forEach(background => {
       if (background.title === this.backgrounds.default) {
@@ -106,7 +105,7 @@ export default {
       if (nextProp) {
         this.launchSound()
       }
-    },
+    }
   }
 }
 </script>
@@ -127,7 +126,6 @@ export default {
       top: 25px;
       right: 30px;
     }
-
 
     &__inner {
       display: flex;

@@ -10,7 +10,7 @@ class Step {
     this.currentIndex = 0
     this.subStepState = '' // possible state : advice, error, errorTooMuch, errorNotEnough, errorOpposite, success
     const source = '/sounds/voice_fr.mp3'
-    this.sound = store.getters.getSound._webAudio ? store.getters.getSound :  new Howl({
+    this.sound = store.getters.getSound._webAudio ? store.getters.getSound : new Howl({
       src: [source],
       sprite: sprite
     })

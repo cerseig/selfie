@@ -85,7 +85,7 @@ export default {
     }
   },
   methods: {
-    //todo : fix data process between parent & child
+    // todo : fix data process between parent & child
     initSettingsEvents () {
       this.$on('Settings:showCamera', (showCamera) => {
         this.show.camera = showCamera
@@ -177,7 +177,7 @@ export default {
       console.log('change', change)
       // this.scene.decors.handleChange(change)
       this.selection.decor = change
-    },
+    }
   },
   mounted () {
     document.querySelector('body').classList.add('debug-mode')

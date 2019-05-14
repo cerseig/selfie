@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { gui, guiScene } from './gui'
+import { gui } from './gui'
 import Avatar from './Avatar'
 import Decors from './decor/Decors'
 import config from '@/config/config'
@@ -109,10 +109,6 @@ class Scene {
     this.gui.closed = true
 
     document.querySelector('.gui__wrapper').appendChild(gui.domElement)
-
-    if (!gui.__folders['Lights']) {
-      const lightFolder = guiScene.addFolder('Lights')
-    }
   }
 
   updateSizes (width, height) {
