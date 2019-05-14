@@ -11,6 +11,7 @@ const backgrounds = {
       title: 'beach',
       width: 80,
       height: 80,
+      background: '/img/decors/decor_beach.png',
       modelPaths: {
         obj: '/models/decors/beach/beach.obj',
         mtl: '/models/decors/beach/beach.mtl'
@@ -30,6 +31,7 @@ const backgrounds = {
       title: 'mountain',
       width: 80,
       height: 80,
+      background: '/img/decors/decor_mountain.png',
       modelPaths: {
         obj: '/models/decors/mountains/mountains.obj',
         mtl: '/models/decors/mountains/mountains.mtl'

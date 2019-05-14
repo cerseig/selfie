@@ -34,6 +34,13 @@
           </label>
         </div>
         <div class="form__item form__item--switch">
+          <label class="form__label" for="show_decor">
+            <span class="form__label__text">Show Decor</span>
+            <input class="form__input" type="checkbox" id="show_decor" v-model="showDecor" @change="onChangeShowDecor">
+            <span class="form__switch"></span>
+          </label>
+        </div>
+        <div class="form__item form__item--switch">
           <label class="form__label" for="show_gui" >
             <span class="form__label__text">Show GUI</span>
             <input class="form__input" type="checkbox" id="show_gui" v-model="showGUI" @change="onChangeShowGUI">
@@ -69,6 +76,11 @@ export default {
   },
   props: {
     showCamera: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    showDecor: {
       type: Boolean,
       required: true,
       default: false
@@ -109,6 +121,9 @@ export default {
     },
     onChangeShowPersonnalisation () {
       this.$parent.$emit('Settings:showPersonnalisation', this.showPersonnalisation)
+    },
+    onChangeShowDecor () {
+      this.$parent.$emit('Settings:showDecor', this.showDecor)
     },
     onClickTakeScreenshot (e) {
       e.preventDefault()
