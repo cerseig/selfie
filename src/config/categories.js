@@ -123,6 +123,6 @@ const categories = [
       'rgb(72, 145, 220)',
       'rgb(94, 193, 82)'
     ]
-  },
+  }
 ]
 export default categories

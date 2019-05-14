@@ -6,7 +6,7 @@ import easings from '@/modules/helpers/easings.js'
 import Hair from './personnalisation/Hair'
 import Skin from './personnalisation/Skin'
 import Eyes from './personnalisation/Eyes'
-import Top from './personnalisation/Top';
+import Top from './personnalisation/Top'
 
 class Avatar {
   constructor (params) {
@@ -106,7 +106,7 @@ class Avatar {
       haircutList: hairList,
       haircut: defaultValues.attributes,
       color: category.colors[defaultValues.colors],
-      gui: this.guiElementsFolder,
+      gui: this.guiElementsFolder
     })
   }
 
@@ -125,7 +125,7 @@ class Avatar {
     this.bodyParts.eyes = new Eyes({
       eyes: eyes,
       color: category.colors[defaultValues.colors],
-      gui: this.guiElementsFolder,
+      gui: this.guiElementsFolder
     })
   }
 
@@ -138,7 +138,7 @@ class Avatar {
         this.bodyParts.top = new Top({
           top: item,
           color: category.colors[defaultValues.colors],
-          gui: this.guiElementsFolder,
+          gui: this.guiElementsFolder
         })
       }
     })

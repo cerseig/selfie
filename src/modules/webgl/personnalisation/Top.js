@@ -21,9 +21,9 @@ class Top {
     this.updateColor(this.color)
   }
 
-  initGUI() {
+  initGUI () {
     const topFolder = this.gui.addFolder('T-shirt : couleur')
-    this.gui.addThreeColor( this.top.material, 'color', topFolder)
+    this.gui.addThreeColor(this.top.material, 'color', topFolder)
   }
   /**
    * @return string

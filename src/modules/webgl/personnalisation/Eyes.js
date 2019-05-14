@@ -21,10 +21,10 @@ class Eyes {
     this.updateColor(this.color)
   }
 
-  initGUI() {
+  initGUI () {
     const eyesFolder = this.gui.addFolder('eyes : couleur')
-    this.gui.addThreeColor( this.eyes[0].material, 'color', eyesFolder)
-    this.gui.addThreeColor( this.eyes[1].material, 'emissive', eyesFolder)
+    this.gui.addThreeColor(this.eyes[0].material, 'color', eyesFolder)
+    this.gui.addThreeColor(this.eyes[1].material, 'emissive', eyesFolder)
   }
   /**
    * @return string

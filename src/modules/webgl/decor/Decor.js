@@ -1,6 +1,6 @@
 import { OBJLoader, MTLLoader } from 'three-obj-mtl-loader'
 import { guiDecor } from '../gui'
-import config from '@/config/config'
+import * as THREE from 'three'
 
 class Decor {
   constructor (params) {
@@ -8,7 +8,7 @@ class Decor {
     this.config = params.config
     this.paths = {
       obj: params.modelPaths.obj,
-      mtl: params.modelPaths.mtl,
+      mtl: params.modelPaths.mtl
     }
     this.mode = params.mode ? params.mode : 'default'
     this.isShown = params.isShown
@@ -26,14 +26,14 @@ class Decor {
     return this.model
   }
 
-  hide() {
+  hide () {
     if (this.model) {
       this.isShown = false
       this.model.visible = false
     }
   }
 
-  show() {
+  show () {
     if (this.model) {
       this.isShown = true
       this.model.visible = true
@@ -42,16 +42,16 @@ class Decor {
 
   initGui () {
     // if (guiDecor.__controllers.length <= 0) {
-      const decorFolder = guiDecor.addFolder(this.name)
-      decorFolder.add(this.model.position, 'x', -10, 10).name('Position X')
-      decorFolder.add(this.model.position, 'y', -10, 10).name('Position Y')
-      decorFolder.add(this.model.position, 'z', -10, 10).name('Position Z')
-      decorFolder.add(this.model.rotation, 'x', -10, 10).name('Rotation X')
-      decorFolder.add(this.model.rotation, 'y', -10, 10).name('Rotation Y')
-      decorFolder.add(this.model.rotation, 'z', -10, 10).name('Rotation Z')
-      decorFolder.add(this.model.scale, 'x', 0, 10).name('Scale X')
-      decorFolder.add(this.model.scale, 'y', 0, 10).name('Scale Y')
-      decorFolder.add(this.model.scale, 'z', 0, 10).name('Scale Z')
+    const decorFolder = guiDecor.addFolder(this.name)
+    decorFolder.add(this.model.position, 'x', -10, 10).name('Position X')
+    decorFolder.add(this.model.position, 'y', -10, 10).name('Position Y')
+    decorFolder.add(this.model.position, 'z', -10, 10).name('Position Z')
+    decorFolder.add(this.model.rotation, 'x', -10, 10).name('Rotation X')
+    decorFolder.add(this.model.rotation, 'y', -10, 10).name('Rotation Y')
+    decorFolder.add(this.model.rotation, 'z', -10, 10).name('Rotation Z')
+    decorFolder.add(this.model.scale, 'x', 0, 10).name('Scale X')
+    decorFolder.add(this.model.scale, 'y', 0, 10).name('Scale Y')
+    decorFolder.add(this.model.scale, 'z', 0, 10).name('Scale Z')
     // }
   }
 
@@ -77,7 +77,7 @@ class Decor {
     const objLoader = new OBJLoader()
     const mtlLoader = new MTLLoader()
 
-    mtlLoader.load( this.paths.mtl, (materials) => {
+    mtlLoader.load(this.paths.mtl, (materials) => {
       materials.preload()
       objLoader.setMaterials(materials)
 
@@ -96,7 +96,6 @@ class Decor {
       })
     })
   }
-
 }
 
 export default Decor

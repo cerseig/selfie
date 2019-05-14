@@ -26,10 +26,10 @@ class Hair {
     this.initGUI()
   }
 
-  initGUI() {
+  initGUI () {
     const hairFolder = this.gui.addFolder('Cheveux : couleur')
-    this.gui.addThreeColor( this.haircut.material, 'color', hairFolder)
-    this.gui.addThreeColor( this.haircut.material, 'emissive', hairFolder)
+    this.gui.addThreeColor(this.haircut.material, 'color', hairFolder)
+    this.gui.addThreeColor(this.haircut.material, 'emissive', hairFolder)
   }
 
   /**

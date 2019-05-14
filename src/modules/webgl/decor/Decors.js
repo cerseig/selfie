@@ -1,5 +1,3 @@
-import { guiDecor } from '../gui'
-// import config from '@/config/config'
 import Decor from './Decor.js'
 
 class Decors {
@@ -11,7 +9,6 @@ class Decors {
     this.decors = []
     this.decor = null
     this.init()
-
   }
 
   init () {
@@ -22,7 +19,7 @@ class Decors {
           config: background,
           modelPaths: {
             obj: background.modelPaths.obj,
-            mtl: background.modelPaths.mtl,
+            mtl: background.modelPaths.mtl
           },
           name: background.title,
           isShown: background.title === this.config.default,
@@ -34,7 +31,7 @@ class Decors {
     this.handleChange('mountain')
   }
 
-  handleChange(change) {
+  handleChange (change) {
     this.decors.forEach(item => {
       if (item.name === change) {
         if (this.decor) {
@@ -57,7 +54,6 @@ class Decors {
   loadModels () {
 
   }
-
 }
 
 export default Decors

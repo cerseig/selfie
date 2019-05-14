@@ -42,10 +42,10 @@ class Skin {
     this.color = color
   }
 
-  initGUI() {
+  initGUI () {
     const skinFolder = this.gui.addFolder('Face : couleur')
-    this.gui.addThreeColor( this.face.material, 'color', skinFolder)
-    this.gui.addThreeColor( this.face.material, 'emissive', skinFolder)
+    this.gui.addThreeColor(this.face.material, 'color', skinFolder)
+    this.gui.addThreeColor(this.face.material, 'emissive', skinFolder)
   }
 
   /**

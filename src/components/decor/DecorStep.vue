@@ -13,8 +13,6 @@
 <script>
 // Modules
 import config from '@/config/config'
-import store from '@/store/index'
-import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
 
 export default {
@@ -30,7 +28,7 @@ export default {
     }
   },
   components: {
-    Icon,
+    Icon
   },
   data () {
     return {
@@ -39,12 +37,12 @@ export default {
     }
   },
   methods: {
-    onSelectItem(e) {
+    onSelectItem (e) {
       const decor = e.currentTarget.getAttribute('data-decor')
       this.$parent.$emit('Decor:Change', decor)
       this.selection = decor
     }
-  },
+  }
 }
 </script>
 
