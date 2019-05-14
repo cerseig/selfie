@@ -92,7 +92,7 @@ const webgl = {
               z: 0
             },
             intensity: 0.6,
-            color: 'rgb(255, 255, 255)',
+            color: 'rgb(255, 255, 255)'
 
           },
           {
@@ -102,7 +102,7 @@ const webgl = {
               z: 0
             },
             intensity: 0.6,
-            color: 'rgb(255, 255, 255)',
+            color: 'rgb(255, 255, 255)'
           }
         ]
       }

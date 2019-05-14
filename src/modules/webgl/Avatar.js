@@ -86,7 +86,7 @@ class Avatar {
 
     this.model.children.forEach(item => {
       const name = item.name.toLowerCase()
-      if (item.name === 'head') {
+      if (name === 'head') {
         this.head = item
         this.bodyParts.skin = new Skin({
           face: item,

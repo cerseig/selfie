@@ -43,16 +43,12 @@ import PersonnalisationStep from '@/components/personnalisation/Personnalisation
 import Detection from '@/components/experience/Detection'
 import DecorStep from '@/components/decor/DecorStep'
 import Icon from '@/components/icons/Icon.vue'
-import store from '@/store/index'
-import Step from '@/modules/step/Step'
 
 // webgl
 import Scene from '@/modules/webgl/Scene.js'
 
 // Config
 import config from '@/config/config'
-import sprite from '@/config/voiceSprite'
-import stepsConfig from '@/config/steps'
 
 export default {
   name: 'Experience',
@@ -136,7 +132,6 @@ export default {
       this.scene.decors.handleChange(change)
     },
     update () {
-
       this.rafID = requestAnimationFrame(this.update)
 
       if (this.detectionManager) {
@@ -161,7 +156,6 @@ export default {
     }
   },
   mounted () {
-
     if (this.$route.params && this.$route.params.step) {
       this.currentStep = this.$route.params.step * 1
     }
@@ -190,7 +184,6 @@ export default {
     })
 
     this.update()
-
   },
   beforeDestroy () {
     if (this.detectionManager) {

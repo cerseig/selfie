@@ -114,12 +114,12 @@ export default {
     }
   },
   watch: {
-    isReady() {
+    isReady () {
       if (this.isReady && this.isActive) {
         this.getPositionCenter()
       }
     },
-    isAnalyse() {
+    isAnalyse () {
       if (!this.stepObject.isVoice && this.isAnalyse && this.isActive) {
         this.stepObject.changeSubStepState('success', () => {
           this.stepObject.changeSubStep()
@@ -127,8 +127,8 @@ export default {
         })
       }
     },
-    positions() {
-      if (!this.stepObject.isVoice && this.isActive ) {
+    positions () {
+      if (!this.stepObject.isVoice && this.isActive) {
         this.getPositionRight()
         this.getPositionLeft()
         this.getPositionNormal()

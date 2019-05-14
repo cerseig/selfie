@@ -81,7 +81,7 @@ class Scene {
     const lightConfig = this.configScene.lights
 
     if (lightConfig) {
-      this.lights =  []
+      this.lights = []
       if (lightConfig.directionals) {
         lightConfig.directionals.forEach(item => {
           const light = new THREE.DirectionalLight(new THREE.Color(item.color), item.intensity)
@@ -97,7 +97,6 @@ class Scene {
           this.scene.add(light)
         })
       }
-
     }
   }
 
