@@ -14,7 +14,7 @@ class Skin {
 
     this.eyeLids = params.face.children.filter(item => {
       const name = item.name.toLowerCase()
-      if (name.indexOf('paupière') >= 0) {
+      if (name.indexOf('eyelid') >= 0) {
         return item
       }
     })
@@ -23,9 +23,12 @@ class Skin {
   }
 
   init () {
-    // this.face.receiveShadow = true
+    const texture = new THREE.TextureLoader().load('/models/textures/matcap_skin.jpg')
+    this.face.material = new THREE.MeshMatcapMaterial({
+      matcap: texture
+    })
     this.updateColor(this.color)
-    this.initGUI()
+    // this.initGUI()
   }
 
   /**
@@ -61,8 +64,9 @@ class Skin {
     const newColor = new THREE.Color(color)
     newColor.convertSRGBToLinear()
     this.face.material.color = new THREE.Color(newColor)
-    // this.eyeLids[0].material.color = new THREE.Color(newColor)
-    // this.eyeLids[1].material.color = new THREE.Color(newColor)
+    this.eyeLids.forEach(item => {
+      item.material.color = new THREE.Color(newColor)
+    })
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "home": {
-    "baseline": "Un tuto de selfie parfait",
+    "baseline": "Avec Amy, deviens le maître du selfie",
     "start": "Lancer",
     "about": "Histoire du projet"
   },
@@ -17,7 +17,7 @@
   "experience": {
     "title": "La page expérience",
     "personnalisation": {
-      "nextStep": "Aller à la page suivante"
+      "nextStep": "Étape suivante >"
     },
     "posing": {
       "title": "Étape de pose"

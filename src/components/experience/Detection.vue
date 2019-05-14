@@ -97,16 +97,18 @@ export default {
     }
   },
   mounted () {
-    this.initDetection()
+    if (this.isActive) {
+      this.initDetection()
+    }
   },
   watch: {
     isReady () {
-      if (this.isReady) {
+      if (this.isReady && this.isActive) {
         this.getPositionCenter()
       }
     },
     isAnalyse () {
-      if (!this.stepObject.isVoice && this.isAnalyse) {
+      if (!this.stepObject.isVoice && this.isAnalyse && this.isActive) {
         this.stepObject.changeSubStepState('success', () => {
           this.stepObject.changeSubStep()
           this.stepObject.changeSubStepState('advice')

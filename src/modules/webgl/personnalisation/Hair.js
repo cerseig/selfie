@@ -11,6 +11,7 @@ class Hair {
    */
   constructor (params) {
     this.haircutList = params.haircutList
+    this.eyeBrows = params.eyeBrows
     this.haircut = params.haircutList[params.haircut] ? params.haircutList[params.haircut] : params.haircutList[0]
     this.color = params.color
     this.gui = params.gui
@@ -21,9 +22,21 @@ class Hair {
 
   init () {
     // this.updateColor(this.color)
+    const texture = new THREE.TextureLoader().load('/models/textures/matcap_hair.png')
+    this.haircutList.forEach(item => {
+      item.material = new THREE.MeshMatcapMaterial({
+        matcap: texture
+      })
+    })
+    this.eyeBrows.forEach(item => {
+      item.material = new THREE.MeshMatcapMaterial({
+        matcap: texture
+      })
+    })
+
     this.switchColor(this.color)
     this.hideHaircuts()
-    this.initGUI()
+    // this.initGUI()
   }
 
   initGUI () {
@@ -80,6 +93,9 @@ class Hair {
       const newColor = new THREE.Color(color)
       newColor.convertSRGBToLinear()
       haircut.material.color = newColor
+      this.eyeBrows.forEach(item => {
+        item.material.color = newColor
+      })
     })
   }
 

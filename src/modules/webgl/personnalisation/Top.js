@@ -19,6 +19,11 @@ class Top {
 
   init () {
     this.updateColor(this.color)
+
+    const texture = new THREE.TextureLoader().load('/models/textures/matcap_hair.png')
+    this.top.material = new THREE.MeshMatcapMaterial({
+      matcap: texture
+    })
   }
 
   initGUI () {

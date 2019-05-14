@@ -2,55 +2,116 @@ const webgl = {
   debug: {
     scene: {
       lights: {
-        point: {
-          color: 'rgb(253, 252, 255)',
-          intensity: 0.7,
-          position: {
-            x: 0,
-            y: 0,
-            z: 49
+        hemispheres: [
+          {
+            position: {
+              x: -386,
+              y: -200,
+              z: 100
+            },
+            intensity: 0.7,
+            color: 'rgb(219, 190, 169)',
+            groundColor: 'rgb(0, 0, 0)'
           },
-          decay: 0.8,
-          distance: 460,
-          power: 17
-        }
+          {
+            position: {
+              x: 390,
+              y: 300,
+              z: -300
+            },
+            intensity: 0.7,
+            color: 'rgb(255, 255, 255)',
+            groundColor: 'rgb(0, 0, 0)'
+          }
+        ],
+        directionals: [
+          {
+            position: {
+              x: -52,
+              y: 28,
+              z: 0
+            },
+            intensity: 0.6,
+            color: 'rgb(255, 255, 255)'
+          },
+          {
+            position: {
+              x: 10,
+              y: 20,
+              z: 0
+            },
+            intensity: 0.6,
+            color: 'rgb(255, 255, 255)'
+          }
+        ]
       }
     },
     avatar: {
       scale: {
-        x: 4,
-        y: 4,
-        z: 4
+        x: 3,
+        y: 3,
+        z: 3
       },
       position: {
-        x: -0.9,
-        y: -1.1,
-        z: 2
+        x: 0,
+        y: 0,
+        z: 0
       }
     }
   },
   default: {
     scene: {
       lights: {
-        point: {
-          color: 'rgb(253, 252, 255)',
-          intensity: 0.7,
-          position: {
-            x: 0,
-            y: 0,
-            z: 49
+        hemispheres: [
+          {
+            position: {
+              x: -386,
+              y: -200,
+              z: 100
+            },
+            intensity: 0.7,
+            color: 'rgb(219, 190, 169)',
+            groundColor: 'rgb(0, 0, 0)'
           },
-          decay: 0.8,
-          distance: 460,
-          power: 17
-        }
+          {
+            position: {
+              x: 390,
+              y: 300,
+              z: -300
+            },
+            intensity: 0.7,
+            color: 'rgb(255, 255, 255)',
+            groundColor: 'rgb(0, 0, 0)'
+          }
+        ],
+        directionals: [
+          {
+            position: {
+              x: -52,
+              y: 28,
+              z: 0
+            },
+            intensity: 0.6,
+            color: 'rgb(255, 255, 255)'
+
+          },
+          {
+            position: {
+              x: 10,
+              y: 20,
+              z: 0
+            },
+            intensity: 0.6,
+            color: 'rgb(255, 255, 255)'
+          }
+        ]
       }
     },
     avatar: {
       scale: {
-        x: 4,
-        y: 4,
-        z: 4
+        x: 3,
+        y: 3,
+        z: 3
       },
       position: {
         x: 0,
