@@ -15,6 +15,8 @@ class Scene {
     this.mode = params.mode ? params.mode : 'default'
     this.configScene = config.webgl[this.mode].scene
 
+    this.showDecor = params.showDecor
+
     this.state = {
       ready: false
     }
@@ -69,7 +71,8 @@ class Scene {
     this.decors = new Decors({
       scene: this.scene,
       config: this.config.backgrounds,
-      mode: this.mode
+      mode: this.mode,
+      autoShow: this.showDecor
     })
   }
 

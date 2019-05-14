@@ -98,7 +98,9 @@ export default {
     onValidateStep () {
       this.currentStep++
 
-      if (this.currentStep >= 3) {
+      if (this.currentStep === this.STEPS.DECOR) {
+        this.scene.decors.show()
+      } else if (this.currentStep >= 3) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
@@ -180,7 +182,8 @@ export default {
       sizes: {
         width: window.innerWidth,
         height: window.innerHeight
-      }
+      },
+      showDecor: this.currentStep === this.STEPS.DECOR
     })
 
     this.update()
