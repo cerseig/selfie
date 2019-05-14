@@ -4,6 +4,9 @@ import avatar from './modules/avatar'
 import images from './modules/images'
 import userStore from './modules/userStore'
 import translation from './modules/translation'
+import appStore from './modules/appStore'
+import voice from './modules/voice'
+import step from './modules/step'
 
 Vue.use(Vuex)
 
@@ -12,6 +15,9 @@ export default new Vuex.Store({
     avatar,
     images,
     userStore,
-    translation
+    translation,
+    appStore,
+    voice,
+    step
   }
 })

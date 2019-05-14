@@ -5,34 +5,37 @@
 </template>
 
 <script>
-import { Howl } from 'howler'
+import store from '@/store/index'
+import stepsConfig from '@/config/steps'
+import Step from '@/modules/step/Step'
 
 export default {
   name: 'intro',
+  data () {
+    return {
+      step: stepsConfig.intro
+    }
+  },
   methods: {
-    initSounds () {
-      this.sound = new Howl({
-        src: ['/sounds/voice_fr.mp3'],
-        sprite: {
-          intro: [0, 20000]
-        }
+    playIntro () {
+      this.stepObject.init(() => {
+        this.$router.push({ name: 'experience' })
       })
-
-      const introSound = this.sound.play('intro')
-      this.audioId = introSound
-
-      this.sound.on('end', () => {
-        if (this.audioId === introSound) {
-          this.$router.push({ name: 'experience' })
-        }
-      })
+    },
+    createStepObject () {
+      let stepObject = new Step(this.step)
+      this.stepObject = stepObject
     }
   },
   mounted () {
-    this.initSounds()
+    this.createStepObject()
+    this.playIntro()
   },
   beforeDestroy () {
-    this.sound.stop()
+    this.soundContext.stop()
+  },
+  computed: {
+    soundContext: () => store.getters.getSound
   }
 }
 </script>
@@ -44,6 +47,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+
     &__animation {
       font-size: 15rem;
       animation: blink 2s infinite;
