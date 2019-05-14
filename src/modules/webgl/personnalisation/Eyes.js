@@ -11,14 +11,21 @@ class Eyes {
   constructor (params) {
     this.eyes = params.eyes
     this.color = params.color
+    this.gui = params.gui
 
     this.init()
+    this.initGUI()
   }
 
   init () {
     this.updateColor(this.color)
   }
 
+  initGUI() {
+    const eyesFolder = this.gui.addFolder('eyes : couleur')
+    this.gui.addThreeColor( this.eyes[0].material, 'color', eyesFolder)
+    this.gui.addThreeColor( this.eyes[1].material, 'emissive', eyesFolder)
+  }
   /**
    * @return string
    */
@@ -43,8 +50,10 @@ class Eyes {
   }
 
   updateColor (color) {
-    this.eyes[0].material.color = new THREE.Color(color)
-    this.eyes[1].material.color = new THREE.Color(color)
+    const newColor = new THREE.Color(color)
+    newColor.convertSRGBToLinear()
+    this.eyes[0].material.color = new THREE.Color(newColor)
+    this.eyes[1].material.color = new THREE.Color(newColor)
   }
 }
 
