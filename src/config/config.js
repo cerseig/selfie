@@ -9,7 +9,7 @@ const config = {
     sendEmail: '/scripts/send-email.php',
     saveImage: '/scripts/save-image.php'
   },
-  modelPath: '/models/avatar_1.glb', // Parented
+  modelPath: '/models/avatar_7.glb', // Parented
   backgrounds: backgrounds,
   steps: steps,
   categories: categories,
