@@ -11,7 +11,7 @@ const sprites = {
   detection_left_errorOpposite: [46000, 1200], // end: 47200
   detection_normal_advice: [48000, 3400], // end: 51400
   detection_normal_success: [53000, 6000], // end: 59000
-  avatarPersonnalisation_advice: [60000, 68800], // end: 68800
+  avatarPersonnalisation_avatar_advice: [60000, 8800], // end: 68800
   backgroundPersonnalisation_park_advice: [70000, 6300], // end: 76300
   backgroundPersonnalisation_park_error: [86000, 2500], // end: 88500
   backgroundPersonnalisation_mountain_advice: [90000, 5700], // end: 95700

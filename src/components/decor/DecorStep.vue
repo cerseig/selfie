@@ -17,8 +17,8 @@ import config from '@/config/config'
 import stepsConfig from '@/config/steps'
 import utils from '@/modules/helpers/utils.js'
 
-import Step from '@/modules/step/Step'
 import Icon from '@/components/icons/Icon.vue'
+import Step from '@/modules/step/Step'
 
 export default {
   name: 'DecorStep',
@@ -81,6 +81,13 @@ export default {
         clearTimeout(timeOut)
       }, timeout || 1000)
       this.errorPlayed = 0
+    },
+    initDecorStep () {
+      this.createStepObject()
+    },
+    createStepObject () {
+      let stepObject = new Step(stepsConfig.backgroundPersonnalisation)
+      this.stepObject = stepObject
     },
     onSelectItem (e) {
       const decor = e.currentTarget.getAttribute('data-decor')

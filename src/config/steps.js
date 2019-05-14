@@ -57,7 +57,7 @@ const steps = {
       {
         name: 'avatar',
         sprite: {
-          advice: 'avatarPersonnalisation_advice'
+          advice: 'avatarPersonnalisation_avatar_advice'
         }
       }
     ]
