@@ -31,6 +31,7 @@ const backgrounds = {
       title: 'mountain',
       width: 80,
       height: 80,
+      background: '/img/decors/decor_mountain.png',
       modelPaths: {
         obj: '/models/decors/mountains/mountains.obj',
         mtl: '/models/decors/mountains/mountains.mtl'

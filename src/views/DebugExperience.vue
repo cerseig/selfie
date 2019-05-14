@@ -342,9 +342,6 @@ export default {
     .avatar {
       min-width: 30%;
       margin-left: 4rem;
-      background: url('/img/team.png');
-      background-size: cover;
-      background-position: center;
     }
 
     .detection {
