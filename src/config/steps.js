@@ -5,7 +5,7 @@ const steps = {
       {
         name: 'intro',
         sprite: {
-          advice: 'intro'
+          advice: 'intro_intro_advice'
         }
       }
     ]
@@ -18,31 +18,33 @@ const steps = {
         sprite: {
           advice: 'detection_center_advice',
           success: 'detection_center_success',
-          errors: 'detection_center_errors'
+          error: 'detection_center_error'
         }
       },
       {
         name: 'right',
-        minValue: 0.5,
+        interval: [0.1, 0.3],
         sprite: {
-          advice: 'detection_posing_right_advice',
-          errorsTooMuch: 'detection_posing_right_errorTooMuch',
-          errorsOpposite: 'detection_posing_right_errorOpposite'
+          advice: 'detection_right_advice',
+          errorTooMuch: 'detection_right_errorTooMuch',
+          errorOpposite: 'detection_right_errorOpposite'
         }
       },
       {
         name: 'left',
-        minValue: 0.5,
+        interval: [-0.1, -0.3],
         sprite: {
-          advice: 'detection_posing_left_advice',
-          errorsTooMuch: 'detection_posing_left_errorTooMuch',
-          errorsOpposite: 'detection_posing_left_errorOpposite'
+          advice: 'detection_left_advice',
+          errorTooMuch: 'detection_left_errorTooMuch',
+          errorOpposite: 'detection_left_errorOpposite'
         }
       },
       {
         name: 'normal',
+        interval: [-0.2, 0.2],
         sprite: {
-          advice: ['detection_posing_normal_advice_1', 'detection_posing_normal_advice_2']
+          advice: 'detection_normal_advice',
+          success: 'detection_normal_success'
         }
       }
     ]
@@ -53,7 +55,7 @@ const steps = {
       {
         name: 'avatar',
         sprite: {
-          advice: 'intro'
+          advice: 'avatarPersonnalisation_advice'
         }
       }
     ]
@@ -64,50 +66,50 @@ const steps = {
       {
         name: 'park',
         sprite: {
-          advice: [{ start: 70000, end: 76300 }],
-          errors: [{ start: 86000, end: 88500 }]
+          advice: 'backgroundPersonnalisation_park_advice',
+          error: 'backgroundPersonnalisation_park_error'
         }
       },
       {
         name: 'mountain',
         sprite: {
-          advice: [{ start: 90000, end: 95700 }],
-          errors: [{ start: 97000, end: 99300 }]
+          advice: 'backgroundPersonnalisation_mountain_advice',
+          error: 'backgroundPersonnalisation_mountain_error'
         }
       },
       {
         name: 'museum',
         sprite: {
-          advice: [{ start: 100000, end: 105800 }],
-          errors: [{ start: 107000, end: 109800 }]
+          advice: 'backgroundPersonnalisation_museum_advice',
+          error: 'backgroundPersonnalisation_museum_error'
         }
       },
       {
         name: 'eiffelTower',
         sprite: {
-          advice: [{ start: 111000, end: 114500 }],
-          errors: [{ start: 115000, end: 117400 }]
+          advice: 'backgroundPersonnalisation_eiffelTower_advice',
+          error: 'backgroundPersonnalisation_eiffelTower_error'
         }
       },
       {
         name: 'bathroom',
         sprite: {
-          advice: [{ start: 118000, end: 121500 }],
-          errors: [{ start: 122000, end: 124600 }]
+          advice: 'backgroundPersonnalisation_bathroom_advice',
+          error: 'backgroundPersonnalisation_bathroom_error'
         }
       },
       {
         name: 'cocooning',
         sprite: {
-          advice: [{ start: 126000, end: 131000 }],
-          errors: [{ start: 132000, end: 134400 }]
+          advice: 'backgroundPersonnalisation_cocooning_advice',
+          error: 'backgroundPersonnalisation_cocooning_error'
         }
       },
       {
         name: 'beach',
         sprite: {
-          advice: [{ start: 174000, end: 177400 }],
-          errors: [{ start: 178000, end: 184400 }]
+          advice: 'backgroundPersonnalisation_beach_advice',
+          error: 'backgroundPersonnalisation_beach_error'
         }
       }
     ],
@@ -225,7 +227,7 @@ const steps = {
         name: 'eyeLeftClose',
         sprite: {
           advice: [{ start: 254000, end: 257800 }],
-          errorsNotEnough: [{ start: 259000, end: 262300 }, { start: 263000, end: 264600 }]
+          errorNotEnough: [{ start: 259000, end: 262300 }, { start: 263000, end: 264600 }]
         }
       }
     ]

@@ -1,5 +1,6 @@
 import DetectionInitializer from './DetectionInitializer'
 import Face from '../face/Face'
+import Step from '@/modules/step/Step'
 import utils from '@/modules/helpers/utils.js'
 import store from '@/store/index'
 
@@ -269,13 +270,12 @@ class DetectionManager {
         }
       }
 
-      if (!this.isDebug && store.getters.getIsPlaySprite === false) {
+      if (!this.isDebug && store.getters.getIsVoice === false) {
         if (this.tooFar === false && this.tooClose === false && this.outOfCamera === false) {
           if (this.elementToIncrease < 60) {
             this.elementToIncrease = utils.increase(this.elementToIncrease, 60)
           } else if (this.elementToIncrease === 60) {
             this.isAnalyse = true
-            console.log('analysis done')
             this.face = new Face({
               brfv4: this.brfv4,
               brfManager: this.brfManager

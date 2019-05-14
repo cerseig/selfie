@@ -23,7 +23,7 @@
         <Icon name="check" width="70" height="70" stroke="#FFFFFF" />
       </div>
     </div>
-    <Detection v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" />
+    <Detection :validateDetection="onValidateStep" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
     <PersonnalisationStep :validateStep="onValidateStep" :class="`${currentStep === 1 ? 'is-active' : ''}`" />
     <div class="">
       <h1>Etape : la pose</h1>
@@ -72,7 +72,8 @@ export default {
         tooClose: false,
         tooFar: false,
         errorDetection: false
-      }
+      },
+      positions: {}
     }
   },
   methods: {
@@ -131,8 +132,10 @@ export default {
         this.isAnalyse = this.detectionManager.getIsAnalyse()
       }
 
-      if (this.currentStep === 1) {
+      if (this.currentStep === 0  || this.currentStep === 1) {
         this.positions = this.detectionManager.getPositions()
+      }
+      if (this.currentStep === 1) {
         this.scene.update(this.positions)
       }
     }
@@ -162,6 +165,7 @@ export default {
     })
 
     this.update()
+
   },
   beforeDestroy () {
     if (this.detectionManager) {

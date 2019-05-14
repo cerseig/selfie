@@ -9,8 +9,8 @@ const sprites = {
   detection_left_advice: [43000, 2300], // end: 45300
   detection_left_errorTooMuch: [38000, 4400], // end: 42400
   detection_left_errorOpposite: [46000, 1200], // end: 47200
-  detection_normal_advice_1: [48000, 3400], // end: 51400
-  detection_normal_advice_2: [53000, 6000], // end: 59000
+  detection_normal_advice: [48000, 3400], // end: 51400
+  detection_normal_success: [53000, 6000], // end: 59000
   avatarPersonnalisation_advice: [60000, 68800], // end: 68800
   backgroundPersonnalisation_park_advice: [70000, 6300], // end: 76300
   backgroundPersonnalisation_park_error: [86000, 2500], // end: 88500

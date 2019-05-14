@@ -9,8 +9,10 @@ class Step {
     this.currentIndex = 0
     this.subStepState = '' // possible state : advice, error, errorTooMuch, errorNotEnough, errorOpposite, success
     this.sound = store.getters.getSound
+    this.isVoice = false
   }
   init (callback) {
+    console.log('sound', this.sound)
     this.currentSubStep = this.subSteps[0]
     this.playSpriteVoice('advice', callback)
   }
@@ -30,10 +32,22 @@ class Step {
   }
   changeSubStepState (state, callback) {
     this.subStepState = state
-    this.playSpriteVoice(state, callback)
+    if (!this.isVoice) {
+      this.playSpriteVoice(state, callback)
+    }
   }
   playSpriteVoice (state, callback) {
+    this.isVoice = true
+    store.commit('setIsVoice', this.isVoice)
     this.sound.play(this.step.name + '_' + this.currentSubStep.name + '_' + state)
+
+    this.sound.on('end', () => {
+      this.isVoice = false
+      store.commit('setIsVoice', this.isVoice)
+      if (callback && utils.isFunction(callback)) {
+        callback()
+      }
+    })
 
     if (callback && utils.isFunction(callback)) {
       this.sound.on('end', () => callback())
