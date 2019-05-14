@@ -8,19 +8,14 @@
         <canvas class="detection__points" id="_points"></canvas>
       </div>
       <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px' } : {}"></div>
+      <DetectionStep :validateDetection="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
       <div :class="`detection__check ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`" @click="onValidateStep">
         <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
       </div>
     </div>
 
-    <Detection :validateDetection="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
-
-    <div class="">
-      <h1>Etape : la pose</h1>
-      <a href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }} : {{ $t('share.subtitle') }}</a>
-    </div>
 
   </div>
 </template>
@@ -29,7 +24,7 @@
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
-import Detection from '@/components/experience/Detection'
+import DetectionStep from '@/components/experience/DetectionStep'
 import DecorStep from '@/components/decor/DecorStep'
 import Icon from '@/components/icons/Icon.vue'
 
@@ -43,7 +38,7 @@ export default {
   name: 'Experience',
   components: {
     PersonnalisationStep,
-    Detection,
+    DetectionStep,
     DecorStep,
     Icon
   },
@@ -82,6 +77,7 @@ export default {
       }
     },
     onValidateStep () {
+      console.log(this.currentStep)
       this.currentStep++
 
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
@@ -194,6 +190,10 @@ export default {
   height: 100%;
   position: relative;
   overflow: hidden;
+
+  .dg.main {
+    display: none;
+  }
 
   .avatar {
     position: absolute;

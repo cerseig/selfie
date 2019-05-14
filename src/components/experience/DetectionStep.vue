@@ -40,7 +40,7 @@ export default {
     }
   },
   methods: {
-    initDetection () {
+    initDetectionStep () {
       this.createStepObject()
     },
     createStepObject () {
@@ -98,7 +98,7 @@ export default {
   },
   mounted () {
     if (this.isActive) {
-      this.initDetection()
+      this.initDetectionStep()
     }
   },
   watch: {
