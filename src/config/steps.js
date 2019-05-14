@@ -69,7 +69,7 @@ const steps = {
         name: 'park',
         sprite: {
           advice: 'backgroundPersonnalisation_park_advice',
-          error: 'backgroundPersonnalisation_park_error'
+          success: 'backgroundPersonnalisation_park_success'
         }
       },
       {
@@ -112,6 +112,18 @@ const steps = {
         sprite: {
           advice: 'backgroundPersonnalisation_beach_advice',
           error: 'backgroundPersonnalisation_beach_error'
+        }
+      },
+      {
+        name: 'level1',
+        sprite: {
+          error: 'backgroundPersonnalisation_level1_error'
+        }
+      },
+      {
+        name: 'level2',
+        sprite: {
+          error: 'backgroundPersonnalisation_level2_error'
         }
       }
     ],

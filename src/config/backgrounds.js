@@ -11,6 +11,7 @@ const backgrounds = {
       title: 'beach',
       width: 80,
       height: 80,
+      background: '/img/decors/decor_beach.png',
       modelPaths: {
         obj: '/models/decors/beach/beach.obj',
         mtl: '/models/decors/beach/beach.mtl'

@@ -1,5 +1,8 @@
 <template>
   <div class="panel panel--debug">
+    <div class="decor__list">
+      <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${selection.decor === background.title ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
+    </div>
     <div class="panel__inner">
       <div class="panel__cover gui__wrapper">
         <h1 class="heading-1">Debug Experience</h1>
@@ -9,6 +12,7 @@
         <button class="panel__button" @click="onClickSettings">Settings</button>
       </div>
       <div class="panel__body" ref="panelBodyElement">
+
         <div :class="['detection js-detection', show.camera ? 'is-camera-shown' : '']"></div>
         <ul class="list list--events" v-if="show.events">
           <li class="list__item" v-for="(position, key) in positions.events" :key="key">
@@ -22,11 +26,13 @@
         </div>
       </div>
       <PersonnalisationStep :class="`${show.personnalisation ? 'is-active' : ''}`"/>
+      <DecorStep :isActive="show.decor"/>
       <div class="panel__settings">
         <Settings
           :showSettings="show.settings"
           :showCamera="show.camera"
           :showPersonnalisation="show.personnalisation"
+          :showDecor="show.decor"
           :showEvents="show.events"
           :showGUI="show.gui"
            />
@@ -49,6 +55,7 @@ import config from '@/config/config'
 // Components
 import Settings from '@/components/debug/Settings'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
+import DecorStep from '@/components/decor/DecorStep'
 
 // webgl
 import Scene from '@/modules/webgl/Scene.js'
@@ -57,21 +64,28 @@ export default {
   name: 'DebugExperience',
   components: {
     Settings,
-    PersonnalisationStep
+    PersonnalisationStep,
+    DecorStep
   },
   data () {
     return {
       show: {
         settings: false,
         camera: false,
-        personnalisation: true,
+        personnalisation: false,
         events: false,
-        gui: false
+        gui: false,
+        decor: true
       },
+      selection: {
+        decor: config.backgrounds.default
+      },
+      backgrounds: config.backgrounds,
       positions: {}
     }
   },
   methods: {
+    //todo : fix data process between parent & child
     initSettingsEvents () {
       this.$on('Settings:showCamera', (showCamera) => {
         this.show.camera = showCamera
@@ -84,6 +98,9 @@ export default {
       })
       this.$on('Settings:showPersonnalisation', (showPersonnalisation) => {
         this.show.personnalisation = showPersonnalisation
+      })
+      this.$on('Settings:showDecor', (showDecor) => {
+        this.show.personnalisation = showDecor
       })
       this.$on('Settings:showGui', (showGui) => {
         if (this.scene && this.scene.gui) {
@@ -154,7 +171,13 @@ export default {
 
     onPersonnalisationChange (change) {
       this.scene.avatar.handlePersonnalisation(change)
-    }
+    },
+
+    onDecorChange (change) {
+      console.log('change', change)
+      // this.scene.decors.handleChange(change)
+      this.selection.decor = change
+    },
   },
   mounted () {
     document.querySelector('body').classList.add('debug-mode')
@@ -162,6 +185,7 @@ export default {
     this.initScene()
 
     this.$on('Personnalisation:Change', this.onPersonnalisationChange)
+    this.$on('Decor:Change', this.onDecorChange)
 
     this.update()
   },
@@ -183,6 +207,33 @@ export default {
     z-index: 3;
     text-align: left;
     font-family: 'Montserrat';
+
+    .decor {
+      &__list {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+
+        .decor__item {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+          opacity: 0;
+
+          &.is-active {
+            opacity: 1;
+          }
+        }
+      }
+    }
 
     .panel {
       &__inner {
@@ -218,6 +269,8 @@ export default {
       }
 
       &__body {
+        position: relative;
+        z-index: 3;
         display: flex;
         align-items: center;
         justify-content: center;

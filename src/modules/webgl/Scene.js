@@ -48,7 +48,7 @@ class Scene {
     this.element.appendChild(this.renderer.domElement)
 
     this.initAvatar()
-    this.initDecors()
+    // this.initDecors()
     this.initLights()
 
     // For threeJS inspector

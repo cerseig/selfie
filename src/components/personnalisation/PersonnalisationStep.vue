@@ -42,44 +42,11 @@ export default {
   methods: {
     onValidateStep (e) {
       e.preventDefault()
-      // this.selection.forEach((selection, index) => {
-      //   const currentCategory = this.configCategories[index]
-      //   const selectionType = currentCategory.title
-      //   const configColor = selection.color !== undefined && selection.color >= 0 ? this.getConfigColor(currentCategory, selection.color) : null
-      //   const configAttribute = selection.attribute !== undefined && selection.attribute >= 0 ? this.getConfigColor(currentCategory, selection.attribute) : null
-
-      //   switch (selectionType) {
-      //     case 'hair':
-      //       store.commit('setHairCut', configAttribute)
-      //       store.commit('setHairColor', configColor)
-      //       break
-
-      //     case 'eye':
-      //       store.commit('setEyeColor', configColor)
-      //       break
-
-      //     case 'skin':
-      //       store.commit('setSkinColor', configColor)
-      //       break
-
-      //     case 'facialHair':
-      //       store.commit('setFacialHair', configAttribute)
-      //       store.commit('setFacialHairColor', configColor)
-      //       break
-
-      //     case 'setGlasses':
-      //       store.commit('setGlasses', configAttribute)
-      //       store.commit('setGlassesColor', configColor)
-      //       break
-      //   }
-      // })
-
       if (utils.isFunction(this.validateStep)) {
         this.validateStep()
       }
     },
     onSelectionChange (change) {
-      console.log(change)
       this.$parent.$emit('Personnalisation:Change', change)
     },
     getConfigColor (category, color) {

@@ -1,5 +1,8 @@
 <template>
   <div class="experience gui__wrapper">
+    <div class="decor__list">
+      <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${selection === background.title ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
+    </div>
     <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR ? 'is-active' : ''}`" ref="avatarElement"></div>
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']">
@@ -63,6 +66,10 @@ export default {
         tooFar: false,
         errorDetection: false
       },
+      selection: {
+        decor: config.backgrounds.default
+      },
+      backgrounds: config.backgrounds,
       positions: {},
       STEPS: {
         ANALYSIS: 0,
@@ -89,7 +96,7 @@ export default {
       }
 
       if (this.currentStep === this.STEPS.DECOR) {
-        this.scene.decors.show()
+        // this.scene.decors.show()
       } else if (this.currentStep >= 3) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
@@ -121,7 +128,8 @@ export default {
       this.scene.avatar.handlePersonnalisation(change)
     },
     onDecorChange (change) {
-      this.scene.decors.handleChange(change)
+      // this.scene.decors.handleChange(change)
+      this.selection.decor = change
     },
     update () {
       this.rafID = requestAnimationFrame(this.update)
@@ -195,6 +203,33 @@ export default {
   position: relative;
   overflow: hidden;
 
+  .decor {
+    &__list {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+
+      .decor__item {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        opacity: 0;
+
+        &.is-active {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
   .avatar {
     position: absolute;
     top: 0;
@@ -217,6 +252,7 @@ export default {
     height: 100%;
     opacity: 0;
     pointer-events: none;
+    z-index: 3;
 
     &.is-active {
       opacity: 1;
