@@ -64,6 +64,7 @@ export default {
     updateBodyClass () {
       document.querySelector('body').className = ''
       document.querySelector('body').classList.add('default')
+      document.querySelector('.nav').classList.add('nav--start')
     },
     onChangeLang () {
       let selectLanguage = document.querySelector('.is-selected').nextSibling
