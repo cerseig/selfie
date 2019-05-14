@@ -6,6 +6,7 @@ import easings from '@/modules/helpers/easings.js'
 import Hair from './personnalisation/Hair'
 import Skin from './personnalisation/Skin'
 import Eyes from './personnalisation/Eyes'
+import Top from './personnalisation/Top';
 
 class Avatar {
   constructor (params) {
@@ -59,16 +60,18 @@ class Avatar {
 
   initGui () {
     if (guiAvatar.__controllers.length <= 0) {
-      guiAvatar.open()
-      guiAvatar.add(this.model.position, 'x', -10, 10).name('Position X')
-      guiAvatar.add(this.model.position, 'y', -10, 10).name('Position Y')
-      guiAvatar.add(this.model.position, 'z', -10, 10).name('Position Z')
-      guiAvatar.add(this.model.rotation, 'x', -10, 10).name('Rotation X')
-      guiAvatar.add(this.model.rotation, 'y', -10, 10).name('Rotation Y')
-      guiAvatar.add(this.model.rotation, 'z', -10, 10).name('Rotation Z')
-      guiAvatar.add(this.model.scale, 'x', 0, 10).name('Scale X')
-      guiAvatar.add(this.model.scale, 'y', 0, 10).name('Scale Y')
-      guiAvatar.add(this.model.scale, 'z', 0, 10).name('Scale Z')
+      const positionFolder = guiAvatar.addFolder('Geometry')
+      positionFolder.add(this.model.position, 'x', -10, 10).name('Position X')
+      positionFolder.add(this.model.position, 'y', -10, 10).name('Position Y')
+      positionFolder.add(this.model.position, 'z', -10, 10).name('Position Z')
+      positionFolder.add(this.model.rotation, 'x', -10, 10).name('Rotation X')
+      positionFolder.add(this.model.rotation, 'y', -10, 10).name('Rotation Y')
+      positionFolder.add(this.model.rotation, 'z', -10, 10).name('Rotation Z')
+      positionFolder.add(this.model.scale, 'x', 0, 10).name('Scale X')
+      positionFolder.add(this.model.scale, 'y', 0, 10).name('Scale Y')
+      positionFolder.add(this.model.scale, 'z', 0, 10).name('Scale Z')
+
+      this.guiElementsFolder = guiAvatar.addFolder('Material')
     }
   }
 
@@ -76,11 +79,12 @@ class Avatar {
     const category = config.categories[2]
     const defaultValues = category.default
     this.model.children.forEach(item => {
-      if (item.name === 'Face') {
+      if (item.name === 'head') {
         this.head = item
         this.bodyParts.skin = new Skin({
           face: item,
-          color: category.colors[defaultValues.colors]
+          color: category.colors[defaultValues.colors],
+          gui: this.guiElementsFolder
         })
       }
     })
@@ -101,7 +105,8 @@ class Avatar {
     this.bodyParts.hair = new Hair({
       haircutList: hairList,
       haircut: defaultValues.attributes,
-      color: category.colors[defaultValues.colors]
+      color: category.colors[defaultValues.colors],
+      gui: this.guiElementsFolder,
     })
   }
 
@@ -112,14 +117,30 @@ class Avatar {
 
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
-      if (name.indexOf('pupille') >= 0) {
+      if (name.indexOf('eye_color') >= 0) {
         eyes.push(item)
       }
     })
 
     this.bodyParts.eyes = new Eyes({
       eyes: eyes,
-      color: category.colors[defaultValues.colors]
+      color: category.colors[defaultValues.colors],
+      gui: this.guiElementsFolder,
+    })
+  }
+
+  initTop () {
+    const category = config.categories[5]
+    const defaultValues = category.default
+    this.model.children.forEach(item => {
+      const name = item.name.toLowerCase()
+      if (name.indexOf('body') >= 0) {
+        this.bodyParts.top = new Top({
+          top: item,
+          color: category.colors[defaultValues.colors],
+          gui: this.guiElementsFolder,
+        })
+      }
     })
   }
 
@@ -149,6 +170,13 @@ class Avatar {
             break
         }
         break
+      case 'top':
+        switch (change.type) {
+          case 'colors':
+            this.bodyParts.top.switchColor(change.value)
+            break
+        }
+        break
     }
   }
 
@@ -163,10 +191,11 @@ class Avatar {
         this.model.position.set(this.config.position.x, this.config.position.y, this.config.position.z)
         this.scene.add(this.model)
 
+        this.initGui()
         this.initHead()
         this.initHair()
         this.initEyes()
-        this.initGui()
+        this.initTop()
 
         this.onReadyClb()
       })
