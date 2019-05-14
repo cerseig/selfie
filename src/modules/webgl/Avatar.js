@@ -7,7 +7,7 @@ import Hair from './personnalisation/Hair'
 import Skin from './personnalisation/Skin'
 import Eyes from './personnalisation/Eyes'
 import Top from './personnalisation/Top'
-import Glasses from './personnalisation/Glasses';
+import Glasses from './personnalisation/Glasses'
 
 class Avatar {
   constructor (params) {
@@ -147,7 +147,7 @@ class Avatar {
 
   initGlasses () {
     const glassesList = []
-    glassesList.push({name: 'none'})
+    glassesList.push({ name: 'none' })
     this.model.children.forEach(item => {
       const name = item.name.toLowerCase()
       if (name.indexOf('glasses') >= 0) {
