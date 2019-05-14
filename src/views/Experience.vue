@@ -127,7 +127,7 @@ export default {
       this.rafID = requestAnimationFrame(this.update)
 
       if (this.detectionManager) {
-        // this.handleSizes()
+        this.handleSizes()
 
         if (this.detectionManager.getIsDetectionReady()) {
           this.isDetectionReady = this.detectionManager.getIsDetectionReady()
