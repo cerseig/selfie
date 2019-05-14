@@ -31,7 +31,7 @@ export default {
 <style scoped lang="scss">
 
 .nav {
-  z-index: 5;
+  z-index: 2;
   position: fixed;
   top: 0;
   width: 100%;

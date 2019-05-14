@@ -32,10 +32,7 @@ export default {
     this.playIntro()
   },
   beforeDestroy () {
-    this.soundContext.stop()
-  },
-  computed: {
-    soundContext: () => store.getters.getSound
+    this.stepObject.sound.stop()
   }
 }
 </script>

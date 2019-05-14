@@ -12,8 +12,11 @@
 
 <script>
 // Modules
-import config from '@/config/config'
 import Icon from '@/components/icons/Icon.vue'
+import Step from '@/modules/step/Step'
+// Config
+import stepsConfig from '@/config/steps'
+import config from '@/config/config'
 
 export default {
   name: 'DecorStep',
@@ -37,6 +40,13 @@ export default {
     }
   },
   methods: {
+    initDecorStep () {
+      this.createStepObject()
+    },
+    createStepObject () {
+      let stepObject = new Step(stepsConfig.backgroundPersonnalisation)
+      this.stepObject = stepObject
+    },
     onSelectItem (e) {
       const decor = e.currentTarget.getAttribute('data-decor')
       this.$parent.$emit('Decor:Change', decor)

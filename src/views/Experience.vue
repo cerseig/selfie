@@ -8,7 +8,7 @@
         <canvas class="detection__points" id="_points"></canvas>
       </div>
       <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px' } : {}"></div>
-      <DetectionStep :validateDetection="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
+      <DetectionStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
       <div :class="`detection__check ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`" @click="onValidateStep">
         <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
       </div>
@@ -77,7 +77,7 @@ export default {
       }
     },
     onValidateStep () {
-      console.log(this.currentStep)
+      console.log('current step before validate step', this.currentStep)
       this.currentStep++
 
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
@@ -86,7 +86,10 @@ export default {
 
       if (this.currentStep === this.STEPS.DECOR) {
         this.scene.decors.show()
-      } else if (this.currentStep >= 3) {
+      }
+
+      if (this.currentStep >= 3) {
+        console.log(' > 3 ?')
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }

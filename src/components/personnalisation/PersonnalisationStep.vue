@@ -40,7 +40,6 @@ export default {
   data () {
     return {
       configCategories: config.categories,
-      // selection: [],
       change: {},
       avatarProperties: {}
     }
@@ -78,7 +77,20 @@ export default {
     }
   },
   mounted () {
-    this.initPersonnalisationStep()
+    /* TO REMOVE AFTER TEST */
+    const source = '/sounds/voice_fr.mp3'
+    this.sound = new Howl({
+      src: [source],
+      sprite: sprite
+    })
+    store.commit('setSound', this.sound)
+  },
+  watch: {
+    isActive() {
+      if (this.isActive) {
+        this.initPersonnalisationStep()
+      }
+    }
   }
 }
 </script>
@@ -99,11 +111,18 @@ export default {
       z-index: 200;
 
       position: absolute;
-      top: 100px;
+      top: 30px;
       right: 30px;
 
       .icon {
         margin-left: 10px;
+      }
+
+      &:focus {
+        .icon {
+          fill: $color__white;
+          stroke: $color__white;
+        }
       }
 
     }

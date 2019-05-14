@@ -24,7 +24,7 @@ export default {
       required: false,
       type: Object
     },
-    validateDetection: {
+    validateStep: {
       required: false,
       type: Function
     },
@@ -87,9 +87,9 @@ export default {
         if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
           let callSuccess = setTimeout(() => {
             this.stepObject.changeSubStepState('success', () => {
-              this.stepObject.sound.stop()
-              this.validateDetection()
               window.clearTimeout(callSuccess)
+              this.stepObject.sound.stop()
+              this.validateStep()
             })
           }, 2000)
         }
