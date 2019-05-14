@@ -30,7 +30,6 @@ class Step {
     this.subStepState = ''
   }
   changeSubStepState (state, callback) {
-    console.log('change sub step state')
     this.subStepState = state
     if (!this.isVoice) {
       this.playSpriteVoice(state, callback)
@@ -43,13 +42,15 @@ class Step {
 
     this.soundId = sound
 
+    console.log('thissound', this.sound)
+    console.log('soundID', this.soundId, 'sound', sound)
+
     this.sound.on('end', () => {
       if (this.soundId === sound) {
         this.isVoice = false
         store.commit('setIsVoice', this.isVoice)
         if (callback && utils.isFunction(callback)) {
           callback()
-          console.log('callback ?')
         }
       }
     })
