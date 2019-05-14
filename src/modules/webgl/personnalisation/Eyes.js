@@ -14,7 +14,7 @@ class Eyes {
     this.gui = params.gui
 
     this.init()
-    this.initGUI()
+    // this.initGUI()
   }
 
   init () {
