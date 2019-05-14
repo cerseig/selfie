@@ -13,14 +13,23 @@ class Hair {
     this.haircutList = params.haircutList
     this.haircut = params.haircutList[params.haircut] ? params.haircutList[params.haircut] : params.haircutList[0]
     this.color = params.color
+    this.gui = params.gui
     this.haircutListlength = params.haircutList.length
 
     this.init()
   }
 
   init () {
-    this.updateColor(this.color)
+    // this.updateColor(this.color)
+    this.switchColor(this.color)
     this.hideHaircuts()
+    this.initGUI()
+  }
+
+  initGUI() {
+    const hairFolder = this.gui.addFolder('Cheveux : couleur')
+    this.gui.addThreeColor( this.haircut.material, 'color', hairFolder)
+    this.gui.addThreeColor( this.haircut.material, 'emissive', hairFolder)
   }
 
   /**
@@ -68,7 +77,9 @@ class Hair {
 
   updateColor (color) {
     this.haircutList.forEach(haircut => {
-      haircut.material.color = new THREE.Color(color)
+      const newColor = new THREE.Color(color)
+      newColor.convertSRGBToLinear()
+      haircut.material.color = newColor
     })
   }
 

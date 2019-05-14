@@ -4,7 +4,7 @@ const webgl = {
       lights: {
         point: {
           color: 'rgb(253, 252, 255)',
-          intensity: 1.2,
+          intensity: 0.7,
           position: {
             x: 0,
             y: 0,
@@ -34,7 +34,7 @@ const webgl = {
       lights: {
         point: {
           color: 'rgb(253, 252, 255)',
-          intensity: 1.2,
+          intensity: 0.7,
           position: {
             x: 0,
             y: 0,
@@ -48,13 +48,13 @@ const webgl = {
     },
     avatar: {
       scale: {
-        x: 3,
-        y: 3,
-        z: 3
+        x: 4,
+        y: 4,
+        z: 4
       },
       position: {
         x: 0,
-        y: 1,
+        y: 0,
         z: 0
       }
     }
