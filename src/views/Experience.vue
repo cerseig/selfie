@@ -8,19 +8,8 @@
         <canvas class="detection__points" id="_points"></canvas>
       </div>
       <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px' } : {}"></div>
-      <div :class="`detection__errors ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
-        <p :class="`detection__message ${detection.outOfCamera === true ? `detection__message--active` : ``}`">
-          {{ $t('experience.analyse.errors.outOfCamera') }}
-        </p>
-        <p :class="`detection__message ${detection.tooClose === true ? `detection__message--active` : ``}`">
-          {{ $t('experience.analyse.errors.tooClose') }}
-        </p>
-        <p :class="`detection__message ${detection.tooFar === true ? `detection__message--active` : ``}`">
-          {{ $t('experience.analyse.errors.tooFar') }}
-        </p>
-      </div>
       <div :class="`detection__check ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`" @click="onValidateStep">
-        <Icon name="check" width="70" height="70" stroke="#FFFFFF" />
+        <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
       </div>
     </div>
 
@@ -84,6 +73,7 @@ export default {
   },
   methods: {
     updateBodyClass () {
+      document.querySelector('.nav').classList.remove('nav--start')
       document.querySelector('body').className = ''
       if (this.isAnalyse) {
         document.querySelector('body').classList.add('experience')
@@ -93,9 +83,11 @@ export default {
     },
     onValidateStep () {
       this.currentStep++
-      if (this.currentStep === this.STEPS.PERSONNALISATION && this.detectionManager) {
-        this.detectionManager.brfManager.reset()
+
+      if (this.currentStep === this.STEPS.PERSONNALISATION) {
+        this.updateBodyClass()
       }
+
       if (this.currentStep === this.STEPS.DECOR) {
         this.scene.decors.show()
       } else if (this.currentStep >= 3) {
@@ -104,10 +96,10 @@ export default {
       }
     },
     setResolutionFrameSize (resolutionFrame) {
-      let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
-      let height = Math.round(((coefficient * resolutionFrame.height) / 100) + resolutionFrame.height)
-      let width = Math.round(((coefficient * resolutionFrame.width) / 100) + resolutionFrame.width)
-      this.detection.resolutionFrameSize = { width: width, height: height }
+      /* let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
+      let height = Math.round((resolutionFrame.height / 100) + resolutionFrame.height)
+      let width = Math.round((resolutionFrame.width / 100) + resolutionFrame.width) */
+      this.detection.resolutionFrameSize = { width: resolutionFrame.width, height: resolutionFrame.height }
     },
     handleSizes () {
       this.detection.resolutionFrame = this.detectionManager.getResolutionFrame()
@@ -206,7 +198,6 @@ export default {
   .avatar {
     position: absolute;
     top: 0;
-    border: 2px solid black;
     width: 100%;
     height: 100%;
     display: none;
@@ -288,7 +279,9 @@ export default {
     &__image {
       position: absolute;
       opacity: 0.5;
-      height: 100%;
+      min-height: 100%;
+      min-width: 100%;
+      max-width: none;
       z-index: 0;
     }
 

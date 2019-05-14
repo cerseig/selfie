@@ -1,6 +1,6 @@
 {
   "home": {
-    "baseline": "A tutorial for a perfect selfie",
+    "baseline": "With Amy, become the selfie master",
     "start": "Launch",
     "about": "Project history"
   },
@@ -17,7 +17,7 @@
   "experience": {
     "title": "This is an experience page",
     "personnalisation": {
-      "nextStep": "Go to next step"
+      "nextStep": "Next step >"
     },
     "posing": {
       "title": "Posing"

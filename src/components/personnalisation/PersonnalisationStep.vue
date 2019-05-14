@@ -1,7 +1,7 @@
 <template>
   <div :class="`personnalisation ${isActive ? 'is-active' : ''}`">
+    <a class="personnalisation__next" href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }}</a>
     <CategoryPanel :categories="configCategories" :selectionChange="onSelectionChange" />
-    <a href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }}</a>
   </div>
 </template>
 
@@ -96,11 +96,20 @@ export default {
   .personnalisation {
     width: 100%;
     position: absolute;
+    display: none;
     left: 0;
     right: 0;
     bottom: 0;
-    display: none;
     z-index: 3;
+
+    &__next {
+      @include outlinedButton(1rem 2rem, 1.5rem);
+      z-index: 10;
+
+      position: fixed;
+      top: 25px;
+      right: 30px;
+    }
 
     &.is-active {
       display: block;
@@ -110,7 +119,7 @@ export default {
   @media (min-width: 768px) and (max-width: 1024px)  {
     .personnalisation {
       position: fixed;
-      bottom: 5rem;
+      bottom: 0;
       text-align: center;
     }
   }

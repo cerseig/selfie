@@ -23,7 +23,7 @@
           </li>
         </ul>
          <ul class="list--attributes" v-if="category && category.attributes && category.attributes.length > 0">
-          ∏<li
+          <li
             v-for="(attribute, indexAttr) in category.attributes"
             :class="`list__item ${selection[index] && selection[index].attributes === indexAttr ? 'is-selected' : ''}`"
             :key="`attribute-${indexAttr}`"
@@ -113,6 +113,7 @@ export default {
   .list--category,
   .list--attributes,
   .list--colors {
+    background-color: $color__white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,69 +129,188 @@ export default {
     }
   }
 
-  .list--colors {
-    .list__button {
-      border-radius: 100%;
-      width: 1rem;
-      height: 1rem;
-      cursor: pointer;
-    }
-  }
-
   .list--colors,
   .list--attributes {
+    margin: 0;
     .list__item {
       &.is-selected {
         .list__button,
         .list__thumbnail {
-          border: .5rem solid green;
+          width: 2rem;
+          height: 2rem;
         }
       }
     }
   }
+
+
   .list--category {
+    position: relative;
+    bottom: -40px;
+    z-index: 2;
+    width: fit-content;
+    padding: 0 50px;
+    border-radius: 50px;
+    margin: 0 auto;
+    box-shadow: 0px 6px 15px $color__gray--light;
     .list__item {
+      opacity: 0.2;
+      .list__button {
+        padding: 15px 20px 10px 20px;
+      }
       &.is-active {
+        opacity: 1;
         .list__button {
-          border: .5rem solid green;
+          border-bottom: .5rem solid $color__black;
         }
       }
     }
   }
 
-  .panel--category {
-    .panel__inner {
-      display: none;
+  .list--colors {
+    height: 160px;
+    padding-top: 40px;
+    border-bottom: 1px solid $color__gray--light;
+    .list__item {
+      margin: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      width: 4rem;
+      height: 4rem;
+      &.is-selected {
+        border: .1rem solid $color__black;
+      }
+      .list__button {
+        border-radius: 50%;
+        cursor: pointer;
+        width: 4rem;
+        height: 4rem;
+      }
+    }
+  }
 
-      &.is-active {
-        display: block;
+  .list--attributes {
+    height: 150px;
+    .list__item {
+      border: .1rem solid $color__gray--light;
+      width: 10rem;
+      height: 10rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 10px;
+      border-radius: 10px;
+      .list__thumbnail {
+        width: 7rem;
+        height: 7rem;
+      }
+      &.is-selected {
+        border-color: $color__black;
+        .list__button,
+        .list__thumbnail {
+          width: 4rem;
+          height: 4rem;
+        }
+      }
+    }
+  }
+
+  .panel {
+    &__subpanel {
+      z-index: 1;
+    }
+    &--category {
+      .panel__inner {
+        display: none;
+
+        &.is-active {
+          display: block;
+        }
       }
     }
   }
 
   @media (min-width: 768px) and (max-width: 1024px)  {
-    .list--category {
-      margin-bottom: 2rem;
+    .list--category,
+    .list--attributes,
+    .list--colors {
       .list__item {
-        .list__button {
-          font-family: $font__montserrat;
-          font-size: 3rem;
+        margin-right: .5rem;
+      }
+    }
+
+    .list--colors,
+    .list--attributes {
+      .list__item {
+        &.is-selected {
+          .list__button,
+          .list__thumbnail {
+            width: 2rem;
+            height: 2rem;
+          }
         }
       }
     }
+
+
     .list--colors {
-      margin-bottom: 2rem;
-    }
-    .list__thumbnail {
-      width: 100%;
-      height: 100%;
-    }
-    .list--colors,
-    .list--attributes {
-      .list__button,
+      height: 160px;
+      padding-top: 40px;
       .list__item {
-        width: 6rem;
-        height: 6rem;
+        margin: 10px;
+        width: 4rem;
+        height: 4rem;
+        .list__button {
+          width: 4rem;
+          height: 4rem;
+        }
+      }
+    }
+
+    .list--attributes {
+      height: 150px;
+      .list__item {
+        width: 10rem;
+        height: 10rem;
+        margin: 0 10px;
+        .list__thumbnail {
+          width: 7rem;
+          height: 7rem;
+        }
+        &.is-selected {
+          .list__button,
+          .list__thumbnail {
+            width: 4rem;
+            height: 4rem;
+          }
+        }
+      }
+    }
+
+    .list--category {
+      bottom: -40px;
+      padding: 0 50px;
+      .list__item {
+        .list__button {
+          padding: 15px 20px 10px 20px;
+        }
+      }
+    }
+
+    .panel {
+      &__subpanel {
+        z-index: 1;
+      }
+      &--category {
+        .panel__inner {
+          display: none;
+
+          &.is-active {
+            display: block;
+          }
+        }
       }
     }
   }
