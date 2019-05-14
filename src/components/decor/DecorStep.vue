@@ -66,14 +66,31 @@ export default {
   }
 
   .list--decor {
+    width: fit-content;
+
+    padding: 0 50px;
+    margin: 0 auto;
+
     display: flex;
+    justify-content: center;
+    align-items: center;
 
+    background-color: $color__white;
+
+    border-radius: 50px;
+    box-shadow: 0px 5px 10px #aaa;
     .list__item {
-      cursor: pointer;
-      &.is-active {
-        border: .3rem solid green;
+      opacity: 0.2;
+      margin: 0 10px -1px 10px;
+      .icon {
+        padding: 10px;
       }
-
+      &.is-active {
+        opacity: 1;
+        .icon {
+          border-bottom: .5rem solid $color__black;
+        }
+      }
     }
   }
 </style>

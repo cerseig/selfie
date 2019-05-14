@@ -144,6 +144,29 @@ export default {
   }
 
 
+  .list--category {
+    position: relative;
+    bottom: -40px;
+    z-index: 2;
+    width: fit-content;
+    padding: 0 50px;
+    border-radius: 50px;
+    margin: 0 auto;
+    box-shadow: 0px 6px 15px $color__gray--light;
+    .list__item {
+      opacity: 0.2;
+      .list__button {
+        padding: 15px 20px 10px 20px;
+      }
+      &.is-active {
+        opacity: 1;
+        .list__button {
+          border-bottom: .5rem solid $color__black;
+        }
+      }
+    }
+  }
+
   .list--colors {
     height: 160px;
     padding-top: 40px;
@@ -189,27 +212,6 @@ export default {
         .list__thumbnail {
           width: 4rem;
           height: 4rem;
-        }
-      }
-    }
-  }
-
-  .list--category {
-    position: relative;
-    bottom: -40px;
-    z-index: 2;
-    width: fit-content;
-    padding: 0 50px;
-    border-radius: 50px;
-    margin: 0 auto;
-    box-shadow: 0px 6px 15px $color__gray--light;
-    .list__item {
-      .list__button {
-        padding: 15px 20px 10px 20px;
-      }
-      &.is-active {
-        .list__button {
-          border-bottom: .5rem solid $color__black;
         }
       }
     }
