@@ -23,7 +23,8 @@ const steps = {
       },
       {
         name: 'right',
-        interval: [0.1, 0.3],
+        interval: [0.25, 0.4],
+        oppositeValue: -0.2,
         sprite: {
           advice: 'detection_right_advice',
           errorTooMuch: 'detection_right_errorTooMuch',
@@ -32,7 +33,8 @@ const steps = {
       },
       {
         name: 'left',
-        interval: [-0.1, -0.3],
+        interval: [-0.4, -0.25],
+        oppositeValue: 0.2,
         sprite: {
           advice: 'detection_left_advice',
           errorTooMuch: 'detection_left_errorTooMuch',

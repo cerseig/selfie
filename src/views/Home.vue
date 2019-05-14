@@ -1,8 +1,9 @@
 <template>
   <div class="home">
     <div class="home__container">
-      <img class="home__logo" :src="require(`@/assets/img/logo.png`)">
-      <h1 class="home__baseline">{{ $t('home.baseline') }}</h1>
+      <!--<img class="home__logo" :src="require(`@/assets/img/logo.png`)">-->
+      <h1 class="home__title">A.M.Y</h1>
+      <h2 class="home__baseline">{{ $t('home.baseline') }}</h2>
       <div class="home__select">
         <span class="select__arrow" @click="onChangeLang">
           <Icon name="little-arrow" width="15" height="15" stroke="#000000" />
@@ -111,6 +112,10 @@ export default {
 
     &__logo {
       width: 100px;
+    }
+
+    &__title {
+      font-size: 10rem;
     }
 
     &__baseline {

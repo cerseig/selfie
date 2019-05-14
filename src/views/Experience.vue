@@ -7,7 +7,7 @@
         <canvas class="detection__image" id="_imageData"></canvas>
         <canvas class="detection__points" id="_points"></canvas>
       </div>
-      <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px'} : {}"></div>
+      <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px' } : {}"></div>
       <div :class="`detection__errors ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
         <p :class="`detection__message ${detection.outOfCamera === true ? `detection__message--active` : ``}`">
           {{ $t('experience.analyse.errors.outOfCamera') }}
@@ -24,7 +24,8 @@
       </div>
     </div>
 
-    <Detection :validateDetection="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
+    <Detection :validateDetection="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
+    <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
 
     <div class="">
@@ -104,8 +105,8 @@ export default {
     },
     setResolutionFrameSize (resolutionFrame) {
       let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
-      let height = Math.round((((coefficient * 2) * resolutionFrame.height) / 100) + resolutionFrame.height)
-      let width = Math.round((((coefficient * 2) * resolutionFrame.width) / 100) + resolutionFrame.width)
+      let height = Math.round(((coefficient * resolutionFrame.height) / 100) + resolutionFrame.height)
+      let width = Math.round(((coefficient * resolutionFrame.width) / 100) + resolutionFrame.width)
       this.detection.resolutionFrameSize = { width: width, height: height }
     },
     handleSizes () {
@@ -136,17 +137,17 @@ export default {
 
       if (this.detectionManager) {
         this.handleSizes()
+
+        if (this.detectionManager.getIsDetectionReady()) {
+          this.isDetectionReady = this.detectionManager.getIsDetectionReady()
+        }
+
+        if (this.detectionManager.getIsAnalyse()) {
+          this.isAnalyse = this.detectionManager.getIsAnalyse()
+        }
       }
 
-      if (this.detectionManager.getIsDetectionReady()) {
-        this.isDetectionReady = this.detectionManager.getIsDetectionReady()
-      }
-
-      if (this.detectionManager.getIsAnalyse()) {
-        this.isAnalyse = this.detectionManager.getIsAnalyse()
-      }
-
-      if (this.currentStep === this.STEPS.PERSONNALISATION && this.detectionManager) {
+      if (this.currentStep === this.STEPS.PERSONNALISATION || this.detectionManager) {
         this.positions = this.detectionManager.getPositions()
       }
 
@@ -162,7 +163,7 @@ export default {
 
     this.updateBodyClass()
 
-    if (this.STEPS.ANALYSIS) {
+    if (this.STEPS.ANALYSIS === this.currentStep) {
       this.detectionManager = new DetectionManager({
         camera: document.getElementById('_camera'),
         imageData: document.getElementById('_imageData'),
@@ -241,11 +242,12 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      background: $color__blue--pastel;
     }
 
     &__restriction {
-      border: 4px solid $color__white;
       position: absolute;
+      border: 4px solid #FEFEFE;
 
       &.hasError {
         border-color: red;

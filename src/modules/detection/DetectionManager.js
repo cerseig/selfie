@@ -262,12 +262,13 @@ class DetectionManager {
 
         pointsDataCtx.strokeStyle = '#000000'
 
-        for (let k = 0; k < face.vertices.length; k += 2) {
+        // 68 points
+        /* for (let k = 0; k < face.vertices.length; k += 2) {
           pointsDataCtx.beginPath()
           pointsDataCtx.arc(face.vertices[k], face.vertices[k + 1], 1, 0, 2 * Math.PI)
 
           pointsDataCtx.stroke()
-        }
+        } */
       }
 
       if (!this.isDebug && store.getters.getIsVoice === false) {

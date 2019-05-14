@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ positions }}
   </div>
 </template>
 
@@ -32,11 +31,16 @@ export default {
     validateDetection: {
       required: false,
       type: Function
+    },
+    isActive: {
+      required: false,
+      type: Boolean
     }
   },
   data () {
     return {
-      elementToIncrease: 0
+      elementToIncrease: 0,
+      positionRight: false
     }
   },
   methods: {
@@ -47,43 +51,51 @@ export default {
       let stepObject = new Step(stepsConfig.detection)
       this.stepObject = stepObject
     },
-    getPositionRight () {
-      // turn head to the right
+    getPositionCenter () {
+      this.stepObject.init()
+    },
+    getPositionRight () { // turn head to the right
       if (this.stepObject.currentSubStep.name === 'right') {
         if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
-            this.stepObject.changeSubStep()
-            this.stepObject.changeSubStepState('advice')
-        } else if (this.positions.rotation.y < -0.2) {
-          this.stepObject.changeSubStepState('errorOpposite')
+          this.stepObject.changeSubStep()
+          let callAdvice = setTimeout(() => {
+            this.stepObject.changeSubStepState('advice', () => {
+              window.clearTimeout(callAdvice)
+            })
+          }, 1000)
         } else if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[1]) {
           this.stepObject.changeSubStepState('errorTooMuch')
+        } else if (this.positions.rotation.y < this.stepObject.currentSubStep.oppositeValue) {
+          this.stepObject.changeSubStepState('errorOpposite')
         }
       }
     },
-    getPositionLeft () {
-      // turn head to the left
-      if (this.stepObject.currentSubStep.name === 'left') {
-        if (this.positions.rotation.y < this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y > this.stepObject.currentSubStep.interval[1]) {
+    getPositionLeft () { // turn head to the left
+      if (this.stepObject.currentSubStep.name === 'left' && this.positions.rotation.y < 0) {
+        if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
           this.stepObject.changeSubStep()
-          this.stepObject.changeSubStepState('advice')
-        } else if (this.positions.rotation.y > 0.1) {
+          let callAdvice = setTimeout(() => {
+            this.stepObject.changeSubStepState('advice', () => {
+              window.clearTimeout(callAdvice)
+            })
+          }, 1000)
+        } else if (this.positions.rotation.y > this.stepObject.currentSubStep.oppositeValue) {
           this.stepObject.changeSubStepState('errorOpposite')
         } else if (this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
           this.stepObject.changeSubStepState('errorTooMuch')
         }
       }
     },
-    getPositionNormal () {
-      // face to the camera
+    getPositionNormal () { // face to the camera
       if (this.stepObject.currentSubStep.name === 'normal') {
         if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
           let callSuccess = setTimeout(() => {
             this.stepObject.changeSubStepState('success', () => {
-              window.clearTimeout(callSuccess)
               this.stepObject.sound.stop()
               this.validateDetection()
+              window.clearTimeout(callSuccess)
             })
-          }, 3000)
+          }, 2000)
         }
       }
     }
@@ -96,24 +108,25 @@ export default {
       sprite: sprite
     })
     store.commit('setSound', this.sound)
-    console.log(store.getters.getSound)
 
     this.initDetection()
   },
   watch: {
     isReady() {
       if (this.isReady) {
-        this.stepObject.init()
+        this.getPositionCenter()
       }
     },
     isAnalyse() {
       if (!this.stepObject.isVoice && this.isAnalyse) {
-        this.stepObject.changeSubStep()
-        this.stepObject.changeSubStepState('advice')
+        this.stepObject.changeSubStepState('success', () => {
+          this.stepObject.changeSubStep()
+          this.stepObject.changeSubStepState('advice')
+        })
       }
     },
     positions() {
-      if (!this.stepObject.isVoice) {
+      if (!this.stepObject.isVoice && this.isActive) {
         this.getPositionRight()
         this.getPositionLeft()
         this.getPositionNormal()

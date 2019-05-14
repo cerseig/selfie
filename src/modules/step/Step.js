@@ -12,7 +12,6 @@ class Step {
     this.isVoice = false
   }
   init (callback) {
-    console.log('sound', this.sound)
     this.currentSubStep = this.subSteps[0]
     this.playSpriteVoice('advice', callback)
   }
@@ -31,6 +30,7 @@ class Step {
     this.subStepState = ''
   }
   changeSubStepState (state, callback) {
+    console.log('change sub step state')
     this.subStepState = state
     if (!this.isVoice) {
       this.playSpriteVoice(state, callback)
@@ -39,19 +39,20 @@ class Step {
   playSpriteVoice (state, callback) {
     this.isVoice = true
     store.commit('setIsVoice', this.isVoice)
-    this.sound.play(this.step.name + '_' + this.currentSubStep.name + '_' + state)
+    const sound = this.sound.play(this.step.name + '_' + this.currentSubStep.name + '_' + state)
+
+    this.soundId = sound
 
     this.sound.on('end', () => {
-      this.isVoice = false
-      store.commit('setIsVoice', this.isVoice)
-      if (callback && utils.isFunction(callback)) {
-        callback()
+      if (this.soundId === sound) {
+        this.isVoice = false
+        store.commit('setIsVoice', this.isVoice)
+        if (callback && utils.isFunction(callback)) {
+          callback()
+          console.log('callback ?')
+        }
       }
     })
-
-    if (callback && utils.isFunction(callback)) {
-      this.sound.on('end', () => callback())
-    }
   }
 }
 
