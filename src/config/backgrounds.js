@@ -3,17 +3,31 @@ const backgrounds = {
   wanted: 'beach',
   list: [
     {
-      icon: 'park',
+      title: 'park',
       width: 80,
       height: 80,
     },
     {
-      icon: 'beach',
+      title: 'beach',
       width: 80,
       height: 80,
+      modelPaths: {
+        obj: '/models/decors/beach/beach.obj',
+        mtl: '/models/decors/beach/beach.mtl'
+      },
+      scale: {
+        x: 25,
+        y: 25,
+        z: 25
+      },
+      position: {
+        x: 0,
+        y: -5,
+        z: -10
+      }
     },
     {
-      icon: 'mountain',
+      title: 'mountain',
       width: 80,
       height: 80,
       modelPaths: {
@@ -21,33 +35,33 @@ const backgrounds = {
         mtl: '/models/decors/mountains/mountains.mtl'
       },
       scale: {
-        x: 15,
-        y: 15,
-        z: 15
+        x: 25,
+        y: 25,
+        z: 25
       },
       position: {
         x: 0,
-        y: 0,
-        z: -5
+        y: -5,
+        z: -10
       }
     },
     {
-      icon: 'museum',
+      title: 'museum',
       width: 80,
       height: 80,
     },
     {
-      icon: 'bathroom',
+      title: 'bathroom',
       width: 80,
       height: 80,
     },
     {
-      icon: 'cocooning',
+      title: 'cocooning',
       width: 80,
       height: 80,
     },
     {
-      icon: 'eiffelTower',
+      title: 'eiffelTower',
       width: 80,
       height: 80,
     }

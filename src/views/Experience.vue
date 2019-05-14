@@ -117,12 +117,17 @@ export default {
     onPersonnalisationChange (change) {
       this.scene.avatar.handlePersonnalisation(change)
     },
+    onDecorChange (change) {
+      this.scene.decors.handleChange(change)
+    },
     update () {
       this.rafID = requestAnimationFrame(this.update)
 
-      this.handleSizes()
+      if (this.detectionManager) {
+        this.handleSizes()
+      }
 
-      if (this.currentStep === this.STEPS.PERSONNALISATION) {
+      if (this.currentStep === this.STEPS.PERSONNALISATION && this.detectionManager) {
         this.positions = this.detectionManager.getPositions()
         this.scene.update(this.positions)
       }
@@ -139,13 +144,16 @@ export default {
     }
     this.updateBodyClass()
 
-    this.detectionManager = new DetectionManager({
-      camera: document.getElementById('_camera'),
-      imageData: document.getElementById('_imageData'),
-      pointsData: document.getElementById('_points')
-    })
+    if (this.STEPS.ANALYSIS) {
+      this.detectionManager = new DetectionManager({
+        camera: document.getElementById('_camera'),
+        imageData: document.getElementById('_imageData'),
+        pointsData: document.getElementById('_points')
+      })
+    }
 
     this.$on('Personnalisation:Change', this.onPersonnalisationChange)
+    this.$on('Decor:Change', this.onDecorChange)
 
     this.scene = new Scene({
       config: config,
@@ -173,6 +181,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
 
   .avatar {
     position: absolute;
