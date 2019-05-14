@@ -23,7 +23,7 @@
       <button class="home__about home__about--button" @click="openAboutPopUp">{{ $t('home.about') }}</button>
       <div :class="`home__popup ${isOpen === true ? 'home__popup--open' : ''}`">
         <button class="home__popup__close" @click="closePopUp">
-          <Icon name="cross" width="50" height="50" stroke="#000000" />
+          <Icon name="close" width="50" height="50" stroke="#000000" />
         </button>
         <About />
       </div>
@@ -198,7 +198,7 @@ export default {
 
         z-index: 10;
 
-        transform: rotate(45deg);
+        // transform: rotate(45deg);
       }
 
       &--open {

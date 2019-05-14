@@ -3,7 +3,7 @@
     <ul class="list list--category">
       <li :class="`list__item ${isActive === index ? 'is-active' : ''}`" :data-index="index" @click="onClickCategory" v-for="(category, index) in categories" :key="`category-${index}`">
         <button class="list__button">
-          {{category.title}}
+          <Icon :name="category.icon.title" :width="60" :height="60" stroke="#000000" fill="#000000"/>
         </button>
       </li>
     </ul>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import Icon from '@/components/icons/Icon.vue'
+
 export default {
   name: 'CategoryPanel',
   props: {
@@ -51,6 +53,9 @@ export default {
       required: true,
       type: Function
     }
+  },
+  components: {
+    Icon
   },
   data () {
     return {
@@ -89,7 +94,7 @@ export default {
       const category = this.categories[indexCategory]
       const option = category[type]
 
-      this.selectionChange(this.selection, {
+      this.selectionChange({
         category: indexCategory,
         type: type,
         value: type === 'colors' ? option[indexItem] : option[indexItem].ref,

@@ -10,6 +10,7 @@ class Skin {
   constructor (params) {
     this.face = params.face
     this.color = params.color
+    this.gui = params.gui
 
     this.eyeLids = params.face.children.filter(item => {
       const name = item.name.toLowerCase()
@@ -22,7 +23,9 @@ class Skin {
   }
 
   init () {
+    // this.face.receiveShadow = true
     this.updateColor(this.color)
+    this.initGUI()
   }
 
   /**
@@ -40,6 +43,12 @@ class Skin {
     this.color = color
   }
 
+  initGUI () {
+    const skinFolder = this.gui.addFolder('Face : couleur')
+    this.gui.addThreeColor(this.face.material, 'color', skinFolder)
+    this.gui.addThreeColor(this.face.material, 'emissive', skinFolder)
+  }
+
   /**
    * @param {*} color
    */
@@ -49,9 +58,11 @@ class Skin {
   }
 
   updateColor (color) {
-    this.face.material.color = new THREE.Color(color)
-    this.eyeLids[0].material.color = new THREE.Color(color)
-    this.eyeLids[1].material.color = new THREE.Color(color)
+    const newColor = new THREE.Color(color)
+    newColor.convertSRGBToLinear()
+    this.face.material.color = new THREE.Color(newColor)
+    // this.eyeLids[0].material.color = new THREE.Color(newColor)
+    // this.eyeLids[1].material.color = new THREE.Color(newColor)
   }
 }
 

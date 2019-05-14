@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-class Eyes {
+class Top {
   /**
    * @param {*} params
    * @typedef {{
@@ -9,7 +9,7 @@ class Eyes {
    * }}
    */
   constructor (params) {
-    this.eyes = params.eyes
+    this.top = params.top
     this.color = params.color
     this.gui = params.gui
 
@@ -22,9 +22,8 @@ class Eyes {
   }
 
   initGUI () {
-    const eyesFolder = this.gui.addFolder('eyes : couleur')
-    this.gui.addThreeColor(this.eyes[0].material, 'color', eyesFolder)
-    this.gui.addThreeColor(this.eyes[1].material, 'emissive', eyesFolder)
+    const topFolder = this.gui.addFolder('T-shirt : couleur')
+    this.gui.addThreeColor(this.top.material, 'color', topFolder)
   }
   /**
    * @return string
@@ -33,8 +32,8 @@ class Eyes {
     return this.color
   }
 
-  getEyes () {
-    return this.eyes
+  getTop () {
+    return this.top
   }
 
   setColor (color) {
@@ -52,9 +51,8 @@ class Eyes {
   updateColor (color) {
     const newColor = new THREE.Color(color)
     newColor.convertSRGBToLinear()
-    this.eyes[0].material.color = new THREE.Color(newColor)
-    this.eyes[1].material.color = new THREE.Color(newColor)
+    this.top.material.color = new THREE.Color(newColor)
   }
 }
 
-export default Eyes
+export default Top
