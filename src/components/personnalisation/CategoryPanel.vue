@@ -89,7 +89,7 @@ export default {
       const category = this.categories[indexCategory]
       const option = category[type]
 
-      this.selectionChange(this.selection, {
+      this.selectionChange({
         category: indexCategory,
         type: type,
         value: type === 'colors' ? option[indexItem] : option[indexItem].ref,
