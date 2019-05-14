@@ -1,4 +1,5 @@
 import GLTFLoader from 'three-gltf-loader'
+import * as THREE from 'three'
 import { guiAvatar } from './gui'
 import config from '@/config/config'
 import utils from '@/modules/helpers/utils.js'
@@ -16,6 +17,8 @@ class Avatar {
     }
     this.mode = params.mode ? params.mode : 'default'
     this.config = config.webgl[this.mode].avatar
+
+    this.renderer = params.renderer
 
     this.onReadyClb = params.onReadyClb
     this.positions = {}
@@ -79,7 +82,10 @@ class Avatar {
   initHead () {
     const category = config.categories[2]
     const defaultValues = category.default
+    this.eyeLids = []
+
     this.model.children.forEach(item => {
+      const name = item.name.toLowerCase()
       if (item.name === 'head') {
         this.head = item
         this.bodyParts.skin = new Skin({
@@ -93,10 +99,14 @@ class Avatar {
 
   initHair () {
     const hairList = []
+    const eyeBrows = []
+
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
       if (name.indexOf('cheveux') >= 0) {
         hairList.push(item)
+      } else if (name.indexOf('eyebrow') >= 0) {
+        eyeBrows.push(item)
       }
     })
 
@@ -105,6 +115,7 @@ class Avatar {
 
     this.bodyParts.hair = new Hair({
       haircutList: hairList,
+      eyeBrows: eyeBrows,
       haircut: defaultValues.attributes,
       color: category.colors[defaultValues.colors],
       gui: this.guiElementsFolder
@@ -115,6 +126,16 @@ class Avatar {
     const eyes = []
     const category = config.categories[1]
     const defaultValues = category.default
+
+    const matcap = new THREE.TextureLoader().load('/models/textures/matcap-porcelain-white.jpg')
+    this.head.children.forEach(item => {
+      const name = item.name.toLowerCase()
+      if (name.indexOf('eye_right') >= 0 || name.indexOf('eye_left') >= 0) {
+        item.material = new THREE.MeshMatcapMaterial({
+          matcap: matcap
+        })
+      }
+    })
 
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
@@ -148,7 +169,7 @@ class Avatar {
   initGlasses () {
     const glassesList = []
     glassesList.push({ name: 'none' })
-    this.model.children.forEach(item => {
+    this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
       if (name.indexOf('glasses') >= 0) {
         glassesList.push(item)
@@ -254,7 +275,7 @@ class Avatar {
 
   updateModelRotation (key, deltaTime) {
     this.rotation[key].currentValue = easings.linear(deltaTime, this.rotation[key].beginValue, this.rotation[key].endValue - this.rotation[key].beginValue, this.durationTime) // Get interpolled value
-    this.model.children[3].rotation[key] = this.rotation[key].currentValue
+    this.head.rotation[key] = this.rotation[key].currentValue
   }
 
   handleRotation (positions) {
@@ -278,7 +299,9 @@ class Avatar {
    * @param {*} positions Array of Objects
    */
   update (positions) {
+    // console.log(positions.rotation.x)
     if (positions) {
+      // console.log(this.positions, utils.isEmptyObject(this.positions))
       if (utils.isEmptyObject(this.positions)) {
         this.positions = positions
       } else {

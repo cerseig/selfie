@@ -97,7 +97,9 @@ export default {
     },
     onValidateStep () {
       this.currentStep++
-
+      if (this.currentStep === this.STEPS.PERSONNALISATION && this.detectionManager) {
+        this.detectionManager.brfManager.reset()
+      }
       if (this.currentStep === this.STEPS.DECOR) {
         this.scene.decors.show()
       } else if (this.currentStep >= 3) {
@@ -138,7 +140,7 @@ export default {
       this.rafID = requestAnimationFrame(this.update)
 
       if (this.detectionManager) {
-        this.handleSizes()
+        // this.handleSizes()
 
         if (this.detectionManager.getIsDetectionReady()) {
           this.isDetectionReady = this.detectionManager.getIsDetectionReady()
@@ -159,13 +161,13 @@ export default {
     }
   },
   mounted () {
+
     if (this.$route.params && this.$route.params.step) {
       this.currentStep = this.$route.params.step * 1
     }
-
     this.updateBodyClass()
 
-    if (this.STEPS.ANALYSIS === this.currentStep) {
+    if (this.STEPS.ANALYSIS === this.currentStep || this.STEPS.PERSONNALISATION === this.currentStep) {
       this.detectionManager = new DetectionManager({
         camera: document.getElementById('_camera'),
         imageData: document.getElementById('_imageData'),
@@ -179,6 +181,7 @@ export default {
     this.scene = new Scene({
       config: config,
       element: this.$refs.avatarElement,
+      mode: 'debug',
       sizes: {
         width: window.innerWidth,
         height: window.innerHeight
