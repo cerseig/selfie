@@ -143,7 +143,6 @@ export default {
     }
   }
 
-
   .list--category {
     position: relative;
     bottom: -40px;
@@ -256,7 +255,6 @@ export default {
         }
       }
     }
-
 
     .list--colors {
       height: 160px;
