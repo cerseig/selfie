@@ -52,7 +52,6 @@ class Glasses {
   }
 
   setGlasses (glasses) {
-    console.log(glasses)
     if (glasses === 'none') {
       this.glasses = null
     } else {

@@ -86,32 +86,32 @@ class Scene {
 
       this.ambientLight1 = new THREE.AmbientLight(0xffffff)
       this.ambientLight1.castShadow = true
+      this.ambientLight1.visible = false
       this.ambientLight2 = this.ambientLight1.clone()
-      this.ambientLight2.visible = false
       this.ambientLight3 = this.ambientLight2.clone()
 
       this.directionalLight1 = new THREE.DirectionalLight(0xffffff, 0.5)
       this.directionalLight1.castShadow = true
+      this.directionalLight1.visible = false
       this.directionalLight2 = this.directionalLight1.clone()
-      this.directionalLight2.visible = false
       this.directionalLight3 = this.directionalLight2.clone()
 
       this.reactAreaLight1 = new THREE.RectAreaLight(0xffffff, 0.5, 30, 30)
       this.reactAreaLight1.castShadow = true
+      this.reactAreaLight1.visible = false
       this.reactAreaLight2 = this.reactAreaLight1.clone()
-      this.reactAreaLight2.visible = false
       this.reactAreaLight3 = this.reactAreaLight2.clone()
 
       this.spotLight1 = new THREE.SpotLight(0xffffff)
       this.spotLight1.castShadow = true
+      this.spotLight1.visible = false
       this.spotLight2 = this.spotLight1.clone()
-      this.spotLight2.visible = false
       this.spotLight3 = this.spotLight2.clone()
 
       this.pointLight1 = new THREE.SpotLight(0xffffff)
       this.pointLight1.castShadow = true
+      this.pointLight1.visible = false
       this.pointLight2 = this.pointLight1.clone()
-      this.pointLight2.visible = false
       this.pointLight3 = this.pointLight2.clone()
 
       this.scene.add(this.hemisphereLight1)

@@ -23,6 +23,7 @@ class Skin {
   }
 
   init () {
+    // this.face.receiveShadow = true
     this.updateColor(this.color)
     this.initGUI()
   }
