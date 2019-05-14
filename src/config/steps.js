@@ -146,8 +146,8 @@ const steps = {
       ]
     }
   },
-  experience: {
-    name: 'experience',
+  posing: {
+    name: 'posing',
     steps: [
       {
         name: 'rotationLeft',

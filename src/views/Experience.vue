@@ -16,6 +16,7 @@
 
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" />
 
   </div>
 </template>
@@ -26,6 +27,7 @@ import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
 import DetectionStep from '@/components/experience/DetectionStep'
 import DecorStep from '@/components/decor/DecorStep'
+import PosingStep from '@/components/experience/PosingStep'
 import Icon from '@/components/icons/Icon.vue'
 
 // webgl
@@ -40,6 +42,7 @@ export default {
     PersonnalisationStep,
     DetectionStep,
     DecorStep,
+    PosingStep,
     Icon
   },
   data () {
@@ -62,7 +65,8 @@ export default {
       STEPS: {
         ANALYSIS: 0,
         PERSONNALISATION: 1,
-        DECOR: 2
+        DECOR: 2,
+        POSING: 3
       }
     }
   },
@@ -77,7 +81,6 @@ export default {
       }
     },
     onValidateStep () {
-      console.log('current step before validate step', this.currentStep)
       this.currentStep++
 
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
@@ -88,8 +91,7 @@ export default {
         this.scene.decors.show()
       }
 
-      if (this.currentStep >= 3) {
-        console.log(' > 3 ?')
+      if (this.currentStep >= 4) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
