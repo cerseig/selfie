@@ -5,13 +5,9 @@
 
 <script>
 // Modules
-import DetectionManager from '@/modules/detection/DetectionManager.js'
 import Step from '@/modules/step/Step'
 // Config
 import stepsConfig from '@/config/steps'
-import sprite from '@/config/voiceSprite'
-import store from '@/store/index'
-import utils from '@/modules/helpers/utils.js'
 
 export default {
   name: 'detection',
@@ -101,23 +97,15 @@ export default {
     }
   },
   mounted () {
-    /* TO REMOVE AFTER TEST */
-    const source = '/sounds/voice_fr.mp3'
-    this.sound = new Howl({
-      src: [source],
-      sprite: sprite
-    })
-    store.commit('setSound', this.sound)
-
     this.initDetection()
   },
   watch: {
-    isReady() {
+    isReady () {
       if (this.isReady) {
         this.getPositionCenter()
       }
     },
-    isAnalyse() {
+    isAnalyse () {
       if (!this.stepObject.isVoice && this.isAnalyse) {
         this.stepObject.changeSubStepState('success', () => {
           this.stepObject.changeSubStep()
@@ -125,7 +113,7 @@ export default {
         })
       }
     },
-    positions() {
+    positions () {
       if (!this.stepObject.isVoice && this.isActive) {
         this.getPositionRight()
         this.getPositionLeft()

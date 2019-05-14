@@ -7,9 +7,6 @@
 
 <script>
 import Nav from '@/components/Nav.vue'
-import store from '@/store/index'
-import sprite from '@/config/voiceSprite'
-import { Howl } from 'howler'
 
 export default {
   name: 'app',
