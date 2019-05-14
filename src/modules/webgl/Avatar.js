@@ -7,6 +7,7 @@ import Hair from './personnalisation/Hair'
 import Skin from './personnalisation/Skin'
 import Eyes from './personnalisation/Eyes'
 import Top from './personnalisation/Top'
+import Glasses from './personnalisation/Glasses'
 
 class Avatar {
   constructor (params) {
@@ -144,6 +145,26 @@ class Avatar {
     })
   }
 
+  initGlasses () {
+    const glassesList = []
+    glassesList.push({ name: 'none' })
+    this.model.children.forEach(item => {
+      const name = item.name.toLowerCase()
+      if (name.indexOf('glasses') >= 0) {
+        glassesList.push(item)
+      }
+    })
+
+    const category = config.categories[5]
+    const defaultValues = category.default
+
+    this.bodyParts.glasses = new Glasses({
+      glassesList: glassesList,
+      glasses: defaultValues.attributes,
+      color: category.colors[defaultValues.colors]
+    })
+  }
+
   handlePersonnalisation (change) {
     switch (change.title) {
       case 'hair':
@@ -177,6 +198,16 @@ class Avatar {
             break
         }
         break
+      case 'glasses':
+        switch (change.type) {
+          case 'colors':
+            this.bodyParts.glasses.switchColor(change.value)
+            break
+          case 'attributes':
+            this.bodyParts.glasses.switchGlasses(change.value)
+            break
+        }
+        break
     }
   }
 
@@ -196,6 +227,7 @@ class Avatar {
         this.initHair()
         this.initEyes()
         this.initTop()
+        this.initGlasses()
 
         this.onReadyClb()
       })

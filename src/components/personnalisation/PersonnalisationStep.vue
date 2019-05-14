@@ -79,6 +79,7 @@ export default {
       }
     },
     onSelectionChange (change) {
+      console.log(change)
       this.$parent.$emit('Personnalisation:Change', change)
     },
     getConfigColor (category, color) {

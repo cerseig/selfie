@@ -3,7 +3,7 @@
     <div class="decor__inner">
       <ul class="list list--decor">
         <li v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`list__item ${background.title === selection ? 'is-active' : ''}`" @click="onSelectItem" :data-decor="background.title">
-           <Icon :name="background.title" :width="background.width" :height="background.height" stroke="#000000" fill="#fff"/>
+           <Icon :name="background.title" :width="background.width" :height="background.height" stroke="#000000" fill="#000000"/>
         </li>
       </ul>
     </div>
