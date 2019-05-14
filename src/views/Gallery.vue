@@ -1,13 +1,16 @@
 <template>
   <div class="gallery">
-    <h1>{{ $t('gallery.title') }}</h1>
-    <div class="addAvatars">
+    <h1 class="gallery__title">{{ $t('gallery.title') }}</h1>
+    <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
+    <div class="gallery__avatars">
+      <AvatarsGrid />
+    </div>
+<!--    <div class="addAvatars">
       <input class="addAvatar__avatar" v-model="url" type="text" />
       <input class="addAvatar__picture" v-model="picture" type="text" />
       <button type="button" @click="createAvatar()">ajouter</button>
       <router-link to="/share">{{ $t('share.title') }}</router-link>
-    </div>
-    <AvatarsGrid />
+    </div>-->
 
   </div>
 </template>
@@ -24,7 +27,13 @@ export default {
     return {
       avatarId: '',
       url: '',
-      picture: ''
+      picture: '',
+      allAvatars: []
+    }
+  },
+  apollo: {
+    allAvatars: {
+      query: ALL_AVATARS
     }
   },
   components: {
@@ -37,6 +46,9 @@ export default {
     picturePath: () => store.getters.getPicturePath
   },
   methods: {
+    getUsersCounter () {
+
+    },
     saveImagesInDB () {
       if (!this.isAvatarSavedInDB && this.avatarPath.length > 0) {
         this.url = this.avatarPath
@@ -94,5 +106,27 @@ export default {
 <style lang="scss">
   .gallery {
     margin-top: 10rem;
+
+    &__title {
+      margin-bottom: 20px;
+
+      font-weight: 700;
+      font-size: 3rem;
+
+      text-transform: uppercase;
+    }
+
+    &__counter {
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 60px;
+    }
+
+    &__avatars {
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+    }
   }
 </style>

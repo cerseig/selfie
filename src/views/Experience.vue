@@ -7,7 +7,7 @@
         <canvas class="detection__image" id="_imageData"></canvas>
         <canvas class="detection__points" id="_points"></canvas>
       </div>
-      <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px'} : {}"></div>
+      <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px' } : {}"></div>
       <div :class="`detection__errors ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
         <p :class="`detection__message ${detection.outOfCamera === true ? `detection__message--active` : ``}`">
           {{ $t('experience.analyse.errors.outOfCamera') }}
@@ -23,8 +23,11 @@
         <Icon name="check" width="70" height="70" stroke="#FFFFFF" />
       </div>
     </div>
+
+    <Detection :validateDetection="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
+
     <div class="">
       <h1>Etape : la pose</h1>
       <a href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }} : {{ $t('share.subtitle') }}</a>
@@ -37,28 +40,36 @@
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
+import Detection from '@/components/experience/Detection'
 import DecorStep from '@/components/decor/DecorStep'
 import Icon from '@/components/icons/Icon.vue'
+import store from '@/store/index'
+import Step from '@/modules/step/Step'
 
 // webgl
 import Scene from '@/modules/webgl/Scene.js'
 
 // Config
 import config from '@/config/config'
+import sprite from '@/config/voiceSprite'
+import stepsConfig from '@/config/steps'
 
 export default {
   name: 'Experience',
   components: {
     PersonnalisationStep,
+    Detection,
     DecorStep,
     Icon
   },
   data () {
     return {
-      isAnalyse: true,
+      isAnalyse: false,
+      isDetectionReady: false,
       isDebug: true,
       showCamera: false,
       currentStep: 0,
+      currentStepSprite: [],
       detection: {
         resolutionFrame: {},
         resolutionFrameSize: {},
@@ -67,6 +78,7 @@ export default {
         tooFar: false,
         errorDetection: false
       },
+      positions: {},
       STEPS: {
         ANALYSIS: 0,
         PERSONNALISATION: 1,
@@ -77,24 +89,26 @@ export default {
   methods: {
     updateBodyClass () {
       document.querySelector('body').className = ''
-      if (this.isAnalyse === true) {
-        document.querySelector('body').classList.add('application')
-      } else {
+      if (this.isAnalyse) {
         document.querySelector('body').classList.add('experience')
+      } else {
+        document.querySelector('body').classList.add('application')
       }
     },
     onValidateStep () {
       this.currentStep++
 
-      if (this.currentStep >= 3) {
+      if (this.currentStep === this.STEPS.DECOR) {
+        this.scene.decors.show()
+      } else if (this.currentStep >= 3) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
     },
     setResolutionFrameSize (resolutionFrame) {
       let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
-      let height = Math.round((((coefficient * 2) * resolutionFrame.height) / 100) + resolutionFrame.height)
-      let width = Math.round((((coefficient * 2) * resolutionFrame.width) / 100) + resolutionFrame.width)
+      let height = Math.round(((coefficient * resolutionFrame.height) / 100) + resolutionFrame.height)
+      let width = Math.round(((coefficient * resolutionFrame.width) / 100) + resolutionFrame.width)
       this.detection.resolutionFrameSize = { width: width, height: height }
     },
     handleSizes () {
@@ -102,7 +116,6 @@ export default {
       this.detection.outOfCamera = this.detectionManager.getOutOfCamera()
       this.detection.tooClose = this.detectionManager.getTooClose()
       this.detection.tooFar = this.detectionManager.getTooFar()
-      this.isAnalyse = this.detectionManager.getIsAnalyse()
 
       if (this.detection.outOfCamera === true || this.detection.tooClose === true || this.detection.tooFar === true) {
         this.detection.errorDetection = true
@@ -121,15 +134,23 @@ export default {
       this.scene.decors.handleChange(change)
     },
     update () {
+
       this.rafID = requestAnimationFrame(this.update)
 
       if (this.detectionManager) {
         this.handleSizes()
+
+        if (this.detectionManager.getIsDetectionReady()) {
+          this.isDetectionReady = this.detectionManager.getIsDetectionReady()
+        }
+
+        if (this.detectionManager.getIsAnalyse()) {
+          this.isAnalyse = this.detectionManager.getIsAnalyse()
+        }
       }
 
-      if (this.currentStep === this.STEPS.PERSONNALISATION && this.detectionManager) {
+      if (this.currentStep === this.STEPS.PERSONNALISATION || this.detectionManager) {
         this.positions = this.detectionManager.getPositions()
-        this.scene.update(this.positions)
       }
 
       if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR) {
@@ -141,9 +162,10 @@ export default {
     if (this.$route.params && this.$route.params.step) {
       this.currentStep = this.$route.params.step * 1
     }
+
     this.updateBodyClass()
 
-    if (this.STEPS.ANALYSIS) {
+    if (this.STEPS.ANALYSIS === this.currentStep) {
       this.detectionManager = new DetectionManager({
         camera: document.getElementById('_camera'),
         imageData: document.getElementById('_imageData'),
@@ -160,16 +182,19 @@ export default {
       sizes: {
         width: window.innerWidth,
         height: window.innerHeight
-      }
+      },
+      showDecor: this.currentStep === this.STEPS.DECOR
     })
 
     this.update()
+
   },
   beforeDestroy () {
     if (this.detectionManager) {
       cancelAnimationFrame(this.rafID)
       this.detectionManager.destroy()
     }
+    this.stepObject.sound.stop()
   }
 }
 </script>
@@ -220,11 +245,12 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      background: $color__blue--pastel;
     }
 
     &__restriction {
-      border: 4px solid $color__white;
       position: absolute;
+      border: 4px solid #FEFEFE;
 
       &.hasError {
         border-color: red;
