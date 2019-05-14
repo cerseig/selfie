@@ -279,7 +279,7 @@ export default {
     &__image {
       position: absolute;
       opacity: 0.5;
-      height: 100%;
+      min-height: 100%;
       min-width: 100%;
       max-width: none;
       z-index: 0;
