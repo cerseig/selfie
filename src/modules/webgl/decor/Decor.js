@@ -12,6 +12,7 @@ class Decor {
     }
     this.mode = params.mode ? params.mode : 'default'
     this.isShown = params.isShown
+    this.autoShow = params.autoShow
 
     this.name = params.name
 
@@ -87,10 +88,11 @@ class Decor {
         this.model.position.set(this.config.position.x, this.config.position.y, this.config.position.z)
 
         // this.updateColors()
-
         this.scene.add(obj)
         if (!this.isShown) {
           this.hide()
+        } else if (!this.autoShow) {
+          this.model.visible = false
         }
         this.initGui()
       })
