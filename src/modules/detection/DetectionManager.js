@@ -148,6 +148,16 @@ class DetectionManager {
     this.isDetectionReady = true
   }
 
+  onResizeRoi (brfv4, brfManager, resolution) {
+    let faceDetectionRegion = new brfv4.Rectangle()
+
+    faceDetectionRegion.setTo(
+      resolution.width * 0.25, resolution.height * 0.10,
+      resolution.width * 0.50, resolution.height * 0.80
+    )
+    brfManager.setFaceDetectionRoi(faceDetectionRegion)
+  }
+
   onRestrictToCenter (brfv4, brfManager, resolution) {
     let faceDetectionRegion = new brfv4.Rectangle()
     let maxFaceSize = faceDetectionRegion.height

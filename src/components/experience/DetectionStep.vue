@@ -10,7 +10,7 @@ import Step from '@/modules/step/Step'
 import stepsConfig from '@/config/steps'
 
 export default {
-  name: 'detection',
+  name: 'DetectionStep',
   props: {
     isReady: {
       required: false,
@@ -51,7 +51,7 @@ export default {
       this.stepObject.init()
     },
     getPositionRight () { // turn head to the right
-      if (this.stepObject.currentSubStep.name === 'right') {
+      if (this.stepObject.currentSubStep.name === 'right' && this.isActive) {
         if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
           this.stepObject.changeSubStep()
           let callAdvice = setTimeout(() => {
@@ -67,7 +67,7 @@ export default {
       }
     },
     getPositionLeft () { // turn head to the left
-      if (this.stepObject.currentSubStep.name === 'left' && this.positions.rotation.y < 0) {
+      if (this.stepObject.currentSubStep.name === 'left' && this.positions.rotation.y < 0 && this.isActive) {
         if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
           this.stepObject.changeSubStep()
           let callAdvice = setTimeout(() => {
@@ -84,7 +84,7 @@ export default {
     },
     getPositionNormal () { // face to the camera
       if (this.stepObject.currentSubStep.name === 'normal') {
-        if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
+        if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1] && this.isActive) {
           let callSuccess = setTimeout(() => {
             this.stepObject.changeSubStepState('success', () => {
               window.clearTimeout(callSuccess)
