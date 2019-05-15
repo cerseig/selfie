@@ -10,7 +10,7 @@ import Step from '@/modules/step/Step'
 import stepsConfig from '@/config/steps'
 
 export default {
-  name: 'detection',
+  name: 'DetectionStep',
   props: {
     isReady: {
       required: false,
