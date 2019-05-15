@@ -1,7 +1,7 @@
 <template>
   <div class="experience gui__wrapper">
     <div class="decor__list">
-      <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${selection === background.title ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
+      <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${selection.decor === background.title && currentStep === STEPS.DECOR ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
     </div>
     <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR || currentStep === STEPS.POSING ? 'is-active' : ''}`" ref="avatarElement"></div>
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
@@ -97,9 +97,9 @@ export default {
         }
       }
 
-      if (this.currentStep === this.STEPS.DECOR) {
-        this.scene.decors.show()
-      }
+      // if (this.currentStep === this.STEPS.DECOR) {
+      //   this.scene.decors.show()
+      // }
 
       if (this.currentStep >= 3) {
         // todo : camera screenshot
