@@ -3,7 +3,7 @@
     <div class="decor__list">
       <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${selection === background.title ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
     </div>
-    <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR ? 'is-active' : ''}`" ref="avatarElement"></div>
+    <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR || currentStep === STEPS.POSING ? 'is-active' : ''}`" ref="avatarElement"></div>
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']">
         <video class="detection__camera" id="_camera"></video>
@@ -19,7 +19,7 @@
 
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
-    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" />
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" v-bind:positions="positions"/>
 
   </div>
 </template>
@@ -92,6 +92,9 @@ export default {
 
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
+        if (this.detectionManager) {
+
+        }
       }
 
       if (this.currentStep === this.STEPS.DECOR) {
@@ -104,9 +107,6 @@ export default {
       }
     },
     setResolutionFrameSize (resolutionFrame) {
-      /* let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
-      let height = Math.round((resolutionFrame.height / 100) + resolutionFrame.height)
-      let width = Math.round((resolutionFrame.width / 100) + resolutionFrame.width) */
       this.detection.resolutionFrameSize = { width: resolutionFrame.width, height: resolutionFrame.height }
     },
     handleSizes () {
@@ -151,9 +151,10 @@ export default {
         this.positions = this.detectionManager.getPositions()
       }
 
-      if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR) {
+      if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR || this.currentStep === this.STEPS.POSING) {
         this.scene.update(this.positions)
       }
+
     }
   },
   mounted () {

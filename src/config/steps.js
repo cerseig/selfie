@@ -181,6 +181,15 @@ const steps = {
         }
       },
       {
+        name: 'tiltRight',
+        sprite: {
+          advice: [{ start: 226000, end: 227700 }],
+          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
+          errorsTooMuch: [{ start: 191000, end: 191700 }, { start: 192000, end: 193000 }],
+          success: [{ start: 229000, end: 231400 }]
+        }
+      },
+      {
         name: 'smile',
         sprite: {
           advice: [{ start: 206000, end: 207100 }],
@@ -194,15 +203,6 @@ const steps = {
           advice: [{ start: 212000, end: 213200 }],
           errorsNotEnough: [{ start: 215000, end: 216500 }],
           success: [{ start: 218000, end: 220500 }]
-        }
-      },
-      {
-        name: 'tiltRight',
-        sprite: {
-          advice: [{ start: 226000, end: 227700 }],
-          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
-          errorsTooMuch: [{ start: 191000, end: 191700 }, { start: 192000, end: 193000 }],
-          success: [{ start: 229000, end: 231400 }]
         }
       },
       {

@@ -107,7 +107,7 @@ export default {
 
     &__next {
       @include outlinedButton(1rem 2rem, 1.5rem);
-      z-index: 200;
+      z-index: 5;
 
       position: absolute;
       top: 30px;

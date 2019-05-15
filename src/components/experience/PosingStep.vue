@@ -19,22 +19,34 @@
       isActive: {
         required: false,
         type: Boolean
+      },
+      positions: {
+        required: false,
+        type: Object
       }
     },
     methods: {
       initPosingStep () {
         this.createStepObject()
+        console.log('init posing step')
       },
       createStepObject () {
         let stepObject = new Step(stepsConfig.posing)
         this.stepObject = stepObject
+      },
+      launchSound () {
+        this.stepObject.init()
+        console.log(this.stepObject.subSteps)
       }
     },
     mounted () {
-
+      this.initPosingStep()
     },
     watch: {
-
     }
   }
 </script>
+
+<style lang="scss">
+
+</style>
