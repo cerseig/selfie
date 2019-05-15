@@ -101,7 +101,7 @@ export default {
         this.scene.decors.show()
       }
 
-      if (this.currentStep >= 4) {
+      if (this.currentStep >= 3) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
