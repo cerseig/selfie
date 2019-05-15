@@ -1,6 +1,6 @@
 <template>
   <div class="intro">
-    <h1 class="intro__animation">A.M.Y</h1>
+    <h1 class="intro__animation">A.M.Y.</h1>
   </div>
 </template>
 
@@ -32,10 +32,7 @@ export default {
     this.playIntro()
   },
   beforeDestroy () {
-    this.soundContext.stop()
-  },
-  computed: {
-    soundContext: () => store.getters.getSound
+    this.stepObject.sound.stop()
   }
 }
 </script>

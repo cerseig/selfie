@@ -3,7 +3,7 @@
     <button class="nav__menu" @click="openMenu">
       <Icon name="menu" width="30" height="30" stroke="#000000" />
     </button>
-    <h1 class="nav__logo">A.M.Y</h1>
+    <h1 class="nav__logo">A.M.Y.</h1>
     <SVGSprite />
   </nav>
 </template>
@@ -31,7 +31,7 @@ export default {
 <style scoped lang="scss">
 
 .nav {
-  z-index: 5;
+  z-index: 2;
   position: fixed;
   top: 0;
   width: 100%;
@@ -50,14 +50,12 @@ export default {
     }
 
     &__menu {
-      margin-right: auto;
+      position: absolute;
+      left: 50px;
     }
 
     &__logo {
       opacity: 1;
-      margin: 0 auto;
-      width: 100%;
-      position: absolute;
       font-size: 4rem;
     }
 

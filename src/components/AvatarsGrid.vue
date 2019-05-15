@@ -40,7 +40,7 @@ export default {
 
     &__item {
       list-style: none;
-      max-height: 200px;
+      max-height: 250px;
       overflow: hidden;
 
       &:first-child {

@@ -143,7 +143,6 @@ export default {
     }
   }
 
-
   .list--category {
     position: relative;
     bottom: -40px;
@@ -218,6 +217,9 @@ export default {
   }
 
   .panel {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
     &__subpanel {
       z-index: 1;
     }
@@ -253,7 +255,6 @@ export default {
         }
       }
     }
-
 
     .list--colors {
       height: 160px;

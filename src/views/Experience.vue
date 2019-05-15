@@ -1,6 +1,9 @@
 <template>
   <div class="experience gui__wrapper">
-    <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR ? 'is-active' : ''}`" ref="avatarElement"></div>
+    <div class="decor__list">
+      <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${selection === background.title ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
+    </div>
+    <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR || currentStep === STEPS.POSING ? 'is-active' : ''}`" ref="avatarElement"></div>
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']">
         <video class="detection__camera" id="_camera"></video>
@@ -8,19 +11,15 @@
         <canvas class="detection__points" id="_points"></canvas>
       </div>
       <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px' } : {}"></div>
+      <DetectionStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
       <div :class="`detection__check ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`" @click="onValidateStep">
         <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
       </div>
     </div>
 
-    <Detection :validateDetection="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
-
-    <div class="">
-      <h1>Etape : la pose</h1>
-      <a href="#" @click="onValidateStep">{{ $t('experience.personnalisation.nextStep') }} : {{ $t('share.subtitle') }}</a>
-    </div>
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" v-bind:positions="positions"/>
 
   </div>
 </template>
@@ -29,8 +28,9 @@
 // Modules
 import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
-import Detection from '@/components/experience/Detection'
+import DetectionStep from '@/components/experience/DetectionStep'
 import DecorStep from '@/components/decor/DecorStep'
+import PosingStep from '@/components/experience/PosingStep'
 import Icon from '@/components/icons/Icon.vue'
 
 // webgl
@@ -43,8 +43,9 @@ export default {
   name: 'Experience',
   components: {
     PersonnalisationStep,
-    Detection,
+    DetectionStep,
     DecorStep,
+    PosingStep,
     Icon
   },
   data () {
@@ -63,11 +64,16 @@ export default {
         tooFar: false,
         errorDetection: false
       },
+      selection: {
+        decor: config.backgrounds.default
+      },
+      backgrounds: config.backgrounds,
       positions: {},
       STEPS: {
         ANALYSIS: 0,
         PERSONNALISATION: 1,
-        DECOR: 2
+        DECOR: 2,
+        POSING: 3
       }
     }
   },
@@ -86,19 +92,21 @@ export default {
 
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
+        if (this.detectionManager) {
+
+        }
       }
 
       if (this.currentStep === this.STEPS.DECOR) {
         this.scene.decors.show()
-      } else if (this.currentStep >= 3) {
+      }
+
+      if (this.currentStep >= 3) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
     },
     setResolutionFrameSize (resolutionFrame) {
-      /* let coefficient = (document.querySelector('#_points').offsetHeight * 100) / document.querySelector('.detection__content').offsetHeight
-      let height = Math.round((resolutionFrame.height / 100) + resolutionFrame.height)
-      let width = Math.round((resolutionFrame.width / 100) + resolutionFrame.width) */
       this.detection.resolutionFrameSize = { width: resolutionFrame.width, height: resolutionFrame.height }
     },
     handleSizes () {
@@ -121,7 +129,8 @@ export default {
       this.scene.avatar.handlePersonnalisation(change)
     },
     onDecorChange (change) {
-      this.scene.decors.handleChange(change)
+      // this.scene.decors.handleChange(change)
+      this.selection.decor = change
     },
     update () {
       this.rafID = requestAnimationFrame(this.update)
@@ -142,9 +151,10 @@ export default {
         this.positions = this.detectionManager.getPositions()
       }
 
-      if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR) {
+      if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR || this.currentStep === this.STEPS.POSING) {
         this.scene.update(this.positions)
       }
+
     }
   },
   mounted () {
@@ -195,6 +205,36 @@ export default {
   position: relative;
   overflow: hidden;
 
+  .decor {
+    &__list {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+
+      .decor__item {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        opacity: 0;
+
+        &.is-active {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .dg.main {
+    display: none;
+  }
+
   .avatar {
     position: absolute;
     top: 0;
@@ -217,6 +257,7 @@ export default {
     height: 100%;
     opacity: 0;
     pointer-events: none;
+    z-index: 3;
 
     &.is-active {
       opacity: 1;

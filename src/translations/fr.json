@@ -17,7 +17,10 @@
   "experience": {
     "title": "La page expérience",
     "personnalisation": {
-      "nextStep": "Étape suivante >"
+      "nextStep": "Étape suivante"
+    },
+    "decor": {
+      "nextStep": "Étape suivante"
     },
     "posing": {
       "title": "Étape de pose"

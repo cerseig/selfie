@@ -11,7 +11,7 @@ const sprites = {
   detection_left_errorOpposite: [46000, 1200], // end: 47200
   detection_normal_advice: [48000, 3400], // end: 51400
   detection_normal_success: [53000, 6000], // end: 59000
-  avatarPersonnalisation_advice: [60000, 68800], // end: 68800
+  avatarPersonnalisation_avatar_advice: [60000, 8800], // end: 68800
   backgroundPersonnalisation_park_advice: [70000, 6300], // end: 76300
   backgroundPersonnalisation_park_error: [86000, 2500], // end: 88500
   backgroundPersonnalisation_mountain_advice: [90000, 5700], // end: 95700
@@ -25,16 +25,16 @@ const sprites = {
   backgroundPersonnalisation_cocooning_advice: [126000, 5000], // end: 131000
   backgroundPersonnalisation_cocooning_error: [132000, 2400], // end: 134400
   backgroundPersonnalisation_beach_advice: [174000, 3400], // end: 177400
-  backgroundPersonnalisation_beach_error: [178000, 6400], // end: 184400
-  backgroundPersonnalisation_errorsLevel1: [135000, 2700], // end: 137700
-  backgroundPersonnalisation_errorsLevel2_1: [139000, 2400], // end: 141400
-  backgroundPersonnalisation_errorsLevel2_2: [143000, 3600], // end: 146600
-  backgroundPersonnalisation_errorsLevel2_3: [148000, 4000], // end: 152000
-  backgroundPersonnalisation_errorsLevel2_4: [153000, 5200], // end: 158200
-  backgroundPersonnalisation_errorsLevel2_5: [159000, 3300], // end: 162300
-  backgroundPersonnalisation_errorsLevel3: [163000, 5700], // end: 168700
-  backgroundPersonnalisation_errorsLevel4: [170000, 1200], // end: 171200
-  backgroundPersonnalisation_errorsLevel5: [172000, 900], // end: 172900
+  backgroundPersonnalisation_beach_success: [178000, 6400], // end: 184400
+  backgroundPersonnalisation_level1_error: [135000, 2700], // end: 137700
+  backgroundPersonnalisation_level2_error: [139000, 2400], // end: 141400
+  backgroundPersonnalisation_level2_2_error: [143000, 3600], // end: 146600
+  backgroundPersonnalisation_level2_3_error: [148000, 4000], // end: 152000
+  backgroundPersonnalisation_level2_4_error: [153000, 5200], // end: 158200
+  backgroundPersonnalisation_level2_5_error: [159000, 3300], // end: 162300
+  backgroundPersonnalisation_level3_error: [163000, 5700], // end: 168700
+  backgroundPersonnalisation_level4_error: [170000, 1200], // end: 171200
+  backgroundPersonnalisation_level5_error: [172000, 900], // end: 172900
   experience_rotationLeft_advice: [185000, 2900], // end: 187900
   experience_rotationLeft_errorTooMuch_1: [191000, 700], // end: 191700
   experience_rotationLeft_errorTooMuch_2: [192000, 1000], // end: 193000
