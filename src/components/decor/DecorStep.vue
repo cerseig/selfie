@@ -119,18 +119,21 @@ export default {
 
 <style lang="scss">
   .decor {
-    position: fixed;
-    bottom: 3rem;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
     left: 0;
     right: 0;
-    display: none;
+    bottom: 0;
+    z-index: 3;
 
     &__next {
       @include outlinedButton(1rem 2rem, 1.5rem);
-      z-index: 10;
+      z-index: 5;
 
-      position: fixed;
-      top: 25px;
+      position: absolute;
+      top: 30px;
       right: 30px;
     }
 
@@ -138,6 +141,10 @@ export default {
       display: flex;
       align-items: center;
       justify-content:  center;
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     &.is-active {
