@@ -46,8 +46,9 @@ export default {
     picturePath: () => store.getters.getPicturePath
   },
   methods: {
-    getUsersCounter () {
-
+    updateBodyClass () {
+      document.querySelector('body').className = ''
+      document.querySelector('body').classList.add('application')
     },
     saveImagesInDB () {
       if (!this.isAvatarSavedInDB && this.avatarPath.length > 0) {
@@ -99,6 +100,7 @@ export default {
   },
   mounted () {
     this.saveImagesInDB()
+    this.updateBodyClass()
   }
 }
 </script>

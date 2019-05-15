@@ -1,6 +1,9 @@
 <template>
   <div :class="`decor ${isActive ? 'is-active' : ''}`">
-    <a class="decor__next" href="#" @click="onValidateStep">{{ $t('experience.decor.nextStep') }}</a>
+    <a class="decor__next" href="#" @click="onValidateStep">
+      {{ $t('experience.decor.nextStep') }}
+      <Icon name="little-arrow" width="12" height="12" stroke="#000000" />
+    </a>
     <div class="decor__inner">
       <ul class="list list--decor">
         <li v-for="(background, index) in backgrounds.list" :key="`decor-${index}`" :class="`list__item ${background.title === selection ? 'is-active' : ''}`" @click="onSelectItem" :data-decor="background.title">
@@ -135,6 +138,18 @@ export default {
       position: absolute;
       top: 30px;
       right: 30px;
+
+      .icon {
+        margin-left: 10px;
+      }
+
+      &:focus {
+        .icon {
+          fill: $color__white;
+          stroke: $color__white;
+        }
+      }
+
     }
 
     &__inner {
