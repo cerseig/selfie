@@ -7,27 +7,28 @@ class Decors {
     this.mode = params.mode ? params.mode : 'default'
     this.autoShow = params.autoShow
 
+    console.log(this.config)
+
     this.decors = []
     this.decor = null
     this.init()
   }
 
   init () {
-    this.config.list.forEach(background => {
-      if (background.modelPaths) {
-        const decor = new Decor({
+    this.config.list.forEach(decor => {
+      if (decor.modelPaths) {
+        this.decors.push(new Decor({
           scene: this.scene,
-          config: background,
+          config: decor,
           modelPaths: {
-            obj: background.modelPaths.obj,
-            mtl: background.modelPaths.mtl
+            obj: decor.modelPaths.obj,
+            mtl: decor.modelPaths.mtl
           },
-          name: background.title,
+          name: decor.title,
           autoShow: this.autoShow,
-          isShown: background.title === this.config.default,
+          isShown: decor.title === this.config.default,
           mode: this.mode
-        })
-        this.decors.push(decor)
+        }))
       }
     })
     this.handleChange('mountain')

@@ -12,29 +12,29 @@ const sprites = {
   detection_normal_advice: [48000, 3400], // end: 51400
   detection_normal_success: [53000, 6000], // end: 59000
   avatarPersonnalisation_avatar_advice: [60000, 8800], // end: 68800
-  backgroundPersonnalisation_park_advice: [70000, 6300], // end: 76300
-  backgroundPersonnalisation_park_error: [86000, 2500], // end: 88500
-  backgroundPersonnalisation_mountain_advice: [90000, 5700], // end: 95700
-  backgroundPersonnalisation_mountain_error: [97000, 2300], // end: 99300
-  backgroundPersonnalisation_museum_advice: [100000, 5800], // end: 105800
-  backgroundPersonnalisation_museum_error: [107000, 2800], // end: 109800
-  backgroundPersonnalisation_eiffelTower_advice: [111000, 3500], // end: 114500
-  backgroundPersonnalisation_eiffelTower_error: [115000, 2400], // end: 117400
-  backgroundPersonnalisation_bathroom_advice: [118000, 3500], // end: 121500
-  backgroundPersonnalisation_bathroom_error: [122000, 2600], // end: 124600
-  backgroundPersonnalisation_cocooning_advice: [126000, 5000], // end: 131000
-  backgroundPersonnalisation_cocooning_error: [132000, 2400], // end: 134400
-  backgroundPersonnalisation_beach_advice: [174000, 3400], // end: 177400
-  backgroundPersonnalisation_beach_success: [178000, 6400], // end: 184400
-  backgroundPersonnalisation_level1_error: [135000, 2700], // end: 137700
-  backgroundPersonnalisation_level2_error: [139000, 2400], // end: 141400
-  backgroundPersonnalisation_level2_2_error: [143000, 3600], // end: 146600
-  backgroundPersonnalisation_level2_3_error: [148000, 4000], // end: 152000
-  backgroundPersonnalisation_level2_4_error: [153000, 5200], // end: 158200
-  backgroundPersonnalisation_level2_5_error: [159000, 3300], // end: 162300
-  backgroundPersonnalisation_level3_error: [163000, 5700], // end: 168700
-  backgroundPersonnalisation_level4_error: [170000, 1200], // end: 171200
-  backgroundPersonnalisation_level5_error: [172000, 900], // end: 172900
+  decorPersonnalisation_park_advice: [70000, 6300], // end: 76300
+  decorPersonnalisation_park_error: [86000, 2500], // end: 88500
+  decorPersonnalisation_mountain_advice: [90000, 5700], // end: 95700
+  decorPersonnalisation_mountain_error: [97000, 2300], // end: 99300
+  decorPersonnalisation_museum_advice: [100000, 5800], // end: 105800
+  decorPersonnalisation_museum_error: [107000, 2800], // end: 109800
+  decorPersonnalisation_eiffelTower_advice: [111000, 3500], // end: 114500
+  decorPersonnalisation_eiffelTower_error: [115000, 2400], // end: 117400
+  decorPersonnalisation_bathroom_advice: [118000, 3500], // end: 121500
+  decorPersonnalisation_bathroom_error: [122000, 2600], // end: 124600
+  decorPersonnalisation_cocooning_advice: [126000, 5000], // end: 131000
+  decorPersonnalisation_cocooning_error: [132000, 2400], // end: 134400
+  decorPersonnalisation_beach_advice: [174000, 3400], // end: 177400
+  decorPersonnalisation_beach_success: [178000, 6400], // end: 184400
+  decorPersonnalisation_level1_error: [135000, 2700], // end: 137700
+  decorPersonnalisation_level2_error: [139000, 2400], // end: 141400
+  decorPersonnalisation_level2_2_error: [143000, 3600], // end: 146600
+  decorPersonnalisation_level2_3_error: [148000, 4000], // end: 152000
+  decorPersonnalisation_level2_4_error: [153000, 5200], // end: 158200
+  decorPersonnalisation_level2_5_error: [159000, 3300], // end: 162300
+  decorPersonnalisation_level3_error: [163000, 5700], // end: 168700
+  decorPersonnalisation_level4_error: [170000, 1200], // end: 171200
+  decorPersonnalisation_level5_error: [172000, 900], // end: 172900
   experience_rotationLeft_advice: [185000, 2900], // end: 187900
   experience_rotationLeft_errorTooMuch_1: [191000, 700], // end: 191700
   experience_rotationLeft_errorTooMuch_2: [192000, 1000], // end: 193000

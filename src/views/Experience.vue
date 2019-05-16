@@ -1,7 +1,7 @@
 <template>
   <div class="experience gui__wrapper">
     <div class="decor__list">
-      <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${(selection.decor === background.title) && (currentStep === STEPS.DECOR) ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
+      <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection.decor === decor.title) && (currentStep === STEPS.DECOR) ? 'is-active' : ''}`" :style="{backgroundImage: `url(${decor.background})`}"  :data-decor="decor.title"></div>
     </div>
     <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR || currentStep === STEPS.POSING ? 'is-active' : ''}`" ref="avatarElement"></div>
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
@@ -65,9 +65,9 @@ export default {
         errorDetection: false
       },
       selection: {
-        decor: config.backgrounds.default
+        decor: config.decors.default
       },
-      backgrounds: config.backgrounds,
+      decors: config.decors,
       positions: {},
       STEPS: {
         ANALYSIS: 0,
@@ -93,7 +93,7 @@ export default {
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
         if (this.detectionManager) {
-
+          console.error('Bruh');
         }
       }
 

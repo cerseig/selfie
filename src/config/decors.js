@@ -1,4 +1,4 @@
-const backgrounds = {
+const decors = {
   default: 'mountain',
   wanted: 'beach',
   list: [
@@ -70,4 +70,4 @@ const backgrounds = {
   ]
 }
 
-export default backgrounds
+export default decors
