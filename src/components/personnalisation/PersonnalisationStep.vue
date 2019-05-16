@@ -19,7 +19,6 @@ import Step from '@/modules/step/Step'
 // Config
 import stepsConfig from '@/config/steps'
 import config from '@/config/config'
-import sprite from '@/config/voiceSprite'
 
 export default {
   name: 'PersonnalisationStep',
@@ -75,17 +74,8 @@ export default {
       return category.attributes[attribute].ref
     }
   },
-  mounted () {
-    /* TO REMOVE AFTER TEST */
-    const source = '/sounds/voice_fr.mp3'
-    this.sound = new Howl({
-      src: [source],
-      sprite: sprite
-    })
-    store.commit('setSound', this.sound)
-  },
   watch: {
-    isActive() {
+    isActive () {
       if (this.isActive) {
         this.initPersonnalisationStep()
       }

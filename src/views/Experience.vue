@@ -1,25 +1,19 @@
 <template>
   <div class="experience gui__wrapper">
     <div class="decor__list">
-      <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${(selection.decor === background.title) && (currentStep === STEPS.DECOR) ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
+      <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection.decor === decor.title) && (currentStep === STEPS.DECOR) ? 'is-active' : ''}`" :style="{backgroundImage: `url(${decor.background})`}"  :data-decor="decor.title"></div>
     </div>
-    <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR || currentStep === STEPS.POSING ? 'is-active' : ''}`" ref="avatarElement"></div>
+
+    <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
+
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
-      <div :class="['detection__content js-detection', isDebug ? 'is-debug' : '', showCamera ? 'is-camera-shown' : '']">
-        <video class="detection__camera" id="_camera"></video>
-        <canvas class="detection__image" id="_imageData"></canvas>
-        <canvas class="detection__points" id="_points"></canvas>
-      </div>
-      <div :class="`detection__restriction ${detection.errorDetection === true ? `hasError` : ``} ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`"  :style="detection.resolutionFrameSize.width !== null && detection.resolutionFrameSize.height !== null ? {width: detection.resolutionFrameSize.width + 'px', height: detection.resolutionFrameSize.height + 'px' } : {}"></div>
-      <DetectionStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" v-bind:isReady="isDetectionReady" v-bind:isAnalyse="isAnalyse" v-bind:positions="positions"/>
-      <div :class="`detection__check ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`" @click="onValidateStep">
-        <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
-      </div>
+      <Detection />
+      <DetectionStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" :isReady="detection.states.isReady" :isAnalysed="detection.states.isAnalysed" :positions="detection.positions" :errors="detection.errors" :sizes="detection.resolutionFrameSize" />
     </div>
 
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
-    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" v-bind:positions="positions"/>
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions"/>
 
   </div>
 </template>
@@ -31,7 +25,7 @@ import PersonnalisationStep from '@/components/personnalisation/Personnalisation
 import DetectionStep from '@/components/experience/DetectionStep'
 import DecorStep from '@/components/decor/DecorStep'
 import PosingStep from '@/components/experience/PosingStep'
-import Icon from '@/components/icons/Icon.vue'
+import Detection from '@/components/experience/Detection'
 
 // webgl
 import Scene from '@/modules/webgl/Scene.js'
@@ -46,29 +40,30 @@ export default {
     DetectionStep,
     DecorStep,
     PosingStep,
-    Icon
+    Detection
   },
   data () {
     return {
-      isAnalyse: false,
-      isDetectionReady: false,
-      isDebug: true,
-      showCamera: false,
       currentStep: 0,
-      currentStepSprite: [],
       detection: {
+        positions: {},
         resolutionFrame: {},
         resolutionFrameSize: {},
-        outOfCamera: false,
-        tooClose: false,
-        tooFar: false,
-        errorDetection: false
+        errors: {
+          outOfCamera: false,
+          tooClose: false,
+          tooFar: false,
+          detection: false
+        },
+        states: {
+          isReady: false,
+          isAnalysed: false
+        }
       },
       selection: {
-        decor: config.backgrounds.default
+        decor: config.decors.default
       },
-      backgrounds: config.backgrounds,
-      positions: {},
+      decors: config.decors,
       STEPS: {
         ANALYSIS: 0,
         PERSONNALISATION: 1,
@@ -78,13 +73,34 @@ export default {
     }
   },
   methods: {
+    initScene () {
+      this.scene = new Scene({
+        config: config,
+        element: this.$refs.avatarElement,
+        mode: 'default',
+        sizes: {
+          width: window.innerWidth,
+          height: window.innerHeight
+        },
+        showDecor: this.currentStep === this.STEPS.DECOR
+      })
+    },
+    initDetectionManager () {
+      if (this.STEPS.ANALYSIS === this.currentStep || this.STEPS.PERSONNALISATION === this.currentStep) {
+        this.detectionManager = new DetectionManager({
+          camera: document.getElementById('_camera'),
+          imageData: document.getElementById('_imageData'),
+          pointsData: document.getElementById('_points')
+        })
+      }
+    },
     updateBodyClass () {
       document.querySelector('.nav').classList.remove('nav--start')
-      document.querySelector('body').className = ''
-      if (this.isAnalyse) {
-        document.querySelector('body').classList.add('experience')
+      document.body.className = ''
+      if (this.detection.states.isAnalysed) {
+        document.body.classList.add('experience')
       } else {
-        document.querySelector('body').classList.add('application')
+        document.body.classList.add('application')
       }
     },
     onValidateStep () {
@@ -92,16 +108,7 @@ export default {
 
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
-        if (this.detectionManager) {
-
-        }
-      }
-
-      // if (this.currentStep === this.STEPS.DECOR) {
-      //   this.scene.decors.show()
-      // }
-
-      if (this.currentStep >= 3) {
+      } else if (this.currentStep >= this.STEPS.POSING) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
@@ -111,25 +118,24 @@ export default {
     },
     handleSizes () {
       this.detection.resolutionFrame = this.detectionManager.getResolutionFrame()
-      this.detection.outOfCamera = this.detectionManager.getOutOfCamera()
-      this.detection.tooClose = this.detectionManager.getTooClose()
-      this.detection.tooFar = this.detectionManager.getTooFar()
+      this.detection.errors.outOfCamera = this.detectionManager.getOutOfCamera()
+      this.detection.errors.tooClose = this.detectionManager.getTooClose()
+      this.detection.errors.tooFar = this.detectionManager.getTooFar()
 
-      if (this.detection.outOfCamera === true || this.detection.tooClose === true || this.detection.tooFar === true) {
-        this.detection.errorDetection = true
+      if (this.detection.errors.outOfCamera === true || this.detection.errors.tooClose === true || this.detection.errors.tooFar === true) {
+        this.detection.errors.detection = true
       } else {
-        this.detection.errorDetection = false
+        this.detection.errors.detection = false
       }
 
-      if (this.detection.resolutionFrame !== null && this.currentStep === 0) {
+      if (this.detection.resolutionFrame !== null && this.currentStep === this.STEPS.ANALYSIS) {
         this.setResolutionFrameSize(this.detection.resolutionFrame)
       }
     },
     onPersonnalisationChange (change) {
-      this.scene.avatar.handlePersonnalisation(change)
+      this.scene.avatar.personnalisation.handlePersonnalisation(change)
     },
     onDecorChange (change) {
-      // this.scene.decors.handleChange(change)
       this.selection.decor = change
     },
     update () {
@@ -138,23 +144,22 @@ export default {
       if (this.detectionManager) {
         this.handleSizes()
 
-        if (this.detectionManager.getIsDetectionReady()) {
-          this.isDetectionReady = this.detectionManager.getIsDetectionReady()
+        if (!this.detection.states.isReady && this.detectionManager.getIsDetectionReady()) {
+          this.detection.states.isReady = this.detectionManager.getIsDetectionReady()
         }
 
-        if (this.detectionManager.getIsAnalyse()) {
-          this.isAnalyse = this.detectionManager.getIsAnalyse()
+        if (!this.detection.states.isAnalysed && this.detectionManager.getIsAnalysed()) {
+          this.detection.states.isAnalysed = this.detectionManager.getIsAnalysed()
         }
       }
 
       if (this.currentStep === this.STEPS.PERSONNALISATION || this.detectionManager) {
-        this.positions = this.detectionManager.getPositions()
+        this.detection.positions = this.detectionManager.getPositions()
       }
 
       if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR || this.currentStep === this.STEPS.POSING) {
-        this.scene.update(this.positions)
+        this.scene.update(this.detection.positions)
       }
-
     }
   },
   mounted () {
@@ -163,27 +168,11 @@ export default {
     }
     this.updateBodyClass()
 
-    if (this.STEPS.ANALYSIS === this.currentStep || this.STEPS.PERSONNALISATION === this.currentStep) {
-      this.detectionManager = new DetectionManager({
-        camera: document.getElementById('_camera'),
-        imageData: document.getElementById('_imageData'),
-        pointsData: document.getElementById('_points')
-      })
-    }
-
     this.$on('Personnalisation:Change', this.onPersonnalisationChange)
     this.$on('Decor:Change', this.onDecorChange)
 
-    this.scene = new Scene({
-      config: config,
-      element: this.$refs.avatarElement,
-      mode: 'debug',
-      sizes: {
-        width: window.innerWidth,
-        height: window.innerHeight
-      },
-      showDecor: this.currentStep === this.STEPS.DECOR
-    })
+    this.initDetectionManager()
+    this.initScene()
 
     this.update()
   },
@@ -263,90 +252,6 @@ export default {
       opacity: 1;
       pointer-events: all;
     }
-
-    &__content {
-      overflow: hidden;
-      width: calc(100vw - 20%);
-      height: calc(100vh - 25%);
-      max-width: 824px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: $color__blue--pastel;
-    }
-
-    &__restriction {
-      position: absolute;
-      border: 4px solid #FEFEFE;
-
-      &.hasError {
-        border-color: red;
-      }
-    }
-
-    &__errors {
-      position: absolute;
-      top: 5em;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    &__check {
-      position: absolute;
-      bottom: 5rem;
-      background-color: $color__black;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    &__message {
-      display: none;
-
-      font-size: 2.5rem;
-
-      &--active {
-        display: block;
-      }
-
-    }
-
-    &__camera {
-      display: none;
-    }
-
-    &__image {
-      position: absolute;
-      opacity: 0.5;
-      min-height: 100%;
-      min-width: 100%;
-      max-width: none;
-      z-index: 0;
-    }
-
-    &__points {
-      position: relative;
-      z-index: 1;
-    }
-
-    &.is-hidden {
-      position: absolute;
-      opacity: 0;
-    }
   }
 }
-
-@media screen and (max-width: 600px){
-  .experience {
-    .detection {
-      &__content {
-        width: calc(100vw - 20px);
-        height: calc(100vh - 200px);
-      }
-    }
-  }
-}
-
 </style>
