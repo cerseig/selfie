@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? 'https://a-m-y.netlify.com' : 'https://localhost:8080',
   css: {
@@ -11,7 +13,12 @@ module.exports = {
   },
   configureWebpack: {
     devServer: {
-      https: true
+      port: 8080,
+      http2: true,
+      https: {
+        key: fs.readFileSync('server.key.pem'),
+        cert: fs.readFileSync('server.crt.pem')
+      }
     }
   },
   pluginOptions: {
