@@ -21,6 +21,9 @@ module.exports = {
       }
     }
   },
+  pwa: {
+
+  },
   pluginOptions: {
     i18n: {
       locale: 'fr',
