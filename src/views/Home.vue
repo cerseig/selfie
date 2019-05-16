@@ -72,9 +72,7 @@ export default {
     onDetectDevice () {
       let isIOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform) // true or false
       if (isIOS) {
-        console.log('ios device is detected')
-        let isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime)
-        if (isChrome) {
+        if (navigator.userAgent.indexOf("Chrome") > -1) {
           this.isIosSafari = false
           console.log('isIosSafari, has to be false:', this.isIosSafari)
         } else {
