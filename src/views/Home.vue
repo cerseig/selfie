@@ -4,23 +4,30 @@
       <!--<img class="home__logo" :src="require(`@/assets/img/logo.png`)">-->
       <h1 class="home__title">A.M.Y.</h1>
       <h2 class="home__baseline">{{ $t('home.baseline') }}</h2>
-      <div class="home__select">
+
+      <div class="home__actions" v-if="isIosSafari">
+        <div class="home__select">
         <span class="select__arrow" @click="onChangeLang">
           <Icon name="little-arrow" width="15" height="15" stroke="#000000" />
         </span>
-        <ul class="select__languages">
-          <li v-for="(lang, index) in availableLanguages"
-              :class="`select__language ${index === 0 ? 'is-selected' : ''}`"
-              :key="`lang-${lang.ident}`"
-              :data-value="lang.ident">
-            {{lang.lang}}
-          </li>
-        </ul>
-        <span class="select__arrow" @click="onChangeLang">
+          <ul class="select__languages">
+            <li v-for="(lang, index) in availableLanguages"
+                :class="`select__language ${index === 0 ? 'is-selected' : ''}`"
+                :key="`lang-${lang.ident}`"
+                :data-value="lang.ident">
+              {{lang.lang}}
+            </li>
+          </ul>
+          <span class="select__arrow" @click="onChangeLang">
           <Icon name="little-arrow" width="15" height="15" stroke="#000000" />
         </span>
+        </div>
+        <router-link class="home__start" :to="{ name: 'intro' }"><button class="home__start--button">{{ $t('home.start') }}</button></router-link>
       </div>
-      <router-link class="home__start" :to="{ name: 'intro' }"><button class="home__start--button">{{ $t('home.start') }}</button></router-link>
+      <div class="home__redirection" v-else>
+        <h3>Pour vivre pleinement l'expérience, rends toi sur Safari</h3>
+      </div>
+
       <button class="home__about home__about--button" @click="openAboutPopUp">{{ $t('home.about') }}</button>
       <div :class="`home__popup ${isOpen === true ? 'home__popup--open' : ''}`">
         <button class="home__popup__close" @click="closePopUp">
@@ -57,10 +64,20 @@ export default {
           lang: 'English'
         }
       ],
-      isOpen: false
+      isOpen: false,
+      isIosSafari: true
     }
   },
   methods: {
+    onDetectDevice () {
+      let isIOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform) // true or false
+      if (isIOS) {
+        let isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime)
+        if (isChrome) {
+          this.isIosSafari = false
+        }
+      }
+    },
     updateBodyClass () {
       document.querySelector('body').className = ''
       document.querySelector('body').classList.add('default')
@@ -100,6 +117,7 @@ export default {
   mounted () {
     this.updateBodyClass()
     this.initSoundContext()
+    this.onDetectDevice()
   }
 }
 </script>
