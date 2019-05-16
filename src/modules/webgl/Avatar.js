@@ -4,11 +4,7 @@ import { guiAvatar } from './gui'
 import config from '@/config/config'
 import utils from '@/modules/helpers/utils.js'
 import easings from '@/modules/helpers/easings.js'
-import Hair from './personnalisation/Hair'
-import Skin from './personnalisation/Skin'
-import Eyes from './personnalisation/Eyes'
-import Top from './personnalisation/Top'
-import Glasses from './personnalisation/Glasses'
+import BodyParts from './personnalisation/BodyParts'
 
 class Avatar {
   constructor (params) {
@@ -88,10 +84,11 @@ class Avatar {
       const name = item.name.toLowerCase()
       if (name === 'head') {
         this.head = item
-        this.bodyParts.skin = new Skin({
-          face: item,
-          color: category.colors[defaultValues.colors],
-          gui: this.guiElementsFolder
+        this.bodyParts.skin = new BodyParts({
+          bodyParts: [item],
+          material : {
+            color: category.colors[defaultValues.colors],
+          }
         })
       }
     })
@@ -99,26 +96,24 @@ class Avatar {
 
   initHair () {
     const hairList = []
-    const eyeBrows = []
 
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
       if (name.indexOf('cheveux') >= 0) {
         hairList.push(item)
-      } else if (name.indexOf('eyebrow') >= 0) {
-        eyeBrows.push(item)
       }
     })
 
     const category = config.categories[0]
     const defaultValues = category.default
 
-    this.bodyParts.hair = new Hair({
-      haircutList: hairList,
-      eyeBrows: eyeBrows,
-      haircut: defaultValues.attributes,
-      color: category.colors[defaultValues.colors],
-      gui: this.guiElementsFolder
+    this.bodyParts.hair = new BodyParts({
+      bodyParts: hairList,
+      currentBodyPart: defaultValues.attributes,
+      material: {
+        matcap: '/models/textures/matcap-porcelain-white.jpg',
+        color: category.colors[defaultValues.colors]
+      }
     })
   }
 
@@ -127,16 +122,6 @@ class Avatar {
     const category = config.categories[1]
     const defaultValues = category.default
 
-    const matcap = new THREE.TextureLoader().load('/models/textures/matcap-porcelain-white.jpg')
-    this.head.children.forEach(item => {
-      const name = item.name.toLowerCase()
-      if (name.indexOf('eye_right') >= 0 || name.indexOf('eye_left') >= 0) {
-        item.material = new THREE.MeshMatcapMaterial({
-          matcap: matcap
-        })
-      }
-    })
-
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
       if (name.indexOf('eye_color') >= 0) {
@@ -144,23 +129,27 @@ class Avatar {
       }
     })
 
-    this.bodyParts.eyes = new Eyes({
-      eyes: eyes,
-      color: category.colors[defaultValues.colors],
-      gui: this.guiElementsFolder
+    this.bodyParts.eyes = new BodyParts({
+      bodyParts: eyes,
+      material: {
+        matcap: '/models/textures/matcap-porcelain-white.jpg',
+        color: category.colors[defaultValues.colors]
+      }
     })
   }
 
   initTop () {
     const category = config.categories[5]
     const defaultValues = category.default
+
     this.model.children.forEach(item => {
       const name = item.name.toLowerCase()
       if (name.indexOf('body') >= 0) {
-        this.bodyParts.top = new Top({
-          top: item,
-          color: category.colors[defaultValues.colors],
-          gui: this.guiElementsFolder
+        this.bodyParts.top = new BodyParts({
+          bodyParts: [item],
+          material: {
+            color: category.colors[defaultValues.colors]
+          }
         })
       }
     })
@@ -179,55 +168,22 @@ class Avatar {
     const category = config.categories[5]
     const defaultValues = category.default
 
-    this.bodyParts.glasses = new Glasses({
-      glassesList: glassesList,
-      glasses: defaultValues.attributes,
-      color: category.colors[defaultValues.colors]
+    this.bodyParts.glasses = new BodyParts({
+      bodyParts: glassesList,
+      currentBodyPart: defaultValues.attributes,
+      material: {
+        color: category.colors[defaultValues.colors]
+      }
     })
   }
 
   handlePersonnalisation (change) {
-    switch (change.title) {
-      case 'hair':
-        switch (change.type) {
-          case 'colors':
-            this.bodyParts.hair.switchColor(change.value)
-            break
-          case 'attributes':
-            this.bodyParts.hair.switchHaircut(change.value)
-            break
-        }
+    switch (change.type) {
+      case 'colors':
+        this.bodyParts[change.title].switchColor(change.value)
         break
-      case 'skin':
-        switch (change.type) {
-          case 'colors':
-            this.bodyParts.skin.switchColor(change.value)
-            break
-        }
-        break
-      case 'eye':
-        switch (change.type) {
-          case 'colors':
-            this.bodyParts.eyes.switchColor(change.value)
-            break
-        }
-        break
-      case 'top':
-        switch (change.type) {
-          case 'colors':
-            this.bodyParts.top.switchColor(change.value)
-            break
-        }
-        break
-      case 'glasses':
-        switch (change.type) {
-          case 'colors':
-            this.bodyParts.glasses.switchColor(change.value)
-            break
-          case 'attributes':
-            this.bodyParts.glasses.switchGlasses(change.value)
-            break
-        }
+      case 'attributes':
+        this.bodyParts[change.title].switchBodyPart(change.value)
         break
     }
   }
