@@ -170,12 +170,10 @@ export default {
     },
 
     onPersonnalisationChange (change) {
-      this.scene.avatar.handlePersonnalisation(change)
+      this.scene.avatar.personnalisation.handlePersonnalisation(change)
     },
 
     onDecorChange (change) {
-      console.log('change', change)
-      // this.scene.decors.handleChange(change)
       this.selection.decor = change
     }
   },

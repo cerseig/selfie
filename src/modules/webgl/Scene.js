@@ -48,7 +48,6 @@ class Scene {
     this.element.appendChild(this.renderer.domElement)
 
     this.initAvatar()
-    // this.initDecors()
     this.initLights()
 
     // For threeJS inspector
@@ -79,7 +78,6 @@ class Scene {
 
   initLights () {
     const lightConfig = this.configScene.lights
-
     if (lightConfig) {
       this.lights = []
       if (lightConfig.directionals) {
@@ -126,7 +124,10 @@ class Scene {
   update (positions) {
     this.renderer.render(this.scene, this.camera)
 
-    this.avatar.update(positions)
+    if (this.avatar.positions) {
+      this.avatar.positions.update(positions)
+    }
+
   }
 }
 
