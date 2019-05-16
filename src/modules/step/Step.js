@@ -49,8 +49,8 @@ class Step {
 
     this.sound.on('end', (audioId) => {
       if (audioId === sound) {
-      console.log('thissound', this.sound)
-      console.log('soundID', audioId, 'sound', sound)
+        console.log('thissound', this.sound)
+        console.log('soundID', audioId, 'sound', sound)
         this.isVoice = false
         store.commit('setIsVoice', this.isVoice)
         if (callback && utils.isFunction(callback)) {

@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import store from '@/store/index'
 import stepsConfig from '@/config/steps'
 import Step from '@/modules/step/Step'
 

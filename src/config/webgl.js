@@ -1,4 +1,7 @@
+import avatar from './avatar.js'
+
 const webgl = {
+  avatar: avatar,
   debug: {
     scene: {
       lights: {

@@ -85,7 +85,7 @@ export default {
     store.commit('setSound', this.sound)
   },
   watch: {
-    isActive() {
+    isActive () {
       if (this.isActive) {
         this.initPersonnalisationStep()
       }
