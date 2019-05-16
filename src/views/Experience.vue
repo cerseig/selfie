@@ -4,7 +4,7 @@
       <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection.decor === decor.title) && (currentStep === STEPS.DECOR) ? 'is-active' : ''}`" :style="{backgroundImage: `url(${decor.background})`}"  :data-decor="decor.title"></div>
     </div>
 
-    <div :class="`avatar ${currentStep === STEPS.PERSONNALISATION || currentStep === STEPS.DECOR || currentStep === STEPS.POSING ? 'is-active' : ''}`" ref="avatarElement"></div>
+    <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
 
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <Detection />
@@ -44,9 +44,7 @@ export default {
   },
   data () {
     return {
-      isDebug: true,
       currentStep: 0,
-      currentStepSprite: [],
       detection: {
         positions: {},
         resolutionFrame: {},
@@ -55,7 +53,7 @@ export default {
           outOfCamera: false,
           tooClose: false,
           tooFar: false,
-          detection: false,
+          detection: false
         },
         states: {
           isReady: false,
@@ -66,7 +64,6 @@ export default {
         decor: config.decors.default
       },
       decors: config.decors,
-
       STEPS: {
         ANALYSIS: 0,
         PERSONNALISATION: 1,
@@ -76,13 +73,34 @@ export default {
     }
   },
   methods: {
+    initScene () {
+      this.scene = new Scene({
+        config: config,
+        element: this.$refs.avatarElement,
+        mode: 'default',
+        sizes: {
+          width: window.innerWidth,
+          height: window.innerHeight
+        },
+        showDecor: this.currentStep === this.STEPS.DECOR
+      })
+    },
+    initDetectionManager () {
+      if (this.STEPS.ANALYSIS === this.currentStep || this.STEPS.PERSONNALISATION === this.currentStep) {
+        this.detectionManager = new DetectionManager({
+          camera: document.getElementById('_camera'),
+          imageData: document.getElementById('_imageData'),
+          pointsData: document.getElementById('_points')
+        })
+      }
+    },
     updateBodyClass () {
       document.querySelector('.nav').classList.remove('nav--start')
-      document.querySelector('body').className = ''
+      document.body.className = ''
       if (this.detection.states.isAnalysed) {
-        document.querySelector('body').classList.add('experience')
+        document.body.classList.add('experience')
       } else {
-        document.querySelector('body').classList.add('application')
+        document.body.classList.add('application')
       }
     },
     onValidateStep () {
@@ -90,16 +108,7 @@ export default {
 
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
-        if (this.detectionManager) {
-          console.error('Bruh');
-        }
-      }
-
-      // if (this.currentStep === this.STEPS.DECOR) {
-      //   this.scene.decors.show()
-      // }
-
-      if (this.currentStep >= 3) {
+      } else if (this.currentStep >= this.STEPS.POSING) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }
@@ -109,17 +118,17 @@ export default {
     },
     handleSizes () {
       this.detection.resolutionFrame = this.detectionManager.getResolutionFrame()
-      this.detection.outOfCamera = this.detectionManager.getOutOfCamera()
-      this.detection.tooClose = this.detectionManager.getTooClose()
-      this.detection.tooFar = this.detectionManager.getTooFar()
+      this.detection.errors.outOfCamera = this.detectionManager.getOutOfCamera()
+      this.detection.errors.tooClose = this.detectionManager.getTooClose()
+      this.detection.errors.tooFar = this.detectionManager.getTooFar()
 
-      if (this.detection.outOfCamera === true || this.detection.tooClose === true || this.detection.tooFar === true) {
+      if (this.detection.errors.outOfCamera === true || this.detection.errors.tooClose === true || this.detection.errors.tooFar === true) {
         this.detection.errors.detection = true
       } else {
         this.detection.errors.detection = false
       }
 
-      if (this.detection.resolutionFrame !== null && this.currentStep === 0) {
+      if (this.detection.resolutionFrame !== null && this.currentStep === this.STEPS.ANALYSIS) {
         this.setResolutionFrameSize(this.detection.resolutionFrame)
       }
     },
@@ -127,7 +136,6 @@ export default {
       this.scene.avatar.personnalisation.handlePersonnalisation(change)
     },
     onDecorChange (change) {
-      // this.scene.decors.handleChange(change)
       this.selection.decor = change
     },
     update () {
@@ -140,8 +148,8 @@ export default {
           this.detection.states.isReady = this.detectionManager.getIsDetectionReady()
         }
 
-        if (this.detectionManager.getIsAnalyse()) {
-          this.detection.states.isAnalysed = this.detectionManager.getIsAnalyse()
+        if (!this.detection.states.isAnalysed && this.detectionManager.getIsAnalysed()) {
+          this.detection.states.isAnalysed = this.detectionManager.getIsAnalysed()
         }
       }
 
@@ -160,27 +168,11 @@ export default {
     }
     this.updateBodyClass()
 
-    if (this.STEPS.ANALYSIS === this.currentStep || this.STEPS.PERSONNALISATION === this.currentStep) {
-      this.detectionManager = new DetectionManager({
-        camera: document.getElementById('_camera'),
-        imageData: document.getElementById('_imageData'),
-        pointsData: document.getElementById('_points')
-      })
-    }
-
     this.$on('Personnalisation:Change', this.onPersonnalisationChange)
     this.$on('Decor:Change', this.onDecorChange)
 
-    this.scene = new Scene({
-      config: config,
-      element: this.$refs.avatarElement,
-      mode: 'debug',
-      sizes: {
-        width: window.innerWidth,
-        height: window.innerHeight
-      },
-      showDecor: this.currentStep === this.STEPS.DECOR
-    })
+    this.initDetectionManager()
+    this.initScene()
 
     this.update()
   },

@@ -3,7 +3,6 @@ import easings from '@/modules/helpers/easings.js'
 
 class Positions {
   constructor (params) {
-
     this.positions = {}
     this.head = params.head
 

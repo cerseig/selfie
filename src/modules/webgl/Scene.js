@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { gui } from './gui'
 import Avatar from './Avatar'
-import Decors from './decor/Decors'
 import webgl from '@/config/webgl'
 
 class Scene {
@@ -115,7 +114,6 @@ class Scene {
     if (this.avatar.positions) {
       this.avatar.positions.update(positions)
     }
-
   }
 }
 

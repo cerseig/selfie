@@ -26,19 +26,19 @@ const avatar = {
           z: 0
         }
       }
-    },
+    }
   },
   bodyParts: {
     hair: {
-      material : {
+      material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg'
       }
     },
     eyes: {
-      material : {
+      material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg'
       }
-    },
+    }
   }
 }
 

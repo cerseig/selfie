@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
 class BodyParts {
-  constructor(params) {
+  constructor (params) {
     this.bodyParts = params.bodyParts
 
     if (!Number.isNaN(params.currentBodyPart)) {

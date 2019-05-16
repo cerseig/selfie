@@ -48,7 +48,7 @@ const webgl = {
           }
         ]
       }
-    },
+    }
   },
   default: {
     scene: {

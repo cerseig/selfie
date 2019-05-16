@@ -1,6 +1,7 @@
 import store from '@/store/index'
 import utils from '@/modules/helpers/utils'
 import sprite from '@/config/voiceSprite'
+import { Howl } from 'howler'
 
 class Step {
   constructor (params) {

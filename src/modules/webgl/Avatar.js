@@ -2,7 +2,7 @@ import GLTFLoader from 'three-gltf-loader'
 import { guiAvatar } from './gui'
 import avatar from '@/config/avatar'
 import AvatarPersonnalisation from './personnalisation/AvatarPersonnalisation'
-import Positions from './positions/Positions';
+import Positions from './positions/Positions'
 
 class Avatar {
   constructor (params) {
@@ -58,7 +58,7 @@ class Avatar {
 
         let head = null
         this.model.children.forEach(item => {
-          if(item.name === 'head') {
+          if (item.name === 'head') {
             head = item
           }
         })

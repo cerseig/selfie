@@ -2,7 +2,6 @@ import categories from '@/config/categories'
 import BodyParts from './BodyParts'
 
 class AvatarPersonnalisation {
-
   constructor (model) {
     this.model = model
     this.bodyParts = {}
@@ -29,8 +28,8 @@ class AvatarPersonnalisation {
         this.head = item
         this.bodyParts.skin = new BodyParts({
           bodyParts: [item],
-          material : {
-            color: category.colors[defaultValues.colors],
+          material: {
+            color: category.colors[defaultValues.colors]
           }
         })
       }

@@ -30,14 +30,21 @@ class DetectionManager {
 
     this.timeoutId = -1
 
-    this.face = {}
+    this.face = null
+
     this.positions = {}
     this.resolutionFrame = {}
-    this.outOfCamera = false
-    this.tooClose = false
-    this.tooFar = false
-    this.elementToIncrease = 0
-    this.isAnalyse = false
+
+    this.errors = {
+      outOfCamera: false,
+      tooClose: false,
+      tooFar: false
+    }
+
+    this.timeValidation = 0
+
+    // States
+    this.isAnalysed = false
     this.isDetectionReady = false
 
     this.onManagerReady = () => {}
@@ -73,19 +80,19 @@ class DetectionManager {
   }
 
   getOutOfCamera () {
-    return this.outOfCamera
+    return this.errors.outOfCamera
   }
 
   getTooClose () {
-    return this.tooClose
+    return this.errors.tooClose
   }
 
   getTooFar () {
-    return this.tooFar
+    return this.errors.tooFar
   }
 
-  getIsAnalyse () {
-    return this.isAnalyse
+  getIsAnalysed () {
+    return this.isAnalysed
   }
 
   getIsDetectionReady () {
@@ -223,6 +230,65 @@ class DetectionManager {
     }
   }
 
+  handleErrors (face, brfManager, faceDetectionFrame) {
+    let positionX = face.bounds.x
+    let positionY = face.bounds.y
+
+    var mergedFaces = this.brfManager.getMergedDetectedFaces()
+
+    if (positionX < faceDetectionFrame.x || (positionX + face.bounds.width) > (faceDetectionFrame.x + faceDetectionFrame.width) || positionY < faceDetectionFrame.y || (positionY + face.bounds.height) > (faceDetectionFrame.y + faceDetectionFrame.height)) {
+      this.errors.outOfCamera = true
+    } else {
+      this.errors.outOfCamera = false
+    }
+
+    if (mergedFaces.length > 0) {
+      var mergedFace = mergedFaces[0]
+      if (mergedFace.width < faceDetectionFrame.width * 0.50) { // startMinFaceSize
+        this.errors.tooFar = true
+        this.errors.tooClose = false
+      } else if (mergedFace.width > faceDetectionFrame.width * 0.70) { // startMaxFaceSize
+        this.errors.tooClose = true
+        this.errors.tooFar = false
+      }
+    } else {
+      this.errors.tooFar = false
+      this.errors.tooClose = false
+    }
+  }
+
+  createFace () {
+    if (!this.isDebug && store.getters.getIsVoice === false) {
+      if (this.errors.tooFar === false && this.errors.tooClose === false && this.errors.outOfCamera === false) {
+        if (this.timeValidation < 60) {
+          this.timeValidation = utils.increase(this.timeValidation, 60)
+        } else if (this.timeValidation === 60) {
+          this.isAnalysed = true
+          this.face = new Face({
+            brfv4: this.brfv4,
+            brfManager: this.brfManager
+          })
+          this.timeValidation++
+        }
+      } else {
+        this.timeValidation = 0
+        this.isAnalysed = false
+      }
+    }
+  }
+
+  drawPoints (pointsDataCtx, face) {
+    pointsDataCtx.strokeStyle = '#000000'
+
+    // 68 points
+    for (let k = 0; k < face.vertices.length; k += 2) {
+      pointsDataCtx.beginPath()
+      pointsDataCtx.arc(face.vertices[k], face.vertices[k + 1], 1, 0, 2 * Math.PI)
+
+      pointsDataCtx.stroke()
+    }
+  }
+
   /**
    *
    * @param {*} brfv4 api
@@ -231,72 +297,23 @@ class DetectionManager {
    */
 
   handleTrackingResults (brfv4, brfManager, faces, pointsDataCtx, faceDetectionFrame) {
-    // this.drawCenterFrame(faceDetectionFrame, pointsDataCtx)
-
     for (let i = 0; i < faces.length; i++) {
       const face = faces[i]
 
       if (!this.isDebug) {
-        let positionX = face.bounds.x
-        let positionY = face.bounds.y
-
-        var mergedFaces = brfManager.getMergedDetectedFaces()
-
-        if (positionX < faceDetectionFrame.x || (positionX + face.bounds.width) > (faceDetectionFrame.x + faceDetectionFrame.width) || positionY < faceDetectionFrame.y || (positionY + face.bounds.height) > (faceDetectionFrame.y + faceDetectionFrame.height)) {
-          this.outOfCamera = true
-        } else {
-          this.outOfCamera = false
-        }
-
-        if (mergedFaces.length > 0) {
-          var mergedFace = mergedFaces[0]
-          if (mergedFace.width < faceDetectionFrame.width * 0.50) { // startMinFaceSize
-            this.tooFar = true
-            this.tooClose = false
-          } else if (mergedFace.width > faceDetectionFrame.width * 0.70) { // startMaxFaceSize
-            this.tooClose = true
-            this.tooFar = false
-          }
-        } else {
-          this.tooFar = false
-          this.tooClose = false
-        }
+        this.handleErrors(face, brfManager, faceDetectionFrame)
       }
 
       if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
         face.state === brfv4.BRFState.FACE_TRACKING) {
-        if (this.face.getAllExpressionsFunction) {
+        if (this.face && this.face.getAllExpressionsFunction) {
           this.positions = this.face.getAllExpressionsFunction(face)
         }
 
-        pointsDataCtx.strokeStyle = '#000000'
-
-        // 68 points
-        /* for (let k = 0; k < face.vertices.length; k += 2) {
-          pointsDataCtx.beginPath()
-          pointsDataCtx.arc(face.vertices[k], face.vertices[k + 1], 1, 0, 2 * Math.PI)
-
-          pointsDataCtx.stroke()
-        } */
+        // this.drawPoints()
       }
 
-      if (!this.isDebug && store.getters.getIsVoice === false) {
-        if (this.tooFar === false && this.tooClose === false && this.outOfCamera === false) {
-          if (this.elementToIncrease < 60) {
-            this.elementToIncrease = utils.increase(this.elementToIncrease, 60)
-          } else if (this.elementToIncrease === 60) {
-            this.isAnalyse = true
-            this.face = new Face({
-              brfv4: this.brfv4,
-              brfManager: this.brfManager
-            })
-            this.elementToIncrease++
-          }
-        } else {
-          this.elementToIncrease = 0
-          this.isAnalyse = false
-        }
-      }
+      this.createFace()
     }
   }
 }
