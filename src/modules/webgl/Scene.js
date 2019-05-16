@@ -2,18 +2,17 @@ import * as THREE from 'three'
 import { gui } from './gui'
 import Avatar from './Avatar'
 import Decors from './decor/Decors'
-import config from '@/config/config'
+import webgl from '@/config/webgl'
 
 class Scene {
   constructor (params) {
     this.positions = null
 
-    this.config = params.config
     this.element = params.element
     this.sizes = params.sizes
 
     this.mode = params.mode ? params.mode : 'default'
-    this.configScene = config.webgl[this.mode].scene
+    this.config = webgl[this.mode].scene
 
     this.showDecor = params.showDecor
 
@@ -60,24 +59,13 @@ class Scene {
   initAvatar () {
     this.avatar = new Avatar({
       scene: this.scene,
-      modelPath: this.config.modelPath,
-      renderer: this.renderer,
       mode: this.mode,
       onReadyClb: () => this.onAvatarReady()
     })
   }
 
-  initDecors () {
-    this.decors = new Decors({
-      scene: this.scene,
-      config: this.config.backgrounds,
-      mode: this.mode,
-      autoShow: this.showDecor
-    })
-  }
-
   initLights () {
-    const lightConfig = this.configScene.lights
+    const lightConfig = this.config.lights
     if (lightConfig) {
       this.lights = []
       if (lightConfig.directionals) {

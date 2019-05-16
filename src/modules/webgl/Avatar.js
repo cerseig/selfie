@@ -1,16 +1,13 @@
 import GLTFLoader from 'three-gltf-loader'
 import { guiAvatar } from './gui'
-import config from '@/config/config'
+import avatar from '@/config/avatar'
 import AvatarPersonnalisation from './personnalisation/AvatarPersonnalisation'
 import Positions from './positions/Positions';
 
 class Avatar {
   constructor (params) {
-    this.paths = {
-      model: params.modelPath
-    }
     this.mode = params.mode ? params.mode : 'default'
-    this.config = config.webgl[this.mode].avatar
+    this.config = avatar.modes[this.mode]
 
     this.scene = params.scene
     this.model = null
@@ -52,7 +49,7 @@ class Avatar {
     const loader = new GLTFLoader()
 
     loader.load(
-      this.paths.model,
+      avatar.modelPath,
       (gltf) => {
         this.model = gltf.scene
         this.model.scale.set(this.config.scale.x, this.config.scale.y, this.config.scale.z)

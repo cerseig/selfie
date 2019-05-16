@@ -1,4 +1,4 @@
-import config from '@/config/config'
+import categories from '@/config/categories'
 import BodyParts from './BodyParts'
 
 class AvatarPersonnalisation {
@@ -19,7 +19,7 @@ class AvatarPersonnalisation {
   }
 
   initHead () {
-    const category = config.categories[2]
+    const category = categories[2]
     const defaultValues = category.default
     this.eyeLids = []
 
@@ -47,7 +47,7 @@ class AvatarPersonnalisation {
       }
     })
 
-    const category = config.categories[0]
+    const category = categories[0]
     const defaultValues = category.default
 
     this.bodyParts.hair = new BodyParts({
@@ -62,7 +62,7 @@ class AvatarPersonnalisation {
 
   initEyes () {
     const eyes = []
-    const category = config.categories[1]
+    const category = categories[1]
     const defaultValues = category.default
 
     this.head.children.forEach(item => {
@@ -82,7 +82,7 @@ class AvatarPersonnalisation {
   }
 
   initTop () {
-    const category = config.categories[5]
+    const category = categories[5]
     const defaultValues = category.default
 
     this.model.children.forEach(item => {
@@ -108,7 +108,7 @@ class AvatarPersonnalisation {
       }
     })
 
-    const category = config.categories[5]
+    const category = categories[5]
     const defaultValues = category.default
 
     this.bodyParts.glasses = new BodyParts({
