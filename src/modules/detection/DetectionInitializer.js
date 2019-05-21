@@ -19,8 +19,8 @@ class DetectionInitializer {
 
     this.paths = {
       brfv4BaseURL: '/', // Directory where is located the lib
-      brfv4SDKName: 'BRFv4_JS_TK210219_v4.2.0_trial', // The current available library,
-      brfv4FilePath: '/BRFv4_JS_TK210219_v4.2.0_trial'
+      brfv4SDKName: 'BRFv4_JS_CG210519_v4.2.1_commercial', // The current available library,
+      brfv4FilePath: '/BRFv4_JS_CG210519_v4.2.1_commercial'
     }
 
     this.ui = {
@@ -46,7 +46,7 @@ class DetectionInitializer {
 
   init (params) {
     this.paths.brfv4BaseURL = params.libPath // Directory where is located the lib
-    this.paths.brfv4FilePath = `${params.libPath}BRFv4_JS_TK210219_v4.2.0_trial`
+    this.paths.brfv4FilePath = `${params.libPath}BRFv4_JS_CG210519_v4.2.1_commercial`
 
     this.isDebug = params.isDebug ? params.isDebug : false
 
