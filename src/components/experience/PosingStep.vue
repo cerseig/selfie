@@ -25,10 +25,14 @@ export default {
       type: Object
     }
   },
+  data () {
+    return {
+      i: 0
+    }
+  },
   methods: {
     initPosingStep () {
       this.createStepObject()
-      console.log('init posing step')
     },
     createStepObject () {
       let stepObject = new Step(stepsConfig.posing)
@@ -36,13 +40,24 @@ export default {
     },
     launchSound () {
       this.stepObject.init()
-      console.log(this.stepObject.subSteps)
+    },
+    getPosing () {
+      console.log(this.stepObject.subSteps[this.i])
+      console.log(this.positions)
     }
   },
   mounted () {
     this.initPosingStep()
   },
   watch: {
+    isActive () {
+      this.launchSound()
+    },
+    positions () {
+      if (this.isActive) {
+        this.getPosing
+      }
+    }
   }
 }
 </script>

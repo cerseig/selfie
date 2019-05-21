@@ -108,7 +108,7 @@ export default {
 
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
-      } else if (this.currentStep >= this.STEPS.POSING) {
+      } else if (this.currentStep > this.STEPS.POSING) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
       }

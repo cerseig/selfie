@@ -27,7 +27,7 @@ const sprites = {
   decorPersonnalisation_beach_advice: [174000, 3400], // end: 177400
   decorPersonnalisation_beach_success: [178000, 6400], // end: 184400
   decorPersonnalisation_level1_error: [135000, 2700], // end: 137700
-  decorPersonnalisation_level2_error: [139000, 2400], // end: 141400
+  decorPersonnalisation_level2_1_error: [139000, 2400], // end: 141400
   decorPersonnalisation_level2_2_error: [143000, 3600], // end: 146600
   decorPersonnalisation_level2_3_error: [148000, 4000], // end: 152000
   decorPersonnalisation_level2_4_error: [153000, 5200], // end: 158200
@@ -35,52 +35,52 @@ const sprites = {
   decorPersonnalisation_level3_error: [163000, 5700], // end: 168700
   decorPersonnalisation_level4_error: [170000, 1200], // end: 171200
   decorPersonnalisation_level5_error: [172000, 900], // end: 172900
-  experience_rotationLeft_advice: [185000, 2900], // end: 187900
-  experience_rotationLeft_errorTooMuch_1: [191000, 700], // end: 191700
-  experience_rotationLeft_errorTooMuch_2: [192000, 1000], // end: 193000
-  experience_rotationLeft_errorOpposite: [189000, 1200], // end: 190200
-  experience_rotationLeft_errorsNotEnough_1: [194000, 1000], // end: 195000
-  experience_rotationLeft_errorsNotEnough_2: [196000, 1100], // end: 197100
-  experience_rotationRight_advice: [198000, 4000], // end: 202000
-  experience_rotationRight_errorTooMuch_1: [191000, 700], // end: 191700
-  experience_rotationRight_errorTooMuch_2: [192000, 1000], // end: 193000
-  experience_rotationRight_errorOpposite: [189000, 1200], // end: 190200
-  experience_rotationRight_errorsNotEnough_1: [194000, 1000], // end: 195000
-  experience_rotationRight_errorsNotEnough_2: [196000, 1100], // end: 197100
-  experience_rotationRight_success: [203000, 2100], // end: 205100
-  experience_smile_advice: [206000, 1100], // end: 207100
-  experience_smile_errorsNotEnough: [208000, 1300], // end: 209300
-  experience_smile_success: [203000, 2100], // end: 205100
-  experience_teeth_advice: [212000, 1200], // end: 213200
-  experience_teeth_errorsNotEnough: [215000, 1500], // end: 216500
-  experience_teeth_success: [218000, 2500], // end: 220500
-  experience_tiltRight_advice: [226000, 1700], // end: 227700
-  experience_tiltRight_errorTooMuch_1: [191000, 700], // end: 191700
-  experience_tiltRight_errorTooMuch_2: [192000, 1000], // end: 193000
-  experience_tiltRight_errorsNotEnough_1: [194000, 1000], // end: 195000
-  experience_tiltRight_errorsNotEnough_2: [196000, 1100], // end: 197100
-  experience_tiltRight_success: [229000, 2400], // end: 231400
-  experience_rotationUp_advice: [232000, 2800], // end: 234800
-  experience_rotationUp_errorTooMuch_1: [191000, 700], // end: 191700
-  experience_rotationUp_errorTooMuch_2: [192000, 1000], // end: 193000
-  experience_rotationUp_errorsNotEnough_1: [194000, 1000], // end: 195000
-  experience_rotationUp_errorsNotEnough_2: [196000, 1100], // end: 197100
-  experience_rotationDown_advice: [236000, 1800], // end: 237800
-  experience_rotationDown_errorTooMuch_1: [191000, 700], // end: 191700
-  experience_rotationDown_errorTooMuch_2: [192000, 1000], // end: 193000
-  experience_rotationDown_errorsNotEnough_1: [194000, 1000], // end: 195000
-  experience_rotationDown_errorsNotEnough_2: [196000, 1100], // end: 197100
-  experience_rotationDown_success: [229000, 2400], // end: 231400
-  experience_eyeBrowUp_advice: [240000, 2400], // end: 242400
-  experience_eyeBrowUp_errorsNotEnough_1: [194000, 1000], // end: 195000
-  experience_eyeBrowUp_errorsNotEnough_2: [196000, 1000], // end: 197100
-  experience_eyeBrowUp_success: [243000, 1500], // end: 244500
-  experience_smileLeft_advice: [246000, 1700], // end: 247700
-  experience_smileLeft_errorsNotEnough_1: [249000, 3600], // end: 252600
-  experience_smileLeft_errorsNotEnough_2: [196000, 1000], // end: 197100
-  experience_eyeLeftClose_advice: [254000, 3800], // end: 257800
-  experience_eyeLeftClose_errorsNotEnough_1: [259000, 3300], // end: 262300
-  experience_eyeLeftClose_errorsNotEnough_2: [263000, 1600], // end: 264600
+  posing_rotationLeft_advice: [185000, 2900], // end: 187900
+  posing_rotationLeft_errorTooMuch_1: [191000, 700], // end: 191700
+  posing_rotationLeft_errorTooMuch_2: [192000, 1000], // end: 193000
+  posing_rotationLeft_errorOpposite: [189000, 1200], // end: 190200
+  posing_rotationLeft_errorsNotEnough_1: [194000, 1000], // end: 195000
+  posing_rotationLeft_errorsNotEnough_2: [196000, 1100], // end: 197100
+  posing_rotationRight_advice: [198000, 4000], // end: 202000
+  posing_rotationRight_errorTooMuch_1: [191000, 700], // end: 191700
+  posing_rotationRight_errorTooMuch_2: [192000, 1000], // end: 193000
+  posing_rotationRight_errorOpposite: [189000, 1200], // end: 190200
+  posing_rotationRight_errorsNotEnough_1: [194000, 1000], // end: 195000
+  posing_rotationRight_errorsNotEnough_2: [196000, 1100], // end: 197100
+  posing_rotationRight_success: [203000, 2100], // end: 205100
+  posing_tiltRight_advice: [226000, 1700], // end: 227700
+  posing_tiltRight_errorTooMuch_1: [191000, 700], // end: 191700
+  posing_tiltRight_errorTooMuch_2: [192000, 1000], // end: 193000
+  posing_tiltRight_errorsNotEnough_1: [194000, 1000], // end: 195000
+  posing_tiltRight_errorsNotEnough_2: [196000, 1100], // end: 197100
+  posing_tiltRight_success: [229000, 2400], // end: 231400
+  posing_smile_advice: [206000, 1100], // end: 207100
+  posing_smile_errorsNotEnough: [208000, 1300], // end: 209300
+  posing_smile_success: [203000, 2100], // end: 205100
+  posing_teeth_advice: [212000, 1200], // end: 213200
+  posing_teeth_errorsNotEnough: [215000, 1500], // end: 216500
+  posing_teeth_success: [218000, 2500], // end: 220500
+  posing_rotationUp_advice: [232000, 2800], // end: 234800
+  posing_rotationUp_errorTooMuch_1: [191000, 700], // end: 191700
+  posing_rotationUp_errorTooMuch_2: [192000, 1000], // end: 193000
+  posing_rotationUp_errorsNotEnough_1: [194000, 1000], // end: 195000
+  posing_rotationUp_errorsNotEnough_2: [196000, 1100], // end: 197100
+  posing_rotationDown_advice: [236000, 1800], // end: 237800
+  posing_rotationDown_errorTooMuch_1: [191000, 700], // end: 191700
+  posing_rotationDown_errorTooMuch_2: [192000, 1000], // end: 193000
+  posing_rotationDown_errorsNotEnough_1: [194000, 1000], // end: 195000
+  posing_rotationDown_errorsNotEnough_2: [196000, 1100], // end: 197100
+  posing_rotationDown_success: [229000, 2400], // end: 231400
+  posing_eyeBrowUp_advice: [240000, 2400], // end: 242400
+  posing_eyeBrowUp_errorsNotEnough_1: [194000, 1000], // end: 195000
+  posing_eyeBrowUp_errorsNotEnough_2: [196000, 1000], // end: 197100
+  posing_eyeBrowUp_success: [243000, 1500], // end: 244500
+  posing_smileLeft_advice: [246000, 1700], // end: 247700
+  posing_smileLeft_errorsNotEnough_1: [249000, 3600], // end: 252600
+  posing_smileLeft_errorsNotEnough_2: [196000, 1000], // end: 197100
+  posing_eyeLeftClose_advice: [254000, 3800], // end: 257800
+  posing_eyeLeftClose_errorsNotEnough_1: [259000, 3300], // end: 262300
+  posing_eyeLeftClose_errorsNotEnough_2: [263000, 1600], // end: 264600
   application_lostPosing_error: [270000, 4100] // end: 274100
 }
 
