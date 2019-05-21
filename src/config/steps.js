@@ -158,8 +158,11 @@ const steps = {
       {
         name: 'rotationLeft',
         type: 'rotation',
-        maxLimit: '',
-        minLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_rotationLeft_advice',
           errorsTooMuch: ['posing_rotationLeft_errorTooMuch_1', 'posing_rotationLeft_errorTooMuch_2'],
@@ -170,8 +173,11 @@ const steps = {
       {
         name: 'rotationRight',
         type: 'rotation',
-        maxLimit: '',
-        minLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_rotationRight_advice',
           errorsTooMuch: ['posing_rotationRight_errorTooMuch_1', 'posing_rotationRight_errorTooMuch_2'],
@@ -183,8 +189,11 @@ const steps = {
       {
         name: 'tiltRight',
         type: 'rotation',
-        maxLimit: '',
-        minLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_tiltRight_advice',
           errorsNotEnough: ['posing_tiltRight_errorsNotEnough_1', 'posing_tiltRight_errorsNotEnough_2'],
@@ -195,7 +204,11 @@ const steps = {
       {
         name: 'smile',
         type: 'expression',
-        minLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_smile_advice',
           errorsNotEnough: 'posing_smile_errorsNotEnough',
@@ -205,7 +218,11 @@ const steps = {
       {
         name: 'teeth',
         type: 'expression',
-        minLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_teeth_advice',
           errorsNotEnough: 'posing_teeth_errorsNotEnough',
@@ -215,8 +232,11 @@ const steps = {
       {
         name: 'rotationUp',
         type: 'rotation',
-        maxLimit: '',
-        minLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_rotationUp_advice',
           errorsNotEnough: ['posing_rotationUp_errorsNotEnough_1', 'posing_rotationUp_errorsNotEnough_2'],
@@ -226,8 +246,11 @@ const steps = {
       {
         name: 'rotationDown',
         type: 'rotation',
-        minLimit: '',
-        maxLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_rotationDown_advice',
           errorsNotEnough: ['posing_rotationDown_errorsNotEnough_1', 'posing_rotationDown_errorsNotEnough_2'],
@@ -238,7 +261,11 @@ const steps = {
       {
         name: 'eyeBrowUp',
         type: 'expression',
-        minLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_eyeBrowUp_advice',
           errorsNotEnough: ['posing_eyeBrowUp_errorsNotEnough_1', 'posing_eyeBrowUp_errorsNotEnough_2'],
@@ -248,7 +275,11 @@ const steps = {
       {
         name: 'smileLeft',
         type: 'expression',
-        minLimit: '',
+        values: {
+          min: '',
+          max: '',
+          opposite: ''
+        },
         sprite: {
           advice: 'posing_smileLeft_advice',
           errorsNotEnough: ['posing_smileLeft_errorsNotEnough_1', 'posing_smileLeft_errorsNotEnough_2']
