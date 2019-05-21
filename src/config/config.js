@@ -1,7 +1,7 @@
 import steps from './steps'
 import categories from './categories'
 import webgl from './webgl'
-import backgrounds from './backgrounds'
+import decors from './decors'
 
 const config = {
   languages: ['fr', 'en'],
@@ -9,8 +9,7 @@ const config = {
     sendEmail: '/scripts/send-email.php',
     saveImage: '/scripts/save-image.php'
   },
-  modelPath: '/models/avatar.glb', // Parented
-  backgrounds: backgrounds,
+  decors: decors,
   steps: steps,
   categories: categories,
   webgl: webgl

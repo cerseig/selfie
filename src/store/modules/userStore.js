@@ -7,14 +7,14 @@ const state = {
   translation: translation,
   avatar: avatar,
   images: images,
-  background: 'yellow',
+  decor: 'yellow',
   temporaryTableId: ''
 }
 
 // getters
 const getters = {
-  getBackground (state) {
-    return state.background
+  getDecor (state) {
+    return state.decor
   },
   getTemporaryTableId (state) {
     return state.temporaryTableId
@@ -33,8 +33,8 @@ const actions = {
 
 // mutations
 const mutations = {
-  setBackground (state, background) {
-    state.background = background
+  setDecor (state, decor) {
+    state.decor = decor
   },
   setTemporaryTableId (state, temporaryTableId) {
     state.temporaryTableId = temporaryTableId

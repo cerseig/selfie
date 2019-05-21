@@ -1,6 +1,7 @@
 import store from '@/store/index'
 import utils from '@/modules/helpers/utils'
 import sprite from '@/config/voiceSprite'
+import { Howl } from 'howler'
 
 class Step {
   constructor (params) {
@@ -49,8 +50,8 @@ class Step {
 
     this.sound.on('end', (audioId) => {
       if (audioId === sound) {
-      console.log('thissound', this.sound)
-      console.log('soundID', audioId, 'sound', sound)
+        console.log('thissound', this.sound)
+        console.log('soundID', audioId, 'sound', sound)
         this.isVoice = false
         store.commit('setIsVoice', this.isVoice)
         if (callback && utils.isFunction(callback)) {

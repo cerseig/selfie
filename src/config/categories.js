@@ -36,7 +36,7 @@ const categories = [
     ]
   },
   {
-    title: 'eye',
+    title: 'eyes',
     icon: {
       title: 'eye',
       width: 60,

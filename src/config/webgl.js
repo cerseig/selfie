@@ -1,4 +1,7 @@
+import avatar from './avatar.js'
+
 const webgl = {
+  avatar: avatar,
   debug: {
     scene: {
       lights: {
@@ -44,18 +47,6 @@ const webgl = {
             color: 'rgb(255, 255, 255)'
           }
         ]
-      }
-    },
-    avatar: {
-      scale: {
-        x: 3,
-        y: 3,
-        z: 3
-      },
-      position: {
-        x: 0,
-        y: 0,
-        z: 0
       }
     }
   },
@@ -105,18 +96,6 @@ const webgl = {
             color: 'rgb(255, 255, 255)'
           }
         ]
-      }
-    },
-    avatar: {
-      scale: {
-        x: 3,
-        y: 3,
-        z: 3
-      },
-      position: {
-        x: 0,
-        y: 0,
-        z: 0
       }
     }
   }

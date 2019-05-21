@@ -1,24 +1,37 @@
 <template>
-  <div>
+  <div :class="`detection__box ${isActive ? 'is-active' : ''}`">
+    <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}"></div>
+    <div class="detection__check">
+      <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
+    </div>
   </div>
 </template>
 
 <script>
 // Modules
 import Step from '@/modules/step/Step'
+import Icon from '@/components/icons/Icon.vue'
+
 // Config
 import stepsConfig from '@/config/steps'
 
 export default {
   name: 'DetectionStep',
+  components: {
+    Icon
+  },
   props: {
     isReady: {
       required: false,
       type: Boolean
     },
-    isAnalyse: {
+    isAnalysed: {
       required: false,
       type: Boolean
+    },
+    errors: {
+      required: false,
+      type: Object
     },
     positions: {
       required: false,
@@ -31,6 +44,10 @@ export default {
     isActive: {
       required: false,
       type: Boolean
+    },
+    sizes: {
+      required: false,
+      type: Object
     }
   },
   data () {
@@ -44,8 +61,7 @@ export default {
       this.createStepObject()
     },
     createStepObject () {
-      let stepObject = new Step(stepsConfig.detection)
-      this.stepObject = stepObject
+      this.stepObject = new Step(stepsConfig.detection)
     },
     getPositionCenter () {
       this.stepObject.init()
@@ -102,13 +118,13 @@ export default {
     }
   },
   watch: {
-    isReady () {
+    isReady (nextProps) {
       if (this.isReady && this.isActive) {
         this.getPositionCenter()
       }
     },
-    isAnalyse () {
-      if (!this.stepObject.isVoice && this.isAnalyse && this.isActive) {
+    isAnalysed () {
+      if (!this.stepObject.isVoice && this.isAnalysed && this.isActive) {
         this.stepObject.changeSubStepState('success', () => {
           this.stepObject.changeSubStep()
           this.stepObject.changeSubStepState('advice')
@@ -125,3 +141,55 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .detection {
+    &__box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__restriction {
+      position: absolute;
+      border: 4px solid #FEFEFE;
+
+      &.hasError {
+        border-color: red;
+      }
+    }
+
+    &__errors {
+      position: absolute;
+      top: 5em;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &__check {
+      position: absolute;
+      bottom: 5rem;
+      background-color: $color__black;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    &__message {
+      display: none;
+
+      font-size: 2.5rem;
+
+      &--active {
+        display: block;
+      }
+
+    }
+  }
+</style>

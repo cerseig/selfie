@@ -6,8 +6,8 @@
     </a>
     <div class="decor__inner">
       <ul class="list list--decor">
-        <li v-for="(background, index) in backgrounds.list" :key="`decor-${index}`" :class="`list__item ${background.title === selection ? 'is-active' : ''}`" @click="onSelectItem" :data-decor="background.title">
-           <Icon :name="background.title" :width="background.width" :height="background.height" stroke="#000000" fill="#000000"/>
+        <li v-for="(decor, index) in decors.list" :key="`decor-${index}`" :class="`list__item ${decor.title === selection ? 'is-active' : ''}`" @click="onSelectItem" :data-decor="decor.title">
+           <Icon :name="decor.title" :width="decor.width" :height="decor.height" stroke="#000000" fill="#000000"/>
         </li>
       </ul>
     </div>
@@ -16,7 +16,7 @@
 
 <script>
 // Modules
-import config from '@/config/config'
+import decors from '@/config/decors'
 import stepsConfig from '@/config/steps'
 import utils from '@/modules/helpers/utils.js'
 
@@ -40,8 +40,8 @@ export default {
   },
   data () {
     return {
-      backgrounds: config.backgrounds,
-      selection: config.backgrounds.default,
+      decors: decors,
+      selection: decors.default,
       errorPlayed: 0,
       maxLevelError: 5
     }
@@ -50,8 +50,7 @@ export default {
     onValidateStep (e) {
       e.preventDefault()
 
-      if (this.selection === this.backgrounds.wanted) {
-        console.log('SUCCESS')
+      if (this.selection === this.decors.wanted) {
         const timeOut = setTimeout(() => {
           this.step.changeSubStepState('success', () => {
             if (utils.isFunction(this.validateStep)) {
@@ -89,7 +88,7 @@ export default {
       this.createStepObject()
     },
     createStepObject () {
-      let stepObject = new Step(stepsConfig.backgroundPersonnalisation)
+      let stepObject = new Step(stepsConfig.decorPersonnalisation)
       this.stepObject = stepObject
     },
     onSelectItem (e) {
@@ -100,10 +99,10 @@ export default {
     }
   },
   mounted () {
-    this.step = new Step(stepsConfig.backgroundPersonnalisation)
-    this.backgrounds.list.forEach(background => {
-      if (background.title === this.backgrounds.default) {
-        this.selection = background.title
+    this.step = new Step(stepsConfig.decorPersonnalisation)
+    this.decors.list.forEach(decor => {
+      if (decor.title === this.decors.default) {
+        this.selection = decor.title
       }
     })
     if (this.isActive) {

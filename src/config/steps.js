@@ -62,68 +62,68 @@ const steps = {
       }
     ]
   },
-  backgroundPersonnalisation: {
-    name: 'backgroundPersonnalisation',
+  decorPersonnalisation: {
+    name: 'decorPersonnalisation',
     steps: [
       {
         name: 'park',
         sprite: {
-          advice: 'backgroundPersonnalisation_park_advice',
-          success: 'backgroundPersonnalisation_park_success'
+          advice: 'decorPersonnalisation_park_advice',
+          success: 'decorPersonnalisation_park_success'
         }
       },
       {
         name: 'mountain',
         sprite: {
-          advice: 'backgroundPersonnalisation_mountain_advice',
-          error: 'backgroundPersonnalisation_mountain_error'
+          advice: 'decorPersonnalisation_mountain_advice',
+          error: 'decorPersonnalisation_mountain_error'
         }
       },
       {
         name: 'museum',
         sprite: {
-          advice: 'backgroundPersonnalisation_museum_advice',
-          error: 'backgroundPersonnalisation_museum_error'
+          advice: 'decorPersonnalisation_museum_advice',
+          error: 'decorPersonnalisation_museum_error'
         }
       },
       {
         name: 'eiffelTower',
         sprite: {
-          advice: 'backgroundPersonnalisation_eiffelTower_advice',
-          error: 'backgroundPersonnalisation_eiffelTower_error'
+          advice: 'decorPersonnalisation_eiffelTower_advice',
+          error: 'decorPersonnalisation_eiffelTower_error'
         }
       },
       {
         name: 'bathroom',
         sprite: {
-          advice: 'backgroundPersonnalisation_bathroom_advice',
-          error: 'backgroundPersonnalisation_bathroom_error'
+          advice: 'decorPersonnalisation_bathroom_advice',
+          error: 'decorPersonnalisation_bathroom_error'
         }
       },
       {
         name: 'cocooning',
         sprite: {
-          advice: 'backgroundPersonnalisation_cocooning_advice',
-          error: 'backgroundPersonnalisation_cocooning_error'
+          advice: 'decorPersonnalisation_cocooning_advice',
+          error: 'decorPersonnalisation_cocooning_error'
         }
       },
       {
         name: 'beach',
         sprite: {
-          advice: 'backgroundPersonnalisation_beach_advice',
-          error: 'backgroundPersonnalisation_beach_error'
+          advice: 'decorPersonnalisation_beach_advice',
+          error: 'decorPersonnalisation_beach_error'
         }
       },
       {
         name: 'level1',
         sprite: {
-          error: 'backgroundPersonnalisation_level1_error'
+          error: 'decorPersonnalisation_level1_error'
         }
       },
       {
         name: 'level2',
         sprite: {
-          error: 'backgroundPersonnalisation_level2_error'
+          error: 'decorPersonnalisation_level2_error'
         }
       }
     ],
