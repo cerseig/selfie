@@ -1,2 +1,15 @@
 $font__montserrat: 'Montserrat', sans-serif;
 $font__sintony: 'Sintony', sans-serif;
+
+.heading-1 {
+    font-family: $font__montserrat;
+    font-weight: 700;
+    font-size: 3rem;
+    text-transform: uppercase;
+}
+
+.teasing-1 {
+    font-family: $font__montserrat;
+    font-weight: 300;
+    font-size: 2.5rem;
+}

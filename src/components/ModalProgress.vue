@@ -4,7 +4,7 @@
       <Icon name="close" width="30" height="30" fill="#ffffff" />
     </button>
     <div class="modal__inner">
-      <h2 class="modal__title">{{ $t('modalProgress.title') }}</h2>
+      <h2 class="modal__title heading-1">{{ $t('modalProgress.title') }}</h2>
       <ul class="list list--progress">
         <li :class="`list__item ${step === (i - 1) ? 'is-active' : ''} ${step > (i - 1) ? 'is-done' : ''}`" v-for="i in 4" :key="`list-progress-${i}`">{{(i)}}</li>
       </ul>
@@ -93,10 +93,6 @@ export default {
         padding: 12rem 16rem;
         background: $color__white--light;
         border-radius: 2.5rem;
-      }
-      &__title {
-        font-size: 3rem;
-        text-transform: uppercase;
       }
       &__button {
         display: inline-block;
