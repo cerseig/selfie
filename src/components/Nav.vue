@@ -1,10 +1,11 @@
 <template>
   <nav class="nav nav--start">
-    <button class="nav__menu" @click="openMenu">
-      <Icon name="menu" width="30" height="30" stroke="#000000" />
+    <button :class="`nav__menu ${isModalActive ? 'is-hidden' : ''}`" @click="onClickMenu">
+      <Icon name="menu" width="30" height="30" fill="#000000" />
     </button>
     <h1 class="nav__logo">A.M.Y.</h1>
     <SVGSprite />
+    <ModalProgress :isActive="isModalActive" />
   </nav>
 </template>
 
@@ -12,17 +13,29 @@
 
 import SVGSprite from '@/components/icons/SVGSprite.vue'
 import Icon from '@/components/icons/Icon.vue'
+import ModalProgress from '@/components/ModalProgress.vue'
 
 export default {
   name: 'Nav',
   components: {
     SVGSprite,
-    Icon
+    Icon,
+    ModalProgress
+  },
+  data () {
+    return {
+      isModalActive: false
+    }
   },
   methods: {
-    openMenu () {
-      console.log('Menu is open')
+    onClickMenu () {
+      this.isModalActive = true
     }
+  },
+  mounted () {
+    this.$on('Modal:Progress:Close', () => {
+      this.isModalActive = false
+    })
   }
 }
 
@@ -52,6 +65,10 @@ export default {
     &__menu {
       position: absolute;
       left: 50px;
+
+      &.is-hidden {
+        opacity: 0;
+      }
     }
 
     &__logo {
