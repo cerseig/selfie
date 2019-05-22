@@ -63,5 +63,9 @@
   },
   "conclusion": {
     "title": "This is a conclusion page"
+  }, 
+  "modalProgress": {
+    "title": "Progress",
+    "button": "Restart the experiment"
   }
 }
