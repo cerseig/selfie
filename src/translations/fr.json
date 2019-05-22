@@ -63,5 +63,9 @@
   },
   "conclusion": {
     "title": "La page conclusion"
+  },
+  "modalProgress": {
+    "title": "Progression",
+    "button": "Recommencer l'expérience"
   }
 }

@@ -30,6 +30,8 @@ import Detection from '@/components/experience/Detection'
 // webgl
 import Scene from '@/modules/webgl/Scene.js'
 
+import store from '../store/index'
+
 // Config
 import config from '@/config/config'
 
@@ -103,9 +105,13 @@ export default {
         document.body.classList.add('application')
       }
     },
+    updateStoreStep () {
+      store.commit('setStep', this.currentStep)
+    },
     onValidateStep () {
       this.currentStep++
 
+      this.updateStoreStep()
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
       } else if (this.currentStep >= this.STEPS.POSING) {
@@ -168,6 +174,7 @@ export default {
     }
     this.updateBodyClass()
 
+    this.updateStoreStep()
     this.$on('Personnalisation:Change', this.onPersonnalisationChange)
     this.$on('Decor:Change', this.onDecorChange)
 
