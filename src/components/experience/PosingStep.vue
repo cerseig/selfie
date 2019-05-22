@@ -27,7 +27,10 @@ export default {
   },
   data () {
     return {
-      i: 0
+      i: 0,
+      currentStep: {},
+      stepName: '',
+      stepType: ''
     }
   },
   methods: {
@@ -37,25 +40,41 @@ export default {
     createStepObject () {
       let stepObject = new Step(stepsConfig.posing)
       this.stepObject = stepObject
-      let currentSubStep = this.stepObject.subSteps[this.i]
-      let stepEvent = currentSubStep.name
-      let type = currentSubStep.type
+      this.currentStep = this.stepObject.subSteps[this.i]
+      this.currentStepName = this.currentSubStep.name
+      this.currentStepType = this.currentSubStep.type
     },
     launchSound () {
       this.stepObject.init()
     },
     onStepChange(index) {
-      this.event = this.stepObject.subSteps[index].name
-      this.type = this.stepObject.subSteps[index].type
+      this.currentStepName = this.stepObject.subSteps[index].name
+      this.currentStepType = this.stepObject.subSteps[index].type
     },
     getPosing () {
-      if (this.type === 'rotation') {
-        if (this.positions.rotation.y > this.currentSubStep.values.max) {
+      let currentValue = this.positions.events.rotationLeft
+      if (this.currentStepType === 'rotation') {
+        let minValue = this.currentStep.values.min
+        let maxValue = this.currentStep.values.max
+        let oppositeValue = this.currentStep.values.opposite
+
+        if (currentValue > minValue && currentValue < maxValue) {
+          if (this.currentStep.hasSuccess) {
+
+          }
+          this.stepObject.changeSubStep()
+          let callAdvice = setTimeout(() => {
+            this.stepObject.changeSubStepState('advice', () => {
+              window.clearTimeout(callAdvice)
+            })
+          }, 1000)
+        } else if (currentValue > maxValue) {
           this.stepObject.changeSubStepState('errorTooMuch')
-        } else if (this.positions.rotation.y < this.currentSubStep.values.opposite) {
+        } else if (currentValue < oppositeValue) {
           this.stepObject.changeSubStepState('errorOpposite')
         }
       } else if (this.type === 'expression') {
+
       }
     }
   },
