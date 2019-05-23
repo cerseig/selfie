@@ -224,9 +224,9 @@ class DetectionManager {
 
     // We don't need 60 FPS, the camera will deliver at 30 FPS anyway.
     if (!this.isDebug) {
-      this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
+      this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 20) - elapstedMs)
     } else {
-      this.timeoutId = setTimeout(() => { this.trackFaces() }, (1000 / 30) - elapstedMs)
+      this.timeoutId = setTimeout(() => { this.trackFaces() }, (1000 / 20) - elapstedMs)
     }
   }
 

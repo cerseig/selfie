@@ -9,7 +9,8 @@ class Step {
     this.subSteps = this.step.steps
     this.currentSubStep = {}
     this.currentIndex = 0
-    this.subStepState = '' // possible state : advice, error, errorTooMuch, errorNotEnough, errorOpposite, success
+    this.subStepState = '' // possible state : advice, error, errorTooMuch, errorNotEnough, errorOpposite, success,
+    this.subStepStatus = 'todo' // possible status : todo, inprogress, done
     const source = '/sounds/voice_fr.mp3'
     this.sound = store.getters.getSound._webAudio ? store.getters.getSound : new Howl({
       src: [source],
@@ -21,7 +22,7 @@ class Step {
     this.currentSubStep = this.subSteps[0]
     this.playSpriteVoice('advice', callback)
   }
-  changeSubStep (name) {
+  changeSubStep (name, callback) {
     if (name) {
       this.subSteps.forEach((item, index) => {
         if (item.name === name) {
@@ -34,6 +35,9 @@ class Step {
       this.currentSubStep = this.subSteps[this.currentIndex]
     }
     this.subStepState = ''
+    if (callback && utils.isFunction(callback)) {
+      callback()
+    }
   }
   changeSubStepState (state, callback) {
     this.subStepState = state

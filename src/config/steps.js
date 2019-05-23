@@ -159,10 +159,11 @@ const steps = {
         name: 'rotationLeft',
         type: 'rotation',
         values: {
-          min: -0.25,
-          max: -0.4,
+          min: -0.4,
+          max: -0.25,
           opposite: 0.2
         },
+        status: 'todo',
         hasSuccess: false,
         sprite: {
           advice: 'posing_rotationLeft_advice',
@@ -179,6 +180,7 @@ const steps = {
           max: 0.4,
           opposite: -0.2
         },
+        status: 'todo',
         hasSuccess: true,
         sprite: {
           advice: 'posing_rotationRight_advice',
