@@ -70,7 +70,7 @@ export default {
         if (category.colors && category.colors.length > 0) {
           selection.colors = category.default.colors ? category.default.colors : 0
         }
-        if (category.attributes && category.colors.length > 0) {
+        if (category.attributes && category.attributes.length > 0) {
           selection.attributes = category.default.attributes ? category.default.attributes : 0
         }
         this.selection.push(selection)

@@ -1,7 +1,7 @@
 <template>
   <div :class="`panel--settings ${showSettings ? 'is-active' : ''}`">
     <button class="panel__close" @click="onClickClose">
-      <Icon name="cross" width="50" height="50" stroke="#000000" />
+      <Icon name="close" width="20" height="20" fill="#000000" />
     </button>
 
     <h1 class="panel__title">Settings</h1>
@@ -229,8 +229,9 @@ export default {
 
       &__close {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 2rem;
+        right: 2rem;
+        transform: rotate(45deg);
 
         .icon {
           transform: rotate(45deg);

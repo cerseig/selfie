@@ -17,7 +17,9 @@ class BodyParts {
 
   init () {
     this.setMaterial(this.material)
-    this.switchColor(this.material.color)
+    if (this.material.color) {
+      this.switchColor(this.material.color)
+    }
 
     this.bodyParts.forEach(bodyPart => {
       if (this.currentBodyPart && bodyPart !== this.currentBodyPart) {
