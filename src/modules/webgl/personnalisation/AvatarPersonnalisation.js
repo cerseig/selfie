@@ -14,6 +14,7 @@ class AvatarPersonnalisation {
     this.initHair()
     this.initEyes()
     this.initTop()
+    this.initBeard()
     this.initGlasses()
   }
 
@@ -41,7 +42,7 @@ class AvatarPersonnalisation {
 
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
-      if (name.indexOf('cheveux') >= 0) {
+      if (name.indexOf('hair') >= 0) {
         hairList.push(item)
       }
     })
@@ -59,6 +60,28 @@ class AvatarPersonnalisation {
     })
   }
 
+  initBeard () {
+    const beardList = []
+    this.head.children.forEach(item => {
+      const name = item.name.toLowerCase()
+      if (name.indexOf('beard') >= 0) {
+        beardList.push(item)
+      }
+    })
+
+    const category = categories[3]
+    const defaultValues = category.default
+
+    this.bodyParts.beard = new BodyParts({
+      bodyParts: beardList,
+      currentBodyPart: defaultValues.attributes,
+      material: {
+        matcap: '/models/textures/matcap-porcelain-white.jpg',
+        color: category.colors[defaultValues.colors]
+      }
+    })
+  }
+
   initEyes () {
     const eyes = []
     const category = categories[1]
@@ -66,11 +89,11 @@ class AvatarPersonnalisation {
 
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
+      console.log(name)
       if (name.indexOf('eye_color') >= 0) {
         eyes.push(item)
       }
     })
-
     this.bodyParts.eyes = new BodyParts({
       bodyParts: eyes,
       material: {

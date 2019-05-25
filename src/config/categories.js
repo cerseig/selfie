@@ -74,7 +74,7 @@ const categories = [
     ]
   },
   {
-    title: 'facialHair',
+    title: 'beard',
     icon: {
       title: 'moustache',
       width: 60,
