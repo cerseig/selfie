@@ -100,7 +100,7 @@ export default {
         this.show.personnalisation = showPersonnalisation
       })
       this.$on('Settings:showDecor', (showDecor) => {
-        this.show.personnalisation = showDecor
+        this.show.decor = showDecor
       })
       this.$on('Settings:showGui', (showGui) => {
         if (this.scene && this.scene.gui) {
