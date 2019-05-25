@@ -10,7 +10,7 @@ class Step {
     this.currentSubStep = {}
     this.currentIndex = 0
     this.subStepState = '' // possible state : advice, error, errorTooMuch, errorNotEnough, errorOpposite, success,
-    this.subStepStatus = 'todo' // possible status : todo, inprogress, done
+    this.subStepStatus = 'todo' // possible status : todo, inprogress, done, error, advice
     const source = '/sounds/voice_fr.mp3'
     this.sound = store.getters.getSound._webAudio ? store.getters.getSound : new Howl({
       src: [source],

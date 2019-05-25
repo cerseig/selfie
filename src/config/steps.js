@@ -159,9 +159,8 @@ const steps = {
         name: 'rotationLeft',
         type: 'rotation',
         values: {
-          min: -0.4,
-          max: -0.25,
-          opposite: 0.2
+          min: 0.4,
+          max: 0.8
         },
         status: 'todo',
         hasSuccess: false,
@@ -176,9 +175,8 @@ const steps = {
         name: 'rotationRight',
         type: 'rotation',
         values: {
-          min: 0.25,
-          max: 0.4,
-          opposite: -0.2
+          min: 0.4,
+          max: 0.8
         },
         status: 'todo',
         hasSuccess: true,
@@ -195,9 +193,9 @@ const steps = {
         type: 'rotation',
         values: {
           min: '',
-          max: '',
-          opposite: ''
+          max: ''
         },
+        status: 'todo',
         hasSuccess: true,
         sprite: {
           advice: 'posing_tiltRight_advice',
@@ -214,6 +212,7 @@ const steps = {
           max: '',
           opposite: ''
         },
+        status: 'todo',
         hasSuccess: true,
         sprite: {
           advice: 'posing_smile_advice',
@@ -229,6 +228,7 @@ const steps = {
           max: '',
           opposite: ''
         },
+        status: 'todo',
         hasSuccess: true,
         sprite: {
           advice: 'posing_teeth_advice',
@@ -241,9 +241,9 @@ const steps = {
         type: 'rotation',
         values: {
           min: '',
-          max: '',
-          opposite: ''
+          max: ''
         },
+        status: 'todo',
         hasSuccess: false,
         sprite: {
           advice: 'posing_rotationUp_advice',
@@ -256,9 +256,9 @@ const steps = {
         type: 'rotation',
         values: {
           min: '',
-          max: '',
-          opposite: ''
+          max: ''
         },
+        status: 'todo',
         hasSuccess: true,
         sprite: {
           advice: 'posing_rotationDown_advice',
@@ -275,6 +275,7 @@ const steps = {
           max: '',
           opposite: ''
         },
+        status: 'todo',
         hasSuccess: true,
         sprite: {
           advice: 'posing_eyeBrowUp_advice',
@@ -290,6 +291,7 @@ const steps = {
           max: '',
           opposite: ''
         },
+        status: 'todo',
         hasSuccess: false,
         sprite: {
           advice: 'posing_smileLeft_advice',

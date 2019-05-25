@@ -39,8 +39,7 @@ export default {
     },
     createStepObject () {
       this.stepObject = new Step(stepsConfig.posing)
-      this.currentStep = this.stepObject.subSteps[this.i]
-      this.currentStepType = this.currentStep.type
+      this.currentStep = this.stepObject.currentSubStep
       this.launchSound()
     },
     launchSound () {
@@ -48,58 +47,61 @@ export default {
         this.currentStep.status = 'inprogress'
       })
     },
-    onStepChange (index) {
-      this.currentStepType = this.stepObject.subSteps[index].type
-    },
-    getPosing () {
-      let currentValue = this.positions.events.rotationLeft
+    onMoveFace () {
+      this.currentStep = this.stepObject.currentSubStep // update current step
+      let currentValue = this.positions.events[this.currentStep.name] // update current value of the movement depend on the current event
 
-      switch (this.currentStepType) {
-        case 'rotation':
-          let minValue = this.currentStep.values.min
-          let maxValue = this.currentStep.values.max
-          let oppositeValue = this.currentStep.values.opposite
+      let rotationCondition = this.currentStep.type === 'rotation' && this.currentStep.values.max != '' && this.currentStep.values.opposite != ''
+      let maxValue = 0
+      let minValue = this.currentStep.values.min
 
-          if (currentValue > minValue && currentValue < maxValue) {
-            switch (this.currentStep.hasSuccess) {
-              case true:
-                this.stepObject.changeSubStepState('success', () => {
+      if (rotationCondition) { // get max value when event is a rotation
+        maxValue = this.currentStep.values.max
+      }
+
+      switch (this.currentStep.status) {
+        case 'todo':
+          console.log('step in todo')
+          this.currentStep.status = 'advice'
+          const timeOut = setTimeout(() => {
+            this.stepObject.changeSubStepState('advice', () => {
+              this.currentStep.status = 'inprogress'
+            })
+            clearTimeout(timeOut)
+          }, 1000)
+          break;
+        case 'inprogress':
+          console.log('step in progress')
+          if (rotationCondition) {
+            console.log('rotation yes')
+            if (currentValue > minValue && currentValue < maxValue) {
+              switch (this.currentStep.hasSuccess) {
+                case true:
+                  console.log('has success')
+                  this.currentStep.status = 'done'
+                  this.stepObject.changeSubStepState('success', () => {
+                    console.log('callback after success audio')
+                    this.stepObject.changeSubStep()
+                  })
+                  break;
+                case false:
+                  console.log('has no success')
                   this.stepObject.changeSubStep()
-                  let callAdvice = setTimeout(() => {
-                    this.stepObject.changeSubStepState('advice', () => {
-                      window.clearTimeout(callAdvice)
-                    })
-                  }, 1000)
-                })
-                break;
-              case false:
-                console.log(this.stepObject)
-                if (this.currentStep.status === 'inprogress') {
-                  this.currentStep.status = 'done' // status done
-                  this.stepObject.changeSubStep()
-                  let callAdvice = setTimeout(() => {
-                    this.stepObject.changeSubStepState('advice', () => {
-                      window.clearTimeout(callAdvice)
-                      this.currentStep.status = 'inprogress'
-                    })
-                  }, 1000)
-                }
-                break;
-              default:
-                console.log('default');
+                  break;
+              }
+            } else if (currentValue > maxValue) {
+              console.log('error too much')
+              this.currentStep.status = 'error'
+              this.stepObject.changeSubStepState('errorTooMuch', () => {
+                this.currentStep.status = 'inprogress'
+              })
+            } else if (currentValue === 'undefined') {
+              console.log('error opposite')
             }
-          } else if (currentValue > maxValue) {
-            this.stepObject.changeSubStepState('errorTooMuch')
-          } else if (currentValue < oppositeValue) {
-            this.stepObject.changeSubStepState('errorOpposite')
+          } else {
+            console.log('expression yes')
           }
           break;
-        case 'expression':
-          console.log('Mangoes and papayas are $2.79 a pound.');
-          // expected output: "Mangoes and papayas are $2.79 a pound."
-          break;
-        default:
-          console.log('Oops, a problem appear');
       }
     }
   },
@@ -109,7 +111,7 @@ export default {
     },
     positions () {
       if (this.isActive) {
-        this.getPosing()
+        this.onMoveFace()
       }
     }
   }
