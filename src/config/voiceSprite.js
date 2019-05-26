@@ -56,7 +56,7 @@ const sprites = {
   posing_tiltRight_success: [229000, 2400], // end: 231400
   posing_smile_advice: [206000, 1100], // end: 207100
   posing_smile_errorsNotEnough: [208000, 1300], // end: 209300
-  posing_smile_success: [203000, 2100], // end: 205100
+  posing_smile_success: [210000, 1600], // end: 211600
   posing_mouthOpen_advice: [212000, 1200], // end: 213200
   posing_mouthOpen_errorsNotEnough: [215000, 1500], // end: 216500
   posing_mouthOpen_success: [218000, 2500], // end: 220500

@@ -189,22 +189,6 @@ const steps = {
         }
       },
       {
-        name: 'tiltRight',
-        type: 'rotation',
-        values: {
-          min: 0.6,
-          max: 1
-        },
-        status: 'todo',
-        hasSuccess: true,
-        sprite: {
-          advice: 'posing_tiltRight_advice',
-          errorsNotEnough: ['posing_tiltRight_errorsNotEnough_1', 'posing_tiltRight_errorsNotEnough_2'],
-          errorsTooMuch: ['posing_tiltRight_errorTooMuch_1', 'posing_tiltRight_errorTooMuch_2'],
-          success: 'posing_tiltRight_success'
-        }
-      },
-      {
         name: 'smile',
         type: 'expression',
         values: {
@@ -233,11 +217,27 @@ const steps = {
         }
       },
       {
+        name: 'tiltRight',
+        type: 'rotation',
+        values: {
+          min: 0.6,
+          max: 1
+        },
+        status: 'todo',
+        hasSuccess: true,
+        sprite: {
+          advice: 'posing_tiltRight_advice',
+          errorsNotEnough: ['posing_tiltRight_errorsNotEnough_1', 'posing_tiltRight_errorsNotEnough_2'],
+          errorsTooMuch: ['posing_tiltRight_errorTooMuch_1', 'posing_tiltRight_errorTooMuch_2'],
+          success: 'posing_tiltRight_success'
+        }
+      },
+      {
         name: 'rotationUp',
         type: 'rotation',
         values: {
-          min: '',
-          max: ''
+          min: 0.4,
+          max: 1
         },
         status: 'todo',
         hasSuccess: false,

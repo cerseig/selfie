@@ -252,16 +252,17 @@ class Face {
   }
   getRotationUp (face) {
     let rotationUp = this.toDegree(face.rotationX)
-    // const X_CENTER_GAP = 5
+    const X_CENTER_GAP = 10
     const MAX_X_ROTATION = -20
 
-    if (rotationUp < (this.rotationX)) {
-      let rotationUpFactor = (rotationUp - (this.rotationX)) / (MAX_X_ROTATION - (this.rotationX))
+    if (rotationUp < (this.rotationX - X_CENTER_GAP)) {
+      let rotationUpFactor = (rotationUp - (this.rotationX - X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX - X_CENTER_GAP))
 
       if (rotationUpFactor < 0.0) { rotationUpFactor = 0.0 }
       if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
 
       this.rotationUpFactor = rotationUpFactor
+      console.log(rotationUpFactor)
       return rotationUpFactor
     }
   }

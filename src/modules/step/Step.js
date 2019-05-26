@@ -50,12 +50,8 @@ class Step {
     store.commit('setIsVoice', this.isVoice)
     const sound = this.sound.play(this.step.name + '_' + this.currentSubStep.name + '_' + state)
 
-    this.soundId = sound
-
     this.sound.on('end', (audioId) => {
       if (audioId === sound) {
-        console.log('thissound', this.sound)
-        console.log('soundID', audioId, 'sound', sound)
         this.isVoice = false
         store.commit('setIsVoice', this.isVoice)
         if (callback && utils.isFunction(callback)) {
