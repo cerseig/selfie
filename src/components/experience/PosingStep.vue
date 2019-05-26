@@ -58,7 +58,6 @@ export default {
       }
     },
     changeStep () {
-      console.log('change step')
       this.stepObject.changeSubStep()
       this.errorPlayed = 0
     },
@@ -66,7 +65,7 @@ export default {
       this.currentStep = this.stepObject.currentSubStep // update current step
       let currentValue = this.positions.events[this.currentStep.name] // update current value of the movement depend on the current event
       let rotationCondition = this.currentStep.type === 'rotation' && this.currentStep.values.max !== '' && this.currentStep.values.opposite !== ''
-      // let expressionCondition = this.currentStep.type === 'expression'
+      let expressionCondition = this.currentStep.type === 'expression'
       let maxValue = 0
       let minValue = this.currentStep.values.min
 
@@ -87,7 +86,7 @@ export default {
           break
         case 'inprogress':
           console.log('step in progress')
-          if (currentValue > minValue && currentValue < maxValue && rotationCondition) {
+          if ((currentValue > minValue && currentValue < maxValue && rotationCondition) || (expressionCondition && currentValue > minValue)) {
             switch (this.currentStep.hasSuccess) {
               case true:
                 console.log('has success')

@@ -57,9 +57,9 @@ const sprites = {
   posing_smile_advice: [206000, 1100], // end: 207100
   posing_smile_errorsNotEnough: [208000, 1300], // end: 209300
   posing_smile_success: [203000, 2100], // end: 205100
-  posing_teeth_advice: [212000, 1200], // end: 213200
-  posing_teeth_errorsNotEnough: [215000, 1500], // end: 216500
-  posing_teeth_success: [218000, 2500], // end: 220500
+  posing_mouthOpen_advice: [212000, 1200], // end: 213200
+  posing_mouthOpen_errorsNotEnough: [215000, 1500], // end: 216500
+  posing_mouthOpen_success: [218000, 2500], // end: 220500
   posing_rotationUp_advice: [232000, 2800], // end: 234800
   posing_rotationUp_errorTooMuch_1: [191000, 700], // end: 191700
   posing_rotationUp_errorTooMuch_2: [192000, 1000], // end: 193000

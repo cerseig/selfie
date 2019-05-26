@@ -208,9 +208,7 @@ const steps = {
         name: 'smile',
         type: 'expression',
         values: {
-          min: '',
-          max: '',
-          opposite: ''
+          min: 0.7
         },
         status: 'todo',
         hasSuccess: true,
@@ -221,12 +219,10 @@ const steps = {
         }
       },
       {
-        name: 'teeth',
+        name: 'mouthOpen',
         type: 'expression',
         values: {
-          min: '',
-          max: '',
-          opposite: ''
+          min: 0.3 // 0.4 ou 0.5 à tester
         },
         status: 'todo',
         hasSuccess: true,
