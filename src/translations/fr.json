@@ -43,6 +43,7 @@
   "share": {
     "title": "La page partage",
     "subtitle": "Partager",
+    "indication": "Selectionnez la ou les image(s) à partager.",
     "message": "Hey ! Venez créer votre selfie parfait sur {appName}",
     "links": {
       "facebook": {
@@ -56,6 +57,7 @@
       "email": {
         "title": "Envoyer par e-mail",
         "alt": "Envoyer par e-mail",
+        "button": "Envoyer",
         "success": "Le mail a été envoyé avec succès à l'adresse {emailAdress}, n'hésitez pas à consulter votre boîte mail.",
         "error": "Il y a une erreur avec le serveur. Veuillez ré-essayer plus tard."
       } 

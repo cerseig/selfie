@@ -1,23 +1,44 @@
 <template>
   <div class="share">
-    <h1>{{ $t('share.title') }}</h1>
-    <div v-if="temporaryTableId.length > 0" >
-      <TemporaryPictures :id="temporaryTableId" />
+    <h2 class="share__title heading-1">{{ $t('share.title') }}</h2>
+
+    <div class="share__inner">
+
+      <!-- <div v-if="temporaryTableId.length > 0" > TO KEEP
+        <TemporaryPictures :id="temporaryTableId" />
+      </div> -->
+      <TemporaryPictures :selection="selection" />
+
+      <div class="share__bottom">
+        <div v-if="!selection.avatar && !selection.picture">
+          <p class="teasing-1">{{ $t('share.indication') }}</p>
+        </div>
+
+        <div v-else>
+          <p class="teasing-1">Partager sur</p>
+          <div class="share__list--social">
+            <button class="list__item" v-if="!selection.picture" data-type="facebook" @click="onClickSocialShare" >
+              <Icon name="facebook" width="40" height="40" fill="#000000" />
+            </button>
+            <button class="list__item" v-if="!selection.picture" data-type="twitter" @click="onClickSocialShare" >
+              <Icon name="twitter" width="40" height="40" fill="#000000" />
+            </button>
+            <button class="list__item" @click="onClickEmail">
+              <Icon name="mail" width="40" height="40" fill="#000000" stroke="#ffffff" />
+            </button>
+          </div>
+
+          <div class="share__email" v-if="email.share">
+            <input type="email" v-model="email.adress" class="share__input" ref="emailInput" required />
+            <a href="#" class="share__button" @click="onSubmitEmail">{{ $t('share.links.email.button') }}</a><br>
+            <p v-if="email.sent" class="teasing-1">
+              <span v-if="email.success">{{ $t('share.links.email.success', { emailAdress: email.adress }) }}</span>
+              <span v-else>{{ $t('share.links.email.error') }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-    <a href="#" class="" rel="noopener" @click="onClickEmail" :title="$t('share.links.email.alt')">{{ $t('share.links.email.title') }}</a><br>
-    <div class="" v-if="email.share">
-      <br>
-      <input type="email" v-model="email.adress" ref="emailInput" required />
-      <a href="#" @click="onSubmitEmail">Envoyer</a><br>
-      <p v-if="email.sent">
-        <span v-if="email.success">{{ $t('share.links.email.success', { emailAdress: email.adress }) }}</span>
-        <span v-else>{{ $t('share.links.email.error') }}</span>
-      </p>
-    </div><br>
-
-    <a :href="twitterShareLink" data-type="twitter" @click="onClickSocialShare" :title="$t('share.links.twitter.alt')" class="">{{ $t('share.links.twitter.title') }}</a><br><br>
-    <a :href="facebookShareLink" data-type="facebook" @click="onClickSocialShare" :title="$t('share.links.facebook.alt')" class="">{{ $t('share.links.facebook.title') }}</a><br><br>
-
   </div>
 </template>
 
@@ -37,6 +58,10 @@ export default {
       avatarImage: 'https://dummyimage.com/400x400/a9f5e3/a5a8d1.png&text=Avatar+Image',
       appName: 'Selfish',
       location: window.location,
+      selection: {
+        avatar: false,
+        picture: false
+      },
       email: {
         share: false,
         adress: 'leaztanda@gmail.com',
@@ -80,6 +105,11 @@ export default {
         }
       }
     },
+
+    onPictureSelected (key) {
+      const formerValue = this.selection[key]
+      this.selection[key] = !formerValue
+    },
     onClickSocialShare (e) {
       e.preventDefault()
       const currentTarget = e.currentTarget
@@ -121,6 +151,7 @@ export default {
   },
   mounted () {
     this.setInitialParams()
+    this.$on('TemporaryPicture:Selection', this.onPictureSelected)
   }
 }
 </script>

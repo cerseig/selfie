@@ -72,10 +72,10 @@ export default {
       show: {
         settings: false,
         camera: false,
-        personnalisation: false,
+        personnalisation: true,
         events: false,
         gui: false,
-        decor: true
+        decor: false
       },
       selection: {
         decor: config.decors.default
@@ -100,7 +100,7 @@ export default {
         this.show.personnalisation = showPersonnalisation
       })
       this.$on('Settings:showDecor', (showDecor) => {
-        this.show.personnalisation = showDecor
+        this.show.decor = showDecor
       })
       this.$on('Settings:showGui', (showGui) => {
         if (this.scene && this.scene.gui) {
@@ -377,6 +377,19 @@ export default {
       .panel__body {
         flex-wrap: wrap;
         padding: 8rem;
+
+        .avatar,
+        .detection {
+          min-width: 100%;
+        }
+
+        .detection {
+          display: none;
+
+          &.is-camera-shown {
+            display: flex;
+          }
+        }
       }
 
       .list--events {
