@@ -327,11 +327,11 @@ class Face {
   }
   getTiltRight (face) {
     let tiltRight = this.toDegree(face.rotationZ)
-    // const Z_CENTER_GAP = 5
+    const Z_CENTER_GAP = 10
     const MAX_Z_ROTATION = 30
 
-    if (tiltRight > (this.rotationZ)) { // HEAD TILT TO THE RIGHT
-      let tiltRightFactor = (tiltRight - (this.rotationZ)) / (MAX_Z_ROTATION - (this.rotationZ))
+    if (tiltRight > (this.rotationZ - Z_CENTER_GAP)) { // HEAD TILT TO THE RIGHT
+      let tiltRightFactor = (tiltRight - (this.rotationZ - Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ - Z_CENTER_GAP))
 
       if (tiltRightFactor < 0.0) { tiltRightFactor = 0.0 }
       if (tiltRightFactor > 1.0) { tiltRightFactor = 1.0 }

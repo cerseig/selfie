@@ -27,10 +27,8 @@ export default {
   },
   data () {
     return {
-      i: 0,
       currentStep: {},
-      stepName: '',
-      stepType: ''
+      errorPlayed: 0
     }
   },
   methods: {
@@ -47,11 +45,16 @@ export default {
         this.currentStep.status = 'inprogress'
       })
     },
+    changeStep () {
+      console.log('change step')
+      this.stepObject.changeSubStep()
+      this.errorPlayed = 0
+    },
     onMoveFace () {
       this.currentStep = this.stepObject.currentSubStep // update current step
       let currentValue = this.positions.events[this.currentStep.name] // update current value of the movement depend on the current event
-
-      let rotationCondition = this.currentStep.type === 'rotation' && this.currentStep.values.max != '' && this.currentStep.values.opposite != ''
+      let rotationCondition = this.currentStep.type === 'rotation' && this.currentStep.values.max !== '' && this.currentStep.values.opposite !== ''
+      // let expressionCondition = this.currentStep.type === 'expression'
       let maxValue = 0
       let minValue = this.currentStep.values.min
 
@@ -69,39 +72,40 @@ export default {
             })
             clearTimeout(timeOut)
           }, 1000)
-          break;
+          break
         case 'inprogress':
           console.log('step in progress')
-          if (rotationCondition) {
-            console.log('rotation yes')
-            if (currentValue > minValue && currentValue < maxValue) {
-              switch (this.currentStep.hasSuccess) {
-                case true:
-                  console.log('has success')
-                  this.currentStep.status = 'done'
+          if (currentValue > minValue && currentValue < maxValue && rotationCondition) {
+            switch (this.currentStep.hasSuccess) {
+              case true:
+                console.log('has success')
+                this.currentStep.status = 'done'
+                const timeOut = setTimeout(() => {
                   this.stepObject.changeSubStepState('success', () => {
-                    console.log('callback after success audio')
-                    this.stepObject.changeSubStep()
+                    this.changeStep()
                   })
-                  break;
-                case false:
-                  console.log('has no success')
-                  this.stepObject.changeSubStep()
-                  break;
-              }
-            } else if (currentValue > maxValue) {
-              console.log('error too much')
-              this.currentStep.status = 'error'
-              this.stepObject.changeSubStepState('errorTooMuch', () => {
-                this.currentStep.status = 'inprogress'
-              })
-            } else if (currentValue === 'undefined') {
-              console.log('error opposite')
+                  clearTimeout(timeOut)
+                }, 1000)
+                break
+              case false:
+                console.log('has no success')
+                this.changeStep()
+                break
             }
-          } else {
-            console.log('expression yes')
+          } else if (currentValue > maxValue && rotationCondition) {
+            console.log('error too much')
+            if (this.errorPlayed === 0) {
+              this.stepObject.changeSubStepState('errorTooMuch')
+              this.errorPlayed = 1
+            }
+          } else if (currentValue === undefined && rotationCondition) {
+            console.log('error opposite')
+            if (this.errorPlayed === 0) {
+              this.stepObject.changeSubStepState('errorOpposite')
+              this.errorPlayed = 1
+            }
           }
-          break;
+          break
       }
     }
   },

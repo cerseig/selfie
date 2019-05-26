@@ -192,8 +192,8 @@ const steps = {
         name: 'tiltRight',
         type: 'rotation',
         values: {
-          min: '',
-          max: ''
+          min: 0.6,
+          max: 1
         },
         status: 'todo',
         hasSuccess: true,
