@@ -11,40 +11,61 @@ class AvatarPersonnalisation {
 
   init () {
     this.initHead()
+    this.initBeard()
     this.initHair()
     this.initEyes()
     this.initTop()
-    this.initBeard()
     this.initGlasses()
   }
 
   initHead () {
     const category = categories[2]
     const defaultValues = category.default
-    this.eyeLids = []
+    const eyeLids = []
+    const ears = []
 
     this.model.children.forEach(item => {
       const name = item.name.toLowerCase()
       if (name === 'head') {
         this.head = item
-        this.bodyParts.skin = new BodyParts({
-          bodyParts: [item],
-          material: {
-            color: category.colors[defaultValues.colors]
-          }
-        })
+      }
+    })
+
+    this.head.children.forEach(item => {
+      const name = item.name.toLowerCase()
+      if (name.indexOf('eyelip') >= 0) {
+        eyeLids.push(item)
+      } else if (name.indexOf('hear') >= 0) {
+        ears.push(item)
+      }
+    })
+
+    this.bodyParts.skin = new BodyParts({
+      bodyParts: [this.head],
+      children: [...eyeLids, ...ears],
+      material: {
+        color: category.colors[defaultValues.colors],
+        matcap: '/models/textures/matcap_skin.jpg'
       }
     })
   }
 
   initHair () {
     const hairList = []
+    const eyebrowList = []
+    let childrenHair = []
 
     hairList.push({ name: 'none' })
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
       if (name.indexOf('hair') >= 0) {
         hairList.push(item)
+
+        if (item.children && item.children.length > 0) {
+          childrenHair = [...childrenHair, ...item.children]
+        }
+      } else if (name.indexOf('eyebrow') >= 0) {
+        eyebrowList.push(item)
       }
     })
 
@@ -54,6 +75,7 @@ class AvatarPersonnalisation {
     this.bodyParts.hair = new BodyParts({
       bodyParts: hairList,
       currentBodyPart: defaultValues.attributes,
+      children: [...this.bodyParts.beard.bodyParts, ...eyebrowList, ...childrenHair],
       material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg',
         color: category.colors[defaultValues.colors]
@@ -78,7 +100,7 @@ class AvatarPersonnalisation {
       bodyParts: beardList,
       currentBodyPart: defaultValues.attributes,
       material: {
-        matcap: '/models/textures/matcap-porcelain-white.jpg',
+        matcap: '/models/textures/matcap-porcelain-white.jpg'
       }
     })
   }
