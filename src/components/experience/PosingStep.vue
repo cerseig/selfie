@@ -45,6 +45,18 @@ export default {
         this.currentStep.status = 'inprogress'
       })
     },
+    launchError (error) {
+      if (this.errorPlayed === 0) {
+        this.currentStep.status = 'error'
+        const timeOut = setTimeout(() => {
+          this.stepObject.changeSubStepState(error, () => {
+            this.currentStep.status = 'inprogress'
+          })
+          this.errorPlayed = 1
+          clearTimeout(timeOut)
+        }, 1000)
+      }
+    },
     changeStep () {
       console.log('change step')
       this.stepObject.changeSubStep()
@@ -94,16 +106,10 @@ export default {
             }
           } else if (currentValue > maxValue && rotationCondition) {
             console.log('error too much')
-            if (this.errorPlayed === 0) {
-              this.stepObject.changeSubStepState('errorTooMuch')
-              this.errorPlayed = 1
-            }
+            this.launchError('errorTooMuch')
           } else if (currentValue === undefined && rotationCondition) {
             console.log('error opposite')
-            if (this.errorPlayed === 0) {
-              this.stepObject.changeSubStepState('errorOpposite')
-              this.errorPlayed = 1
-            }
+            this.launchError('errorOpposite')
           }
           break
       }

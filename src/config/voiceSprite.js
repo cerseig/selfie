@@ -44,7 +44,7 @@ const sprites = {
   posing_rotationRight_advice: [198000, 4000], // end: 202000
   posing_rotationRight_errorTooMuch_1: [191000, 700], // end: 191700
   posing_rotationRight_errorTooMuch_2: [192000, 1000], // end: 193000
-  posing_rotationRight_errorOpposite: [189000, 1200], // end: 190200
+  posing_rotationRight_errorOpposite: [36000, 1300], // end: 190200
   posing_rotationRight_errorsNotEnough_1: [194000, 1000], // end: 195000
   posing_rotationRight_errorsNotEnough_2: [196000, 1100], // end: 197100
   posing_rotationRight_success: [203000, 2100], // end: 205100
