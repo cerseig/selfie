@@ -74,7 +74,7 @@ export default {
   components: {
     Icon
   },
-  data() {
+  data () {
     return {
       inputs: {
         showCamera: this.showCamera,
@@ -150,19 +150,19 @@ export default {
     }
   },
   watch: {
-    showCamera(nextProp) {
+    showCamera (nextProp) {
       this.inputs.showCamera = nextProp
     },
-    showDecor(nextProp) {
+    showDecor (nextProp) {
       this.inputs.showDecor = nextProp
     },
-    showGUI(nextProp) {
+    showGUI (nextProp) {
       this.inputs.showGUI = nextProp
     },
-    showEvents(nextProp) {
+    showEvents (nextProp) {
       this.inputs.showEvents = nextProp
     },
-    showPersonnalisation(nextProp) {
+    showPersonnalisation (nextProp) {
       this.inputs.showPersonnalisation = nextProp
     }
   }

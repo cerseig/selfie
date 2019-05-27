@@ -3,14 +3,14 @@ const avatar = {
   modes: {
     debug: {
       scale: {
-        x: 3,
-        y: 3,
-        z: 3
+        x: 12,
+        y: 12,
+        z: 12
       },
       position: {
         x: 0,
         y: 0,
-        z: 0
+        z: -8
       }
     },
     default: {

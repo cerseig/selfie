@@ -8,7 +8,7 @@ const categories = [
     },
     default: {
       colors: 9,
-      attributes: 1
+      attributes: 3
     },
     colors: [
       'rgb(30,26,20)',
@@ -68,7 +68,7 @@ const categories = [
       {
         icon: '/img/thumbnails/glasses_none.png',
         ref: 'hair_10'
-      },
+      }
     ]
   },
   {
@@ -138,24 +138,24 @@ const categories = [
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'beard_4'
+        ref: 'mustache_1'
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'beard_5'
+        ref: 'mustache_2'
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'beard_6'
+        ref: 'mustache_3'
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'beard_7'
+        ref: 'mustache_4'
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'beard_8'
-      },
+        ref: 'mustache_5'
+      }
     ]
   },
   {
