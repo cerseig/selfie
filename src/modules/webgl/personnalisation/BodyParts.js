@@ -20,10 +20,12 @@ class BodyParts {
   init () {
     if (this.material) {
       this.setMaterial(this.material)
+
+      if (this.material.color) {
+        this.switchColor(this.material.color)
+      }
     }
-    if (this.material.color) {
-      this.switchColor(this.material.color)
-    }
+
 
     this.bodyParts.forEach(bodyPart => {
       if (this.currentBodyPart && bodyPart !== this.currentBodyPart) {
