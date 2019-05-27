@@ -203,7 +203,7 @@ class DetectionManager {
 
     this.ctxs.imageData.setTransform(-1.0, 0, 0, 1, this.resolution.width, 0) // A virtual mirror should be... mirrored
     this.ctxs.imageData.drawImage(this.ui.$camera, 0, 0, this.resolution.width, this.resolution.height)
-    this.ctxs.imageData.setTransform(1.0, 0, 0, 1, 0, 0) // unmirrored for drawing the results
+    // this.ctxs.imageData.setTransform(1.0, 0, 0, 1, 0, 0) // unmirrored for drawing the results
 
     this.brfManager.update(this.ctxs.imageData.getImageData(0, 0, this.resolution.width, this.resolution.height).data)
 
@@ -216,17 +216,15 @@ class DetectionManager {
 
     if (this.brfv4Example.stats.end) this.brfv4Example.stats.end()
 
-    if (this.timeoutId >= 0) {
-      clearTimeout(this.timeoutId)
-    }
+    clearTimeout(this.timeoutId)
 
     const elapstedMs = window.performance.now() - timeStart
 
     // We don't need 60 FPS, the camera will deliver at 30 FPS anyway.
     if (!this.isDebug) {
-      this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 30) - elapstedMs)
+      this.timeoutId = setTimeout(() => { this.trackFaces(faceDetectionFrame) }, (1000 / 20) - elapstedMs)
     } else {
-      this.timeoutId = setTimeout(() => { this.trackFaces() }, (1000 / 30) - elapstedMs)
+      this.timeoutId = setTimeout(() => { this.trackFaces() }, (1000 / 20) - elapstedMs)
     }
   }
 
