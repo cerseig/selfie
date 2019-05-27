@@ -16,13 +16,12 @@ class AvatarPersonnalisation {
     this.head = params.head
     this.bodyParts = {}
 
-    this.temps = {}
+    this.temps = params.elements
 
     this.init()
   }
 
   init () {
-    this.initTemp()
     this.initHead()
     this.initBeard()
     this.initHair()
@@ -31,58 +30,6 @@ class AvatarPersonnalisation {
     this.initGlasses()
 
     delete this.temps
-  }
-
-  initTemp () {
-    this.temps = {
-      eyeLids: [],
-      ears: [],
-      hairs: {
-        parents: [],
-        children: []
-      },
-      beard: [],
-      eyebrows: [],
-      eyeColor: [],
-      top: [],
-      glasses: []
-    }
-
-    this.head.children.forEach(item => {
-      const name = item.name
-      if (this.isType(name, 'eyelip')) {
-        this.temps.eyeLids.push(item)
-
-      } else if (this.isType(name, 'hear')) {
-        this.temps.ears.push(item)
-
-      } else if (this.isType(name, 'hair')) {
-        this.temps.hairs.parents.push(item)
-        if (item.children && item.children.length > 0) {
-          this.temps.hairs.children.push(item.children)
-        }
-
-      } else if (this.isType(name, 'eyebrow')) {
-        this.temps.eyebrows.push(item)
-
-      } else if (this.isType(name, 'beard') || this.isType(name, 'mustache')) {
-        this.temps.beard.push(item)
-
-      } else if (this.isType(name, 'eye_color')) {
-        this.temps.eyeColor.push(item)
-
-      } else if (this.isType(name, 'body')) {
-        this.temps.top.push(item)
-
-      } else if (this.isType(name, 'glasses')) {
-        this.temps.glasses.push(item)
-      }
-    })
-  }
-
-  isType(name, type) {
-    const newName = name.toLowerCase()
-    return newName.indexOf(type) >= 0
   }
 
   initHead () {

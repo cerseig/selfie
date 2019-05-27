@@ -2,7 +2,7 @@ import GLTFLoader from 'three-gltf-loader'
 import { guiAvatar } from './gui'
 import avatar from '@/config/avatar'
 import AvatarPersonnalisation from './personnalisation/AvatarPersonnalisation'
-import Positions from './positions/Positions'
+import AvatarAnimations from './animations/AvatarAnimations';
 
 class Avatar {
   constructor (params) {
@@ -16,6 +16,7 @@ class Avatar {
 
     this.positions = null
     this.personnalisation = null
+    this.animations = null
 
     this.init()
   }
@@ -28,21 +29,64 @@ class Avatar {
     return this.model
   }
 
-  initGui () {
-    if (guiAvatar.__controllers.length <= 0) {
-      const positionFolder = guiAvatar.addFolder('Geometry')
-      positionFolder.add(this.model.position, 'x', -10, 10).name('Position X')
-      positionFolder.add(this.model.position, 'y', -10, 10).name('Position Y')
-      positionFolder.add(this.model.position, 'z', -10, 10).name('Position Z')
-      positionFolder.add(this.model.rotation, 'x', -10, 10).name('Rotation X')
-      positionFolder.add(this.model.rotation, 'y', -10, 10).name('Rotation Y')
-      positionFolder.add(this.model.rotation, 'z', -10, 10).name('Rotation Z')
-      positionFolder.add(this.model.scale, 'x', 0, 10).name('Scale X')
-      positionFolder.add(this.model.scale, 'y', 0, 10).name('Scale Y')
-      positionFolder.add(this.model.scale, 'z', 0, 10).name('Scale Z')
+  isType(name, type) {
+    const newName = name.toLowerCase()
+    return newName.indexOf(type) >= 0
+  }
 
-      this.guiElementsFolder = guiAvatar.addFolder('Material')
+  initElements (head) {
+    const elements = {
+      head: head,
+      eyeLids: [],
+      ears: [],
+      hairs: {
+        parents: [],
+        children: []
+      },
+      beard: [],
+      eyebrows: [],
+      eyeColor: [],
+      top: [],
+      glasses: [],
+      mouth: []
     }
+
+    console.log(elements)
+
+    head.children.forEach(item => {
+      const name = item.name
+      if (this.isType(name, 'eyelip')) {
+        elements.eyeLids.push(item)
+
+      } else if (this.isType(name, 'hear')) {
+        elements.ears.push(item)
+
+      } else if (this.isType(name, 'hair')) {
+        elements.hairs.parents.push(item)
+        if (item.children && item.children.length > 0) {
+          elements.hairs.children.push(item.children)
+        }
+
+      } else if (this.isType(name, 'eyebrow')) {
+        elements.eyebrows.push(item)
+
+      } else if (this.isType(name, 'beard') || this.isType(name, 'mustache')) {
+        elements.beard.push(item)
+
+      } else if (this.isType(name, 'eye_color')) {
+        elements.eyeColor.push(item)
+
+      } else if (this.isType(name, 'body')) {
+        elements.top.push(item)
+
+      } else if (this.isType(name, 'glasses')) {
+        elements.glasses.push(item)
+      } else if (this.isType(name, 'mouth')) {
+        elements.mouth[name] = item
+      }
+    })
+
+    return elements
   }
 
   loadModel () {
@@ -64,12 +108,15 @@ class Avatar {
           }
         })
 
+        const elements = this.initElements(head)
+
         this.personnalisation = new AvatarPersonnalisation({
           head: head,
+          elements: elements,
           model: this.model
         })
-        this.positions = new Positions({
-          head: head
+        this.animations = new AvatarAnimations({
+          elements: elements
         })
 
         this.onReadyClb()
