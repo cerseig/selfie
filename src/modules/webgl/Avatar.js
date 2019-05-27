@@ -58,12 +58,16 @@ class Avatar {
 
         let head = null
         this.model.children.forEach(item => {
+          // console.log(item)
           if (item.name === 'head') {
             head = item
           }
         })
 
-        this.personnalisation = new AvatarPersonnalisation(this.model)
+        this.personnalisation = new AvatarPersonnalisation({
+          head: head,
+          model: this.model
+        })
         this.positions = new Positions({
           head: head
         })
