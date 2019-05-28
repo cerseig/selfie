@@ -156,6 +156,7 @@ const steps = {
     name: 'posing',
     steps: [
       {
+        index: 0,
         name: 'rotationLeft',
         type: 'rotation',
         values: {
@@ -172,6 +173,7 @@ const steps = {
         }
       },
       {
+        index: 1,
         name: 'rotationRight',
         type: 'rotation',
         values: {
@@ -189,6 +191,7 @@ const steps = {
         }
       },
       {
+        index: 2,
         name: 'smile',
         type: 'expression',
         values: {
@@ -203,6 +206,7 @@ const steps = {
         }
       },
       {
+        index: 3,
         name: 'mouthOpen',
         type: 'expression',
         values: {
@@ -217,6 +221,7 @@ const steps = {
         }
       },
       {
+        index: 4,
         name: 'tiltRight',
         type: 'rotation',
         values: {
@@ -233,6 +238,7 @@ const steps = {
         }
       },
       {
+        index: 5,
         name: 'rotationUp',
         type: 'expression',
         values: {
@@ -248,6 +254,7 @@ const steps = {
         }
       },
       {
+        index: 6,
         name: 'rotationDown',
         type: 'expression',
         values: {
@@ -264,10 +271,11 @@ const steps = {
         }
       },
       {
+        index: 7,
         name: 'eyeBrowLeftUp',
         type: 'expression',
         values: {
-          min: 0.4,
+          min: 0.2,
           max: 1
         },
         status: 'todo',
@@ -279,6 +287,7 @@ const steps = {
         }
       },
       {
+        index: 8,
         name: 'smileLeft',
         type: 'expression',
         values: {
@@ -286,10 +295,11 @@ const steps = {
           max: 1
         },
         status: 'todo',
-        hasSuccess: false,
+        hasSuccess: true,
         sprite: {
           advice: 'posing_smileLeft_advice',
-          errorsNotEnough: ['posing_smileLeft_errorsNotEnough_1', 'posing_smileLeft_errorsNotEnough_2']
+          errorsNotEnough: ['posing_smileLeft_errorsNotEnough_1', 'posing_smileLeft_errorsNotEnough_2'],
+          success: 'posing_smileLeft_success'
         }
       }
     ]
