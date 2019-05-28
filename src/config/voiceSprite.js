@@ -70,17 +70,18 @@ const sprites = {
   posing_rotationDown_errorTooMuch_2: [192000, 1000], // end: 193000
   posing_rotationDown_errorsNotEnough_1: [194000, 1000], // end: 195000
   posing_rotationDown_errorsNotEnough_2: [196000, 1100], // end: 197100
-  posing_rotationDown_success: [229000, 2400], // end: 231400
-  posing_eyeBrowUp_advice: [240000, 2400], // end: 242400
-  posing_eyeBrowUp_errorsNotEnough_1: [194000, 1000], // end: 195000
-  posing_eyeBrowUp_errorsNotEnough_2: [196000, 1000], // end: 197100
-  posing_eyeBrowUp_success: [243000, 1500], // end: 244500
+  posing_rotationDown_success: [239000, 500], // end: 239500
+  posing_eyeBrowLeftUp_advice: [240000, 2400], // end: 242400
+  posing_eyeBrowLeftUp_errorsNotEnough_1: [194000, 1000], // end: 195000
+  posing_eyeBrowLeftUp_errorsNotEnough_2: [196000, 1000], // end: 197100
+  posing_eyeBrowLeftUp_success: [243000, 1500], // end: 244500
   posing_smileLeft_advice: [246000, 1700], // end: 247700
   posing_smileLeft_errorsNotEnough_1: [249000, 3600], // end: 252600
   posing_smileLeft_errorsNotEnough_2: [196000, 1000], // end: 197100
-  posing_eyeLeftClose_advice: [254000, 3800], // end: 257800
-  posing_eyeLeftClose_errorsNotEnough_1: [259000, 3300], // end: 262300
-  posing_eyeLeftClose_errorsNotEnough_2: [263000, 1600], // end: 264600
+  posing_smileLeft_success: [266000, 2000], // end: 268000
+  // posing_eyeLeftClose_advice: [254000, 3800], // end: 257800
+  // posing_eyeLeftClose_errorsNotEnough_1: [259000, 3300], // end: 262300
+  // posing_eyeLeftClose_errorsNotEnough_2: [263000, 1600], // end: 264600
   application_lostPosing_error: [270000, 4100] // end: 274100
 }
 

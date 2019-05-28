@@ -120,7 +120,7 @@ class Face {
         eyeRightClose: this.getEyeRightClose(face),
         eyeBrowLeftDown: this.getEyeBrowLeftDown(face),
         eyeBrowRightDown: this.getEyeBrowRightDown(face),
-        eyeBrowLefttUp: this.getEyeBrowLeftUp(face),
+        eyeBrowLeftUp: this.getEyeBrowLeftUp(face),
         eyeBrowRightUp: this.getEyeBrowRightUp(face),
         rotationLeft: this.getRotationLeft(face),
         rotationRight: this.getRotationRight(face),
@@ -262,7 +262,6 @@ class Face {
       if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
 
       this.rotationUpFactor = rotationUpFactor
-      console.log(rotationUpFactor)
       return rotationUpFactor
     }
   }

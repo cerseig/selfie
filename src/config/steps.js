@@ -234,9 +234,9 @@ const steps = {
       },
       {
         name: 'rotationUp',
-        type: 'rotation',
+        type: 'expression',
         values: {
-          min: 0.4,
+          min: 0.2,
           max: 1
         },
         status: 'todo',
@@ -249,10 +249,10 @@ const steps = {
       },
       {
         name: 'rotationDown',
-        type: 'rotation',
+        type: 'expression',
         values: {
-          min: '',
-          max: ''
+          min: 0.4,
+          max: 1
         },
         status: 'todo',
         hasSuccess: true,
@@ -264,12 +264,11 @@ const steps = {
         }
       },
       {
-        name: 'eyeBrowUp',
+        name: 'eyeBrowLeftUp',
         type: 'expression',
         values: {
-          min: '',
-          max: '',
-          opposite: ''
+          min: 0.4,
+          max: 1
         },
         status: 'todo',
         hasSuccess: true,
@@ -283,9 +282,8 @@ const steps = {
         name: 'smileLeft',
         type: 'expression',
         values: {
-          min: '',
-          max: '',
-          opposite: ''
+          min: 0.5,
+          max: 1
         },
         status: 'todo',
         hasSuccess: false,

@@ -37,6 +37,7 @@ export default {
     },
     createStepObject () {
       this.stepObject = new Step(stepsConfig.posing)
+      console.log(this.stepObject)
       this.currentStep = this.stepObject.currentSubStep
       this.launchSound()
     },
@@ -58,8 +59,11 @@ export default {
       }
     },
     changeStep () {
-      this.stepObject.changeSubStep()
-      this.errorPlayed = 0
+      console.log(this.currentStep.index)
+      if (this.currentStep.index < this.stepObject.subSteps.length) {
+        this.stepObject.changeSubStep()
+        this.errorPlayed = 0
+      }
     },
     onMoveFace () {
       this.currentStep = this.stepObject.currentSubStep // update current step
