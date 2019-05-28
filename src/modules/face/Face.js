@@ -145,7 +145,6 @@ class Face {
     if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
     this.mouthOpenFactor = mouthOpenFactor
-    console.log(mouthOpenFactor)
     return mouthOpenFactor
   }
   getSmile (face) {
