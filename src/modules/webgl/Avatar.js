@@ -1,7 +1,7 @@
 import GLTFLoader from 'three-gltf-loader'
 import avatar from '@/config/avatar'
 import AvatarPersonnalisation from './personnalisation/AvatarPersonnalisation'
-import AvatarAnimations from './animations/AvatarAnimations';
+import AvatarAnimations from './animations/AvatarAnimations'
 
 class Avatar {
   constructor (params) {
@@ -28,7 +28,7 @@ class Avatar {
     return this.model
   }
 
-  isType(name, type) {
+  isType (name, type) {
     const newName = name.toLowerCase()
     return newName.indexOf(type) >= 0
   }
@@ -64,24 +64,19 @@ class Avatar {
 
       if (this.isType(name, 'eyelid')) {
         elements.eyeLids.push(item)
-
       } else if (this.isType(name, 'hear')) {
         elements.ears.push(item)
-
       } else if (this.isType(name, 'hair')) {
         elements.hairs.parents.push(item)
         if (item.children && item.children.length > 0) {
-          elements.hairs.children = [... elements.hairs.children, ...item.children]
+          elements.hairs.children = [...elements.hairs.children, ...item.children]
         }
       } else if (this.isType(name, 'eyebrow')) {
         elements.eyebrows.push(item)
-
       } else if (this.isType(name, 'beard')) {
         elements.beard.push(item)
-
       } else if (this.isType(name, 'eye_iris')) {
         elements.eyeColor.push(item)
-
       } else if (this.isType(name, 'glasses')) {
         elements.glasses.push(item)
       } else if (this.isType(name, 'mouth')) {

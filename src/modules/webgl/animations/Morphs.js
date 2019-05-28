@@ -37,7 +37,7 @@ class Morphs {
     }
   }
 
-  updateMorphValue(key, value) {
+  updateMorphValue (key, value) {
     this.positions[key].beginValue = this.positions[key].beginValue ? this.positions[key].currentValue : value
     this.positions[key].endValue = value
   }
@@ -62,7 +62,6 @@ class Morphs {
     this.elements.eyeLids[0].morphTargetInfluences[0] = this.positions.eyeLeftClose.currentValue
     this.elements.eyeLids[1].morphTargetInfluences[0] = this.positions.eyeRightClose.currentValue
   }
-
 
   updateModelMorphs (deltaTime) {
     this.updateMouthSmileMorph(deltaTime)

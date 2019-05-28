@@ -26,7 +26,6 @@ class BodyParts {
       }
     }
 
-
     this.bodyParts.forEach(bodyPart => {
       if (this.currentBodyPart && bodyPart !== this.currentBodyPart) {
         bodyPart.visible = false

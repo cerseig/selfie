@@ -1,6 +1,6 @@
 import utils from '@/modules/helpers/utils.js'
-import Rotations from './Rotations';
-import Morphs from './Morphs';
+import Rotations from './Rotations'
+import Morphs from './Morphs'
 
 class AvatarAnimations {
   constructor (params) {
