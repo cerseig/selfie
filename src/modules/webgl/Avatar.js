@@ -1,5 +1,4 @@
 import GLTFLoader from 'three-gltf-loader'
-import { guiAvatar } from './gui'
 import avatar from '@/config/avatar'
 import AvatarPersonnalisation from './personnalisation/AvatarPersonnalisation'
 import AvatarAnimations from './animations/AvatarAnimations';
@@ -34,9 +33,18 @@ class Avatar {
     return newName.indexOf(type) >= 0
   }
 
-  initElements (head) {
-    const elements = {
-      head: head,
+  initElements () {
+    let elements = {}
+    this.model.children.forEach(item => {
+      if (item.name === 'head') {
+        elements.head = item
+      } else {
+        elements.top = item
+      }
+    })
+
+    elements = {
+      ...elements,
       eyeLids: [],
       ears: [],
       hairs: {
@@ -51,11 +59,10 @@ class Avatar {
       mouth: []
     }
 
-    console.log(elements)
-
-    head.children.forEach(item => {
+    elements.head.children.forEach(item => {
       const name = item.name
-      if (this.isType(name, 'eyelip')) {
+
+      if (this.isType(name, 'eyelid')) {
         elements.eyeLids.push(item)
 
       } else if (this.isType(name, 'hear')) {
@@ -64,20 +71,16 @@ class Avatar {
       } else if (this.isType(name, 'hair')) {
         elements.hairs.parents.push(item)
         if (item.children && item.children.length > 0) {
-          elements.hairs.children.push(item.children)
+          elements.hairs.children = [... elements.hairs.children, ...item.children]
         }
-
       } else if (this.isType(name, 'eyebrow')) {
         elements.eyebrows.push(item)
 
-      } else if (this.isType(name, 'beard') || this.isType(name, 'mustache')) {
+      } else if (this.isType(name, 'beard')) {
         elements.beard.push(item)
 
-      } else if (this.isType(name, 'eye_color')) {
+      } else if (this.isType(name, 'eye_iris')) {
         elements.eyeColor.push(item)
-
-      } else if (this.isType(name, 'body')) {
-        elements.top.push(item)
 
       } else if (this.isType(name, 'glasses')) {
         elements.glasses.push(item)
@@ -91,36 +94,27 @@ class Avatar {
 
   loadModel () {
     const loader = new GLTFLoader()
+    loader.load(avatar.modelPath, this.initModel.bind(this))
+  }
 
-    loader.load(
-      avatar.modelPath,
-      (gltf) => {
-        this.model = gltf.scene
-        this.model.scale.set(this.config.scale.x, this.config.scale.y, this.config.scale.z)
-        this.model.position.set(this.config.position.x, this.config.position.y, this.config.position.z)
-        this.scene.add(this.model)
+  initModel (gltf) {
+    this.model = gltf.scene
+    this.model.scale.set(this.config.scale.x, this.config.scale.y, this.config.scale.z)
+    this.model.position.set(this.config.position.x, this.config.position.y, this.config.position.z)
+    this.scene.add(this.model)
 
-        let head = null
-        this.model.children.forEach(item => {
-          // console.log(item)
-          if (item.name === 'head') {
-            head = item
-          }
-        })
+    const elements = this.initElements()
 
-        const elements = this.initElements(head)
+    this.personnalisation = new AvatarPersonnalisation({
+      elements: elements,
+      model: this.model
+    })
 
-        this.personnalisation = new AvatarPersonnalisation({
-          head: head,
-          elements: elements,
-          model: this.model
-        })
-        this.animations = new AvatarAnimations({
-          elements: elements
-        })
+    this.animations = new AvatarAnimations({
+      elements: elements
+    })
 
-        this.onReadyClb()
-      })
+    this.onReadyClb()
   }
 }
 

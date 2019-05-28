@@ -13,7 +13,7 @@ const CATEGORIES = {
 class AvatarPersonnalisation {
   constructor (params) {
     this.model = params.model
-    this.head = params.head
+    this.head = params.elements.head
     this.bodyParts = {}
 
     this.temps = params.elements
@@ -51,7 +51,6 @@ class AvatarPersonnalisation {
     const defaultValues = category.default
 
     this.temps.hairs.parents.push({ name: 'none' })
-
     this.bodyParts.hair = new BodyParts({
       bodyParts: this.temps.hairs.parents,
       currentBodyPart: defaultValues.attributes,
