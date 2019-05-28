@@ -4,6 +4,8 @@ class BodyParts {
   constructor (params) {
     this.bodyParts = params.bodyParts
 
+    this.children = params.children
+
     if (!Number.isNaN(params.currentBodyPart)) {
       this.currentBodyPart = params.bodyParts[params.currentBodyPart]
     }
@@ -16,10 +18,14 @@ class BodyParts {
   }
 
   init () {
-    this.setMaterial(this.material)
-    if (this.material.color) {
-      this.switchColor(this.material.color)
+    if (this.material) {
+      this.setMaterial(this.material)
+
+      if (this.material.color) {
+        this.switchColor(this.material.color)
+      }
     }
+
 
     this.bodyParts.forEach(bodyPart => {
       if (this.currentBodyPart && bodyPart !== this.currentBodyPart) {
@@ -43,8 +49,8 @@ class BodyParts {
 
   /** Setters */
   setMaterial (material) {
-    if (material.matCap) {
-      const matcap = new THREE.TextureLoader().load(material.matCap)
+    if (material.matcap) {
+      const matcap = new THREE.TextureLoader().load(material.matcap)
       this.bodyParts.forEach(bodyPart => {
         if (bodyPart.material) {
           bodyPart.material = new THREE.MeshMatcapMaterial({
@@ -52,6 +58,16 @@ class BodyParts {
           })
         }
       })
+
+      if (this.children) {
+        this.children.forEach(child => {
+          if (child.material) {
+            child.material = new THREE.MeshMatcapMaterial({
+              matcap: matcap
+            })
+          }
+        })
+      }
     }
   }
 
@@ -96,12 +112,21 @@ class BodyParts {
   updateColor (color) {
     const newColor = new THREE.Color(color)
     newColor.convertSRGBToLinear()
+    const outputColor = new THREE.Color(newColor)
 
     this.bodyParts.forEach(bodyPart => {
       if (bodyPart.material) {
-        bodyPart.material.color = new THREE.Color(newColor)
+        bodyPart.material.color = outputColor
       }
     })
+
+    if (this.children) {
+      this.children.forEach(child => {
+        if (child.material) {
+          child.material.color = outputColor
+        }
+      })
+    }
   }
 }
 

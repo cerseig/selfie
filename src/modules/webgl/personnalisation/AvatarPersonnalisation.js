@@ -1,59 +1,61 @@
 import categories from '@/config/categories'
 import BodyParts from './BodyParts'
 
+const CATEGORIES = {
+  HAIR: 0,
+  EYES: 1,
+  SKIN: 2,
+  BEARD: 3,
+  GLASSES: 4,
+  TOP: 5
+}
+
 class AvatarPersonnalisation {
-  constructor (model) {
-    this.model = model
+  constructor (params) {
+    this.model = params.model
+    this.head = params.head
     this.bodyParts = {}
+
+    this.temps = params.elements
 
     this.init()
   }
 
   init () {
     this.initHead()
+    this.initBeard()
     this.initHair()
     this.initEyes()
     this.initTop()
-    this.initBeard()
     this.initGlasses()
+
+    delete this.temps
   }
 
   initHead () {
-    const category = categories[2]
+    const category = categories[CATEGORIES.SKIN]
     const defaultValues = category.default
-    this.eyeLids = []
 
-    this.model.children.forEach(item => {
-      const name = item.name.toLowerCase()
-      if (name === 'head') {
-        this.head = item
-        this.bodyParts.skin = new BodyParts({
-          bodyParts: [item],
-          material: {
-            color: category.colors[defaultValues.colors]
-          }
-        })
+    this.bodyParts.skin = new BodyParts({
+      bodyParts: [this.head],
+      children: [...this.temps.eyeLids, ...this.temps.ears],
+      material: {
+        color: category.colors[defaultValues.colors],
+        matcap: '/models/textures/matcap_skin.jpg'
       }
     })
   }
 
   initHair () {
-    const hairList = []
-
-    hairList.push({ name: 'none' })
-    this.head.children.forEach(item => {
-      const name = item.name.toLowerCase()
-      if (name.indexOf('hair') >= 0) {
-        hairList.push(item)
-      }
-    })
-
-    const category = categories[0]
+    const category = categories[CATEGORIES.HAIR]
     const defaultValues = category.default
 
+    this.temps.hairs.parents.push({ name: 'none' })
+
     this.bodyParts.hair = new BodyParts({
-      bodyParts: hairList,
+      bodyParts: this.temps.hairs.parents,
       currentBodyPart: defaultValues.attributes,
+      children: [...this.bodyParts.beard.bodyParts, ...this.temps.eyebrows, ...this.temps.hairs.children],
       material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg',
         color: category.colors[defaultValues.colors]
@@ -66,36 +68,26 @@ class AvatarPersonnalisation {
     beardList.push({ name: 'none' })
     this.head.children.forEach(item => {
       const name = item.name.toLowerCase()
-      if (name.indexOf('beard') >= 0) {
+      if (name.indexOf('beard') >= 0 || name.indexOf('mustache') >= 0) {
         beardList.push(item)
       }
     })
 
-    const category = categories[3]
+    const category = categories[CATEGORIES.BEARD]
     const defaultValues = category.default
 
     this.bodyParts.beard = new BodyParts({
       bodyParts: beardList,
-      currentBodyPart: defaultValues.attributes,
-      material: {
-        matcap: '/models/textures/matcap-porcelain-white.jpg',
-      }
+      currentBodyPart: defaultValues.attributes
     })
   }
 
   initEyes () {
-    const eyes = []
-    const category = categories[1]
+    const category = categories[CATEGORIES.EYES]
     const defaultValues = category.default
 
-    this.head.children.forEach(item => {
-      const name = item.name.toLowerCase()
-      if (name.indexOf('eye_color') >= 0) {
-        eyes.push(item)
-      }
-    })
     this.bodyParts.eyes = new BodyParts({
-      bodyParts: eyes,
+      bodyParts: this.temps.eyeColor,
       material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg',
         color: category.colors[defaultValues.colors]
@@ -104,37 +96,25 @@ class AvatarPersonnalisation {
   }
 
   initTop () {
-    const category = categories[5]
+    const category = categories[CATEGORIES.TOP]
     const defaultValues = category.default
 
-    this.model.children.forEach(item => {
-      const name = item.name.toLowerCase()
-      if (name.indexOf('body') >= 0) {
-        this.bodyParts.top = new BodyParts({
-          bodyParts: [item],
-          material: {
-            color: category.colors[defaultValues.colors]
-          }
-        })
+    this.bodyParts.top = new BodyParts({
+      bodyParts: [this.temps.top],
+      material: {
+        color: category.colors[defaultValues.colors]
       }
     })
   }
 
   initGlasses () {
-    const glassesList = []
-    glassesList.push({ name: 'none' })
-    this.head.children.forEach(item => {
-      const name = item.name.toLowerCase()
-      if (name.indexOf('glasses') >= 0) {
-        glassesList.push(item)
-      }
-    })
+    this.temps.glasses.push({ name: 'none' })
 
-    const category = categories[5]
+    const category = categories[CATEGORIES.GLASSES]
     const defaultValues = category.default
 
     this.bodyParts.glasses = new BodyParts({
-      bodyParts: glassesList,
+      bodyParts: this.temps.glasses,
       currentBodyPart: defaultValues.attributes,
       material: {
         color: category.colors[defaultValues.colors]
