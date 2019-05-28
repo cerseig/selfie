@@ -72,8 +72,8 @@ export default {
       show: {
         settings: false,
         camera: false,
-        personnalisation: true,
-        events: false,
+        personnalisation: false,
+        events: true,
         gui: false,
         decor: false
       },

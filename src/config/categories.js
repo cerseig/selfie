@@ -138,23 +138,23 @@ const categories = [
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'mustache_1'
+        ref: 'beard_4'
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'mustache_2'
+        ref: 'beard_5'
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'mustache_3'
+        ref: 'beard_6'
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'mustache_4'
+        ref: 'beard_7'
       },
       {
         icon: '/img/thumbnails/glasses_none.png',
-        ref: 'mustache_5'
+        ref: 'beard_8'
       }
     ]
   },
