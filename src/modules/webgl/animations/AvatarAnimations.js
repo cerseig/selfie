@@ -1,5 +1,6 @@
 import utils from '@/modules/helpers/utils.js'
 import Rotations from './Rotations';
+import Morphs from './Morphs';
 
 class AvatarAnimations {
   constructor (params) {
@@ -15,11 +16,17 @@ class AvatarAnimations {
       head: this.elements.head,
       duration: this.durationTime
     })
+
+    this.morphs = new Morphs({
+      elements: this.elements,
+      duration: this.durationTime
+    })
   }
 
   handleUpdate (positions) {
     if (this.currentFrame % this.frameDuration === 0) {
       this.rotations.updateRotationValues(positions.rotation)
+      this.morphs.updateMorphsValues(positions.events)
       this.startTime = Date.now() // Retrieve start time
     }
 
@@ -27,6 +34,7 @@ class AvatarAnimations {
     const deltaTime = now - this.startTime // Delta time between start & now
 
     this.rotations.updateModelRotations(deltaTime)
+    this.morphs.updateModelMorphs(deltaTime)
 
     this.currentFrame++
   }
