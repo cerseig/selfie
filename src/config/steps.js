@@ -123,125 +123,183 @@ const steps = {
       {
         name: 'level2',
         sprite: {
-          error: 'decorPersonnalisation_level2_error'
+          error: [
+            'decorPersonnalisation_level2_1_error',
+            'decorPersonnalisation_level2_2_error',
+            'decorPersonnalisation_level2_3_error',
+            'decorPersonnalisation_level2_4_error',
+            'decorPersonnalisation_level2_5_error'
+          ]
+        }
+      },
+      {
+        name: 'level3',
+        sprite: {
+          error: 'decorPersonnalisation_level3_error'
+        }
+      },
+      {
+        name: 'level4',
+        sprite: {
+          error: 'decorPersonnalisation_level4_error'
+        }
+      },
+      {
+        name: 'level5',
+        sprite: {
+          error: 'decorPersonnalisation_level5_error'
         }
       }
-    ],
-    sprite: {
-      errors: [
-        {
-          level: 1,
-          random: [{ start: 135000, end: 137700 }]
-        },
-        {
-          level: 2,
-          random: [
-            { start: 139000, end: 141400 },
-            { start: 143000, end: 146600 },
-            { start: 148000, end: 152000 },
-            { start: 153000, end: 158200 },
-            { start: 159000, end: 162300 }
-          ]
-        },
-        {
-          level: 3,
-          random: [{ start: 163000, end: 168700 }]
-        },
-        {
-          level: 4,
-          random: [{ start: 170000, end: 171200 }]
-        },
-        {
-          level: 5,
-          random: [{ start: 172000, end: 172900 }]
-        }
-      ]
-    }
+    ]
   },
   posing: {
     name: 'posing',
     steps: [
       {
+        index: 0,
         name: 'rotationLeft',
+        type: 'rotation',
+        values: {
+          min: 0.4,
+          max: 0.8
+        },
+        status: 'todo',
+        hasSuccess: false,
         sprite: {
-          advice: [{ start: 185000, end: 187900 }],
-          errorsTooMuch: [{ start: 191000, end: 191700 }, { start: 192000, end: 193000 }],
-          errorsOpposite: [{ start: 189000, end: 190200 }],
-          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }]
+          advice: 'posing_rotationLeft_advice',
+          errorsTooMuch: ['posing_rotationLeft_errorTooMuch_1', 'posing_rotationLeft_errorTooMuch_2'],
+          errorsOpposite: 'posing_rotationLeft_errorOpposite',
+          errorsNotEnough: ['posing_rotationLeft_errorsNotEnough_1', 'posing_rotationLeft_errorsNotEnough_2']
         }
       },
       {
+        index: 1,
         name: 'rotationRight',
+        type: 'rotation',
+        values: {
+          min: 0.4,
+          max: 0.8
+        },
+        status: 'todo',
+        hasSuccess: true,
         sprite: {
-          advice: [{ start: 198000, end: 202000 }],
-          errorsTooMuch: [{ start: 191000, end: 191700 }, { start: 192000, end: 193000 }],
-          errorsOpposite: [{ start: 189000, end: 190200 }],
-          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
-          success: [{ start: 203000, end: 205100 }]
+          advice: 'posing_rotationRight_advice',
+          errorsTooMuch: ['posing_rotationRight_errorTooMuch_1', 'posing_rotationRight_errorTooMuch_2'],
+          errorsOpposite: 'posing_rotationRight_errorOpposite',
+          errorsNotEnough: ['posing_rotationRight_errorsNotEnough_1', 'posing_rotationRight_errorsNotEnough_2'],
+          success: 'posing_rotationRight_success'
         }
       },
       {
-        name: 'tiltRight',
-        sprite: {
-          advice: [{ start: 226000, end: 227700 }],
-          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
-          errorsTooMuch: [{ start: 191000, end: 191700 }, { start: 192000, end: 193000 }],
-          success: [{ start: 229000, end: 231400 }]
-        }
-      },
-      {
+        index: 2,
         name: 'smile',
+        type: 'expression',
+        values: {
+          min: 0.7
+        },
+        status: 'todo',
+        hasSuccess: true,
         sprite: {
-          advice: [{ start: 206000, end: 207100 }],
-          errorsNotEnough: [{ start: 208000, end: 195000 }],
-          success: [{ start: 203000, end: 205100 }]
+          advice: 'posing_smile_advice',
+          errorsNotEnough: 'posing_smile_errorsNotEnough',
+          success: 'posing_smile_success'
         }
       },
       {
-        name: 'teeth',
+        index: 3,
+        name: 'mouthOpen',
+        type: 'expression',
+        values: {
+          min: 0.3 // 0.4 ou 0.5 à tester
+        },
+        status: 'todo',
+        hasSuccess: true,
         sprite: {
-          advice: [{ start: 212000, end: 213200 }],
-          errorsNotEnough: [{ start: 215000, end: 216500 }],
-          success: [{ start: 218000, end: 220500 }]
+          advice: 'posing_teeth_advice',
+          errorsNotEnough: 'posing_teeth_errorsNotEnough',
+          success: 'posing_teeth_success'
         }
       },
       {
+        index: 4,
+        name: 'tiltRight',
+        type: 'rotation',
+        values: {
+          min: 0.6,
+          max: 1
+        },
+        status: 'todo',
+        hasSuccess: true,
+        sprite: {
+          advice: 'posing_tiltRight_advice',
+          errorsNotEnough: ['posing_tiltRight_errorsNotEnough_1', 'posing_tiltRight_errorsNotEnough_2'],
+          errorsTooMuch: ['posing_tiltRight_errorTooMuch_1', 'posing_tiltRight_errorTooMuch_2'],
+          success: 'posing_tiltRight_success'
+        }
+      },
+      {
+        index: 5,
         name: 'rotationUp',
+        type: 'expression',
+        values: {
+          min: 0.2,
+          max: 1
+        },
+        status: 'todo',
+        hasSuccess: false,
         sprite: {
-          advice: [{ start: 232000, end: 234800 }],
-          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
-          errorsTooMuch: [{ start: 191000, end: 191700 }, { start: 192000, end: 193000 }]
+          advice: 'posing_rotationUp_advice',
+          errorsNotEnough: ['posing_rotationUp_errorsNotEnough_1', 'posing_rotationUp_errorsNotEnough_2'],
+          errorsTooMuch: ['posing_rotationUp_errorTooMuch_1', 'posing_rotationUp_errorTooMuch_2']
         }
       },
       {
+        index: 6,
         name: 'rotationDown',
+        type: 'expression',
+        values: {
+          min: 0.4,
+          max: 1
+        },
+        status: 'todo',
+        hasSuccess: true,
         sprite: {
-          advice: [{ start: 236000, end: 237800 }],
-          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
-          errorsTooMuch: [{ start: 191000, end: 191700 }, { start: 192000, end: 193000 }],
-          success: [{ start: 229000, end: 231400 }]
+          advice: 'posing_rotationDown_advice',
+          errorsNotEnough: ['posing_rotationDown_errorsNotEnough_1', 'posing_rotationDown_errorsNotEnough_2'],
+          errorsTooMuch: ['posing_rotationDown_errorTooMuch_1', 'posing_rotationDown_errorTooMuch_2'],
+          success: 'posing_rotationDown_success'
         }
       },
       {
-        name: 'eyeBrowUp',
+        index: 7,
+        name: 'eyeBrowLeftUp',
+        type: 'expression',
+        values: {
+          min: 0.2,
+          max: 1
+        },
+        status: 'todo',
+        hasSuccess: true,
         sprite: {
-          advice: [{ start: 240000, end: 242400 }],
-          errorsNotEnough: [{ start: 194000, end: 195000 }, { start: 196000, end: 197100 }],
-          success: [{ start: 243000, end: 244500 }]
+          advice: 'posing_eyeBrowUp_advice',
+          errorsNotEnough: ['posing_eyeBrowUp_errorsNotEnough_1', 'posing_eyeBrowUp_errorsNotEnough_2'],
+          success: 'posing_eyeBrowUp_success'
         }
       },
       {
+        index: 8,
         name: 'smileLeft',
+        type: 'expression',
+        values: {
+          min: 0.5,
+          max: 1
+        },
+        status: 'todo',
+        hasSuccess: true,
         sprite: {
-          advice: [{ start: 246000, end: 247700 }],
-          errorsNotEnough: [{ start: 249000, end: 252600 }, { start: 196000, end: 197100 }]
-        }
-      },
-      {
-        name: 'eyeLeftClose',
-        sprite: {
-          advice: [{ start: 254000, end: 257800 }],
-          errorNotEnough: [{ start: 259000, end: 262300 }, { start: 263000, end: 264600 }]
+          advice: 'posing_smileLeft_advice',
+          errorsNotEnough: ['posing_smileLeft_errorsNotEnough_1', 'posing_smileLeft_errorsNotEnough_2'],
+          success: 'posing_smileLeft_success'
         }
       }
     ]
