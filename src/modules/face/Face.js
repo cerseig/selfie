@@ -139,15 +139,13 @@ class Face {
   /* ----- ALL GETTERS FUNCTIONS ----- */
   getMouthOpen (face) {
     let mouthOpen = this.calcMouthOpen(face)
-    if (mouthOpen > this.mouthOpenInitial) {
-      let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
+    let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
 
-      if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
-      if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
+    if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
+    if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
-      this.mouthOpenFactor = mouthOpenFactor
-      return mouthOpenFactor
-    }
+    this.mouthOpenFactor = mouthOpenFactor
+    return mouthOpenFactor
   }
   getSmile (face) {
     let smileFactor = this.calcSmile(face)
