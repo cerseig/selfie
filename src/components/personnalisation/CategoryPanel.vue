@@ -167,31 +167,36 @@ export default {
   }
 
   .list--colors {
-    height: 160px;
+    height: 100px;
     padding-top: 40px;
     border-bottom: 1px solid $color__gray--light;
     .list__item {
-      margin: 10px;
+      margin: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 50%;
-      width: 4rem;
-      height: 4rem;
+      width: 2rem;
+      height: 2rem;
       &.is-selected {
         border: .1rem solid $color__black;
+        .list__button {
+          width: 1rem;
+          height: 1rem;
+        }
       }
       .list__button {
         border-radius: 50%;
         cursor: pointer;
-        width: 4rem;
-        height: 4rem;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
       }
     }
   }
 
   .list--attributes {
-    height: 100px;
+    height: 90px;
     overflow-x: scroll;
     justify-content: initial;
     .list__item {
@@ -201,7 +206,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0 10px;
+      margin: 0 5px;
       border-radius: 10px;
       flex-shrink: 0;
       .list__thumbnail {
