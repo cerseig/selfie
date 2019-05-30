@@ -120,13 +120,13 @@ export default {
     },
     loader () {
       let t = setInterval(() => {
-          if (this.counter === 99){
-            clearInterval(t)
-          } else {
-            this.counter = this.counter + 1
-            this.progressWith = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
-          }
-        }, 30)
+        if (this.counter === 99) {
+          clearInterval(t)
+        } else {
+          this.counter = this.counter + 1
+          this.progressWith = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+        }
+      }, 30)
     }
   },
   mounted () {
