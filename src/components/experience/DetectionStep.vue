@@ -1,5 +1,8 @@
 <template>
   <div :class="`detection__box ${isActive ? 'is-active' : ''}`">
+    <div :class="`detection__loader ${isReady ? 'is-ready' : ''}`">
+      <div class="loader">LOADER</div>
+    </div>
     <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}"></div>
     <div class="detection__check">
       <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
@@ -120,7 +123,10 @@ export default {
   watch: {
     isReady (nextProps) {
       if (this.isReady && this.isActive) {
-        this.getPositionCenter()
+        const timeOut = setTimeout(() => {
+          this.getPositionCenter()
+          clearTimeout(timeOut)
+        }, 1500)
       }
     },
     isAnalysed () {
@@ -144,6 +150,35 @@ export default {
 
 <style lang="scss">
   .detection {
+
+    &__loader {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: $color__green--pastel;
+      z-index: 20;
+      transition: opacity 0.3s;
+
+      &.is-ready {
+        opacity: 0;
+        z-index: 0;
+      }
+
+      .loader {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 10rem;
+        color: $color__black;
+        animation: blink 2s infinite;
+      }
+
+    }
     &__box {
       position: absolute;
       top: 0;
