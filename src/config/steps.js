@@ -195,7 +195,7 @@ const steps = {
         name: 'smile',
         type: 'expression',
         values: {
-          min: 0.7
+          min: 0.5
         },
         status: 'todo',
         hasSuccess: true,
@@ -210,7 +210,7 @@ const steps = {
         name: 'mouthOpen',
         type: 'expression',
         values: {
-          min: 0.3 // 0.4 ou 0.5 à tester
+          min: 0.2 // 0.3 ou 0.4 à tester
         },
         status: 'todo',
         hasSuccess: true,
@@ -291,7 +291,7 @@ const steps = {
         name: 'smileLeft',
         type: 'expression',
         values: {
-          min: 0.5,
+          min: 0.4,
           max: 1
         },
         status: 'todo',
