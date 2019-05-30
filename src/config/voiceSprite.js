@@ -1,4 +1,4 @@
-const sprites = {
+const voiceSprite = {
   intro_intro_advice: [0, 20000],
   detection_center_advice: [21000, 3850], // end: 24850
   detection_center_errors: [26000, 5200], // end: 31200
@@ -85,4 +85,4 @@ const sprites = {
   application_lostPosing_error: [270000, 4100] // end: 274100
 }
 
-export default sprites
+export default voiceSprite

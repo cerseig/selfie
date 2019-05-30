@@ -14,7 +14,6 @@
 // Modules
 import Step from '@/modules/step/Step'
 import Icon from '@/components/icons/Icon.vue'
-
 // Config
 import stepsConfig from '@/config/steps'
 

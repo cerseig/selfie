@@ -43,7 +43,7 @@
 import store from '../store/index'
 import About from '@/components/About.vue'
 import Icon from '@/components/icons/Icon.vue'
-import sprite from '@/config/voiceSprite'
+import voiceSprite from '@/config/voiceSprite'
 import { Howl } from 'howler'
 
 export default {
@@ -109,7 +109,7 @@ export default {
       const source = '/sounds/voice_fr.mp3'
       this.sound = new Howl({
         src: [source],
-        sprite: sprite
+        sprite: voiceSprite
       })
       store.commit('setSound', this.sound)
     }
