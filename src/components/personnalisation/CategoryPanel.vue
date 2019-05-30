@@ -22,7 +22,7 @@
            <button class="list__button" :style="{ backgroundColor: color }"></button>
           </li>
         </ul>
-         <ul class="list--attributes" v-if="category && category.attributes && category.attributes.length > 0">
+         <ul :class="`list--attributes ${!category.colors && isActive === index ? 'list--attributes--top' : ''}`" v-if="category && category.attributes && category.attributes.length > 0">
           <li
             v-for="(attribute, indexAttr) in category.attributes"
             :class="`list__item ${selection[index] && selection[index].attributes === indexAttr ? 'is-selected' : ''}`"
@@ -191,26 +191,29 @@ export default {
   }
 
   .list--attributes {
-    height: 150px;
+    height: 100px;
+    overflow-x: scroll;
+    justify-content: initial;
     .list__item {
       border: .1rem solid $color__gray--light;
-      width: 10rem;
-      height: 10rem;
+      width: 6rem;
+      height: 6rem;
       display: flex;
       justify-content: center;
       align-items: center;
       margin: 0 10px;
       border-radius: 10px;
+      flex-shrink: 0;
       .list__thumbnail {
-        width: 7rem;
-        height: 7rem;
+        width: 4.5rem;
+        height: 4.5rem;
       }
       &.is-selected {
         border-color: $color__black;
         .list__button,
         .list__thumbnail {
-          width: 4rem;
-          height: 4rem;
+          width: 3rem;
+          height: 3rem;
         }
       }
     }
@@ -261,17 +264,21 @@ export default {
       padding-top: 40px;
       .list__item {
         margin: 10px;
-        width: 4rem;
-        height: 4rem;
+        width: 3.5rem;
+        height: 3.5rem;
         .list__button {
-          width: 4rem;
-          height: 4rem;
+          width: 3.5rem;
+          height: 3.5rem;
         }
       }
     }
 
     .list--attributes {
       height: 150px;
+      &--top {
+        padding-top: 40px;
+        height: 180px;
+      }
       .list__item {
         width: 10rem;
         height: 10rem;
@@ -295,7 +302,7 @@ export default {
       padding: 0 50px;
       .list__item {
         .list__button {
-          padding: 15px 20px 10px 20px;
+          padding: 5px 10px 0 10px;
         }
       }
     }
