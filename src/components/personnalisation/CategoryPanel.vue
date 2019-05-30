@@ -22,7 +22,7 @@
            <button class="list__button" :style="{ backgroundColor: color }"></button>
           </li>
         </ul>
-         <ul class="list--attributes" v-if="category && category.attributes && category.attributes.length > 0">
+         <ul :class="`list--attributes ${!category.colors && isActive === index ? 'list--attributes--top' : ''}`" v-if="category && category.attributes && category.attributes.length > 0">
           <li
             v-for="(attribute, indexAttr) in category.attributes"
             :class="`list__item ${selection[index] && selection[index].attributes === indexAttr ? 'is-selected' : ''}`"
@@ -41,6 +41,7 @@
 
 <script>
 import Icon from '@/components/icons/Icon.vue'
+import utils from '@/modules/helpers/utils'
 
 export default {
   name: 'CategoryPanel',
@@ -148,69 +149,93 @@ export default {
     bottom: -40px;
     z-index: 2;
     width: fit-content;
-    padding: 0 50px;
-    border-radius: 50px;
+    padding: 0 20px;
+    border-radius: 30px;
     margin: 0 auto;
     box-shadow: 0px 6px 15px $color__gray--light;
     .list__item {
       opacity: 0.2;
+      &:last-child {
+        margin-right: 0;
+      }
       .list__button {
-        padding: 15px 20px 10px 20px;
+        padding: 3px 5px 0 3px;
+        svg {
+          width: 3.5rem;
+          height: 3.5rem;
+        }
       }
       &.is-active {
         opacity: 1;
         .list__button {
-          border-bottom: .5rem solid $color__black;
+          border-bottom: .2rem solid $color__black;
         }
       }
     }
   }
 
   .list--colors {
-    height: 160px;
+    height: 100px;
     padding-top: 40px;
     border-bottom: 1px solid $color__gray--light;
+    &--overflow { // a ajouter lorsqu'il y a un overflow sur le panel de couleur (js condition)
+      overflow-x: scroll;
+      justify-content: initial;
+    }
     .list__item {
-      margin: 10px;
+      margin: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 50%;
-      width: 4rem;
-      height: 4rem;
+      width: 2rem;
+      height: 2rem;
+      flex-shrink: 0;
       &.is-selected {
         border: .1rem solid $color__black;
+        .list__button {
+          width: 1rem;
+          height: 1rem;
+        }
       }
       .list__button {
         border-radius: 50%;
         cursor: pointer;
-        width: 4rem;
-        height: 4rem;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
       }
     }
   }
 
   .list--attributes {
-    height: 150px;
+    height: 90px;
+    overflow-x: scroll; // a supprimer quand on utilisera le --overflow
+    justify-content: initial; // a supprimer quand on utilisera le --overflow
+    &--overflow {
+      overflow-x: scroll;
+      justify-content: initial;
+    }
     .list__item {
       border: .1rem solid $color__gray--light;
-      width: 10rem;
-      height: 10rem;
+      width: 6rem;
+      height: 6rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0 10px;
+      margin: 0 5px;
       border-radius: 10px;
+      flex-shrink: 0;
       .list__thumbnail {
-        width: 7rem;
-        height: 7rem;
+        width: 4.5rem;
+        height: 4.5rem;
       }
       &.is-selected {
         border-color: $color__black;
         .list__button,
         .list__thumbnail {
-          width: 4rem;
-          height: 4rem;
+          width: 3rem;
+          height: 3rem;
         }
       }
     }
@@ -272,6 +297,10 @@ export default {
 
     .list--attributes {
       height: 150px;
+      &--top {
+        padding-top: 40px;
+        height: 180px;
+      }
       .list__item {
         width: 10rem;
         height: 10rem;
@@ -293,9 +322,20 @@ export default {
     .list--category {
       bottom: -40px;
       padding: 0 50px;
+      border-radius: 50px;
       .list__item {
         .list__button {
-          padding: 15px 20px 10px 20px;
+          padding: 10px 15px 5px 15px;
+          svg {
+            width: 6rem;
+            height: 6rem;
+          }
+        }
+        &.is-active {
+          opacity: 1;
+          .list__button {
+            border-bottom: .5rem solid $color__black;
+          }
         }
       }
     }
