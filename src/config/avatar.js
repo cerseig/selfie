@@ -15,13 +15,13 @@ const avatar = {
     },
     default: {
       scale: {
-        x: 3,
-        y: 3,
-        z: 3
+        x: 7,
+        y: 7,
+        z: 7
       },
       position: {
         x: 0,
-        y: 0,
+        y: -1,
         z: 0
       }
     }

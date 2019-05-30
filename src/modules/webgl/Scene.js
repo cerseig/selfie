@@ -34,7 +34,7 @@ class Scene {
   initScene () {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(45, this.sizes.width / this.sizes.height, 0.1, 50)
-    this.camera.position.set(0, 3, 20)
+    this.camera.position.set(0, 5, 20)
     this.camera.lookAt(new THREE.Vector3(0, 3, 0))
 
     this.renderer = new THREE.WebGLRenderer({ alpha: true, preserveDrawingBuffer: true, antialias: true })
