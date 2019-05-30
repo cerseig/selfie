@@ -41,6 +41,7 @@
 
 <script>
 import Icon from '@/components/icons/Icon.vue'
+import utils from '@/modules/helpers/utils'
 
 export default {
   name: 'CategoryPanel',
@@ -148,19 +149,26 @@ export default {
     bottom: -40px;
     z-index: 2;
     width: fit-content;
-    padding: 0 50px;
-    border-radius: 50px;
+    padding: 0 20px;
+    border-radius: 30px;
     margin: 0 auto;
     box-shadow: 0px 6px 15px $color__gray--light;
     .list__item {
       opacity: 0.2;
+      &:last-child {
+        margin-right: 0;
+      }
       .list__button {
-        padding: 15px 20px 10px 20px;
+        padding: 3px 5px 0 3px;
+        svg {
+          width: 3.5rem;
+          height: 3.5rem;
+        }
       }
       &.is-active {
         opacity: 1;
         .list__button {
-          border-bottom: .5rem solid $color__black;
+          border-bottom: .2rem solid $color__black;
         }
       }
     }
@@ -170,6 +178,10 @@ export default {
     height: 100px;
     padding-top: 40px;
     border-bottom: 1px solid $color__gray--light;
+    &--overflow { // a ajouter lorsqu'il y a un overflow sur le panel de couleur (js condition)
+      overflow-x: scroll;
+      justify-content: initial;
+    }
     .list__item {
       margin: 5px;
       display: flex;
@@ -178,6 +190,7 @@ export default {
       border-radius: 50%;
       width: 2rem;
       height: 2rem;
+      flex-shrink: 0;
       &.is-selected {
         border: .1rem solid $color__black;
         .list__button {
@@ -197,8 +210,12 @@ export default {
 
   .list--attributes {
     height: 90px;
-    overflow-x: scroll;
-    justify-content: initial;
+    overflow-x: scroll; // a supprimer quand on utilisera le --overflow
+    justify-content: initial; // a supprimer quand on utilisera le --overflow
+    &--overflow {
+      overflow-x: scroll;
+      justify-content: initial;
+    }
     .list__item {
       border: .1rem solid $color__gray--light;
       width: 6rem;
@@ -269,11 +286,11 @@ export default {
       padding-top: 40px;
       .list__item {
         margin: 10px;
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 4rem;
+        height: 4rem;
         .list__button {
-          width: 3.5rem;
-          height: 3.5rem;
+          width: 4rem;
+          height: 4rem;
         }
       }
     }
@@ -305,9 +322,20 @@ export default {
     .list--category {
       bottom: -40px;
       padding: 0 50px;
+      border-radius: 50px;
       .list__item {
         .list__button {
-          padding: 5px 10px 0 10px;
+          padding: 10px 15px 5px 15px;
+          svg {
+            width: 6rem;
+            height: 6rem;
+          }
+        }
+        &.is-active {
+          opacity: 1;
+          .list__button {
+            border-bottom: .5rem solid $color__black;
+          }
         }
       }
     }
