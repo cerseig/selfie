@@ -1,7 +1,10 @@
 <template>
   <div :class="`detection__box ${isActive ? 'is-active' : ''}`">
     <div :class="`detection__loader ${isReady ? 'is-ready' : ''}`">
-      <div class="loader">LOADER</div>
+      <div class="loader">
+        <div class="loader__counter">{{counter}}%</div>
+        <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${progressWith}px;`"></span></div>
+      </div>
     </div>
     <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}"></div>
     <div class="detection__check">
@@ -55,8 +58,9 @@ export default {
   },
   data () {
     return {
-      elementToIncrease: 0,
-      positionRight: false
+      positionRight: false,
+      counter: 0,
+      progressWith: 0
     }
   },
   methods: {
@@ -113,16 +117,28 @@ export default {
           }, 2000)
         }
       }
+    },
+    loader () {
+      let t = setInterval(() => {
+          if (this.counter === 99){
+            clearInterval(t)
+          } else {
+            this.counter = this.counter + 1
+            this.progressWith = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+          }
+        }, 30)
     }
   },
   mounted () {
     if (this.isActive) {
       this.initDetectionStep()
+      this.loader()
     }
   },
   watch: {
     isReady (nextProps) {
       if (this.isReady && this.isActive) {
+        this.counter = this.counter + 1
         const timeOut = setTimeout(() => {
           this.getPositionCenter()
           clearTimeout(timeOut)
@@ -160,22 +176,41 @@ export default {
       background: $color__green--pastel;
       z-index: 20;
       transition: opacity 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       &.is-ready {
+        transition-delay: 0.5s;
         opacity: 0;
         z-index: 0;
       }
 
       .loader {
         position: relative;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 10rem;
-        color: $color__black;
-        animation: blink 2s infinite;
+
+        &__counter {
+          font-size: 15rem;
+          color: $color__black;
+          margin-bottom: 20px;
+        }
+
+        &__progressBar {
+          position: relative;
+          width: 40rem;
+          height: 0.5rem;
+          background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        &__progression {
+          width: 0;
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 0.5rem;
+          background-color: rgba(0, 0, 0, 1);
+        }
+
       }
 
     }
