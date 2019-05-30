@@ -58,9 +58,7 @@ export default {
     },
 
     onButtonClick (e) {
-      console.log(e)
       const key = e.currentTarget.getAttribute('data-key')
-      console.log(key)
       this.$parent.$emit('TemporaryPicture:Selection', key)
     }
   },
