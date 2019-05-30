@@ -42,9 +42,9 @@
   },
   "share": {
     "title": "Share",
+    "message": "Hey ! Come create your perfect selfie on {appName} ",
     "subtitle": "Share",
     "indication": "Select the picture(s) you want to share.",
-    "message": "Hey ! Come create your perfect selfie on {appName} ",
     "share": {
       "facebook": {
         "title": "Share on Facebook",

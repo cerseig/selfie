@@ -47,11 +47,13 @@ import axios from 'axios'
 import store from '../store/index'
 import config from '@/config/config.js'
 import TemporaryPictures from '@/components/TemporaryPictures.vue'
+import Icon from '@/components/icons/Icon.vue'
 
 export default {
   name: 'share',
   components: {
-    TemporaryPictures
+    TemporaryPictures,
+    Icon
   },
   data () {
     return {
@@ -155,3 +157,46 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+
+.share {
+  margin-top: 10rem;
+
+  &__title {
+    padding-top: 6rem;
+    margin-bottom: 6.5rem;
+  }
+
+  //Share list social
+  &__list--social {
+    margin-top: 5rem;
+
+    .list__item {
+      display: inline-block;
+      margin-right: 7.5rem;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__input {
+    @include outlinedButton(1rem 2rem, 1.5rem);
+    width: 30rem;
+    margin-top: 3rem;
+    margin-right: 2rem;
+  }
+
+  &__button {
+    @include outlinedButton(1rem 2rem, 1.5rem);
+  }
+
+  &__bottom {
+    margin-top: 4.8rem;
+  }
+
+}
+
+</style>
