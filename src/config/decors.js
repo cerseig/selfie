@@ -54,6 +54,7 @@ const decors = {
     },
     {
       title: 'bathroom',
+      background: '/img/decors/decor_bath.png',
       width: 80,
       height: 80
     },
