@@ -39,7 +39,7 @@ class Avatar {
       if (item.name === 'head') {
         elements.head = item
       } else {
-        elements.top = item
+        elements.body = item
       }
     })
 
@@ -54,14 +54,12 @@ class Avatar {
       beard: [],
       eyebrows: [],
       eyeColor: [],
-      top: [],
       glasses: [],
       mouth: []
     }
 
     elements.head.children.forEach(item => {
       const name = item.name
-
       if (this.isType(name, 'eyelid')) {
         elements.eyeLids.push(item)
       } else if (this.isType(name, 'hear')) {
@@ -95,7 +93,7 @@ class Avatar {
   initModel (gltf) {
     this.model = gltf.scene
     this.model.scale.set(this.config.scale.x, this.config.scale.y, this.config.scale.z)
-    this.model.position.set(this.config.position.x, this.config.position.y, this.config.position.z)
+    this.model.position.set(this.config.position.x, this.config.position.up.y, this.config.position.z)
     this.scene.add(this.model)
 
     const elements = this.initElements()
@@ -106,7 +104,9 @@ class Avatar {
     })
 
     this.animations = new AvatarAnimations({
-      elements: elements
+      elements: elements,
+      model: this.model,
+      config: this.config
     })
 
     this.onReadyClb()

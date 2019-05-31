@@ -10,3 +10,13 @@
     opacity: 1;
   }
 }
+
+/* -----  HIDE ANIMATION -----*/
+@keyframes hide {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

@@ -164,7 +164,8 @@ export default {
       }
 
       if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR || this.currentStep === this.STEPS.POSING) {
-        this.scene.update(this.detection.positions)
+        const getDown = this.currentStep >= this.STEPS.DECOR && !this.scene.avatar.animations.isDown
+        this.scene.update(this.detection.positions, getDown)
       }
     }
   },

@@ -1,17 +1,17 @@
 <template>
   <div class="temporary__pictures">
-    <div class="temporary__item is-active">
+    <div :class="`temporary__item ${selection.avatar ? 'is-active' : ''}`">
         <!-- <img v-if="temporaryPictures.avatar" :src="temporaryPictures.avatar.url" class="temporary__image"> -->
         <img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />
-      <button class="temporary__item__button">
+      <button class="temporary__item__button" @click="onButtonClick" data-key="avatar">
         <Icon name="plus" width="40" height="40" extraClasses="icon--select" fill="#000000" />
         <Icon name="plus" width="40" height="40" extraClasses="icon--unselect" fill="#fff" />
       </button>
     </div>
-    <div class="temporary__item">
+    <div :class="`temporary__item ${selection.picture ? 'is-active' : ''}`">
       <!-- <img :src="temporaryPictures.picture" class="temporary__image"> -->
        <img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />
-      <button class="temporary__item__button">
+      <button class="temporary__item__button" @click="onButtonClick" data-key="picture">
         <Icon name="plus" width="40" height="40" fill="#000000" />
         <Icon name="plus" width="40" height="40" fill="#fff" />
       </button>

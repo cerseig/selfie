@@ -1,5 +1,11 @@
 <template>
   <div :class="`detection__box ${isActive ? 'is-active' : ''}`">
+    <div :class="`detection__loader ${isReady ? 'is-ready' : ''}`">
+      <div class="loader">
+        <div class="loader__counter">{{counter}}%</div>
+        <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${progressWith}px;`"></span></div>
+      </div>
+    </div>
     <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}"></div>
     <div class="detection__check">
       <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
@@ -52,8 +58,9 @@ export default {
   },
   data () {
     return {
-      elementToIncrease: 0,
-      positionRight: false
+      positionRight: false,
+      counter: 0,
+      progressWith: 0
     }
   },
   methods: {
@@ -110,17 +117,32 @@ export default {
           }, 2000)
         }
       }
+    },
+    loader () {
+      let t = setInterval(() => {
+        if (this.counter === 99) {
+          clearInterval(t)
+        } else {
+          this.counter = this.counter + 1
+          this.progressWith = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+        }
+      }, 30)
     }
   },
   mounted () {
     if (this.isActive) {
       this.initDetectionStep()
+      this.loader()
     }
   },
   watch: {
     isReady (nextProps) {
       if (this.isReady && this.isActive) {
-        this.getPositionCenter()
+        this.counter = this.counter + 1
+        const timeOut = setTimeout(() => {
+          this.getPositionCenter()
+          clearTimeout(timeOut)
+        }, 1500)
       }
     },
     isAnalysed () {
@@ -144,6 +166,54 @@ export default {
 
 <style lang="scss">
   .detection {
+
+    &__loader {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: $color__green--pastel;
+      z-index: 20;
+      transition: opacity 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.is-ready {
+        transition-delay: 0.5s;
+        opacity: 0;
+        z-index: 0;
+      }
+
+      .loader {
+        position: relative;
+
+        &__counter {
+          font-size: 15rem;
+          color: $color__black;
+          margin-bottom: 20px;
+        }
+
+        &__progressBar {
+          position: relative;
+          width: 40rem;
+          height: 0.5rem;
+          background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        &__progression {
+          width: 0;
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 0.5rem;
+          background-color: rgba(0, 0, 0, 1);
+        }
+
+      }
+
+    }
     &__box {
       position: absolute;
       top: 0;

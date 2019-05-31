@@ -212,7 +212,7 @@ const categories = [
     ]
   },
   {
-    title: 'top',
+    title: 'body',
     icon: {
       title: 'tshirt',
       width: 60,
