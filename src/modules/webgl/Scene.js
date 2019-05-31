@@ -108,11 +108,11 @@ class Scene {
    *
    * @param {*} positions Array of Objects
    */
-  update (positions) {
+  update (positions, getDown) {
     this.renderer.render(this.scene, this.camera)
 
     if (this.avatar.animations) {
-      this.avatar.animations.update(positions)
+      this.avatar.animations.update(positions, getDown)
     }
   }
 }

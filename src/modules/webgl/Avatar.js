@@ -93,7 +93,7 @@ class Avatar {
   initModel (gltf) {
     this.model = gltf.scene
     this.model.scale.set(this.config.scale.x, this.config.scale.y, this.config.scale.z)
-    this.model.position.set(this.config.position.x, this.config.position.y, this.config.position.z)
+    this.model.position.set(this.config.position.x, this.config.position.up.y, this.config.position.z)
     this.scene.add(this.model)
 
     const elements = this.initElements()
@@ -104,7 +104,9 @@ class Avatar {
     })
 
     this.animations = new AvatarAnimations({
-      elements: elements
+      elements: elements,
+      model: this.model,
+      config: this.config
     })
 
     this.onReadyClb()
