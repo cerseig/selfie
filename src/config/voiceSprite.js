@@ -27,7 +27,7 @@ const sprites = {
   decorPersonnalisation_beach_advice: [174000, 3400], // end: 177400
   decorPersonnalisation_beach_success: [178000, 6400], // end: 184400
   decorPersonnalisation_level1_error: [135000, 2700], // end: 137700
-  decorPersonnalisation_level2_1_error: [139000, 2400], // end: 141400
+  decorPersonnalisation_level2_error: [139000, 2400], // end: 141400
   decorPersonnalisation_level2_2_error: [143000, 3600], // end: 146600
   decorPersonnalisation_level2_3_error: [148000, 4000], // end: 152000
   decorPersonnalisation_level2_4_error: [153000, 5200], // end: 158200

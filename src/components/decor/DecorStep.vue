@@ -81,7 +81,7 @@ export default {
       const timeOut = setTimeout(() => {
         this.step.changeSubStepState('advice')
         clearTimeout(timeOut)
-      }, timeout || 1000)
+      }, timeout || 1500)
       this.errorPlayed = 0
     },
     initDecorStep () {
@@ -106,7 +106,7 @@ export default {
       }
     })
     if (this.isActive) {
-      this.launchSound(2000)
+      this.launchSound(3000)
     }
   },
   watch: {

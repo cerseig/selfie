@@ -123,13 +123,12 @@ const steps = {
       {
         name: 'level2',
         sprite: {
-          error: [
-            'decorPersonnalisation_level2_1_error',
-            'decorPersonnalisation_level2_2_error',
-            'decorPersonnalisation_level2_3_error',
-            'decorPersonnalisation_level2_4_error',
-            'decorPersonnalisation_level2_5_error'
-          ]
+          error: 'decorPersonnalisation_level2_error'
+          //   'decorPersonnalisation_level2_2_error',
+          //   'decorPersonnalisation_level2_3_error',
+          //   'decorPersonnalisation_level2_4_error',
+          //   'decorPersonnalisation_level2_5_error'
+          // ]
         }
       },
       {
