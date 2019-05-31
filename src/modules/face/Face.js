@@ -127,7 +127,7 @@ class Face {
         smile: this.smileFactor,
         smileLeft: this.smileLeftFactor,
         smileRight: this.smileRightFactor,
-        mouthOpenSmile:this.mouthOpenSmileFactor,
+        mouthOpenSmile: this.mouthOpenSmileFactor,
         eyeLeftClose: this.getEyeLeftClose(face),
         eyeRightClose: this.getEyeRightClose(face),
         rotationLeft: this.getRotationLeft(face),
@@ -162,7 +162,7 @@ class Face {
   }
 
   getMouthOpenSmile (face) {
-    if (this.mouthOpenFactor && this.smileLeftFactor > 0.5 || this.smileRightFactor > 0.5) {
+    if (this.mouthOpenFactor && ((this.smileLeftFactor > 0.5) || this.smileRightFactor > 0.5)) {
       const tempMouthOpenFactor = this.tempMouthOpenFactor
       this.mouthOpenSmileFactor = tempMouthOpenFactor
       this.mouthOpenFactor = 0
@@ -250,7 +250,7 @@ class Face {
   }
   getEyeBrowRightUp (face) {
     let eyeBrowRight = this.calcEyeBrowRight(face)
-    if ( this.rotation.x > -(0.2) && this.rotation.x < 0.2&& eyeBrowRight > this.eyeBrowRightInitial) {
+    if (this.rotation.x > -(0.2) && this.rotation.x < 0.2 && eyeBrowRight > this.eyeBrowRightInitial) {
       let eyeBrowRightUpFactor = (eyeBrowRight - (this.eyeBrowRightInitial + 0.5)) / ((this.eyeBrowRightInitial + 3) - (this.eyeBrowRightInitial + 0.5))
 
       if (eyeBrowRightUpFactor > 1.0) { eyeBrowRightUpFactor = 1.0 }

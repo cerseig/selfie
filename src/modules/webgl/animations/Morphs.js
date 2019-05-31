@@ -8,7 +8,6 @@ class Morphs {
 
     this.durationTime = params.duration
 
-
     let defaultValues = {
       beginValue: 0,
       currentValue: 0,
@@ -25,7 +24,6 @@ class Morphs {
       eyeBrowLeftUp: { ...defaultValues },
       eyeBrowRightUp: { ...defaultValues }
     }
-
   }
 
   updateMorphValue (key, value) {

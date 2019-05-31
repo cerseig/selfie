@@ -38,7 +38,7 @@ class AvatarAnimations {
     }
   }
 
-  getDown(deltaTime) {
+  getDown (deltaTime) {
     if (this.posY.currentValue >= this.posY.endValue) {
       // console.log(this.posY.currentValue, this.posY.endValue)
       this.posY.currentValue = easings.linear(deltaTime, this.posY.beginValue, this.posY.endValue - this.posY.beginValue, 600)
