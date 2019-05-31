@@ -39,6 +39,7 @@ class AvatarPersonnalisation {
     this.bodyParts.skin = new BodyParts({
       bodyParts: [this.head],
       children: [...this.temps.eyeLids, ...this.temps.ears],
+      needMorph: 'eyelid',
       material: {
         color: category.colors[defaultValues.colors],
         matcap: '/models/textures/matcap_skin.jpg'
@@ -54,6 +55,7 @@ class AvatarPersonnalisation {
     this.bodyParts.hair = new BodyParts({
       bodyParts: this.temps.hairs.parents,
       currentBodyPart: defaultValues.attributes,
+      needMorph: 'eyebrow',
       children: [...this.bodyParts.beard.bodyParts, ...this.temps.eyebrows, ...this.temps.hairs.children],
       material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg',

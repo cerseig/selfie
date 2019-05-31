@@ -5,6 +5,7 @@ class BodyParts {
     this.bodyParts = params.bodyParts
 
     this.children = params.children
+    this.needMorph = params.needMorph
 
     if (!Number.isNaN(params.currentBodyPart)) {
       this.currentBodyPart = params.bodyParts[params.currentBodyPart]
@@ -58,10 +59,12 @@ class BodyParts {
         }
       })
 
+
       if (this.children) {
         this.children.forEach(child => {
           if (child.material) {
             child.material = new THREE.MeshMatcapMaterial({
+              morphTargets: this.needMorph && child.name.indexOf(this.needMorph) >= 0,
               matcap: matcap
             })
           }
