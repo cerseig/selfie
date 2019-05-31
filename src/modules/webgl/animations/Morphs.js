@@ -14,13 +14,13 @@ class Morphs {
     }
 
     this.positions = {
-      smileLeft: {...defaultValues},
-      smileRight: {...defaultValues},
-      eyeLeftClose: {...defaultValues},
-      eyeRightClose: {...defaultValues},
-      mouthOpen: {...defaultValues},
-      eyeBrowLeftUp: {...defaultValues},
-      eyeBrowRightUp: {...defaultValues}
+      smileLeft: { ...defaultValues },
+      smileRight: { ...defaultValues },
+      eyeLeftClose: { ...defaultValues },
+      eyeRightClose: { ...defaultValues },
+      mouthOpen: { ...defaultValues },
+      eyeBrowLeftUp: { ...defaultValues },
+      eyeBrowRightUp: { ...defaultValues }
     }
   }
 
@@ -32,7 +32,6 @@ class Morphs {
   updateMouthSmileMorph (deltaTime) {
     this.positions.smileLeft.currentValue = easings.linear(deltaTime, this.positions.smileLeft.beginValue, this.positions.smileLeft.endValue - this.positions.smileLeft.beginValue, this.durationTime) // Get interpolled value
     this.positions.smileRight.currentValue = easings.linear(deltaTime, this.positions.smileRight.beginValue, this.positions.smileRight.endValue - this.positions.smileRight.beginValue, this.durationTime) // Get interpolled value
-
 
     if (!isNaN(this.positions.smileRight.currentValue) && this.positions.smileRight.currentValue < 1) {
       this.elements.mouth.mouth_lips.morphTargetInfluences[1] = this.positions.smileRight.currentValue
@@ -85,7 +84,6 @@ class Morphs {
   }
 
   updateMorphsValues (events) {
-
     this.updateMorphValue('mouthOpen', events.mouthOpen)
     this.updateMorphValue('smileLeft', events.smileLeft)
     this.updateMorphValue('smileRight', events.smileRight)

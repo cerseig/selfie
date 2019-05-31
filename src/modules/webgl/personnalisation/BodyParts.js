@@ -59,7 +59,6 @@ class BodyParts {
         }
       })
 
-
       if (this.children) {
         this.children.forEach(child => {
           if (child.material) {

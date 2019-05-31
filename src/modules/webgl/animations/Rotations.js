@@ -1,5 +1,4 @@
 import easings from '@/modules/helpers/easings.js'
-import utils from '@/modules/helpers/utils.js'
 
 class Rotations {
   constructor (params) {
