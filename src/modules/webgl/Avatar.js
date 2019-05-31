@@ -39,7 +39,7 @@ class Avatar {
       if (item.name === 'head') {
         elements.head = item
       } else {
-        elements.top = item
+        elements.body = item
       }
     })
 
@@ -54,14 +54,12 @@ class Avatar {
       beard: [],
       eyebrows: [],
       eyeColor: [],
-      top: [],
       glasses: [],
       mouth: []
     }
 
     elements.head.children.forEach(item => {
       const name = item.name
-
       if (this.isType(name, 'eyelid')) {
         elements.eyeLids.push(item)
       } else if (this.isType(name, 'hear')) {

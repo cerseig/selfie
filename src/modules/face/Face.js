@@ -180,25 +180,24 @@ class Face {
   getEyeRightClose (face) {
     let eyeRightClose = this.calcEyeRight(face)
     if (eyeRightClose < this.eyeRightInitial) {
-      let eyeRightCloseFactor = (eyeRightClose - this.eyeRightInitial) / ((this.eyeRightInitial / 4) - this.eyeRightInitial)
+      let eyeRightCloseFactor = (eyeRightClose - (this.eyeRightInitial / 4)) / (this.eyeRightInitial - (this.eyeRightInitial / 4))
 
       if (eyeRightCloseFactor > 1.0) { eyeRightCloseFactor = 1.0 }
       if (eyeRightCloseFactor < 0.0) { eyeRightCloseFactor = 0.0 }
 
       this.eyeRightCloseFactor = eyeRightCloseFactor
+
       return eyeRightCloseFactor
     }
   }
   getEyeLeftClose (face) {
     let eyeLeftClose = this.calcEyeLeft(face)
-    if (eyeLeftClose < this.eyeLeftInitial) {
-      let eyeLeftCloseFactor = (eyeLeftClose - this.eyeLeftInitial) / ((this.eyeLeftInitial / 4) - this.eyeLeftInitial)
+    let eyeLeftCloseFactor = (eyeLeftClose - (this.eyeLeftInitial / 4)) / (this.eyeLeftInitial - (this.eyeLeftInitial / 4))
 
-      if (eyeLeftCloseFactor > 1.0) { eyeLeftCloseFactor = 1.0 }
-      if (eyeLeftCloseFactor < 0.0) { eyeLeftCloseFactor = 0.0 }
+    if (eyeLeftCloseFactor > 1.0) { eyeLeftCloseFactor = 1.0 }
+    if (eyeLeftCloseFactor < 0.0) { eyeLeftCloseFactor = 0.0 }
 
-      return eyeLeftCloseFactor
-    }
+    return eyeLeftCloseFactor
   }
   getEyeBrowRightDown (face) {
     let eyeBrowRight = this.calcEyeBrowRight(face)
