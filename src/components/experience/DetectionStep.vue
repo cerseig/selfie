@@ -3,11 +3,13 @@
     <div :class="`detection__loader ${isReady ? 'is-ready' : ''}`">
       <div class="loader">
         <div class="loader__counter">{{counter}}%</div>
-        <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${progressWith}px;`"></span></div>
+        <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${widthBar}px;`"></span></div>
       </div>
     </div>
     <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}"></div>
     <div class="detection__check">
+      <div class="detection__check--progressRound"></div>
+      <div class="detection__check--progression" :style="`height: ${heightRound}px;`"></div>
       <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
     </div>
   </div>
@@ -60,7 +62,8 @@ export default {
     return {
       positionRight: false,
       counter: 0,
-      progressWith: 0
+      widthBar: 0,
+      heightRound: 0
     }
   },
   methods: {
@@ -77,6 +80,7 @@ export default {
       if (this.stepObject.currentSubStep.name === 'right' && this.isActive) {
         if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
           this.stepObject.changeSubStep()
+          this.updateCheckProgression()
           let callAdvice = setTimeout(() => {
             this.stepObject.changeSubStepState('advice', () => {
               window.clearTimeout(callAdvice)
@@ -93,6 +97,7 @@ export default {
       if (this.stepObject.currentSubStep.name === 'left' && this.positions.rotation.y < 0 && this.isActive) {
         if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
           this.stepObject.changeSubStep()
+          this.updateCheckProgression()
           let callAdvice = setTimeout(() => {
             this.stepObject.changeSubStepState('advice', () => {
               window.clearTimeout(callAdvice)
@@ -109,6 +114,7 @@ export default {
       if (this.stepObject.currentSubStep.name === 'normal') {
         if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1] && this.isActive) {
           let callSuccess = setTimeout(() => {
+            this.updateCheckProgression()
             this.stepObject.changeSubStepState('success', () => {
               window.clearTimeout(callSuccess)
               this.stepObject.sound.stop()
@@ -124,9 +130,14 @@ export default {
           clearInterval(t)
         } else {
           this.counter = this.counter + 1
-          this.progressWith = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+          this.widthBar = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
         }
       }, 30)
+    },
+    updateCheckProgression () {
+      let totalProgress = document.querySelector('.detection__check').offsetHeight
+      let stepProgress = totalProgress / 4
+      this.heightRound = this.heightRound + stepProgress
     }
   },
   mounted () {
@@ -147,6 +158,7 @@ export default {
     },
     isAnalysed () {
       if (!this.stepObject.isVoice && this.isAnalysed && this.isActive) {
+        this.updateCheckProgression()
         this.stepObject.changeSubStepState('success', () => {
           this.stepObject.changeSubStep()
           this.stepObject.changeSubStepState('advice')
@@ -244,11 +256,37 @@ export default {
     &__check {
       position: absolute;
       bottom: 5rem;
-      background-color: $color__black;
+      @include flexCenter();
       width: 70px;
       height: 70px;
       border-radius: 50%;
-      cursor: pointer;
+      overflow: hidden;
+
+      &--progressRound, &--progression {
+        position: absolute;
+        width: 70px;
+        height: 70px;
+      }
+
+      &--progressRound {
+        z-index: 0;
+        background-color: $color__black;
+        opacity: 0.2;
+      }
+
+      &--progression {
+        z-index: 1;
+        background-color: $color__green--pastel;
+        bottom: 0;
+        height: 0;
+        transition: height 0.3s;
+      }
+
+      .icon {
+        z-index: 2;
+        position: absolute;
+      }
+
     }
 
     &__message {
