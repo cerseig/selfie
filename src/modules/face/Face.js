@@ -156,19 +156,25 @@ class Face {
     if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
     if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
-    mouthOpenFactor = Number(mouthOpenFactor.toFixed(1))
-    this.tempMouthOpenFactor = mouthOpenFactor
-    return mouthOpenFactor
+    if (this.smileFactor > 0.5) {
+      this.mouthOpenFactor = 0
+    } else {
+      mouthOpenFactor = Number(mouthOpenFactor.toFixed(1))
+      this.mouthOpenFactor = mouthOpenFactor
+    }
   }
 
   getMouthOpenSmile (face) {
-    if (this.mouthOpenFactor && ((this.smileLeftFactor > 0.5) || this.smileRightFactor > 0.5)) {
-      const tempMouthOpenFactor = this.tempMouthOpenFactor
-      this.mouthOpenSmileFactor = tempMouthOpenFactor
-      this.mouthOpenFactor = 0
+    let mouthOpen = this.calcMouthOpen(face)
+    let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
+
+    if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
+    if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
+
+    if (mouthOpenFactor > 0.3 && this.smileFactor > 0.5) {
+      this.mouthOpenSmileFactor = mouthOpenFactor
     } else {
       this.mouthOpenSmileFactor = 0
-      this.mouthOpenFactor = this.tempMouthOpenFactor
     }
   }
 
