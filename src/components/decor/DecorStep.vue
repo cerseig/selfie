@@ -1,11 +1,11 @@
 <template>
   <div :class="`decor ${isActive ? 'is-active' : ''}`">
-    <a class="decor__next" href="#" @click="onValidateStep">
+    <a :class="`decor__next ${step && step.isVoice ? 'is-unactive' : ''}`" href="#" @click="onValidateStep">
       {{ $t('experience.decor.nextStep') }}
       <Icon name="little-arrow" width="12" height="12" stroke="#000000" />
     </a>
     <div class="decor__inner">
-      <ul class="list list--decor">
+      <ul :class="`list list--decor ${step && step.isVoice ? 'is-unactive' : ''}`">
         <li v-for="(decor, index) in decors.list" :key="`decor-${index}`" :class="`list__item ${decor.title === selection ? 'is-active' : ''}`" @click="onSelectItem" :data-decor="decor.title">
            <Icon :name="decor.title" :width="decor.width" :height="decor.height" stroke="#000000" fill="#000000"/>
         </li>
@@ -43,7 +43,8 @@ export default {
       decors: decors,
       selection: decors.default,
       errorPlayed: 0,
-      maxLevelError: 5
+      maxLevelError: 5,
+      step: null
     }
   },
   methods: {
@@ -81,7 +82,7 @@ export default {
       const timeOut = setTimeout(() => {
         this.step.changeSubStepState('advice')
         clearTimeout(timeOut)
-      }, timeout || 1000)
+      }, timeout || 1500)
       this.errorPlayed = 0
     },
     initDecorStep () {
@@ -106,7 +107,7 @@ export default {
       }
     })
     if (this.isActive) {
-      this.launchSound(2000)
+      this.launchSound(3000)
     }
   },
   watch: {
@@ -138,6 +139,8 @@ export default {
       top: 30px;
       right: 30px;
 
+      transition: opacity .3s;
+
       .icon {
         margin-left: 10px;
       }
@@ -149,6 +152,10 @@ export default {
         }
       }
 
+      &.is-unactive {
+        pointer-events: none;
+        opacity: .6;
+      }
     }
 
     &__inner {
@@ -180,6 +187,14 @@ export default {
 
     border-radius: 50px;
     box-shadow: 0px 5px 10px #aaa;
+
+    transition: opacity .3s;
+
+    &.is-unactive {
+      pointer-events: none;
+      opacity: .7;
+    }
+
     .list__item {
       opacity: 0.2;
       margin: 0 10px -1px 10px;

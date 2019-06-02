@@ -49,12 +49,12 @@ export default {
   top: 0;
   width: 100%;
   height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flexCenter();
   padding: 0 20px;
+  background: $color__white;
 
     &--start {
+      background: none;
 
       .nav__logo {
         opacity: 0;

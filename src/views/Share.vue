@@ -61,7 +61,7 @@ export default {
       appName: 'Selfish',
       location: window.location,
       selection: {
-        avatar: false,
+        avatar: true,
         picture: false
       },
       email: {

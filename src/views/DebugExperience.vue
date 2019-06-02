@@ -137,7 +137,7 @@ export default {
       this.rafID = requestAnimationFrame(this.update)
 
       this.positions = this.detectionManager.getPositions()
-      this.scene.update(this.positions)
+      this.scene.update(this.positions, true)
     },
 
     updateSizes () {

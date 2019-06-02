@@ -4,6 +4,7 @@ const decors = {
   list: [
     {
       title: 'park',
+      background: '/img/decors/decor_park.png',
       width: 80,
       height: 80
     },
@@ -54,6 +55,7 @@ const decors = {
     },
     {
       title: 'bathroom',
+      background: '/img/decors/decor_bath.png',
       width: 80,
       height: 80
     },

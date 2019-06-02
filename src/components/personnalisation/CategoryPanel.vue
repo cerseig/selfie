@@ -41,7 +41,6 @@
 
 <script>
 import Icon from '@/components/icons/Icon.vue'
-import utils from '@/modules/helpers/utils'
 
 export default {
   name: 'CategoryPanel',

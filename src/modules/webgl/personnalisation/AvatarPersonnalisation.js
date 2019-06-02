@@ -7,7 +7,7 @@ const CATEGORIES = {
   SKIN: 2,
   BEARD: 3,
   GLASSES: 4,
-  TOP: 5
+  BODY: 5
 }
 
 class AvatarPersonnalisation {
@@ -26,7 +26,7 @@ class AvatarPersonnalisation {
     this.initBeard()
     this.initHair()
     this.initEyes()
-    this.initTop()
+    this.initBody()
     this.initGlasses()
 
     delete this.temps
@@ -39,6 +39,7 @@ class AvatarPersonnalisation {
     this.bodyParts.skin = new BodyParts({
       bodyParts: [this.head],
       children: [...this.temps.eyeLids, ...this.temps.ears],
+      needMorph: 'eyelid',
       material: {
         color: category.colors[defaultValues.colors],
         matcap: '/models/textures/matcap_skin.jpg'
@@ -54,6 +55,7 @@ class AvatarPersonnalisation {
     this.bodyParts.hair = new BodyParts({
       bodyParts: this.temps.hairs.parents,
       currentBodyPart: defaultValues.attributes,
+      needMorph: 'eyebrow',
       children: [...this.bodyParts.beard.bodyParts, ...this.temps.eyebrows, ...this.temps.hairs.children],
       material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg',
@@ -94,12 +96,12 @@ class AvatarPersonnalisation {
     })
   }
 
-  initTop () {
-    const category = categories[CATEGORIES.TOP]
+  initBody () {
+    const category = categories[CATEGORIES.BODY]
     const defaultValues = category.default
 
-    this.bodyParts.top = new BodyParts({
-      bodyParts: [this.temps.top],
+    this.bodyParts.body = new BodyParts({
+      bodyParts: [this.temps.body],
       material: {
         color: category.colors[defaultValues.colors]
       }
