@@ -125,18 +125,22 @@ export default {
               case true:
                 if (this.currentStep.name === 'rotationCentered') {
                   let callSuccess = setTimeout(() => {
-                    this.updateCheckProgression('analyse', () => {
-                      this.stepObject.changeSubStepState('success', () => {
-                        window.clearTimeout(callSuccess)
-                        this.stepObject.sound.stop()
-                        this.soundDesign.sound.stop()
-                        this.backgroundMusic.sound.stop()
-                        this.validateStep()
+                    this.soundDesign.playSpriteSoundDesign('analyse', () => {
+                      this.updateCheckProgression()
+                      this.soundDesign.playSpriteSoundDesign('success', () => {
+                        this.stepObject.changeSubStepState('success', () => {
+                          window.clearTimeout(callSuccess)
+                          this.stepObject.sound.stop()
+                          this.soundDesign.sound.stop()
+                          this.backgroundMusic.sound.stop()
+                          this.validateStep()
+                        })
                       })
                     })
                   }, 500)
                 } else {
-                this.updateCheckProgression('validation', () => {
+                  this.updateCheckProgression()
+                  this.soundDesign.playSpriteSoundDesign('validation', () => {
                   this.stepObject.changeSubStepState('success', () => {
                     this.changeStep()
                   })
@@ -144,7 +148,8 @@ export default {
                 }
                 break
               case false:
-                this.updateCheckProgression('validation', () => {
+                this.updateCheckProgression()
+                this.soundDesign.playSpriteSoundDesign('validation', () => {
                   this.changeStep()
                 })
                 break
@@ -164,9 +169,8 @@ export default {
         }
       }, 30)
     },
-    updateCheckProgression (type, callback) {
+    updateCheckProgression () {
       this.checkProgression = this.checkProgression + (document.querySelector('.detection__check').offsetHeight / 4)
-      this.soundDesign.playSpriteSoundDesign(type, callback)
     }
   },
   mounted () {
@@ -188,7 +192,8 @@ export default {
     },
     isAnalysed () { // when BRF got initial face values
       if (!this.stepObject.isVoice && this.isAnalysed && this.isActive) {
-        this.updateCheckProgression('validation')
+        this.soundDesign.playSpriteSoundDesign('validation')
+        this.updateCheckProgression()
         this.stepObject.changeSubStepState('success', () => {
           this.stepObject.changeSubStep()
         })
