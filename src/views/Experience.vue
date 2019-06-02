@@ -164,7 +164,7 @@ export default {
       }
 
       if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR || this.currentStep === this.STEPS.POSING) {
-        const getDown = this.currentStep >= this.STEPS.DECOR && !this.scene.avatar.animations.isDown
+        const getDown = this.currentStep >= this.STEPS.DECOR && this.scene.avatar && this.scene.avatar.animations && !this.scene.avatar.animations.isDown
         this.scene.update(this.detection.positions, getDown)
       }
     }
@@ -189,7 +189,9 @@ export default {
       cancelAnimationFrame(this.rafID)
       this.detectionManager.destroy()
     }
-    this.stepObject.sound.stop()
+    if (this.stepObject && this.stepObject.sound) {
+      this.stepObject.sound.stop()
+    }
   }
 }
 </script>
