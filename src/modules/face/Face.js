@@ -134,6 +134,7 @@ class Face {
         rotationRight: this.getRotationRight(face),
         rotationUp: this.getRotationUp(face),
         rotationDown: this.getRotationDown(face),
+        rotationCentered: this.getRotationCentered(face),
         eyeBrowLeftDown: this.getEyeBrowLeftDown(face),
         eyeBrowRightDown: this.getEyeBrowRightDown(face),
         eyeBrowLeftUp: this.getEyeBrowLeftUp(face),
@@ -353,6 +354,18 @@ class Face {
       this.rotationRightFactor = rotationRightFactor
       return rotationRightFactor
     }
+  }
+  getRotationCentered (face) {
+    let rotationCentered = this.toDegree(face.rotationY)
+    const MAX_Y_ROTATION = 30
+
+    let rotationCenteredFactor = (rotationCentered - (this.rotationY - MAX_Y_ROTATION)) / (MAX_Y_ROTATION - (this.rotationY - MAX_Y_ROTATION))
+
+    if (rotationCenteredFactor < 0.0) { rotationCenteredFactor = 0.0 }
+    if (rotationCenteredFactor > 1.0) { rotationCenteredFactor = 1.0 }
+
+    this.rotationCenteredFactor = rotationCenteredFactor
+    return rotationCenteredFactor
   }
   getTiltRight (face) {
     let tiltRight = this.toDegree(face.rotationZ)

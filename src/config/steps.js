@@ -14,7 +14,15 @@ const steps = {
     name: 'detection',
     steps: [
       {
+        index: 0,
         name: 'center',
+        values: {
+          min: 0.3,
+          max: 0.7
+        },
+        status: 'todo',
+        hasSuccess: true,
+        hasErrors: true,
         sprite: {
           advice: 'detection_center_advice',
           success: 'detection_center_success',
@@ -22,31 +30,50 @@ const steps = {
         }
       },
       {
-        name: 'right',
-        interval: [0.25, 0.4],
-        oppositeValue: -0.2,
+        index: 1,
+        name: 'rotationRight',
+        values: {
+          min: 0.3,
+          max: 0.8
+        },
+        status: 'todo',
+        hasSuccess: false,
+        hasErrors: true,
         sprite: {
-          advice: 'detection_right_advice',
-          errorTooMuch: 'detection_right_errorTooMuch',
-          errorOpposite: 'detection_right_errorOpposite'
+          advice: 'detection_rotationRight_advice',
+          errorTooMuch: 'detection_rotationRight_errorTooMuch',
+          errorOpposite: 'detection_rotationRight_errorOpposite'
         }
       },
       {
-        name: 'left',
-        interval: [-0.4, -0.25],
-        oppositeValue: 0.2,
+        index: 2,
+        name: 'rotationLeft',
+        values: {
+          min: 0.3,
+          max: 0.8
+        },
+        status: 'todo',
+        hasSuccess: false,
+        hasErrors: true,
         sprite: {
-          advice: 'detection_left_advice',
-          errorTooMuch: 'detection_left_errorTooMuch',
-          errorOpposite: 'detection_left_errorOpposite'
+          advice: 'detection_rotationLeft_advice',
+          errorTooMuch: 'detection_rotationLeft_errorTooMuch',
+          errorOpposite: 'detection_rotationLeft_errorOpposite'
         }
       },
       {
-        name: 'normal',
-        interval: [-0.2, 0.2],
+        index: 3,
+        name: 'rotationCentered',
+        values: {
+          min: 0.3,
+          max: 0.7
+        },
+        status: 'todo',
+        hasSuccess: true,
+        hasErrors: false,
         sprite: {
-          advice: 'detection_normal_advice',
-          success: 'detection_normal_success'
+          advice: 'detection_rotationCentered_advice',
+          success: 'detection_rotationCentered_success'
         }
       }
     ]
