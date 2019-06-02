@@ -1,6 +1,6 @@
 import store from '@/store/index'
 import utils from '@/modules/helpers/utils'
-import sprite from '@/config/voiceSprite'
+import voiceSprite from '@/config/voiceSprite'
 import { Howl } from 'howler'
 
 class Step {
@@ -14,7 +14,7 @@ class Step {
     const source = '/sounds/voice_fr.mp3'
     this.sound = store.getters.getSound._webAudio ? store.getters.getSound : new Howl({
       src: [source],
-      sprite: sprite
+      sprite: voiceSprite
     })
     this.isVoice = false
   }

@@ -3,13 +3,13 @@
     <div :class="`detection__loader ${isReady ? 'is-ready' : ''}`">
       <div class="loader">
         <div class="loader__counter">{{counter}}%</div>
-        <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${widthBar}px;`"></span></div>
+        <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${loaderProgression}px;`"></span></div>
       </div>
     </div>
     <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}"></div>
     <div class="detection__check">
       <div class="detection__check--progressRound"></div>
-      <div class="detection__check--progression" :style="`height: ${heightRound}px;`"></div>
+      <div class="detection__check--progression" :style="`height: ${checkProgression}px;`"></div>
       <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
     </div>
   </div>
@@ -18,8 +18,9 @@
 <script>
 // Modules
 import Step from '@/modules/step/Step'
+import SoundDesign from "@/modules/soundDesign/SoundDesign"
+import BackgroundMusic from "@/modules/backgroundMusic/BackgroundMusic"
 import Icon from '@/components/icons/Icon.vue'
-
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -60,68 +61,102 @@ export default {
   },
   data () {
     return {
-      positionRight: false,
+      currentStep: {},
       counter: 0,
-      widthBar: 0,
-      heightRound: 0
+      loaderProgression: 0,
+      checkProgression: 0
     }
   },
   methods: {
     initDetectionStep () {
-      this.createStepObject()
-    },
-    createStepObject () {
       this.stepObject = new Step(stepsConfig.detection)
+      this.currentStep = this.stepObject.currentSubStep
+      this.soundDesign = new SoundDesign()
+      this.backgroundMusic = new BackgroundMusic()
     },
     getPositionCenter () {
       this.stepObject.init()
     },
-    getPositionRight () { // turn head to the right
-      if (this.stepObject.currentSubStep.name === 'right' && this.isActive) {
-        if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
-          this.stepObject.changeSubStep()
-          this.updateCheckProgression()
-          let callAdvice = setTimeout(() => {
-            this.stepObject.changeSubStepState('advice', () => {
-              window.clearTimeout(callAdvice)
-            })
-          }, 1000)
-        } else if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[1]) {
-          this.stepObject.changeSubStepState('errorTooMuch')
-        } else if (this.positions.rotation.y < this.stepObject.currentSubStep.oppositeValue) {
-          this.stepObject.changeSubStepState('errorOpposite')
-        }
+    launchError (error) {
+      let time = 1000
+      if (this.errorPlayed === 0) {
+        this.currentStep.status = 'error'
+        const timeOut = setTimeout(() => {
+          this.stepObject.changeSubStepState(error, () => {
+            this.currentStep.status = 'inprogress'
+          })
+          this.errorPlayed = 1
+          clearTimeout(timeOut)
+        }, time)
       }
     },
-    getPositionLeft () { // turn head to the left
-      if (this.stepObject.currentSubStep.name === 'left' && this.positions.rotation.y < 0 && this.isActive) {
-        if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
-          this.stepObject.changeSubStep()
-          this.updateCheckProgression()
-          let callAdvice = setTimeout(() => {
-            this.stepObject.changeSubStepState('advice', () => {
-              window.clearTimeout(callAdvice)
-            })
-          }, 1000)
-        } else if (this.positions.rotation.y > this.stepObject.currentSubStep.oppositeValue) {
-          this.stepObject.changeSubStepState('errorOpposite')
-        } else if (this.positions.rotation.y < this.stepObject.currentSubStep.interval[1]) {
-          this.stepObject.changeSubStepState('errorTooMuch')
-        }
+    changeStep () {
+      if (this.currentStep.index < this.stepObject.subSteps.length) {
+        this.stepObject.changeSubStep()
+        this.errorPlayed = 0
+        this.onDetection()
       }
     },
-    getPositionNormal () { // face to the camera
-      if (this.stepObject.currentSubStep.name === 'normal') {
-        if (this.positions.rotation.y > this.stepObject.currentSubStep.interval[0] && this.positions.rotation.y < this.stepObject.currentSubStep.interval[1] && this.isActive) {
-          let callSuccess = setTimeout(() => {
-            this.updateCheckProgression()
-            this.stepObject.changeSubStepState('success', () => {
-              window.clearTimeout(callSuccess)
-              this.stepObject.sound.stop()
-              this.validateStep()
+    onDetection () {
+      this.currentStep = this.stepObject.currentSubStep // update current step
+      let currentValue = this.positions.events[this.currentStep.name] // update current value of the movement depend on the current event
+      let maxValue = this.currentStep.values.max
+      let minValue = this.currentStep.values.min
+
+      switch (this.currentStep.status) {
+        case 'todo':
+          this.currentStep.status = 'advice'
+          const timeOut = setTimeout(() => {
+            this.stepObject.changeSubStepState('advice', () => {
+              this.currentStep.status = 'inprogress'
             })
-          }, 2000)
-        }
+            clearTimeout(timeOut)
+          }, 1000)
+          break
+        case 'inprogress':
+          if ((currentValue > minValue && currentValue < maxValue)) {
+            this.currentStep.status = 'posing'
+          }
+          break
+        case 'posing':
+          this.currentStep.status = 'done'
+          const timeOutDone = setTimeout(() => {
+            switch (this.currentStep.hasSuccess) {
+              case true:
+                if (this.currentStep.name === 'rotationCentered') {
+                  let callSuccess = setTimeout(() => {
+                    this.soundDesign.playSpriteSoundDesign('analyse', () => {
+                      this.updateCheckProgression()
+                      this.soundDesign.playSpriteSoundDesign('success', () => {
+                        this.stepObject.changeSubStepState('success', () => {
+                          window.clearTimeout(callSuccess)
+                          this.stepObject.sound.stop()
+                          this.soundDesign.sound.stop()
+                          this.backgroundMusic.sound.stop()
+                          this.validateStep()
+                        })
+                      })
+                    })
+                  }, 500)
+                } else {
+                  this.updateCheckProgression()
+                  this.soundDesign.playSpriteSoundDesign('validation', () => {
+                  this.stepObject.changeSubStepState('success', () => {
+                    this.changeStep()
+                  })
+                })
+                }
+                break
+              case false:
+                this.updateCheckProgression()
+                this.soundDesign.playSpriteSoundDesign('validation', () => {
+                  this.changeStep()
+                })
+                break
+            }
+            clearTimeout(timeOutDone)
+          }, 1000)
+          break
       }
     },
     loader () {
@@ -130,14 +165,12 @@ export default {
           clearInterval(t)
         } else {
           this.counter = this.counter + 1
-          this.widthBar = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+          this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
         }
       }, 30)
     },
     updateCheckProgression () {
-      let totalProgress = document.querySelector('.detection__check').offsetHeight
-      let stepProgress = totalProgress / 4
-      this.heightRound = this.heightRound + stepProgress
+      this.checkProgression = this.checkProgression + (document.querySelector('.detection__check').offsetHeight / 4)
     }
   },
   mounted () {
@@ -147,7 +180,8 @@ export default {
     }
   },
   watch: {
-    isReady (nextProps) {
+    isReady () { // when BRF is ready
+      this.backgroundMusic.playSpriteBackgroundMusic('detection')
       if (this.isReady && this.isActive) {
         this.counter = this.counter + 1
         const timeOut = setTimeout(() => {
@@ -156,20 +190,18 @@ export default {
         }, 1500)
       }
     },
-    isAnalysed () {
+    isAnalysed () { // when BRF got initial face values
       if (!this.stepObject.isVoice && this.isAnalysed && this.isActive) {
+        this.soundDesign.playSpriteSoundDesign('validation')
         this.updateCheckProgression()
         this.stepObject.changeSubStepState('success', () => {
           this.stepObject.changeSubStep()
-          this.stepObject.changeSubStepState('advice')
         })
       }
     },
     positions () {
-      if (!this.stepObject.isVoice && this.isActive) {
-        this.getPositionRight()
-        this.getPositionLeft()
-        this.getPositionNormal()
+      if (!this.stepObject.isVoice && this.isActive && this.isAnalysed) {
+        this.onDetection()
       }
     }
   }

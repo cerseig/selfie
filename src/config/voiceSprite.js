@@ -1,16 +1,16 @@
-const sprites = {
+const voiceSprite = {
   intro_intro_advice: [0, 20000],
   detection_center_advice: [21000, 3850], // end: 24850
   detection_center_errors: [26000, 5200], // end: 31200
   detection_center_success: [32000, 1300], // end: 33300
-  detection_right_advice: [34000, 1600], // end: 35600
-  detection_right_errorTooMuch: [38000, 4400], // end: 42400
-  detection_right_errorOpposite: [36000, 1300], // end: 37300
-  detection_left_advice: [43000, 2300], // end: 45300
-  detection_left_errorTooMuch: [38000, 4400], // end: 42400
-  detection_left_errorOpposite: [46000, 1200], // end: 47200
-  detection_normal_advice: [48000, 3400], // end: 51400
-  detection_normal_success: [53000, 6000], // end: 59000
+  detection_rotationRight_advice: [34000, 1600], // end: 35600
+  detection_rotationRight_errorTooMuch: [38000, 4400], // end: 42400
+  detection_rotationRight_errorOpposite: [36000, 1300], // end: 37300
+  detection_rotationLeft_advice: [43000, 2300], // end: 45300
+  detection_rotationLeft_errorTooMuch: [38000, 4400], // end: 42400
+  detection_rotationLeft_errorOpposite: [46000, 1200], // end: 47200
+  detection_rotationCentered_advice: [48000, 3400], // end: 51400
+  detection_rotationCentered_success: [53000, 6000], // end: 59000
   avatarPersonnalisation_avatar_advice: [60000, 8800], // end: 68800
   decorPersonnalisation_park_advice: [70000, 6300], // end: 76300
   decorPersonnalisation_park_error: [86000, 2500], // end: 88500
@@ -85,4 +85,4 @@ const sprites = {
   application_lostPosing_error: [270000, 4100] // end: 274100
 }
 
-export default sprites
+export default voiceSprite
