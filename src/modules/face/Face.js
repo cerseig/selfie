@@ -194,6 +194,7 @@ class Face {
       if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }
 
       this.smileLeftFactor = smileLeftFactor
+      console.log(smileLeftFactor)
       return smileLeftFactor
     }
   }
