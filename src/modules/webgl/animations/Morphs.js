@@ -17,8 +17,7 @@ class Morphs {
     this.positions = {
       smileLeft: { ...defaultValues },
       smileRight: { ...defaultValues },
-      eyeLeftClose: { ...defaultValues },
-      eyeRightClose: { ...defaultValues },
+      eyeClose: { ...defaultValues },
       mouthOpen: { ...defaultValues },
       mouthOpenSmile: { ...defaultValues },
       eyeBrowLeftUp: { ...defaultValues },
@@ -29,6 +28,11 @@ class Morphs {
   updateMorphValue (key, value) {
     this.positions[key].beginValue = this.positions[key].beginValue ? this.positions[key].currentValue : value
     this.positions[key].endValue = value
+  }
+
+  updateBlinkEndValue (value) {
+    this.positions.eyeClose.beginValue = this.positions.eyeClose.beginValue ? this.positions.eyeClose.currentValue : value
+    this.positions.eyeClose.endValue = value
   }
 
   updateMouthSmileMorph (deltaTime) {
@@ -62,16 +66,12 @@ class Morphs {
     }
   }
 
-  updateEyesMorph (deltaTime) {
-    this.positions.eyeLeftClose.currentValue = easings.linear(deltaTime, this.positions.eyeLeftClose.beginValue, this.positions.eyeLeftClose.endValue - this.positions.eyeLeftClose.beginValue, this.durationTime) // Get interpolled value
-    this.positions.eyeRightClose.currentValue = easings.linear(deltaTime, this.positions.eyeRightClose.beginValue, this.positions.eyeRightClose.endValue - this.positions.eyeRightClose.beginValue, this.durationTime) // Get interpolled value
+  updateBlinkMorph (deltaTime) {
+    this.positions.eyeClose.currentValue = easings.linear(deltaTime, this.positions.eyeClose.beginValue, this.positions.eyeClose.endValue - this.positions.eyeClose.beginValue, this.durationTime) // Get interpolled value
 
-    if (!isNaN(this.positions.eyeRightClose.currentValue) && this.positions.eyeRightClose.currentValue <= MAX_VAL) {
-      this.elements.eyeLids[1].morphTargetInfluences[0] = this.positions.eyeRightClose.currentValue
-    }
-
-    if (!isNaN(this.positions.eyeLeftClose.currentValue) && this.positions.eyeLeftClose.currentValue <= MAX_VAL) {
-      this.elements.eyeLids[0].morphTargetInfluences[0] = this.positions.eyeLeftClose.currentValue
+    if (!isNaN(this.positions.eyeClose.currentValue) && this.positions.eyeClose.currentValue <= MAX_VAL) {
+      this.elements.eyeLids[0].morphTargetInfluences[0] = this.positions.eyeClose.currentValue
+      this.elements.eyeLids[1].morphTargetInfluences[0] = this.positions.eyeClose.currentValue
     }
   }
 
@@ -93,7 +93,6 @@ class Morphs {
     this.updateMouthOpenMorph(deltaTime)
     this.updateMouthOpenSmileMorph(deltaTime)
     this.updateEyebrowsMorph(deltaTime)
-    this.updateEyesMorph(deltaTime)
   }
 
   updateMorphsValues (events) {
@@ -103,8 +102,8 @@ class Morphs {
     this.updateMorphValue('smileRight', events.smileRight)
     this.updateMorphValue('eyeBrowLeftUp', events.eyeBrowLeftUp)
     this.updateMorphValue('eyeBrowRightUp', events.eyeBrowRightUp)
-    this.updateMorphValue('eyeRightClose', events.eyeRightClose)
-    this.updateMorphValue('eyeLeftClose', events.eyeLeftClose)
+    // this.updateMorphValue('eyeRightClose', events.eyeRightClose)
+    // this.updateMorphValue('eyeLeftClose', events.eyeLeftClose)
   }
 }
 
