@@ -284,6 +284,7 @@ export default {
     &__restriction {
       position: absolute;
       border: 4px solid #FEFEFE;
+      max-height: 600px;
 
       &.hasError {
         border-color: red;
