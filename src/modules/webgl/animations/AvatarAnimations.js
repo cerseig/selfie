@@ -70,9 +70,7 @@ class AvatarAnimations {
     }
 
     if (this.blinking.currentFrame % this.blinking.frameDuration === 0) {
-      console.log('in frame')
       if (!this.blinking.isInStart) { // Is in not started
-        console.log('start', this.blinking.count, this.blinking.currentFrame)
         this.blinking.isInStart = true
         this.blinking.startTime = now
         this.morphs.updateBlinkEndValue(0)
