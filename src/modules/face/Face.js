@@ -71,6 +71,7 @@ class Face {
     }
 
     this.mouthOpenFactor = 0
+    this.mouthOpenSmileFactor = 0
     this.smileFactor = 0
     this.smileLeftFactor = 0
     this.smileRightFactor = 0
@@ -86,6 +87,10 @@ class Face {
     this.rotationLeftFactor = 0
     this.tiltRightFactor = 0
     this.tiltLeftFactor = 0
+    this.rotation = {
+      y: 0,
+      x: 0
+    }
 
     this.smileLeftInitial = this.calcDistance(this.eyeLeft[0], this.mouth[0])
     this.smileRightInitial = this.calcDistance(this.eyeRight[0], this.mouth[6])
@@ -110,22 +115,30 @@ class Face {
     }
   }
   getAllExpressionsFunction (face) {
+    this.getMouthOpen(face)
+    this.getSmile(face)
+    this.getSmileLeft(face)
+    this.getSmileRight(face)
+    this.getMouthOpenSmile(face)
+
     return {
       events: {
-        mouthOpen: this.getMouthOpen(face),
-        smile: this.getSmile(face),
-        smileLeft: this.getSmileLeft(face),
-        smileRight: this.getSmileRight(face),
+        mouthOpen: this.mouthOpenFactor,
+        smile: this.smileFactor,
+        smileLeft: this.smileLeftFactor,
+        smileRight: this.smileRightFactor,
+        mouthOpenSmile: this.mouthOpenSmileFactor,
         eyeLeftClose: this.getEyeLeftClose(face),
         eyeRightClose: this.getEyeRightClose(face),
-        eyeBrowLeftDown: this.getEyeBrowLeftDown(face),
-        eyeBrowRightDown: this.getEyeBrowRightDown(face),
-        eyeBrowLefttUp: this.getEyeBrowLeftUp(face),
-        eyeBrowRightUp: this.getEyeBrowRightUp(face),
         rotationLeft: this.getRotationLeft(face),
         rotationRight: this.getRotationRight(face),
         rotationUp: this.getRotationUp(face),
         rotationDown: this.getRotationDown(face),
+        rotationCentered: this.getRotationCentered(face),
+        eyeBrowLeftDown: this.getEyeBrowLeftDown(face),
+        eyeBrowRightDown: this.getEyeBrowRightDown(face),
+        eyeBrowLeftUp: this.getEyeBrowLeftUp(face),
+        eyeBrowRightUp: this.getEyeBrowRightUp(face),
         tiltRight: this.getTiltRight(face),
         tiltLeft: this.getTiltLeft(face)
       },
@@ -139,19 +152,33 @@ class Face {
   /* ----- ALL GETTERS FUNCTIONS ----- */
   getMouthOpen (face) {
     let mouthOpen = this.calcMouthOpen(face)
-    if (mouthOpen > this.mouthOpenInitial) {
-      let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
+    let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
 
-      if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
-      if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
+    if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
+    if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
+    if (this.smileFactor > 0.5) {
+      this.mouthOpenFactor = 0
+    } else {
+      mouthOpenFactor = Number(mouthOpenFactor.toFixed(1))
       this.mouthOpenFactor = mouthOpenFactor
-      return mouthOpenFactor
     }
   }
-  getDuckFace (face) {
 
+  getMouthOpenSmile (face) {
+    let mouthOpen = this.calcMouthOpen(face)
+    let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
+
+    if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
+    if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
+
+    if (mouthOpenFactor > 0.3 && this.smileFactor > 0.5) {
+      this.mouthOpenSmileFactor = mouthOpenFactor
+    } else {
+      this.mouthOpenSmileFactor = 0
+    }
   }
+
   getSmile (face) {
     let smileFactor = this.calcSmile(face)
 
@@ -185,25 +212,24 @@ class Face {
   getEyeRightClose (face) {
     let eyeRightClose = this.calcEyeRight(face)
     if (eyeRightClose < this.eyeRightInitial) {
-      let eyeRightCloseFactor = (eyeRightClose - this.eyeRightInitial) / ((this.eyeRightInitial / 4) - this.eyeRightInitial)
+      let eyeRightCloseFactor = (eyeRightClose - (this.eyeRightInitial / 4)) / (this.eyeRightInitial - (this.eyeRightInitial / 4))
 
-      if (eyeRightCloseFactor > 1.0) { eyeRightCloseFactor = 1.0 }
-      if (eyeRightCloseFactor < 0.0) { eyeRightCloseFactor = 0.0 }
+      if (eyeRightCloseFactor > 1.0 || eyeRightCloseFactor > 0.7) { eyeRightCloseFactor = 1.0 }
+      if (eyeRightCloseFactor < 0.0 || eyeRightCloseFactor < 0.6) { eyeRightCloseFactor = 0.0 }
 
       this.eyeRightCloseFactor = eyeRightCloseFactor
+
       return eyeRightCloseFactor
     }
   }
   getEyeLeftClose (face) {
     let eyeLeftClose = this.calcEyeLeft(face)
-    if (eyeLeftClose < this.eyeLeftInitial) {
-      let eyeLeftCloseFactor = (eyeLeftClose - this.eyeLeftInitial) / ((this.eyeLeftInitial / 4) - this.eyeLeftInitial)
+    let eyeLeftCloseFactor = (eyeLeftClose - (this.eyeLeftInitial / 4)) / (this.eyeLeftInitial - (this.eyeLeftInitial / 4))
 
-      if (eyeLeftCloseFactor > 1.0) { eyeLeftCloseFactor = 1.0 }
-      if (eyeLeftCloseFactor < 0.0) { eyeLeftCloseFactor = 0.0 }
+    if (eyeLeftCloseFactor > 1.0 || eyeLeftCloseFactor > 0.7) { eyeLeftCloseFactor = 1.0 }
+    if (eyeLeftCloseFactor < 0.0 || eyeLeftCloseFactor < 0.6) { eyeLeftCloseFactor = 0.0 }
 
-      return eyeLeftCloseFactor
-    }
+    return eyeLeftCloseFactor
   }
   getEyeBrowRightDown (face) {
     let eyeBrowRight = this.calcEyeBrowRight(face)
@@ -231,7 +257,7 @@ class Face {
   }
   getEyeBrowRightUp (face) {
     let eyeBrowRight = this.calcEyeBrowRight(face)
-    if (eyeBrowRight > this.eyeBrowRightInitial) {
+    if (this.rotation.x > -(0.2) && this.rotation.x < 0.2 && eyeBrowRight > this.eyeBrowRightInitial) {
       let eyeBrowRightUpFactor = (eyeBrowRight - (this.eyeBrowRightInitial + 0.5)) / ((this.eyeBrowRightInitial + 3) - (this.eyeBrowRightInitial + 0.5))
 
       if (eyeBrowRightUpFactor > 1.0) { eyeBrowRightUpFactor = 1.0 }
@@ -243,7 +269,7 @@ class Face {
   }
   getEyeBrowLeftUp (face) {
     let eyeBrowLeft = this.calcEyeBrowLeft(face)
-    if (eyeBrowLeft > this.eyeBrowLeftInitial) {
+    if (this.rotation.x > -(0.2) && this.rotation.x < 0.2 && eyeBrowLeft > this.eyeBrowLeftInitial) {
       let eyeBrowLeftUpFactor = (eyeBrowLeft - (this.eyeBrowLeftInitial + 0.5)) / ((this.eyeBrowLeftInitial + 3) - (this.eyeBrowLeftInitial + 0.5))
 
       if (eyeBrowLeftUpFactor > 1.0) { eyeBrowLeftUpFactor = 1.0 }
@@ -255,11 +281,11 @@ class Face {
   }
   getRotationUp (face) {
     let rotationUp = this.toDegree(face.rotationX)
-    // const X_CENTER_GAP = 5
+    const X_CENTER_GAP = 10
     const MAX_X_ROTATION = -20
 
-    if (rotationUp < (this.rotationX)) {
-      let rotationUpFactor = (rotationUp - (this.rotationX)) / (MAX_X_ROTATION - (this.rotationX))
+    if (rotationUp < (this.rotationX - X_CENTER_GAP)) {
+      let rotationUpFactor = (rotationUp - (this.rotationX - X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX - X_CENTER_GAP))
 
       if (rotationUpFactor < 0.0) { rotationUpFactor = 0.0 }
       if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
@@ -285,11 +311,15 @@ class Face {
   }
 
   getRotationX (face) {
-    return face.rotationX.toFixed(3) * 1
+    const rotationX = face.rotationX.toFixed(3) * 1
+    this.rotation.x = rotationX
+    return rotationX
   }
 
   getRotationY (face) {
-    return face.rotationY.toFixed(3) * (-1)
+    const rotationY = face.rotationY.toFixed(3) * (-1)
+    this.rotation.y = rotationY
+    return rotationY
   }
 
   getRotationZ (face) {
@@ -298,12 +328,11 @@ class Face {
 
   getRotationLeft (face) {
     let rotationLeft = this.toDegree(face.rotationY)
-    // const Y_CENTER_GAP = 5
+    const Y_CENTER_GAP = 10
     const MAX_Y_ROTATION = 30
 
-    if (rotationLeft > (this.rotationY)) { // HEAD TURN TO THE LEFT
-      let rotationLeftFactor = (rotationLeft - (this.rotationY)) / (MAX_Y_ROTATION - (this.rotationY))
-
+    if (rotationLeft > (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE LEFT
+      let rotationLeftFactor = (rotationLeft - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))
       if (rotationLeftFactor < 0.0) { rotationLeftFactor = 0.0 }
       if (rotationLeftFactor > 1.0) { rotationLeftFactor = 1.0 }
 
@@ -313,11 +342,11 @@ class Face {
   }
   getRotationRight (face) {
     let rotationRight = this.toDegree(face.rotationY)
-    // const Y_CENTER_GAP = 5
+    const Y_CENTER_GAP = 10
     const MAX_Y_ROTATION = -30
 
-    if (rotationRight < (this.rotationY)) { // HEAD TURN TO THE RIGHT
-      let rotationRightFactor = (rotationRight - (this.rotationY)) / (MAX_Y_ROTATION - (this.rotationY))
+    if (rotationRight < (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
+      let rotationRightFactor = (rotationRight - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))
 
       if (rotationRightFactor < 0.0) { rotationRightFactor = 0.0 }
       if (rotationRightFactor > 1.0) { rotationRightFactor = 1.0 }
@@ -326,13 +355,25 @@ class Face {
       return rotationRightFactor
     }
   }
+  getRotationCentered (face) {
+    let rotationCentered = this.toDegree(face.rotationY)
+    const MAX_Y_ROTATION = 30
+
+    let rotationCenteredFactor = (rotationCentered - (this.rotationY - MAX_Y_ROTATION)) / (MAX_Y_ROTATION - (this.rotationY - MAX_Y_ROTATION))
+
+    if (rotationCenteredFactor < 0.0) { rotationCenteredFactor = 0.0 }
+    if (rotationCenteredFactor > 1.0) { rotationCenteredFactor = 1.0 }
+
+    this.rotationCenteredFactor = rotationCenteredFactor
+    return rotationCenteredFactor
+  }
   getTiltRight (face) {
     let tiltRight = this.toDegree(face.rotationZ)
-    // const Z_CENTER_GAP = 5
+    const Z_CENTER_GAP = 10
     const MAX_Z_ROTATION = 30
 
-    if (tiltRight > (this.rotationZ)) { // HEAD TILT TO THE RIGHT
-      let tiltRightFactor = (tiltRight - (this.rotationZ)) / (MAX_Z_ROTATION - (this.rotationZ))
+    if (tiltRight > (this.rotationZ - Z_CENTER_GAP)) { // HEAD TILT TO THE RIGHT
+      let tiltRightFactor = (tiltRight - (this.rotationZ - Z_CENTER_GAP)) / (MAX_Z_ROTATION - (this.rotationZ - Z_CENTER_GAP))
 
       if (tiltRightFactor < 0.0) { tiltRightFactor = 0.0 }
       if (tiltRightFactor > 1.0) { tiltRightFactor = 1.0 }
@@ -363,9 +404,6 @@ class Face {
 
     let mouthOpen = this.calcDistance(this.p0, this.p1) // distance between mouth upper inner lip and mouth lower inner lip
     return mouthOpen
-  }
-  calcDuckFace (face) {
-
   }
   calcSmile (face) {
     this.setPoint(face.vertices, 48, this.p0) // mouth corner left

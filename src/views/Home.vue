@@ -8,7 +8,7 @@
       <div class="home__actions" v-if="isIosSafari">
         <div class="home__select">
         <span class="select__arrow" @click="onChangeLang">
-          <Icon name="little-arrow" width="15" height="15" stroke="#000000" />
+          <Icon name="little-arrow" width="15" height="15" fill="#000000" />
         </span>
           <ul class="select__languages">
             <li v-for="(lang, index) in availableLanguages"
@@ -19,7 +19,7 @@
             </li>
           </ul>
           <span class="select__arrow" @click="onChangeLang">
-          <Icon name="little-arrow" width="15" height="15" stroke="#000000" />
+          <Icon name="little-arrow" width="15" height="15" fill="#000000" />
         </span>
         </div>
         <router-link class="home__start" :to="{ name: 'intro' }"><button class="home__start--button">{{ $t('home.start') }}</button></router-link>
@@ -31,7 +31,7 @@
       <button class="home__about home__about--button" @click="openAboutPopUp">{{ $t('home.about') }}</button>
       <div :class="`home__popup ${isOpen === true ? 'home__popup--open' : ''}`">
         <button class="home__popup__close" @click="closePopUp">
-          <Icon name="close" width="50" height="50" stroke="#000000" />
+          <Icon name="close" width="29" height="29" fill="#000000" />
         </button>
         <About />
       </div>
@@ -43,7 +43,7 @@
 import store from '../store/index'
 import About from '@/components/About.vue'
 import Icon from '@/components/icons/Icon.vue'
-import sprite from '@/config/voiceSprite'
+import voiceSprite from '@/config/voiceSprite'
 import { Howl } from 'howler'
 
 export default {
@@ -109,7 +109,7 @@ export default {
       const source = '/sounds/voice_fr.mp3'
       this.sound = new Howl({
         src: [source],
-        sprite: sprite
+        sprite: voiceSprite
       })
       store.commit('setSound', this.sound)
     }

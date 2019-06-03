@@ -1,7 +1,7 @@
 <template>
   <div class="panel panel--debug">
     <div class="decor__list">
-      <div v-for="(background, index) in backgrounds.list" :key="`background-${index}`" :class="`decor__item ${selection.decor === background.title ? 'is-active' : ''}`" :style="{backgroundImage: `url(${background.background})`}"  :data-decor="background.title"></div>
+      <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${selection.decor === decor.title ? 'is-active' : ''}`" :style="{backgroundImage: `url(${decor.background})`}"  :data-decor="decor.title"></div>
     </div>
     <div class="panel__inner">
       <div class="panel__cover gui__wrapper">
@@ -73,14 +73,14 @@ export default {
         settings: false,
         camera: false,
         personnalisation: false,
-        events: false,
+        events: true,
         gui: false,
-        decor: true
+        decor: false
       },
       selection: {
-        decor: config.backgrounds.default
+        decor: config.decors.default
       },
-      backgrounds: config.backgrounds,
+      decors: config.decors,
       positions: {}
     }
   },
@@ -100,7 +100,7 @@ export default {
         this.show.personnalisation = showPersonnalisation
       })
       this.$on('Settings:showDecor', (showDecor) => {
-        this.show.personnalisation = showDecor
+        this.show.decor = showDecor
       })
       this.$on('Settings:showGui', (showGui) => {
         if (this.scene && this.scene.gui) {
@@ -137,7 +137,7 @@ export default {
       this.rafID = requestAnimationFrame(this.update)
 
       this.positions = this.detectionManager.getPositions()
-      this.scene.update(this.positions)
+      this.scene.update(this.positions, true)
     },
 
     updateSizes () {
@@ -170,12 +170,10 @@ export default {
     },
 
     onPersonnalisationChange (change) {
-      this.scene.avatar.handlePersonnalisation(change)
+      this.scene.avatar.personnalisation.handlePersonnalisation(change)
     },
 
     onDecorChange (change) {
-      console.log('change', change)
-      // this.scene.decors.handleChange(change)
       this.selection.decor = change
     }
   },
@@ -379,6 +377,19 @@ export default {
       .panel__body {
         flex-wrap: wrap;
         padding: 8rem;
+
+        .avatar,
+        .detection {
+          min-width: 100%;
+        }
+
+        .detection {
+          display: none;
+
+          &.is-camera-shown {
+            display: flex;
+          }
+        }
       }
 
       .list--events {

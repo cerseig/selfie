@@ -24,6 +24,10 @@ const utils = {
 
   isFunction (functionToCheck) {
     return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
+  },
+
+  isOverflown (element) {
+    return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth
   }
 }
 

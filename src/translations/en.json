@@ -41,9 +41,10 @@
     "title": "This is an intro page"
   },
   "share": {
-    "title": "This is a share page",
+    "title": "Share",
     "message": "Hey ! Come create your perfect selfie on {appName} ",
     "subtitle": "Share",
+    "indication": "Select the picture(s) you want to share.",
     "share": {
       "facebook": {
         "title": "Share on Facebook",
@@ -56,6 +57,7 @@
       "email": {
         "title": "Send by e-mail",
         "alt": "Send by e-mail",
+        "button": "Send",
         "success": "The mail was sent with success to {emailAdress}, do not hesitate to check your mailbox",
         "error": "There was an error with the servor, please try again later."
       } 
@@ -63,5 +65,9 @@
   },
   "conclusion": {
     "title": "This is a conclusion page"
+  }, 
+  "modalProgress": {
+    "title": "Progress",
+    "button": "Restart the experiment"
   }
 }

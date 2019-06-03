@@ -1,7 +1,7 @@
 <template>
   <div :class="`panel--settings ${showSettings ? 'is-active' : ''}`">
     <button class="panel__close" @click="onClickClose">
-      <Icon name="cross" width="50" height="50" stroke="#000000" />
+      <Icon name="close" width="20" height="20" fill="#000000" />
     </button>
 
     <h1 class="panel__title">Settings</h1>
@@ -11,14 +11,14 @@
         <div class="form__item form__item--switch">
           <label class="form__label" for="show_camera" >
             <span class="form__label__text">Show camera</span>
-            <input class="form__input" type="checkbox" id="show_camera" v-model="showCamera" @change="onChangeShowCamera">
+            <input class="form__input" type="checkbox" id="show_camera" v-model="inputs.showCamera" @change="onChangeShowCamera">
             <span class="form__switch"></span>
           </label>
         </div>
         <div class="form__item form__item--switch">
           <label class="form__label" for="show_events">
             <span class="form__label__text">Show Events</span>
-            <input class="form__input" type="checkbox" id="show_events" v-model="showEvents" @change="onChangeShowEvents">
+            <input class="form__input" type="checkbox" id="show_events" v-model="inputs.showEvents" @change="onChangeShowEvents">
             <span class="form__switch"></span>
           </label>
         </div>
@@ -29,21 +29,21 @@
         <div class="form__item form__item--switch">
           <label class="form__label" for="show_personnalisation">
             <span class="form__label__text">Show Personnalisation</span>
-            <input class="form__input" type="checkbox" id="show_personnalisation" v-model="showPersonnalisation" @change="onChangeShowPersonnalisation">
+            <input class="form__input" type="checkbox" id="show_personnalisation" v-model="inputs.showPersonnalisation" @change="onChangeShowPersonnalisation">
             <span class="form__switch"></span>
           </label>
         </div>
         <div class="form__item form__item--switch">
           <label class="form__label" for="show_decor">
             <span class="form__label__text">Show Decor</span>
-            <input class="form__input" type="checkbox" id="show_decor" v-model="showDecor" @change="onChangeShowDecor">
+            <input class="form__input" type="checkbox" id="show_decor" v-model="inputs.showDecor" @change="onChangeShowDecor">
             <span class="form__switch"></span>
           </label>
         </div>
         <div class="form__item form__item--switch">
           <label class="form__label" for="show_gui" >
             <span class="form__label__text">Show GUI</span>
-            <input class="form__input" type="checkbox" id="show_gui" v-model="showGUI" @change="onChangeShowGUI">
+            <input class="form__input" type="checkbox" id="show_gui" v-model="inputs.showGUI" @change="onChangeShowGUI">
             <span class="form__switch"></span>
           </label>
         </div>
@@ -73,6 +73,17 @@ export default {
   name: 'Settings',
   components: {
     Icon
+  },
+  data () {
+    return {
+      inputs: {
+        showCamera: this.showCamera,
+        showDecor: this.showDecor,
+        showGUI: this.showGUI,
+        showEvents: this.showEvents,
+        showPersonnalisation: this.showPersonnalisation
+      }
+    }
   },
   props: {
     showCamera: {
@@ -108,22 +119,22 @@ export default {
   },
   methods: {
     onChangeShowCamera () {
-      this.$parent.$emit('Settings:showCamera', this.showCamera)
+      this.$parent.$emit('Settings:showCamera', this.inputs.showCamera)
     },
     onClickClose () {
       this.$parent.$emit('Settings:showSettings', false)
     },
     onChangeShowEvents () {
-      this.$parent.$emit('Settings:showEvents', this.showEvents)
+      this.$parent.$emit('Settings:showEvents', this.inputs.showEvents)
     },
     onChangeShowGUI () {
-      this.$parent.$emit('Settings:showGui', this.showGUI)
+      this.$parent.$emit('Settings:showGui', this.inputs.showGUI)
     },
     onChangeShowPersonnalisation () {
-      this.$parent.$emit('Settings:showPersonnalisation', this.showPersonnalisation)
+      this.$parent.$emit('Settings:showPersonnalisation', this.inputs.showPersonnalisation)
     },
     onChangeShowDecor () {
-      this.$parent.$emit('Settings:showDecor', this.showDecor)
+      this.$parent.$emit('Settings:showDecor', this.inputs.showDecor)
     },
     onClickTakeScreenshot (e) {
       e.preventDefault()
@@ -136,6 +147,23 @@ export default {
     onClickUpdateSizes (e) {
       e.preventDefault(e)
       this.$parent.$emit('Settings:updateSizes')
+    }
+  },
+  watch: {
+    showCamera (nextProp) {
+      this.inputs.showCamera = nextProp
+    },
+    showDecor (nextProp) {
+      this.inputs.showDecor = nextProp
+    },
+    showGUI (nextProp) {
+      this.inputs.showGUI = nextProp
+    },
+    showEvents (nextProp) {
+      this.inputs.showEvents = nextProp
+    },
+    showPersonnalisation (nextProp) {
+      this.inputs.showPersonnalisation = nextProp
     }
   }
 }
@@ -201,8 +229,9 @@ export default {
 
       &__close {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 2rem;
+        right: 2rem;
+        transform: rotate(45deg);
 
         .icon {
           transform: rotate(45deg);
@@ -213,7 +242,7 @@ export default {
   }
 
   .form__item {
-    margin-bottom: .8rem;
+    margin-bottom: 1.2rem;
     .form__label {
       cursor: pointer;
 

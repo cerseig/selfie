@@ -1,6 +1,6 @@
 // initial state
 const state = {
-  step: {}
+  step: -1
 }
 
 // getters

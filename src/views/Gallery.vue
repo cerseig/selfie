@@ -1,6 +1,6 @@
 <template>
   <div class="gallery">
-    <h1 class="gallery__title">{{ $t('gallery.title') }}</h1>
+    <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
     <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
       <AvatarsGrid />
@@ -110,18 +110,13 @@ export default {
     margin-top: 10rem;
 
     &__title {
-      margin-bottom: 20px;
-
-      font-weight: 700;
-      font-size: 3rem;
-
-      text-transform: uppercase;
+      margin-bottom: 2rem;
     }
 
     &__counter {
       font-size: 1.5rem;
       font-weight: 300;
-      margin-bottom: 60px;
+      margin-bottom: 6rem;
     }
 
     &__avatars {

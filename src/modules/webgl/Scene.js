@@ -1,19 +1,17 @@
 import * as THREE from 'three'
 import { gui } from './gui'
 import Avatar from './Avatar'
-import Decors from './decor/Decors'
-import config from '@/config/config'
+import webgl from '@/config/webgl'
 
 class Scene {
   constructor (params) {
     this.positions = null
 
-    this.config = params.config
     this.element = params.element
     this.sizes = params.sizes
 
     this.mode = params.mode ? params.mode : 'default'
-    this.configScene = config.webgl[this.mode].scene
+    this.config = webgl[this.mode].scene
 
     this.showDecor = params.showDecor
 
@@ -36,8 +34,8 @@ class Scene {
   initScene () {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(45, this.sizes.width / this.sizes.height, 0.1, 50)
-    this.camera.position.set(0, 2, 10)
-    this.camera.lookAt(new THREE.Vector3(0, 2, 0))
+    this.camera.position.set(0, 5, 20)
+    this.camera.lookAt(new THREE.Vector3(0, 3, 0))
 
     this.renderer = new THREE.WebGLRenderer({ alpha: true, preserveDrawingBuffer: true, antialias: true })
     this.renderer.gammaOutput = true
@@ -48,7 +46,6 @@ class Scene {
     this.element.appendChild(this.renderer.domElement)
 
     this.initAvatar()
-    // this.initDecors()
     this.initLights()
 
     // For threeJS inspector
@@ -61,25 +58,13 @@ class Scene {
   initAvatar () {
     this.avatar = new Avatar({
       scene: this.scene,
-      modelPath: this.config.modelPath,
-      renderer: this.renderer,
       mode: this.mode,
       onReadyClb: () => this.onAvatarReady()
     })
   }
 
-  initDecors () {
-    this.decors = new Decors({
-      scene: this.scene,
-      config: this.config.backgrounds,
-      mode: this.mode,
-      autoShow: this.showDecor
-    })
-  }
-
   initLights () {
-    const lightConfig = this.configScene.lights
-
+    const lightConfig = this.config.lights
     if (lightConfig) {
       this.lights = []
       if (lightConfig.directionals) {
@@ -123,10 +108,12 @@ class Scene {
    *
    * @param {*} positions Array of Objects
    */
-  update (positions) {
+  update (positions, getDown) {
     this.renderer.render(this.scene, this.camera)
 
-    this.avatar.update(positions)
+    if (this.avatar.animations) {
+      this.avatar.animations.update(positions, getDown)
+    }
   }
 }
 
