@@ -230,7 +230,7 @@ export default {
       width: 100%;
       height: 100%;
       background: $color__green--pastel;
-      z-index: 20;
+      z-index: 3;
       transition: opacity 0.3s;
       display: flex;
       justify-content: center;
@@ -239,7 +239,6 @@ export default {
       &.is-ready {
         transition-delay: 0.5s;
         opacity: 0;
-        z-index: 0;
       }
 
       .loader {

@@ -44,14 +44,15 @@ export default {
 <style scoped lang="scss">
 
 .nav {
-  z-index: 2;
+  z-index: 5;
   position: fixed;
   top: 0;
-  width: 100%;
-  height: 50px;
+  width: 50vw;
+  height: 10rem;
   @include flexCenter();
-  padding: 0 20px;
-  background: $color__white;
+  width: 50vw;
+  padding: 0 0 0 20px;
+  justify-content: flex-end;
 
     &--start {
       background: none;
@@ -74,14 +75,14 @@ export default {
     &__logo {
       opacity: 1;
       font-size: 4rem;
+      transform: translateX(50%)
     }
 
   }
 
 @media (min-width: 768px) and (max-width: 1024px)  {
   .nav {
-    padding: 0 50px;
-    height: 100px;
+    padding: 0 0 0 5rem;
   }
 }
 
