@@ -31,6 +31,7 @@ export default {
       currentStep: {},
       errorPlayed: 0,
       timeValidation: 0,
+      maxLevelError: 1,
       isPosing: true
     }
   },
@@ -47,12 +48,23 @@ export default {
     },
     launchError (error) {
       console.log('launch error')
-      let time = 1000
-      if (this.errorPlayed === 0) {
-        this.currentStep.status = 'error'
+      let time = 500
+      this.currentStep.status = 'error'
+      if (this.errorPlayed <= this.maxLevelError && this.errorPlayed > 0) {
+        this.stepObject.changeSubStepState(`${error}_${this.errorPlayed}`, () => {
+          this.currentStep.status = 'inprogress'
+          this.timeValidation = 0
+        })
+        this.errorPlayed++
+        if (this.errorPlayed === this.maxLevelError) {
+          this.errorPlayed = 0
+        }
+      } else {
+        this.errorPlayed = 1
         const timeOut = setTimeout(() => {
           this.stepObject.changeSubStepState(error, () => {
             this.currentStep.status = 'inprogress'
+            this.timeValidation = 0
           })
           this.errorPlayed = 1
           clearTimeout(timeOut)
@@ -63,6 +75,7 @@ export default {
       if ((this.currentStep.index + 1) < this.stepObject.subSteps.length) {
         this.stepObject.changeSubStep()
         this.errorPlayed = 0
+        this.timeValidation = 0
       } else {
         this.isPosing = false
       }
