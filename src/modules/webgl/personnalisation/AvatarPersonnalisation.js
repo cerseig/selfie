@@ -1,5 +1,6 @@
 import categories from '@/config/categories'
 import BodyParts from './BodyParts'
+import BodyPartsExtended from './BodyPartsExtended'
 
 const CATEGORIES = {
   HAIR: 0,
@@ -36,15 +37,31 @@ class AvatarPersonnalisation {
     const category = categories[CATEGORIES.SKIN]
     const defaultValues = category.default
 
-    this.bodyParts.skin = new BodyParts({
+    this.bodyParts.skin = new BodyPartsExtended({
       bodyParts: [this.head],
       children: [...this.temps.eyeLids, ...this.temps.ears],
+      extendedParts: [
+        {
+          item: this.temps.mouth.mouth_lips,
+          material: {
+            color: category.colors[defaultValues.colors].extended.lips
+          }
+        },
+        {
+          item: this.temps.nose,
+          material: {
+            color: category.colors[defaultValues.colors].extended.nose
+          }
+        }
+      ],
       needMorph: 'eyelid',
       material: {
         color: category.colors[defaultValues.colors],
         matcap: '/models/textures/matcap_skin.jpg'
       }
     })
+
+    this.bodyParts.skin.init()
   }
 
   initHair () {
@@ -62,6 +79,8 @@ class AvatarPersonnalisation {
         color: category.colors[defaultValues.colors]
       }
     })
+
+    this.bodyParts.hair.init()
   }
 
   initBeard () {
@@ -81,6 +100,8 @@ class AvatarPersonnalisation {
       bodyParts: beardList,
       currentBodyPart: defaultValues.attributes
     })
+
+    this.bodyParts.beard.init()
   }
 
   initEyes () {
@@ -94,6 +115,8 @@ class AvatarPersonnalisation {
         color: category.colors[defaultValues.colors]
       }
     })
+
+    this.bodyParts.eyes.init()
   }
 
   initBody () {
@@ -106,6 +129,8 @@ class AvatarPersonnalisation {
         color: category.colors[defaultValues.colors]
       }
     })
+
+    this.bodyParts.body.init()
   }
 
   initGlasses () {
@@ -121,6 +146,8 @@ class AvatarPersonnalisation {
         color: category.colors[defaultValues.colors]
       }
     })
+
+    this.bodyParts.glasses.init()
   }
 
   handlePersonnalisation (change) {

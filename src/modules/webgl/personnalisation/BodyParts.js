@@ -14,8 +14,6 @@ class BodyParts {
     this.bodyPartLength = params.bodyParts.length
 
     this.material = params.material
-
-    this.init()
   }
 
   init () {
@@ -105,15 +103,18 @@ class BodyParts {
     this.setBodyPart(bodyPart)
   }
 
-  switchColor (color) {
-    this.setColor(color)
-    this.updateColor(color)
+  switchColor (colors) {
+    this.setColor(colors.item)
+    this.updateColor(colors)
+  }
+
+  convertColor (color) {
+    const newColor = new THREE.Color(color)
+    return newColor.convertSRGBToLinear()
   }
 
   updateColor (color) {
-    const newColor = new THREE.Color(color)
-    newColor.convertSRGBToLinear()
-    const outputColor = new THREE.Color(newColor)
+    const outputColor = this.convertColor(color.item)
 
     this.bodyParts.forEach(bodyPart => {
       if (bodyPart.material) {
