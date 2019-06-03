@@ -83,7 +83,6 @@ export default {
     launchError (error) {
       let time = 500
       if (this.errorPlayed === 0) {
-        console.log('error 2', error)
         this.currentStep.status = 'error'
         const timeOut = setTimeout(() => {
           this.stepObject.changeSubStepState(error, () => {
@@ -120,13 +119,11 @@ export default {
           break
         case 'inprogress':
           if (this.timeValidation < 40) {
-            console.log(currentValue)
             this.timeValidation = utils.increase(this.timeValidation, 40)
           } else if (this.timeValidation === 40) {
             if ((currentValue > minValue && currentValue < maxValue)) {
               this.currentStep.status = 'posing'
             } else if (currentValue === undefined && this.currentStep.hasErrors) {
-              console.log('undefined value')
               this.launchError('errorOpposite')
             } else if (currentValue > maxValue && this.currentStep.hasErrors) {
               this.launchError('errorTooMuch')
