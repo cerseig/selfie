@@ -52,10 +52,10 @@ class AvatarAnimations {
     if (this.currentFrame % this.frameDuration === 0) {
       this.rotations.updateRotationValues(positions.rotation)
       this.morphs.updateMorphsValues(positions.events)
-      this.startTime = Date.now() // Retrieve start time
+      this.startTime = performance.now() // Retrieve start time
     }
 
-    const now = Date.now()
+    const now = performance.now()
     const deltaTime = now - this.startTime // Delta time between start & now
 
     this.rotations.updateModelRotations(deltaTime)
@@ -63,7 +63,7 @@ class AvatarAnimations {
 
     if (getDown) {
       if (!this.posY.startTime) {
-        this.posY.startTime = Date.now()
+        this.posY.startTime = performance.now()
       }
       this.getDown(now - this.posY.startTime)
     }

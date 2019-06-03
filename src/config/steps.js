@@ -268,7 +268,7 @@ const steps = {
         name: 'rotationUp',
         type: 'expression',
         values: {
-          min: 0.1
+          min: 0.5
         },
         status: 'todo',
         hasSuccess: false,
@@ -283,7 +283,7 @@ const steps = {
         name: 'rotationDown',
         type: 'expression',
         values: {
-          min: 0.4
+          min: 0.3
         },
         status: 'todo',
         hasSuccess: true,
@@ -314,7 +314,7 @@ const steps = {
         name: 'smileLeft',
         type: 'expression',
         values: {
-          min: 0.2
+          min: 0.1
         },
         status: 'todo',
         hasSuccess: true,
