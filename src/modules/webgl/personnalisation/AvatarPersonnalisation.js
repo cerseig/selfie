@@ -43,13 +43,13 @@ class AvatarPersonnalisation {
       extendedParts: [
         {
           item: this.temps.mouth.mouth_lips,
-          material : {
+          material: {
             color: category.colors[defaultValues.colors].extended.lips
           }
         },
         {
           item: this.temps.nose,
-          material : {
+          material: {
             color: category.colors[defaultValues.colors].extended.nose
           }
         }

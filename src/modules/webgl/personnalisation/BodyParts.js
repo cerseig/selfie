@@ -14,7 +14,6 @@ class BodyParts {
     this.bodyPartLength = params.bodyParts.length
 
     this.material = params.material
-
   }
 
   init () {

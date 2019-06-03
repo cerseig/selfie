@@ -1,14 +1,10 @@
 import BodyParts from './BodyParts'
+import * as THREE from 'three'
 
 export default class BodyPartsExtended extends BodyParts {
   constructor (props) {
     super(props)
     this.extendedParts = props.extendedParts
-  }
-
-
-  updateColor (props) {
-    super.updateColor(props)
   }
 
   setMaterial (material) {
