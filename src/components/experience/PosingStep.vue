@@ -125,18 +125,18 @@ export default {
           console.log('is posing')
           this.currentStep.status = 'done'
           const timeOutDone = setTimeout(() => {
-              console.log('done')
-              switch (this.currentStep.hasSuccess) {
-                case true:
-                  console.log('has success')
-                  this.stepObject.changeSubStepState('success', () => {
-                    this.changeStep()
-                  })
-                  break
-                case false:
-                  console.log('has no success')
+            console.log('done')
+            switch (this.currentStep.hasSuccess) {
+              case true:
+                console.log('has success')
+                this.stepObject.changeSubStepState('success', () => {
                   this.changeStep()
-                  break
+                })
+                break
+              case false:
+                console.log('has no success')
+                this.changeStep()
+                break
             }
             clearTimeout(timeOutDone)
           }, 1000)

@@ -3,7 +3,7 @@ const utils = {
     return (1 - n) * a + n * b
   },
 
-  getRandomInInterval(min, max) {
+  getRandomInInterval (min, max) {
     return Math.random() * (max - min + 1) + min
   },
 

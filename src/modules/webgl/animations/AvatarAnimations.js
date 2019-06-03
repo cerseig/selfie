@@ -71,7 +71,7 @@ class AvatarAnimations {
 
     if (this.blinking.currentFrame % this.blinking.frameDuration === 0) {
       console.log('in frame')
-      if (!this.blinking.isInStart) { //Is in not started
+      if (!this.blinking.isInStart) { // Is in not started
         console.log('start', this.blinking.count, this.blinking.currentFrame)
         this.blinking.isInStart = true
         this.blinking.startTime = now
@@ -79,8 +79,7 @@ class AvatarAnimations {
       } else {
         let deltaTime = now - this.blinking.startTime
 
-        if (!this.blinking.isOutStart && !this.blinking.isInDone && deltaTime >= this.durationTime ) { // Is in done
-
+        if (!this.blinking.isOutStart && !this.blinking.isInDone && deltaTime >= this.durationTime) { // Is in done
           this.blinking.isInDone = true
           this.blinking.isOutStart = true
 
@@ -90,8 +89,7 @@ class AvatarAnimations {
           this.morphs.updateBlinkEndValue(1)
         }
 
-
-        if (this.blinking.isInDone && this.blinking.isOutStart && deltaTime >= this.durationTime) { //Is out not started
+        if (this.blinking.isInDone && this.blinking.isOutStart && deltaTime >= this.durationTime) { // Is out not started
           this.blinking.count++
           this.blinking.isInStart = false
           this.blinking.isInDone = false
@@ -99,7 +97,7 @@ class AvatarAnimations {
           this.blinking.isOutStart = false
 
           const randomValue = utils.getRandomInInterval(0, 2) - 1
-          if ((this.blinking.count >= 2) || (randomValue > 0 ) ) {
+          if ((this.blinking.count >= 2) || (randomValue > 0)) {
             this.blinking.count = 0
             this.blinking.currentFrame++
           }
@@ -110,8 +108,6 @@ class AvatarAnimations {
     } else {
       this.blinking.currentFrame++
     }
-
-
 
     const deltaTime = now - this.startTime // Delta time between start & now
 
@@ -126,7 +122,6 @@ class AvatarAnimations {
     }
 
     this.currentFrame++
-
   }
 
   /**
