@@ -36,7 +36,8 @@ class AvatarAnimations {
       isInDone: false,
       isInStart: false,
       isOutDone: false,
-      isInEnd: false
+      isInEnd: false,
+      count: 0
     }
 
     this.isDown = false
@@ -69,17 +70,17 @@ class AvatarAnimations {
     }
 
     if (this.blinking.currentFrame % this.blinking.frameDuration === 0) {
-
+      console.log('in frame')
       if (!this.blinking.isInStart) { //Is in not started
+        console.log('start', this.blinking.count, this.blinking.currentFrame)
         this.blinking.isInStart = true
         this.blinking.startTime = now
         this.morphs.updateBlinkEndValue(0)
-        console.log('start blink in')
       } else {
         let deltaTime = now - this.blinking.startTime
 
         if (!this.blinking.isOutStart && !this.blinking.isInDone && deltaTime >= this.durationTime ) { // Is in done
-          console.log('blink in done, start blink out')
+
           this.blinking.isInDone = true
           this.blinking.isOutStart = true
 
@@ -91,16 +92,23 @@ class AvatarAnimations {
 
 
         if (this.blinking.isInDone && this.blinking.isOutStart && deltaTime >= this.durationTime) { //Is out not started
-          console.log('blink out done')
+          this.blinking.count++
           this.blinking.isInStart = false
           this.blinking.isInDone = false
           this.blinking.isOutDone = false
           this.blinking.isOutStart = false
-          this.blinking.currentFrame++
+
+          const randomValue = utils.getRandomInInterval(0, 2) - 1
+          if ((this.blinking.count >= 2) || (randomValue > 0 ) ) {
+            this.blinking.count = 0
+            this.blinking.currentFrame++
+          }
         }
 
         this.morphs.updateBlinkMorph(deltaTime)
       }
+    } else {
+      this.blinking.currentFrame++
     }
 
 
@@ -119,9 +127,6 @@ class AvatarAnimations {
 
     this.currentFrame++
 
-    if (!this.blinking.isInStart && !this.blinking.isOutStart) {
-      this.blinking.currentFrame++
-    }
   }
 
   /**
