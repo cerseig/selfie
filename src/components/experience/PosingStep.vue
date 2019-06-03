@@ -6,6 +6,7 @@
 <script>
 // Modules
 import Step from '@/modules/step/Step'
+import utils from '@/modules/helpers/utils.js'
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -29,6 +30,7 @@ export default {
     return {
       currentStep: {},
       errorPlayed: 0,
+      timeValidation: 0,
       isPosing: true
     }
   },
@@ -58,7 +60,7 @@ export default {
       }
     },
     changeStep () {
-      if (this.currentStep.index < this.stepObject.subSteps.length) {
+      if ((this.currentStep.index + 1) < this.stepObject.subSteps.length) {
         this.stepObject.changeSubStep()
         this.errorPlayed = 0
       } else {
@@ -92,12 +94,19 @@ export default {
           break
         case 'inprogress':
           console.log('step in progress')
-          if ((currentValue > minValue && currentValue < maxValue && rotationCondition) || (expressionCondition && currentValue > minValue)) {
-            this.currentStep.status = 'posing'
-          } /* else if (currentValue === undefined && rotationCondition) {
-            console.log('error opposite')
-            this.launchError('errorOpposite')
-          } */
+          if (this.timeValidation < 60) {
+            this.timeValidation = utils.increase(this.timeValidation, 60)
+          } else if (this.timeValidation === 60) {
+            if ((currentValue > minValue && currentValue < maxValue && rotationCondition) || (expressionCondition && currentValue > minValue)) {
+              this.currentStep.status = 'posing'
+            } else if (currentValue === undefined && rotationCondition) {
+              this.launchError('errorOpposite')
+            } else if (currentValue > maxValue && rotationCondition) {
+              this.launchError('errorTooMuch')
+            } else {
+              this.launchError('errorNotEnough')
+            }
+          }
           break
         case 'posing':
           console.log('is posing')

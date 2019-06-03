@@ -155,34 +155,14 @@ class DetectionManager {
     this.isDetectionReady = true
   }
 
-  onResizeRoi (brfv4, brfManager, resolution) {
-    let faceDetectionRegion = new brfv4.Rectangle()
-
-    faceDetectionRegion.setTo(
-      resolution.width * 0.25, resolution.height * 0.10,
-      resolution.width * 0.50, resolution.height * 0.80
-    )
-    brfManager.setFaceDetectionRoi(faceDetectionRegion)
-  }
-
   onRestrictToCenter (brfv4, brfManager, resolution) {
     let faceDetectionRegion = new brfv4.Rectangle()
-    let maxFaceSize = faceDetectionRegion.height
 
     faceDetectionRegion.setTo(
       resolution.width * 0.25, resolution.height * 0.10,
       resolution.width * 0.50, resolution.height * 0.80
     )
     brfManager.setFaceDetectionRoi(faceDetectionRegion)
-
-    if (faceDetectionRegion.width < faceDetectionRegion.height) {
-      maxFaceSize = faceDetectionRegion.width
-    }
-    // Use the usual detection distances to be able to tell the user what to do.
-    brfManager.setFaceDetectionParams(maxFaceSize * 0.30, maxFaceSize * 0.90, 12, 8)
-    // Face tracking will reset to face detection, if the face turns too much or leaves
-    // the desired distance to the camera.
-    brfManager.setFaceTrackingResetParams(maxFaceSize * 0.45, maxFaceSize * 0.75, 25, 25, 25)
 
     this.resolutionFrame = faceDetectionRegion
     return faceDetectionRegion

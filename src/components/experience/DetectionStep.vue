@@ -20,6 +20,7 @@
 import Step from '@/modules/step/Step'
 import SoundDesign from "@/modules/soundDesign/SoundDesign"
 import BackgroundMusic from "@/modules/backgroundMusic/BackgroundMusic"
+import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
 // Config
 import stepsConfig from '@/config/steps'
@@ -63,8 +64,10 @@ export default {
     return {
       currentStep: {},
       counter: 0,
+      errorPlayed: 0,
       loaderProgression: 0,
-      checkProgression: 0
+      checkProgression: 0,
+      timeValidation: 0
     }
   },
   methods: {
@@ -78,8 +81,9 @@ export default {
       this.stepObject.init()
     },
     launchError (error) {
-      let time = 1000
+      let time = 500
       if (this.errorPlayed === 0) {
+        console.log('error 2', error)
         this.currentStep.status = 'error'
         const timeOut = setTimeout(() => {
           this.stepObject.changeSubStepState(error, () => {
@@ -94,6 +98,7 @@ export default {
       if (this.currentStep.index < this.stepObject.subSteps.length) {
         this.stepObject.changeSubStep()
         this.errorPlayed = 0
+        this.timeValidation = 0
         this.onDetection()
       }
     },
@@ -114,8 +119,18 @@ export default {
           }, 1000)
           break
         case 'inprogress':
-          if ((currentValue > minValue && currentValue < maxValue)) {
-            this.currentStep.status = 'posing'
+          if (this.timeValidation < 40) {
+            console.log(currentValue)
+            this.timeValidation = utils.increase(this.timeValidation, 40)
+          } else if (this.timeValidation === 40) {
+            if ((currentValue > minValue && currentValue < maxValue)) {
+              this.currentStep.status = 'posing'
+            } else if (currentValue === undefined && this.currentStep.hasErrors) {
+              console.log('undefined value')
+              this.launchError('errorOpposite')
+            } else if (currentValue > maxValue && this.currentStep.hasErrors) {
+              this.launchError('errorTooMuch')
+            }
           }
           break
         case 'posing':
