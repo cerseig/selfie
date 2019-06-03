@@ -6,6 +6,7 @@
 <script>
 // Modules
 import Step from '@/modules/step/Step'
+import utils from '@/modules/helpers/utils.js'
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -28,7 +29,9 @@ export default {
   data () {
     return {
       currentStep: {},
-      errorPlayed: 0
+      errorPlayed: 0,
+      timeValidation: 0,
+      isPosing: true
     }
   },
   methods: {
@@ -57,10 +60,13 @@ export default {
       }
     },
     changeStep () {
-      if (this.currentStep.index < this.stepObject.subSteps.length) {
+      if ((this.currentStep.index + 1) < this.stepObject.subSteps.length) {
         this.stepObject.changeSubStep()
         this.errorPlayed = 0
+      } else {
+        this.isPosing = false
       }
+      console.log(this.isPosing)
     },
     onMoveFace () {
       console.log(this.currentStep.name)
@@ -82,31 +88,30 @@ export default {
           const timeOut = setTimeout(() => {
             this.stepObject.changeSubStepState('advice', () => {
               this.currentStep.status = 'inprogress'
-              /*const timeOut = setTimeout(() => {
-                this.currentStep.status = 'inprogress'
-                clearTimeout(timeOut)
-              }, 3000)*/
             })
             clearTimeout(timeOut)
           }, 1000)
           break
         case 'inprogress':
           console.log('step in progress')
-          if ((currentValue > minValue && currentValue < maxValue && rotationCondition) || (expressionCondition && currentValue > minValue)) {
-            this.currentStep.status = 'posing'
-          } else if (currentValue === undefined && rotationCondition) {
-            console.log('error opposite')
-            this.launchError('errorOpposite')
+          if (this.timeValidation < 60) {
+            this.timeValidation = utils.increase(this.timeValidation, 60)
+          } else if (this.timeValidation === 60) {
+            if ((currentValue > minValue && currentValue < maxValue && rotationCondition) || (expressionCondition && currentValue > minValue)) {
+              this.currentStep.status = 'posing'
+            } else if (currentValue === undefined && rotationCondition) {
+              this.launchError('errorOpposite')
+            } else if (currentValue > maxValue && rotationCondition) {
+              this.launchError('errorTooMuch')
+            } else {
+              this.launchError('errorNotEnough')
+            }
           }
           break
         case 'posing':
           console.log('is posing')
           this.currentStep.status = 'done'
           const timeOutDone = setTimeout(() => {
-            /* if (currentValue > maxValue && rotationCondition) {
-              console.log('error too much')
-              this.launchError('errorTooMuch')
-            } else { */
               console.log('done')
               switch (this.currentStep.hasSuccess) {
                 case true:
@@ -119,7 +124,6 @@ export default {
                   console.log('has no success')
                   this.changeStep()
                   break
-              // }
             }
             clearTimeout(timeOutDone)
           }, 1000)
@@ -132,7 +136,7 @@ export default {
       this.createStepObject()
     },
     positions () {
-      if (this.isActive) {
+      if (this.isActive && this.isPosing) {
         this.onMoveFace()
       }
     }

@@ -49,6 +49,7 @@ class Step {
     this.isVoice = true
     store.commit('setIsVoice', this.isVoice)
     const sound = this.sound.play(this.step.name + '_' + this.currentSubStep.name + '_' + state)
+    console.log(this.step.name + '_' + this.currentSubStep.name + '_' + state)
 
     this.sound.on('end', (audioId) => {
       if (audioId === sound) {

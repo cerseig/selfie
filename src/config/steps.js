@@ -187,7 +187,7 @@ const steps = {
         type: 'rotation',
         values: {
           min: 0.4,
-          max: 0.8
+          max: 1
         },
         status: 'todo',
         hasSuccess: false,
@@ -204,7 +204,7 @@ const steps = {
         type: 'rotation',
         values: {
           min: 0.4,
-          max: 0.8
+          max: 1
         },
         status: 'todo',
         hasSuccess: true,
@@ -221,7 +221,7 @@ const steps = {
         name: 'smile',
         type: 'expression',
         values: {
-          min: 0.5
+          min: 0.4
         },
         status: 'todo',
         hasSuccess: true,
@@ -233,17 +233,17 @@ const steps = {
       },
       {
         index: 3,
-        name: 'mouthOpen',
+        name: 'mouthOpenSmile',
         type: 'expression',
         values: {
-          min: 0.2 // 0.3 ou 0.4 à tester
+          min: 0.2
         },
         status: 'todo',
         hasSuccess: true,
         sprite: {
-          advice: 'posing_teeth_advice',
-          errorsNotEnough: 'posing_teeth_errorsNotEnough',
-          success: 'posing_teeth_success'
+          advice: 'posing_mouthOpenSmile_advice',
+          errorsNotEnough: 'posing_mouthOpenSmile_errorsNotEnough',
+          success: 'posing_mouthOpenSmile_success'
         }
       },
       {
@@ -251,7 +251,7 @@ const steps = {
         name: 'tiltRight',
         type: 'rotation',
         values: {
-          min: 0.6,
+          min: 0.4,
           max: 1
         },
         status: 'todo',
@@ -268,8 +268,7 @@ const steps = {
         name: 'rotationUp',
         type: 'expression',
         values: {
-          min: 0.2,
-          max: 1
+          min: 0.1
         },
         status: 'todo',
         hasSuccess: false,
@@ -284,8 +283,7 @@ const steps = {
         name: 'rotationDown',
         type: 'expression',
         values: {
-          min: 0.4,
-          max: 1
+          min: 0.4
         },
         status: 'todo',
         hasSuccess: true,
@@ -301,8 +299,7 @@ const steps = {
         name: 'eyeBrowLeftUp',
         type: 'expression',
         values: {
-          min: 0.2,
-          max: 1
+          min: 0.2
         },
         status: 'todo',
         hasSuccess: true,
@@ -317,8 +314,7 @@ const steps = {
         name: 'smileLeft',
         type: 'expression',
         values: {
-          min: 0.4,
-          max: 1
+          min: 0.2
         },
         status: 'todo',
         hasSuccess: true,
