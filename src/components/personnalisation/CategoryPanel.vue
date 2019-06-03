@@ -19,7 +19,7 @@
             :data-index-category="index"
             :key="`color-${indexColor}`"
           >
-           <button class="list__button" :style="{ backgroundColor: color }"></button>
+           <button class="list__button" :style="{ backgroundColor: color.item }"></button>
           </li>
         </ul>
          <ul :class="`list--attributes ${!category.colors && isActive === index ? 'list--attributes--top' : ''}`" v-if="category && category.attributes && category.attributes.length > 0">

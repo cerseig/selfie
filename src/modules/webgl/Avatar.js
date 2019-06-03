@@ -55,7 +55,8 @@ class Avatar {
       eyebrows: [],
       eyeColor: [],
       glasses: [],
-      mouth: []
+      mouth: [],
+      nose: {}
     }
 
     elements.head.children.forEach(item => {
@@ -79,6 +80,8 @@ class Avatar {
         elements.glasses.push(item)
       } else if (this.isType(name, 'mouth')) {
         elements.mouth[name] = item
+      } else if (this.isType(name, 'noze')) {
+        elements.nose = item
       }
     })
 
