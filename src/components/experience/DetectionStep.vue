@@ -81,16 +81,12 @@ export default {
       this.stepObject.init()
     },
     launchError (error) {
-      let time = 500
       if (this.errorPlayed === 0) {
         this.currentStep.status = 'error'
-        const timeOut = setTimeout(() => {
-          this.stepObject.changeSubStepState(error, () => {
-            this.currentStep.status = 'inprogress'
-          })
-          this.errorPlayed = 1
-          clearTimeout(timeOut)
-        }, time)
+        this.stepObject.changeSubStepState(error, () => {
+          this.currentStep.status = 'inprogress'
+        })
+        this.errorPlayed = 1
       }
     },
     changeStep () {
@@ -118,9 +114,9 @@ export default {
           }, 1000)
           break
         case 'inprogress':
-          if (this.timeValidation < 40) {
-            this.timeValidation = utils.increase(this.timeValidation, 40)
-          } else if (this.timeValidation === 40) {
+          if (this.timeValidation < 30) {
+            this.timeValidation = utils.increase(this.timeValidation, 30)
+          } else if (this.timeValidation === 30) {
             if ((currentValue > minValue && currentValue < maxValue)) {
               this.currentStep.status = 'posing'
             } else if (currentValue === undefined && this.currentStep.hasErrors) {

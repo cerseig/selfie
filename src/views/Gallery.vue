@@ -5,13 +5,6 @@
     <div class="gallery__avatars">
       <AvatarsGrid />
     </div>
-<!--    <div class="addAvatars">
-      <input class="addAvatar__avatar" v-model="url" type="text" />
-      <input class="addAvatar__picture" v-model="picture" type="text" />
-      <button type="button" @click="createAvatar()">ajouter</button>
-      <router-link to="/share">{{ $t('share.title') }}</router-link>
-    </div>-->
-
   </div>
 </template>
 
@@ -19,7 +12,7 @@
 import AvatarsGrid from '@/components/AvatarsGrid.vue'
 import { CREATE_AVATAR_MUTATION, CREATE_USER_REPRESENTATION_MUTATION } from '@/graphQL/mutations.js'
 import { ALL_AVATARS } from '@/graphQL/queries'
-import store from '../store/index'
+import store from '@/store/index'
 
 export default {
   name: 'gallery',
@@ -57,14 +50,16 @@ export default {
       if (!this.isPictureSavedInDB && this.picturePath.length > 0) {
         this.picture = this.picturePath
       }
+      if (!this.isPictureSavedInDB && !this.isAvatarSavedInDB) {
+        this.addAvatar()
+      }
     },
-    createAvatar () {
-      const { url } = this.$data
+    addAvatar () {
       // Add avatar to avatars list
       this.$apollo.mutate({
         mutation: CREATE_AVATAR_MUTATION,
         variables: {
-          url
+          url: this.url
         },
         update: (store, { data: { createAvatar } }) => {
           // Update avatars list when we had an avatar
@@ -78,13 +73,12 @@ export default {
       })
     },
     addUserRepresentation (avatarId) {
-      const { picture } = this.$data
       // Add picture + avatar ID to temporary table
       this.$apollo.mutate({
         mutation: CREATE_USER_REPRESENTATION_MUTATION,
         variables: {
           avatarId: avatarId,
-          picture: picture
+          picture: this.picture
         },
         update: (store, { data: { createUserRepresentation } }) => {
           // Get ID of this temporary table

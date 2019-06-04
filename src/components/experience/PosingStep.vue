@@ -1,5 +1,5 @@
 <template>
-  <div :class="`posing ${isActive ? 'is-active' : ''}`">
+  <div :class="`posing ${isActive ? 'is-active' : ''}`" ref="posing">
   </div>
 </template>
 
@@ -7,6 +7,9 @@
 // Modules
 import Step from '@/modules/step/Step'
 import utils from '@/modules/helpers/utils.js'
+import Capture from '@/modules/images/Capture.js'
+import Picture from '@/modules/images/Picture.js'
+import store from '@/store/index'
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -22,6 +25,10 @@ export default {
       type: Boolean
     },
     positions: {
+      required: false,
+      type: Object
+    },
+    detectionManager: {
       required: false,
       type: Object
     }
@@ -47,7 +54,6 @@ export default {
       })
     },
     launchError (error) {
-      console.log('launch error')
       let time = 500
       this.currentStep.status = 'error'
       if (this.errorPlayed <= this.maxLevelError && this.errorPlayed > 0) {
@@ -78,11 +84,10 @@ export default {
         this.timeValidation = 0
       } else {
         this.isPosing = false
+        this.onPosingValidate()
       }
-      console.log(this.isPosing)
     },
     onMoveFace () {
-      console.log(this.currentStep.name)
       this.currentStep = this.stepObject.currentSubStep // update current step
       let currentValue = this.positions.events[this.currentStep.name] // update current value of the movement depend on the current event
       let rotationCondition = this.currentStep.type === 'rotation' && this.currentStep.values.max !== '' && this.currentStep.values.opposite !== ''
@@ -96,7 +101,6 @@ export default {
 
       switch (this.currentStep.status) {
         case 'todo':
-          console.log('step in todo')
           this.currentStep.status = 'advice'
           const timeOut = setTimeout(() => {
             this.stepObject.changeSubStepState('advice', () => {
@@ -106,10 +110,9 @@ export default {
           }, 1000)
           break
         case 'inprogress':
-          console.log('step in progress')
-          if (this.timeValidation < 60) {
-            this.timeValidation = utils.increase(this.timeValidation, 60)
-          } else if (this.timeValidation === 60) {
+          if (this.timeValidation < 40) {
+            this.timeValidation = utils.increase(this.timeValidation, 40)
+          } else if (this.timeValidation === 40) {
             if ((currentValue > minValue && currentValue < maxValue && rotationCondition) || (expressionCondition && currentValue > minValue)) {
               this.currentStep.status = 'posing'
             } else if (currentValue === undefined && rotationCondition) {
@@ -122,19 +125,15 @@ export default {
           }
           break
         case 'posing':
-          console.log('is posing')
           this.currentStep.status = 'done'
           const timeOutDone = setTimeout(() => {
-            console.log('done')
             switch (this.currentStep.hasSuccess) {
               case true:
-                console.log('has success')
                 this.stepObject.changeSubStepState('success', () => {
                   this.changeStep()
                 })
                 break
               case false:
-                console.log('has no success')
                 this.changeStep()
                 break
             }
@@ -142,6 +141,43 @@ export default {
           }, 1000)
           break
       }
+    },
+    takePhotos () {
+     const elementToCapture = document.querySelector('.experience__scene')
+     const capturePromise =  Capture.takeScreenshot(elementToCapture)
+
+     const video = this.detectionManager.getVideo()
+     const picturePromise = Picture.takePicture(video)
+
+     Promise.all([
+       capturePromise,
+       picturePromise
+     ]).then( (params) => {
+       const capture = params[0]
+       this.avatarId = capture.uniqId
+
+       const picture = params[1]
+
+       store.commit('setAvatarPath', capture.path)
+       store.commit('setPicturePath', picture.path)
+       this.validateStep()
+     })
+    },
+    makeFlash () {
+      // create flash element
+      let flash = document.createElement('div')
+      flash.className = 'posing__flash'
+      flash.setAttribute('ref', 'flash')
+      this.$refs.posing.appendChild(flash)
+      // fade out flash element
+      const timeOut = setTimeout(() => {
+        document.querySelector('.posing__flash').style.opacity = 0
+        clearTimeout(timeOut)
+      }, 300)
+    },
+    onPosingValidate () {
+      this.takePhotos()
+      this.makeFlash()
     }
   },
   watch: {
@@ -158,5 +194,21 @@ export default {
 </script>
 
 <style lang="scss">
+  .posing {
+    &__flash {
+      width: 100%;
+      height: 100%;
+      background-color: $color__white;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 10;
+      -webkit-transition: opacity 0.3s;
+      -moz-transition: opacity 0.3s;
+      -ms-transition: opacity 0.3s;
+      -o-transition: opacity 0.3s;
+      transition: opacity 0.3s;
+    }
+  }
 
 </style>

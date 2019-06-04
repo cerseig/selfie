@@ -246,6 +246,7 @@ class DetectionManager {
             brfv4: this.brfv4,
             brfManager: this.brfManager
           })
+          console.log('Face is detected and all points are registered')
           this.timeValidation++
         }
       } else {

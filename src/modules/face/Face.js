@@ -167,12 +167,12 @@ class Face {
 
   getMouthOpenSmile (face) {
     let mouthOpen = this.calcMouthOpen(face)
-    let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 20) - this.mouthOpenInitial)
+    let mouthOpenFactor = (mouthOpen - this.mouthOpenInitial) / ((this.mouthOpenInitial + 10) - this.mouthOpenInitial)
 
     if (mouthOpenFactor > 1.0) { mouthOpenFactor = 1.0 }
     if (mouthOpenFactor < 0.0) { mouthOpenFactor = 0.0 }
 
-    if (mouthOpenFactor > 0.3 && this.smileFactor > 0.5) {
+    if (mouthOpenFactor > 0.4 && this.smileFactor > 0.5) {
       this.mouthOpenSmileFactor = mouthOpenFactor
     } else {
       this.mouthOpenSmileFactor = 0
@@ -188,7 +188,7 @@ class Face {
   getSmileLeft (face) {
     let smileLeft = this.calcSmileLeft(face)
     if (smileLeft < this.smileLeftInitial) {
-      let smileLeftFactor = (smileLeft - this.smileLeftInitial) / ((this.smileLeftInitial - 20) - this.smileLeftInitial)
+      let smileLeftFactor = (smileLeft - this.smileLeftInitial) / ((this.smileLeftInitial - 10) - this.smileLeftInitial)
 
       if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
       if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }
@@ -200,7 +200,7 @@ class Face {
   getSmileRight (face) {
     let smileRight = this.calcSmileRight(face)
     if (smileRight < this.smileRightInitial) {
-      let smileRightFactor = (smileRight - this.smileRightInitial) / ((this.smileRightInitial - 20) - this.smileRightInitial)
+      let smileRightFactor = (smileRight - this.smileRightInitial) / ((this.smileRightInitial - 10) - this.smileRightInitial)
 
       if (smileRightFactor < 0.0) { smileRightFactor = 0.0 }
       if (smileRightFactor > 1.0) { smileRightFactor = 1.0 }
@@ -281,11 +281,10 @@ class Face {
   }
   getRotationUp (face) {
     let rotationUp = this.toDegree(face.rotationX)
-    const X_CENTER_GAP = 10
     const MAX_X_ROTATION = -20
 
-    if (rotationUp < (this.rotationX - X_CENTER_GAP)) {
-      let rotationUpFactor = (rotationUp - (this.rotationX - X_CENTER_GAP)) / (MAX_X_ROTATION - (this.rotationX - X_CENTER_GAP))
+    if (rotationUp < this.rotationX) {
+      let rotationUpFactor = (rotationUp - this.rotationX) / (MAX_X_ROTATION - this.rotationX)
 
       if (rotationUpFactor < 0.0) { rotationUpFactor = 0.0 }
       if (rotationUpFactor > 1.0) { rotationUpFactor = 1.0 }
@@ -296,7 +295,6 @@ class Face {
   }
   getRotationDown (face) {
     let rotationDown = this.toDegree(face.rotationX)
-    // const X_CENTER_GAP = 5
     const MAX_X_ROTATION = 20
 
     if (rotationDown > (this.rotationX)) {
@@ -329,7 +327,7 @@ class Face {
   getRotationLeft (face) {
     let rotationLeft = this.toDegree(face.rotationY)
     const Y_CENTER_GAP = 10
-    const MAX_Y_ROTATION = 30
+    const MAX_Y_ROTATION = 40
 
     if (rotationLeft > (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE LEFT
       let rotationLeftFactor = (rotationLeft - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))
@@ -343,7 +341,7 @@ class Face {
   getRotationRight (face) {
     let rotationRight = this.toDegree(face.rotationY)
     const Y_CENTER_GAP = 10
-    const MAX_Y_ROTATION = -30
+    const MAX_Y_ROTATION = -40
 
     if (rotationRight < (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
       let rotationRightFactor = (rotationRight - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))
