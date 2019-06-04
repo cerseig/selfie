@@ -33,7 +33,7 @@ const steps = {
         index: 1,
         name: 'rotationRight',
         values: {
-          min: 0.3,
+          min: 0.2,
           max: 0.8
         },
         status: 'todo',
@@ -49,7 +49,7 @@ const steps = {
         index: 2,
         name: 'rotationLeft',
         values: {
-          min: 0.3,
+          min: 0.2,
           max: 0.8
         },
         status: 'todo',
@@ -186,7 +186,7 @@ const steps = {
         name: 'rotationLeft',
         type: 'rotation',
         values: {
-          min: 0.4,
+          min: 0.3,
           max: 1
         },
         status: 'todo',
@@ -203,7 +203,7 @@ const steps = {
         name: 'rotationRight',
         type: 'rotation',
         values: {
-          min: 0.4,
+          min: 0.3,
           max: 1
         },
         status: 'todo',

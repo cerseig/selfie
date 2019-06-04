@@ -166,6 +166,7 @@ export default {
       this.makeFlash()
       this.takeScreenshot()
       this.takePicture()
+      document.querySelector('.posing__flash').addEventListener('transitionend', this.validateStep(), false)
     }
   },
   watch: {
