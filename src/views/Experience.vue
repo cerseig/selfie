@@ -16,7 +16,7 @@
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
 
-    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions" :detectionManager="detectionManager"/>
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions" v-if="detection.states.isReady" :detectionManager="detectionManager"/>
 
   </div>
 </template>
@@ -92,7 +92,7 @@ export default {
       })
     },
     initDetectionManager () {
-      if (this.STEPS.ANALYSIS === this.currentStep || this.currentStep >= this.STEPS.PERSONNALISATION) {
+      if (this.currentStep >= this.STEPS.ANALYSIS) {
         this.detectionManager = new DetectionManager({
           camera: document.getElementById('_camera'),
           imageData: document.getElementById('_imageData'),

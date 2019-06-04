@@ -64,7 +64,7 @@ export default {
         update: (store, { data: { createAvatar } }) => {
           // Update avatars list when we had an avatar
           const data = store.readQuery({ query: ALL_AVATARS })
-          data.allAvatars.push(createAvatar)
+          data.allAvatars.unshift(createAvatar)
           store.writeQuery({ query: ALL_AVATARS, data })
           // Get ID of last avatar
           let avatarId = createAvatar.id

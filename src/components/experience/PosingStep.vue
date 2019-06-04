@@ -173,7 +173,7 @@ export default {
       flash.setAttribute('ref', 'flash')
       this.$refs.posing.appendChild(flash)
       // add flash sound
-      this.soundDesign.playSpriteSoundDesign('flash')
+      //this.soundDesign.playSpriteSoundDesign('flash')
       // fade out flash element
       const timeOut = setTimeout(() => {
         document.querySelector('.posing__flash').style.opacity = 0
@@ -184,13 +184,16 @@ export default {
       this.takePhotos()
     }
   },
+  mounted () {
+    this.onPosingValidate()
+  },
   watch: {
     isActive () {
-      this.createStepObject()
+      // this.createStepObject()
     },
     positions () {
       if (this.isActive && this.isPosing) {
-        this.onMoveFace()
+        // this.onMoveFace()
       }
     }
   }

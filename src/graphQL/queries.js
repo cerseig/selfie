@@ -37,7 +37,7 @@ export const GET_AVATAR = gql`
 
 export const ALL_AVATARS = gql`
   query AllAvatarsQuery {
-    allAvatars {
+    allAvatars(orderBy: createdAt_DESC) {
       id
       url
     }
