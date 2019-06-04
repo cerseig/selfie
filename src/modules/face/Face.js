@@ -327,7 +327,7 @@ class Face {
   getRotationLeft (face) {
     let rotationLeft = this.toDegree(face.rotationY)
     const Y_CENTER_GAP = 10
-    const MAX_Y_ROTATION = 30
+    const MAX_Y_ROTATION = 40
 
     if (rotationLeft > (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE LEFT
       let rotationLeftFactor = (rotationLeft - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))
@@ -341,7 +341,7 @@ class Face {
   getRotationRight (face) {
     let rotationRight = this.toDegree(face.rotationY)
     const Y_CENTER_GAP = 10
-    const MAX_Y_ROTATION = -30
+    const MAX_Y_ROTATION = -40
 
     if (rotationRight < (this.rotationY - Y_CENTER_GAP)) { // HEAD TURN TO THE RIGHT
       let rotationRightFactor = (rotationRight - (this.rotationY - Y_CENTER_GAP)) / (MAX_Y_ROTATION - (this.rotationY - Y_CENTER_GAP))

@@ -18,8 +18,8 @@
 <script>
 // Modules
 import Step from '@/modules/step/Step'
-import SoundDesign from "@/modules/soundDesign/SoundDesign"
-import BackgroundMusic from "@/modules/backgroundMusic/BackgroundMusic"
+import SoundDesign from '@/modules/soundDesign/SoundDesign'
+import BackgroundMusic from '@/modules/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
 // Config
@@ -153,10 +153,10 @@ export default {
                 } else {
                   this.updateCheckProgression()
                   this.soundDesign.playSpriteSoundDesign('validation', () => {
-                  this.stepObject.changeSubStepState('success', () => {
-                    this.changeStep()
+                    this.stepObject.changeSubStepState('success', () => {
+                      this.changeStep()
+                    })
                   })
-                })
                 }
                 break
               case false:
