@@ -46,7 +46,7 @@ class Rotations {
   updateModelRotation (key, deltaTime) {
     this.rotation[key].currentValue = easings.linear(deltaTime, this.rotation[key].beginValue, this.rotation[key].endValue - this.rotation[key].beginValue, this.durationTime) // Get interpolled value
 
-    if (!isNaN(this.rotation[key].currentValue) && this.rotation[key].currentValue < 1) {
+    if (!isNaN(this.rotation[key].currentValue) && this.rotation[key].currentValue <= 1 && this.rotation[key].currentValue >= 0) {
       this.head.rotation[key] = this.rotation[key].currentValue
     }
   }
