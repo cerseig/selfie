@@ -47,7 +47,6 @@ export default {
       })
     },
     launchError (error) {
-      console.log('launch error')
       let time = 500
       this.currentStep.status = 'error'
       if (this.errorPlayed <= this.maxLevelError && this.errorPlayed > 0) {
@@ -79,10 +78,8 @@ export default {
       } else {
         this.isPosing = false
       }
-      console.log(this.isPosing)
     },
     onMoveFace () {
-      console.log(this.currentStep.name)
       this.currentStep = this.stepObject.currentSubStep // update current step
       let currentValue = this.positions.events[this.currentStep.name] // update current value of the movement depend on the current event
       let rotationCondition = this.currentStep.type === 'rotation' && this.currentStep.values.max !== '' && this.currentStep.values.opposite !== ''
@@ -90,15 +87,12 @@ export default {
       let maxValue = 0
       let minValue = this.currentStep.values.min
 
-      console.log('current value:', currentValue)
-
       if (rotationCondition) { // get max value when event is a rotation
         maxValue = this.currentStep.values.max
       }
 
       switch (this.currentStep.status) {
         case 'todo':
-          console.log('step in todo')
           this.currentStep.status = 'advice'
           const timeOut = setTimeout(() => {
             this.stepObject.changeSubStepState('advice', () => {
@@ -108,7 +102,6 @@ export default {
           }, 1000)
           break
         case 'inprogress':
-          console.log('step in progress')
           if (this.timeValidation < 40) {
             this.timeValidation = utils.increase(this.timeValidation, 40)
           } else if (this.timeValidation === 40) {
@@ -124,19 +117,15 @@ export default {
           }
           break
         case 'posing':
-          console.log('is posing')
           this.currentStep.status = 'done'
           const timeOutDone = setTimeout(() => {
-            console.log('done')
             switch (this.currentStep.hasSuccess) {
               case true:
-                console.log('has success')
                 this.stepObject.changeSubStepState('success', () => {
                   this.changeStep()
                 })
                 break
               case false:
-                console.log('has no success')
                 this.changeStep()
                 break
             }
