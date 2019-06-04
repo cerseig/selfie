@@ -96,15 +96,15 @@ class Morphs {
     this.updateEyebrowsMorph(deltaTime)
   }
 
-  updateMorphsValues (events) {
+  updateMorphsValues (events, blinking) {
     this.updateMorphValue('mouthOpen', events.mouthOpen)
     this.updateMorphValue('mouthOpenSmile', events.mouthOpenSmile)
     this.updateMorphValue('smileLeft', events.smileLeft)
     this.updateMorphValue('smileRight', events.smileRight)
     this.updateMorphValue('eyeBrowLeftUp', events.eyeBrowLeftUp)
     this.updateMorphValue('eyeBrowRightUp', events.eyeBrowRightUp)
-    // this.updateMorphValue('eyeRightClose', events.eyeRightClose)
-    // this.updateMorphValue('eyeLeftClose', events.eyeLeftClose)
+
+    this.updateMorphValue('eyeClose', blinking)
   }
 }
 

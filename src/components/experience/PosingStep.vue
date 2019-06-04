@@ -142,7 +142,7 @@ export default {
           }, 1000)
           break
       }
-    }
+    },
   },
   watch: {
     isActive () {

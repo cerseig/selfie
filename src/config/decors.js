@@ -32,7 +32,7 @@ const decors = {
       title: 'mountain',
       width: 80,
       height: 80,
-      background: '/img/decors/decor_mountain.png',
+      background: 'https://i.imgur.com/mmVZxbz.jpg',
       modelPaths: {
         obj: '/models/decors/mountains/mountains.obj',
         mtl: '/models/decors/mountains/mountains.mtl'
@@ -50,6 +50,7 @@ const decors = {
     },
     {
       title: 'museum',
+      background: 'https://news.artnet.com/app/news-upload/2018/02/install-view-of-basquiat-untitled-1024x684.jpg',
       width: 80,
       height: 80
     },
@@ -61,11 +62,13 @@ const decors = {
     },
     {
       title: 'cocooning',
+      background: 'https://i.pinimg.com/564x/54/e3/27/54e327913cb2c1350cf879a89de634fe.jpg',
       width: 80,
       height: 80
     },
     {
       title: 'eiffelTower',
+      background: 'https://i.pinimg.com/564x/43/a8/bc/43a8bc36bf8d56a279b58d437f09637d.jpg',
       width: 80,
       height: 80
     }

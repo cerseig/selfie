@@ -1,8 +1,7 @@
 <template>
   <div class="experience gui__wrapper">
-    <div class="decor__list">
-      <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection.decor === decor.title) && (currentStep >= STEPS.DECOR) ? 'is-active' : ''}`" :style="{backgroundImage: `url(${decor.background})`}"  :data-decor="decor.title"></div>
-    </div>
+
+    <Decors v-if="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
 
     <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
 
@@ -24,6 +23,7 @@ import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
 import DetectionStep from '@/components/experience/DetectionStep'
 import DecorStep from '@/components/decor/DecorStep'
+import Decors from '@/components/decor/Decors'
 import PosingStep from '@/components/experience/PosingStep'
 import Detection from '@/components/experience/Detection'
 
@@ -159,7 +159,7 @@ export default {
         }
       }
 
-      if (this.currentStep === this.STEPS.PERSONNALISATION || this.detectionManager) {
+      if (this.currentStep >= this.STEPS.PERSONNALISATION || this.detectionManager) {
         this.detection.positions = this.detectionManager.getPositions()
       }
 
@@ -183,6 +183,7 @@ export default {
     this.initScene()
 
     this.update()
+
   },
   beforeDestroy () {
     if (this.detectionManager) {
@@ -204,32 +205,6 @@ export default {
   position: relative;
   overflow: hidden;
 
-  .decor {
-    &__list {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: -1;
-
-      .decor__item {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        opacity: 0;
-
-        &.is-active {
-          opacity: 1;
-        }
-      }
-    }
-  }
   .dg.main {
     display: none;
   }
