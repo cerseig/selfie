@@ -187,9 +187,8 @@ class Face {
   }
   getSmileLeft (face) {
     let smileLeft = this.calcSmileLeft(face)
-    console.log(smileLeft)
     if (smileLeft < this.smileLeftInitial) {
-      let smileLeftFactor = (smileLeft - this.smileLeftInitial) / ((this.smileLeftInitial - 0) - this.smileLeftInitial)
+      let smileLeftFactor = (smileLeft - this.smileLeftInitial) / ((this.smileLeftInitial - 10) - this.smileLeftInitial)
 
       if (smileLeftFactor < 0.0) { smileLeftFactor = 0.0 }
       if (smileLeftFactor > 1.0) { smileLeftFactor = 1.0 }

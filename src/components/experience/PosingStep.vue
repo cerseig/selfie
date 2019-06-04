@@ -90,6 +90,8 @@ export default {
       let maxValue = 0
       let minValue = this.currentStep.values.min
 
+      console.log('current value:', currentValue)
+
       if (rotationCondition) { // get max value when event is a rotation
         maxValue = this.currentStep.values.max
       }
