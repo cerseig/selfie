@@ -1,5 +1,5 @@
 <template>
-  <div :class="`posing ${isActive ? 'is-active' : ''}`">
+  <div :class="`posing ${isActive ? 'is-active' : ''}`" ref="posing">
   </div>
 </template>
 
@@ -7,6 +7,8 @@
 // Modules
 import Step from '@/modules/step/Step'
 import utils from '@/modules/helpers/utils.js'
+import Capture from '@/modules/images/Capture.js'
+import Picture from '@/modules/images/Picture.js'
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -77,6 +79,7 @@ export default {
         this.timeValidation = 0
       } else {
         this.isPosing = false
+        this.onPosingValidate()
       }
     },
     onMoveFace () {
@@ -133,6 +136,36 @@ export default {
           }, 1000)
           break
       }
+    },
+    takeScreenshot () { // take screen of the avatar
+      let elementToCapture = document.querySelector('.experience__scene')
+      Capture.takeScreenshot(elementToCapture, (params) => {
+        this.avatarId = params.uniqId
+        store.commit('setAvatarPath', params.path)
+      })
+    },
+    takePicture () { // take picture of the user
+      const video = this.detectionManager.getVideo()
+      Picture.takePicture(video, (params) => {
+        store.commit('setPicturePath', params.path)
+      })
+    },
+    makeFlash () {
+      // create flash element
+      let flash = document.createElement('div')
+      flash.className = 'posing__flash'
+      flash.setAttribute('ref', 'flash')
+      this.$refs.posing.appendChild(flash)
+      // fade out flash element
+      const timeOut = setTimeout(() => {
+        document.querySelector('.posing__flash').style.opacity = 0
+        clearTimeout(timeOut)
+      }, 300)
+    },
+    onPosingValidate () {
+      this.makeFlash()
+      this.takeScreenshot()
+      this.takePicture()
     }
   },
   watch: {
@@ -149,5 +182,21 @@ export default {
 </script>
 
 <style lang="scss">
+  .posing {
+    &__flash {
+      width: 100%;
+      height: 100%;
+      background-color: $color__white;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 10;
+      -webkit-transition: opacity 0.3s;
+      -moz-transition: opacity 0.3s;
+      -ms-transition: opacity 0.3s;
+      -o-transition: opacity 0.3s;
+      transition: opacity 0.3s;
+    }
+  }
 
 </style>
