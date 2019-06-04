@@ -15,7 +15,7 @@
 
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
-    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions"/>
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions" :detectionManager="detectionManager"/>
 
   </div>
 </template>
@@ -73,7 +73,8 @@ export default {
         PERSONNALISATION: 1,
         DECOR: 2,
         POSING: 3
-      }
+      },
+      detectionManager: null
     }
   },
   methods: {

@@ -6,7 +6,10 @@ const Capture = {
     html2canvas(element, { allowTaint: true }).then(canvas => {
       const imageUrl = canvas.toDataURL('image/png', 1)
       const type = 'avatar'
-      saveImage(imageUrl, type, clb)
+      // saveImage(imageUrl, type, clb)
+      let img = document.createElement('img')
+      img.setAttribute('src', imageUrl)
+      document.body.appendChild(img)
     })
   }
 }

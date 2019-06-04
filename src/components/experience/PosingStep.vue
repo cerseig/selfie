@@ -26,6 +26,10 @@ export default {
     positions: {
       required: false,
       type: Object
+    },
+    detectionManager: {
+      required: false,
+      type: Object
     }
   },
   data () {
@@ -77,9 +81,9 @@ export default {
         this.stepObject.changeSubStep()
         this.errorPlayed = 0
         this.timeValidation = 0
+        this.onPosingValidate()
       } else {
         this.isPosing = false
-        this.onPosingValidate()
       }
     },
     onMoveFace () {
@@ -163,10 +167,10 @@ export default {
       }, 300)
     },
     onPosingValidate () {
-      this.makeFlash()
       this.takeScreenshot()
       this.takePicture()
-      document.querySelector('.posing__flash').addEventListener('transitionend', this.validateStep(), false)
+      this.makeFlash()
+      // document.querySelector('.posing__flash').addEventListener('transitionend', this.validateStep(), false)
     }
   },
   watch: {
