@@ -82,9 +82,9 @@ export default {
         this.stepObject.changeSubStep()
         this.errorPlayed = 0
         this.timeValidation = 0
-        this.onPosingValidate()
       } else {
         this.isPosing = false
+        this.onPosingValidate()
       }
     },
     onMoveFace () {
@@ -142,19 +142,6 @@ export default {
           break
       }
     },
-    takeScreenshot () { // take screen of the avatar
-      let elementToCapture = document.querySelector('.experience__scene')
-      Capture.takeScreenshot(elementToCapture, (params) => {
-        this.avatarId = params.uniqId
-        store.commit('setAvatarPath', params.path)
-      })
-    },
-    takePicture () { // take picture of the user
-      const video = this.detectionManager.getVideo()
-      Picture.takePicture(video, (params) => {
-        store.commit('setPicturePath', params.path)
-      })
-    },
     takePhotos () {
      const elementToCapture = document.querySelector('.experience__scene')
      const capturePromise =  Capture.takeScreenshot(elementToCapture)
@@ -193,16 +180,13 @@ export default {
       this.makeFlash()
     }
   },
-  mounted() {
-    this.onPosingValidate()
-  },
   watch: {
     isActive () {
-      // this.createStepObject()
+      this.createStepObject()
     },
     positions () {
       if (this.isActive && this.isPosing) {
-        // this.onMoveFace()
+        this.onMoveFace()
       }
     }
   }
