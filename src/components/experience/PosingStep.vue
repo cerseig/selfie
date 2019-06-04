@@ -163,6 +163,7 @@ export default {
       // fade out flash element
       const timeOut = setTimeout(() => {
         document.querySelector('.posing__flash').style.opacity = 0
+        this.validateStep()
         clearTimeout(timeOut)
       }, 300)
     },
@@ -170,16 +171,18 @@ export default {
       this.takeScreenshot()
       this.takePicture()
       this.makeFlash()
-      // document.querySelector('.posing__flash').addEventListener('transitionend', this.validateStep(), false)
     }
+  },
+  mounted() {
+    this.onPosingValidate()
   },
   watch: {
     isActive () {
-      this.createStepObject()
+      // this.createStepObject()
     },
     positions () {
       if (this.isActive && this.isPosing) {
-        this.onMoveFace()
+        // this.onMoveFace()
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="experience gui__wrapper">
-    <div class="experience__scene" ref="scene">
+    <div :class="`experience__scene ${currentStep === STEPS.ANALYSIS ? '' : 'is-active'}`" ref="scene">
       <div class="decor__list">
         <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection.decor === decor.title) && (currentStep >= STEPS.DECOR) ? 'is-active' : ''}`" :style="{backgroundImage: `url(${decor.background})`}"  :data-decor="decor.title"></div>
       </div>
@@ -15,7 +15,8 @@
 
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
-    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions" :detectionManager="detectionManager"/>
+
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions" v-if="detection.states.isReady" :detectionManager="detectionManager"/>
 
   </div>
 </template>
@@ -91,7 +92,7 @@ export default {
       })
     },
     initDetectionManager () {
-      if (this.STEPS.ANALYSIS === this.currentStep || this.STEPS.PERSONNALISATION === this.currentStep) {
+      if (this.STEPS.ANALYSIS === this.currentStep || this.currentStep >= this.STEPS.PERSONNALISATION) {
         this.detectionManager = new DetectionManager({
           camera: document.getElementById('_camera'),
           imageData: document.getElementById('_imageData'),
@@ -206,6 +207,16 @@ export default {
   height: 100%;
   position: relative;
   overflow: hidden;
+
+  &__scene {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+
+    &.is-active {
+      display: block;
+    }
+  }
 
   .decor {
     &__list {

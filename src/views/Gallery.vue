@@ -8,7 +8,7 @@
 <!--    <div class="addAvatars">
       <input class="addAvatar__avatar" v-model="url" type="text" />
       <input class="addAvatar__picture" v-model="picture" type="text" />
-      <button type="button" @click="createAvatar()">ajouter</button>
+      <button type="button" @click="addAvatar()">ajouter</button>
       <router-link to="/share">{{ $t('share.title') }}</router-link>
     </div>-->
 
@@ -57,14 +57,15 @@ export default {
       if (!this.isPictureSavedInDB && this.picturePath.length > 0) {
         this.picture = this.picturePath
       }
+      console.log('this.url:', this.url, 'this.picture:', this.picture)
     },
-    createAvatar () {
-      const { url } = this.$data
+    addAvatar () {
+      // const { url } = this.$data
       // Add avatar to avatars list
       this.$apollo.mutate({
         mutation: CREATE_AVATAR_MUTATION,
         variables: {
-          url
+          url: this.url
         },
         update: (store, { data: { createAvatar } }) => {
           // Update avatars list when we had an avatar
@@ -78,13 +79,13 @@ export default {
       })
     },
     addUserRepresentation (avatarId) {
-      const { picture } = this.$data
+      // const { picture } = this.$data
       // Add picture + avatar ID to temporary table
       this.$apollo.mutate({
         mutation: CREATE_USER_REPRESENTATION_MUTATION,
         variables: {
           avatarId: avatarId,
-          picture: picture
+          picture: this.picture
         },
         update: (store, { data: { createUserRepresentation } }) => {
           // Get ID of this temporary table
