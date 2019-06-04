@@ -10,6 +10,7 @@ import utils from '@/modules/helpers/utils.js'
 import Capture from '@/modules/images/Capture.js'
 import Picture from '@/modules/images/Picture.js'
 import store from '@/store/index'
+import SoundDesign from '@/modules/soundDesign/SoundDesign'
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -45,6 +46,7 @@ export default {
   methods: {
     createStepObject () {
       this.stepObject = new Step(stepsConfig.posing)
+      this.soundDesign = new SoundDesign()
       this.currentStep = this.stepObject.currentSubStep
       this.launchSound()
     },
@@ -160,6 +162,7 @@ export default {
 
        store.commit('setAvatarPath', capture.path)
        store.commit('setPicturePath', picture.path)
+       this.makeFlash()
        this.validateStep()
      })
     },
@@ -169,6 +172,8 @@ export default {
       flash.className = 'posing__flash'
       flash.setAttribute('ref', 'flash')
       this.$refs.posing.appendChild(flash)
+      // add flash sound
+      this.soundDesign.playSpriteSoundDesign('flash')
       // fade out flash element
       const timeOut = setTimeout(() => {
         document.querySelector('.posing__flash').style.opacity = 0
@@ -177,7 +182,6 @@ export default {
     },
     onPosingValidate () {
       this.takePhotos()
-      this.makeFlash()
     }
   },
   watch: {
