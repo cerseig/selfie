@@ -9,6 +9,7 @@ import Step from '@/modules/step/Step'
 import utils from '@/modules/helpers/utils.js'
 import Capture from '@/modules/images/Capture.js'
 import Picture from '@/modules/images/Picture.js'
+import store from '@/store/index'
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -154,6 +155,27 @@ export default {
         store.commit('setPicturePath', params.path)
       })
     },
+    takePhotos () {
+     const elementToCapture = document.querySelector('.experience__scene')
+     const capturePromise =  Capture.takeScreenshot(elementToCapture)
+
+     const video = this.detectionManager.getVideo()
+     const picturePromise = Picture.takePicture(video)
+
+     Promise.all([
+       capturePromise,
+       picturePromise
+     ]).then( (params) => {
+       const capture = params[0]
+       this.avatarId = capture.uniqId
+
+       const picture = params[1]
+
+       store.commit('setAvatarPath', capture.path)
+       store.commit('setPicturePath', picture.path)
+       this.validateStep()
+     })
+    },
     makeFlash () {
       // create flash element
       let flash = document.createElement('div')
@@ -163,13 +185,11 @@ export default {
       // fade out flash element
       const timeOut = setTimeout(() => {
         document.querySelector('.posing__flash').style.opacity = 0
-        this.validateStep()
         clearTimeout(timeOut)
       }, 300)
     },
     onPosingValidate () {
-      this.takeScreenshot()
-      this.takePicture()
+      this.takePhotos()
       this.makeFlash()
     }
   },
