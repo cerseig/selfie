@@ -42,7 +42,8 @@ export default {
     DetectionStep,
     DecorStep,
     PosingStep,
-    Detection
+    Detection,
+    Decors
   },
   data () {
     return {
@@ -88,7 +89,7 @@ export default {
       })
     },
     initDetectionManager () {
-      if (this.STEPS.ANALYSIS === this.currentStep || this.STEPS.PERSONNALISATION === this.currentStep) {
+      if (this.currentStep >= this.STEPS.ANALYSIS) {
         this.detectionManager = new DetectionManager({
           camera: document.getElementById('_camera'),
           imageData: document.getElementById('_imageData'),
@@ -163,7 +164,7 @@ export default {
         this.detection.positions = this.detectionManager.getPositions()
       }
 
-      if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR || this.currentStep === this.STEPS.POSING) {
+      if (this.currentStep >= this.STEPS.PERSONNALISATION) {
         const getDown = this.currentStep >= this.STEPS.DECOR && this.scene.avatar && this.scene.avatar.animations && !this.scene.avatar.animations.isDown
         this.scene.update(this.detection.positions, getDown)
       }
