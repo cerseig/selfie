@@ -10,32 +10,32 @@
 </template>
 
 <script>
-  export default {
-    name: 'Decors',
-    props: {
-      decors: {
-        type: Object,
-        required: false
-      },
-      selection: {
-        type: String,
-        required: false
-      },
+export default {
+  name: 'Decors',
+  props: {
+    decors: {
+      type: Object,
+      required: false
     },
-    data () {
-      return {
-        formerSelection: null
-      }
-    },
-    mounted() {
-      console.log('mounted decor', this)
-    },
-    watch: {
-      selection (newProp, formerProp) {
-        this.formerSelection = formerProp
-      }
+    selection: {
+      type: String,
+      required: false
+    }
+  },
+  data () {
+    return {
+      formerSelection: null
+    }
+  },
+  mounted () {
+    console.log('mounted decor', this)
+  },
+  watch: {
+    selection (newProp, formerProp) {
+      this.formerSelection = formerProp
     }
   }
+}
 </script>
 
 <style lang="scss">

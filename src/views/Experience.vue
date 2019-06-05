@@ -184,7 +184,6 @@ export default {
     this.initScene()
 
     this.update()
-
   },
   beforeDestroy () {
     if (this.detectionManager) {
