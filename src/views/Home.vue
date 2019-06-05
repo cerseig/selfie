@@ -180,25 +180,29 @@ export default {
     justify-content: center;
     align-items: flex-end;
 
+    &__container {
+      padding: 0 20px;
+    }
+
     &__logo {
-      width: 200px;
-      height: 200px;
+      width: 180px;
+      height: 180px;
     }
 
     &__description {
-      max-width: 500px;
+      max-width: 100%;
       margin: 2rem auto;
 
       font-weight: 300;
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
 
     &__select {
-      margin: 0 auto 20px auto;
-      height: 60px;
-      width: 300px;
+      margin: 0 auto 10px auto;
+      height: 40px;
+      width: 180px;
       @include flexCenter();
-      @include containedButton(2.2rem 0, 2.5rem, $color__black, $color__white);
+      @include containedButton(0, 1rem, $color__black, $color__white);
       text-transform: initial;
 
       .select {
@@ -214,7 +218,7 @@ export default {
         }
 
         &__languages {
-          width: 150px;
+          width: 120px;
 
           position: relative;
           @include flexCenter();
@@ -226,7 +230,7 @@ export default {
           opacity: 0;
           z-index: 0;
 
-          font-size: 2rem;
+          font-size: 1.6rem;
           font-weight: 700;
 
           &.is-selected {
@@ -242,14 +246,14 @@ export default {
     &__start {
       &--button {
         margin: 0 auto;
-        height: 60px;
-        width: 300px;
-        @include outlinedButton(1.5rem 8rem, 2rem);
+        height: 40px;
+        width: 180px;
+        @include outlinedButton(0 0, 1.5rem);
       }
     }
 
     &__avatars {
-      margin: 60px auto 0 auto;
+      margin: 30px auto 0 auto;
       height: 170px;
       width: calc(100vw - 40px);
       position: relative;
@@ -341,8 +345,98 @@ export default {
     }
   }
 
-  /* ----- TABLET ----- */
-  @media (min-width: 768px) and (max-width: 1024px)  {
+  /* ----- TABLET IPAD ----- */
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+    .home {
+
+      &__logo {
+        width: 300px;
+        height: 300px;
+      }
+
+      &__description {
+        font-size: 2.7rem;
+        line-height: 4rem;
+        max-width: 600px;
+        margin: 0 auto 6rem auto;
+      }
+
+      &__select {
+        margin: 0 auto 30px auto;
+        width: 300px;
+        height: 60px;
+        @include containedButton(0, 2.2rem, $color__black, $color__white);
+
+        .select {
+
+          &__languages {
+            width: 210px;
+          }
+
+          &__language {
+            font-size: 2.2rem;
+          }
+
+        }
+
+      }
+
+      &__start {
+        &--button {
+          width: 300px;
+          height: 60px;
+          @include outlinedButton(0, 2.2rem);
+        }
+      }
+
+      &__avatars {
+        margin: 30px auto 0 auto;
+        height: 320px;
+        width: calc(100vw - 100px);
+
+        .avatars {
+
+          .avatar {
+            width: 100px;
+
+            &__head {
+              height: 300px;
+              margin-bottom: -50px;
+            }
+
+            &__body {
+              height: 100px;
+            }
+
+            &:nth-of-type(3) {
+              margin-left: -10px;
+            }
+
+            &:nth-of-type(4) {
+              margin-left: 30px;
+            }
+          }
+        }
+
+      }
+
+      &__about {
+        &--button {
+          @include textButton(2rem);
+        }
+      }
+
+      &__popup {
+        &__close {
+          top: 5rem;
+          left: 5rem;
+        }
+      }
+    }
+  }
+
+  /* ----- TABLET IPAD PRO ----- */
+  @media only screen and (min-width: 1024px) and (max-height: 1366px) and (-webkit-min-device-pixel-ratio: 1.5) {
     .home {
 
       &__logo {
