@@ -3,7 +3,7 @@
     <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
     <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
-      <AvatarsGrid />
+      <AvatarsGrid :avatarIsAdding="avatarIsAdding"/>
     </div>
   </div>
 </template>
@@ -21,7 +21,8 @@ export default {
       avatarId: '',
       url: '',
       picture: '',
-      allAvatars: []
+      allAvatars: [],
+      avatarIsAdding: false
     }
   },
   apollo: {
@@ -50,7 +51,7 @@ export default {
       if (!this.isPictureSavedInDB && this.picturePath.length > 0) {
         this.picture = this.picturePath
       }
-      if (!this.isPictureSavedInDB && !this.isAvatarSavedInDB) {
+      if (!this.isPictureSavedInDB && !this.isAvatarSavedInDB && this.avatarPath.length > 0 && this.picturePath.length > 0) {
         this.addAvatar()
       }
     },
@@ -64,12 +65,14 @@ export default {
         update: (store, { data: { createAvatar } }) => {
           // Update avatars list when we had an avatar
           const data = store.readQuery({ query: ALL_AVATARS })
-          data.allAvatars.push(createAvatar)
+          data.allAvatars.unshift(createAvatar)
           store.writeQuery({ query: ALL_AVATARS, data })
           // Get ID of last avatar
           let avatarId = createAvatar.id
           this.addUserRepresentation(avatarId)
         }
+      }).then((data) => {
+        this.avatarIsAdding = true
       })
     },
     addUserRepresentation (avatarId) {
