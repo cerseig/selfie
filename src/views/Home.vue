@@ -39,24 +39,44 @@
       <div class="home__avatars">
         <ul class="avatars">
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar1_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar1_body.png`">
+            <div class="avatar__head">
+              <img :src="`${publicPath}/img/avatars/avatar1_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar1_body.png`">
+            </div>
           </li>
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar2_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar2_body.png`">
+            <div class="avatar__head avatar__head--behind">
+              <img :src="`${publicPath}/img/avatars/avatar2_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar2_body.png`">
+            </div>
           </li>
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar3_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar3_body.png`">
+            <div class="avatar__head avatar__head--behind">
+              <img :src="`${publicPath}/img/avatars/avatar3_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar3_body.png`">
+            </div>
           </li>
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar4_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar4_body.png`">
+            <div class="avatar__head">
+              <img :src="`${publicPath}/img/avatars/avatar4_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar4_body.png`">
+            </div>
           </li>
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar5_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar5_body.png`">
+            <div class="avatar__head">
+              <img :src="`${publicPath}/img/avatars/avatar5_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar5_body.png`">
+            </div>
           </li>
         </ul>
       </div>
@@ -160,25 +180,29 @@ export default {
     justify-content: center;
     align-items: flex-end;
 
+    &__container {
+      padding: 0 20px;
+    }
+
     &__logo {
-      width: 200px;
-      height: 200px;
+      width: 180px;
+      height: 180px;
     }
 
     &__description {
-      max-width: 500px;
+      max-width: 100%;
       margin: 2rem auto;
 
       font-weight: 300;
-      font-size: 2rem;
+      font-size: 1.8rem;
     }
 
     &__select {
-      margin: 0 auto 20px auto;
-      height: 60px;
-      width: 300px;
+      margin: 0 auto 10px auto;
+      height: 40px;
+      width: 180px;
       @include flexCenter();
-      @include containedButton(2.2rem 0, 2.5rem, $color__black, $color__white);
+      @include containedButton(0, 1rem, $color__black, $color__white);
       text-transform: initial;
 
       .select {
@@ -194,7 +218,7 @@ export default {
         }
 
         &__languages {
-          width: 150px;
+          width: 120px;
 
           position: relative;
           @include flexCenter();
@@ -206,7 +230,7 @@ export default {
           opacity: 0;
           z-index: 0;
 
-          font-size: 2rem;
+          font-size: 1.6rem;
           font-weight: 700;
 
           &.is-selected {
@@ -222,26 +246,61 @@ export default {
     &__start {
       &--button {
         margin: 0 auto;
-        height: 60px;
-        width: 300px;
-        @include outlinedButton(1.5rem 8rem, 2rem);
+        height: 40px;
+        width: 180px;
+        @include outlinedButton(0 0, 1.5rem);
       }
     }
 
     &__avatars {
-      margin-top: 80px;
-      max-height: 300px;
+      margin: 30px auto 0 auto;
+      height: 170px;
+      width: calc(100vw - 40px);
+      position: relative;
 
       .avatars {
-        list-style: none;
         display: flex;
+        justify-content: center;
         align-items: flex-end;
+        flex-wrap: wrap;
+
         .avatar {
-          &__head {
+          flex: 1;
+          position: relative;
+          width: 100px;
 
+          &__head, &__body {
+            display: block;
+            position: relative;
           }
-          &__body {
 
+          img {
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          &__head {
+            height: 130px;
+            margin-bottom: -18px;
+            z-index: 1;
+            &--behind {
+              z-index: 3;
+            }
+          }
+
+          &__body {
+            height: 60px;
+            z-index: 2;
+          }
+
+          &:nth-of-type(3) {
+            margin-left: -5px;
+          }
+
+          &:nth-of-type(4) {
+            margin-left: 10px;
           }
         }
       }
@@ -286,8 +345,98 @@ export default {
     }
   }
 
-  /* ----- TABLET ----- */
-  @media (min-width: 769px) and (max-width: 1024px)  {
+  /* ----- TABLET IPAD ----- */
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+    .home {
+
+      &__logo {
+        width: 300px;
+        height: 300px;
+      }
+
+      &__description {
+        font-size: 2.7rem;
+        line-height: 4rem;
+        max-width: 600px;
+        margin: 0 auto 6rem auto;
+      }
+
+      &__select {
+        margin: 0 auto 30px auto;
+        width: 300px;
+        height: 60px;
+        @include containedButton(0, 2.2rem, $color__black, $color__white);
+
+        .select {
+
+          &__languages {
+            width: 210px;
+          }
+
+          &__language {
+            font-size: 2.2rem;
+          }
+
+        }
+
+      }
+
+      &__start {
+        &--button {
+          width: 300px;
+          height: 60px;
+          @include outlinedButton(0, 2.2rem);
+        }
+      }
+
+      &__avatars {
+        margin: 30px auto 0 auto;
+        height: 320px;
+        width: calc(100vw - 100px);
+
+        .avatars {
+
+          .avatar {
+            width: 100px;
+
+            &__head {
+              height: 300px;
+              margin-bottom: -50px;
+            }
+
+            &__body {
+              height: 100px;
+            }
+
+            &:nth-of-type(3) {
+              margin-left: -10px;
+            }
+
+            &:nth-of-type(4) {
+              margin-left: 30px;
+            }
+          }
+        }
+
+      }
+
+      &__about {
+        &--button {
+          @include textButton(2rem);
+        }
+      }
+
+      &__popup {
+        &__close {
+          top: 5rem;
+          left: 5rem;
+        }
+      }
+    }
+  }
+
+  /* ----- TABLET IPAD PRO ----- */
+  @media only screen and (min-width: 1024px) and (max-height: 1366px) and (-webkit-min-device-pixel-ratio: 1.5) {
     .home {
 
       &__logo {
@@ -331,7 +480,34 @@ export default {
       }
 
       &__avatars {
-        max-height: 420px;
+        margin: 60px auto 0 auto;
+        height: 400px;
+        width: calc(100vw - 100px);
+
+        .avatars {
+
+          .avatar {
+            width: 140px;
+
+            &__head {
+              height: 350px;
+              margin-bottom: -50px;
+            }
+
+            &__body {
+              height: 140px;
+            }
+
+            &:nth-of-type(3) {
+              margin-left: -10px;
+            }
+
+            &:nth-of-type(4) {
+              margin-left: 30px;
+            }
+          }
+        }
+
       }
 
       &__about {
