@@ -184,9 +184,9 @@ export default {
       this.takePhotos()
     }
   },
-  mounted () {
-    this.onPosingValidate()
-  },
+//  mounted () {
+//    this.onPosingValidate()
+//  },
   watch: {
     isActive () {
       this.createStepObject()
