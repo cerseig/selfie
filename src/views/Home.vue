@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <div class="home__container">
-      <!--<img class="home__logo" :src="require(`@/assets/img/logo.png`)">-->
-      <h1 class="home__title">A.M.Y.</h1>
-      <h2 class="home__baseline">{{ $t('home.baseline') }}</h2>
+      <Icon class="home__logo" name="logo-baseline"/>
+      <!-- <img class="home__logo" :src="`${publicPath}/img/logos/logo_baseline.svg`"> -->
+      <h2 class="home__description">{{ $t('home.description') }}</h2>
 
       <div class="home__actions" v-if="isIosSafari">
         <div class="home__select">
@@ -35,6 +35,31 @@
         </button>
         <About />
       </div>
+
+      <div class="home__avatars">
+        <ul class="avatars">
+          <li class="avatar">
+            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar1_head.png`">
+            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar1_body.png`">
+          </li>
+          <li class="avatar">
+            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar2_head.png`">
+            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar2_body.png`">
+          </li>
+          <li class="avatar">
+            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar3_head.png`">
+            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar3_body.png`">
+          </li>
+          <li class="avatar">
+            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar4_head.png`">
+            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar4_body.png`">
+          </li>
+          <li class="avatar">
+            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar5_head.png`">
+            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar5_body.png`">
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +79,7 @@ export default {
   },
   data () {
     return {
+      publicPath: process.env.BASE_URL,
       availableLanguages: [
         {
           ident: 'fr',
@@ -130,27 +156,30 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
-    @include flexCenter();
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 
     &__logo {
-      width: 100px;
+      width: 200px;
+      height: 200px;
     }
 
-    &__title {
-      font-size: 10rem;
-    }
+    &__description {
+      max-width: 500px;
+      margin: 2rem auto;
 
-    &__baseline {
-      margin: 2rem 0;
-
-      text-transform: uppercase;
       font-weight: 300;
       font-size: 2rem;
     }
 
     &__select {
-      margin: 5rem auto;
+      margin: 0 auto 20px auto;
+      height: 60px;
+      width: 300px;
       @include flexCenter();
+      @include containedButton(2.2rem 0, 2.5rem, $color__black, $color__white);
+      text-transform: initial;
 
       .select {
 
@@ -193,15 +222,36 @@ export default {
     &__start {
       &--button {
         margin: 0 auto;
-        @include containedButton(1.5rem 8rem, 2rem);
+        height: 60px;
+        width: 300px;
+        @include outlinedButton(1.5rem 8rem, 2rem);
       }
+    }
+
+    &__avatars {
+      margin-top: 80px;
+      max-height: 300px;
+
+      .avatars {
+        list-style: none;
+        display: flex;
+        align-items: flex-end;
+        .avatar {
+          &__head {
+
+          }
+          &__body {
+
+          }
+        }
+      }
+
     }
 
     &__about {
       position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 30px;
+      right: 30px;
       &--button {
         @include textButton(1.4rem);
       }
@@ -237,24 +287,31 @@ export default {
   }
 
   /* ----- TABLET ----- */
-  @media (min-width: 768px) and (max-width: 1024px)  {
+  @media (min-width: 769px) and (max-width: 1024px)  {
     .home {
 
       &__logo {
-        width: 200px;
+        width: 400px;
+        height: 400px;
       }
 
-      &__baseline {
-        font-size: 2.6rem;
+      &__description {
+        font-size: 2.7rem;
+        line-height: 4rem;
+        max-width: 600px;
+        margin: 0 auto 6rem auto;
       }
 
       &__select {
-        margin: 10rem auto;
+        margin: 0 auto 30px auto;
+        width: 400px;
+        height: 75px;
+        @include containedButton(2.2rem 0, 2.5rem, $color__black, $color__white);
 
         .select {
 
           &__languages {
-            width: 200px;
+            width: 230px;
           }
 
           &__language {
@@ -266,29 +323,28 @@ export default {
       }
 
       &__start {
-
         &--button {
-          @include containedButton(2.5rem 13rem, 2.8rem);
+          width: 400px;
+          height: 75px;
+          @include outlinedButton(1.8rem 0, 2.5rem);
         }
+      }
 
+      &__avatars {
+        max-height: 420px;
       }
 
       &__about {
-        bottom: 5rem;
-
         &--button {
           @include textButton(2rem);
         }
-
       }
 
       &__popup {
-
         &__close {
           top: 5rem;
           left: 5rem;
         }
-
       }
     }
   }
