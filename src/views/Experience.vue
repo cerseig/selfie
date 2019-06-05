@@ -2,8 +2,10 @@
   <div class="experience gui__wrapper">
 
     <Decors v-if="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
-
-    <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
+    <div :class="`experience__scene ${currentStep === STEPS.ANALYSIS ? '' : 'is-active'}`" ref="scene">
+      <Decors v-if="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
+      <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
+    </div>
 
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <Detection />
@@ -12,7 +14,8 @@
 
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
-    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions"/>
+
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions" :detectionManager="detectionManager"/>
 
   </div>
 </template>
@@ -72,7 +75,8 @@ export default {
         PERSONNALISATION: 1,
         DECOR: 2,
         POSING: 3
-      }
+      },
+      detectionManager: null
     }
   },
   methods: {
@@ -204,6 +208,16 @@ export default {
   height: 100%;
   position: relative;
   overflow: hidden;
+
+  &__scene {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+
+    &.is-active {
+      display: block;
+    }
+  }
 
   .dg.main {
     display: none;

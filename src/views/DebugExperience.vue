@@ -152,15 +152,34 @@ export default {
     },
 
     takeScreenshot () {
-      Capture.takeScreenshot(this.$refs.avatarElement, (params) => {
+      Capture.takeScreenshot(this.$refs.avatarElement).then(params => {
         this.avatarId = params.uniqId
         store.commit('setAvatarPath', params.path)
       })
+
+      // const capturePromise =  Capture.takeScreenshot(this.$refs.avatarElement)
+
+      // const video = this.detectionManager.getVideo()
+      // const picturePromise = Picture.takePicture(video)
+
+      // Promise.all([
+      //   capturePromise,
+      //   picturePromise
+      // ]).then( (params) => {
+      //   const capture = params[0]
+      //   this.avatarId = capture.uniqId
+
+      //   const picture = params[1]
+
+      //   store.commit('setAvatarPath', capture.path)
+      //   store.commit('setPicturePath', picture.path)
+      // })
     },
 
     takePicture () {
       const video = this.detectionManager.getVideo()
-      Picture.takePicture(video, (params) => {
+
+      Picture.takePicture(video).then(params => {
         store.commit('setPicturePath', params.path)
       })
     },
