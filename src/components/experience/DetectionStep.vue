@@ -2,6 +2,7 @@
   <div :class="`detection__box ${isActive ? 'is-active' : ''}`">
     <div :class="`detection__loader ${isReady ? 'is-ready' : ''}`">
       <div class="loader">
+        <img class="loader__gif" :src="`${publicPath}/img/gifs/loader.gif`" alt="Loader">
         <div class="loader__counter">{{counter}}%</div>
         <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${loaderProgression}px;`"></span></div>
       </div>
@@ -62,6 +63,7 @@ export default {
   },
   data () {
     return {
+      publicPath: process.env.BASE_URL,
       currentStep: {},
       counter: 0,
       errorPlayed: 0,
@@ -225,7 +227,7 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      background: $color__green--pastel;
+      background: $color__blue;
       z-index: 3;
       transition: opacity 0.3s;
       display: flex;
@@ -240,17 +242,23 @@ export default {
       .loader {
         position: relative;
 
+        &__gif {
+          width: 500px;
+          height: 500px;
+          margin-bottom: 150px;
+        }
+
         &__counter {
           font-size: 15rem;
-          color: $color__black;
-          margin-bottom: 20px;
+          color: $color__blue--light;
+          margin-bottom: 50px;
         }
 
         &__progressBar {
           position: relative;
-          width: 40rem;
+          width: 50rem;
           height: 0.5rem;
-          background-color: rgba(0, 0, 0, 0.2);
+          background-color: #D9F0FC;
         }
 
         &__progression {
@@ -259,7 +267,7 @@ export default {
           left: 0;
           top: 0;
           height: 0.5rem;
-          background-color: rgba(0, 0, 0, 1);
+          background-color: $color__blue--light;
         }
 
       }
