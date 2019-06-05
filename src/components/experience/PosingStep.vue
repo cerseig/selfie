@@ -189,11 +189,11 @@ export default {
   },
   watch: {
     isActive () {
-      // this.createStepObject()
+      this.createStepObject()
     },
     positions () {
       if (this.isActive && this.isPosing) {
-        // this.onMoveFace()
+        this.onMoveFace()
       }
     }
   }

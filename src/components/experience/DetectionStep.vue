@@ -7,7 +7,14 @@
         <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${loaderProgression}px;`"></span></div>
       </div>
     </div>
-    <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}"></div>
+    <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}">
+      <div class="detection__restriction__container">
+        <span><Icon name="corner" width="40" height="40" :fill="`${errors.detection === true ? '#FF0000' : '#FFFFFF'}`" /></span>
+        <span><Icon name="corner" width="40" height="40" :fill="`${errors.detection === true ? '#FF0000' : '#FFFFFF'}`" /></span>
+        <span><Icon name="corner" width="40" height="40" :fill="`${errors.detection === true ? '#FF0000' : '#FFFFFF'}`" /></span>
+        <span><Icon name="corner" width="40" height="40" :fill="`${errors.detection === true ? '#FF0000' : '#FFFFFF'}`" /></span>
+      </div>
+    </div>
     <div class="detection__check">
       <div class="detection__check--progressRound"></div>
       <div class="detection__check--progression" :style="`height: ${checkProgression}px;`"></div>
@@ -286,8 +293,38 @@ export default {
 
     &__restriction {
       position: absolute;
-      border: 4px solid #FEFEFE;
       max-height: 600px;
+
+      &__container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        span {
+          display: block;
+          position: absolute;
+          &:nth-of-type(1) {
+            transform: rotate(180deg);
+            top: 0;
+            left: 0;
+          }
+          &:nth-of-type(2) {
+            transform: rotate(270deg);
+            top: 0;
+            right: 0;
+          }
+          &:nth-of-type(3) {
+            bottom: 0;
+            right: 0;
+          }
+          &:nth-of-type(4) {
+            transform: rotate(90deg);
+            bottom: 0;
+            left: 0;
+          }
+        }
+
+      }
 
       &.hasError {
         border-color: red;
