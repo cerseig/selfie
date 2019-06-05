@@ -141,10 +141,10 @@ class AvatarPersonnalisation {
 
     this.bodyParts.glasses = new BodyParts({
       bodyParts: this.temps.glasses,
-      currentBodyPart: defaultValues.attributes,
-      material: {
-        color: category.colors[defaultValues.colors]
-      }
+      currentBodyPart: defaultValues.attributes
+      // material: {
+      //   color: category.colors[defaultValues.colors]
+      // }
     })
 
     this.bodyParts.glasses.init()
