@@ -243,20 +243,20 @@ export default {
         position: relative;
 
         &__gif {
-          width: 500px;
-          height: 500px;
-          margin-bottom: 150px;
+          width: 200px;
+          height: 200px;
+          margin-bottom: 60px;
         }
 
         &__counter {
-          font-size: 15rem;
+          font-size: 8rem;
           color: $color__blue--light;
-          margin-bottom: 50px;
+          margin-bottom: 30px;
         }
 
         &__progressBar {
           position: relative;
-          width: 50rem;
+          width: 25rem;
           height: 0.5rem;
           background-color: #D9F0FC;
         }
@@ -346,6 +346,32 @@ export default {
         display: block;
       }
 
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px)  {
+    .detection {
+      &__loader {
+        .loader {
+          &__gif {
+            width: 500px;
+            height: 500px;
+            margin-bottom: 150px;
+          }
+          &__counter {
+            font-size: 15rem;
+            color: $color__blue--light;
+            margin-bottom: 50px;
+          }
+          &__progressBar {
+            width: 50rem;
+            height: 0.5rem;
+          }
+          &__progression {
+            height: 0.5rem;
+          }
+        }
+      }
     }
   }
 </style>
