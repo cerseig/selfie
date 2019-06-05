@@ -14,17 +14,18 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 
   color: $color__black;
+  overflow: hidden;
 }
 
 body {
   &.default {
-    background-color: $color__green--pastel;
+    background-color: $color__blue;
   }
   &.application {
     background-color: $color__white;
   }
   &.experience {
-    background-color: $color__blue--pastel;
+    background-color: $color__blue;
   }
 }
 

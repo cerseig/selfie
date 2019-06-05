@@ -1,10 +1,11 @@
 <template>
   <div class="experience gui__wrapper">
-    <div class="decor__list">
-      <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection.decor === decor.title) && (currentStep >= STEPS.DECOR) ? 'is-active' : ''}`" :style="{backgroundImage: `url(${decor.background})`}"  :data-decor="decor.title"></div>
-    </div>
 
-    <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
+    <Decors v-if="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
+    <div :class="`experience__scene ${currentStep === STEPS.ANALYSIS ? '' : 'is-active'}`" ref="scene">
+      <Decors v-if="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
+      <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
+    </div>
 
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <Detection />
@@ -13,7 +14,8 @@
 
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
-    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions"/>
+
+    <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions" :detectionManager="detectionManager"/>
 
   </div>
 </template>
@@ -24,6 +26,7 @@ import DetectionManager from '@/modules/detection/DetectionManager.js'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
 import DetectionStep from '@/components/experience/DetectionStep'
 import DecorStep from '@/components/decor/DecorStep'
+import Decors from '@/components/decor/Decors'
 import PosingStep from '@/components/experience/PosingStep'
 import Detection from '@/components/experience/Detection'
 
@@ -42,7 +45,8 @@ export default {
     DetectionStep,
     DecorStep,
     PosingStep,
-    Detection
+    Detection,
+    Decors
   },
   data () {
     return {
@@ -71,7 +75,8 @@ export default {
         PERSONNALISATION: 1,
         DECOR: 2,
         POSING: 3
-      }
+      },
+      detectionManager: null
     }
   },
   methods: {
@@ -88,7 +93,7 @@ export default {
       })
     },
     initDetectionManager () {
-      if (this.STEPS.ANALYSIS === this.currentStep || this.STEPS.PERSONNALISATION === this.currentStep) {
+      if (this.currentStep >= this.STEPS.ANALYSIS) {
         this.detectionManager = new DetectionManager({
           camera: document.getElementById('_camera'),
           imageData: document.getElementById('_imageData'),
@@ -159,11 +164,11 @@ export default {
         }
       }
 
-      if (this.currentStep === this.STEPS.PERSONNALISATION || this.detectionManager) {
+      if (this.currentStep >= this.STEPS.PERSONNALISATION || this.detectionManager) {
         this.detection.positions = this.detectionManager.getPositions()
       }
 
-      if (this.currentStep === this.STEPS.PERSONNALISATION || this.currentStep === this.STEPS.DECOR || this.currentStep === this.STEPS.POSING) {
+      if (this.currentStep >= this.STEPS.PERSONNALISATION) {
         const getDown = this.currentStep >= this.STEPS.DECOR && this.scene.avatar && this.scene.avatar.animations && !this.scene.avatar.animations.isDown
         this.scene.update(this.detection.positions, getDown)
       }
@@ -204,32 +209,16 @@ export default {
   position: relative;
   overflow: hidden;
 
-  .decor {
-    &__list {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: -1;
+  &__scene {
+    width: 100vw;
+    height: 100vh;
+    display: none;
 
-      .decor__item {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        opacity: 0;
-
-        &.is-active {
-          opacity: 1;
-        }
-      }
+    &.is-active {
+      display: block;
     }
   }
+
   .dg.main {
     display: none;
   }

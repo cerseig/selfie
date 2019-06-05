@@ -3,6 +3,10 @@ const utils = {
     return (1 - n) * a + n * b
   },
 
+  getRandomInInterval (min, max) {
+    return Math.random() * (max - min + 1) + min
+  },
+
   getValueInInterval (val, max, min) {
     return (val - min) / (max - min)
   },

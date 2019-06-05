@@ -28,6 +28,18 @@ class AvatarAnimations {
       duration: this.durationTime
     })
 
+    this.blinking = {
+      deltaTime: null,
+      duration: (60 / 60) * 1000,
+      currentFrame: 0,
+      frameDuration: 150,
+      isInDone: false,
+      isInStart: false,
+      isOutDone: false,
+      isInEnd: false,
+      count: 0
+    }
+
     this.isDown = false
 
     this.posY = {
@@ -49,13 +61,52 @@ class AvatarAnimations {
   }
 
   handleUpdate (positions, getDown) {
+    const now = Date.now()
+
     if (this.currentFrame % this.frameDuration === 0) {
       this.rotations.updateRotationValues(positions.rotation)
       this.morphs.updateMorphsValues(positions.events)
-      this.startTime = Date.now() // Retrieve start time
+      this.startTime = now // Retrieve start time
     }
 
-    const now = Date.now()
+    if (this.blinking.currentFrame % this.blinking.frameDuration === 0) {
+      if (!this.blinking.isInStart) { // Is in not started
+        this.blinking.isInStart = true
+        this.blinking.startTime = now
+        this.morphs.updateBlinkEndValue(0)
+      } else {
+        let deltaTime = now - this.blinking.startTime
+
+        if (!this.blinking.isOutStart && !this.blinking.isInDone && deltaTime >= this.durationTime) { // Is in done
+          this.blinking.isInDone = true
+          this.blinking.isOutStart = true
+
+          this.blinking.startTime = now
+
+          deltaTime = now - this.blinking.startTime
+          this.morphs.updateBlinkEndValue(1)
+        }
+
+        if (this.blinking.isInDone && this.blinking.isOutStart && deltaTime >= this.durationTime) { // Is out not started
+          this.blinking.count++
+          this.blinking.isInStart = false
+          this.blinking.isInDone = false
+          this.blinking.isOutDone = false
+          this.blinking.isOutStart = false
+
+          const randomValue = utils.getRandomInInterval(0, 2) - 1
+          if ((this.blinking.count >= 2) || (randomValue > 0)) {
+            this.blinking.count = 0
+            this.blinking.currentFrame++
+          }
+        }
+
+        this.morphs.updateBlinkMorph(deltaTime)
+      }
+    } else {
+      this.blinking.currentFrame++
+    }
+
     const deltaTime = now - this.startTime // Delta time between start & now
 
     this.rotations.updateModelRotations(deltaTime)
@@ -63,7 +114,7 @@ class AvatarAnimations {
 
     if (getDown) {
       if (!this.posY.startTime) {
-        this.posY.startTime = Date.now()
+        this.posY.startTime = now
       }
       this.getDown(now - this.posY.startTime)
     }
