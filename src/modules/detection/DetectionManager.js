@@ -289,7 +289,7 @@ class DetectionManager {
           this.positions = this.face.getAllExpressionsFunction(face)
         }
 
-        // this.drawPoints()
+        this.drawPoints(pointsDataCtx, face)
       }
 
       this.createFace()
