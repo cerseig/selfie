@@ -1,5 +1,5 @@
 <template>
-  <ul class="avatars">
+  <ul :class="`avatars ${avatarIsAdding ? 'has-been-update' : ''}`">
     <p v-if="loading">Loading...</p>
     <li
       v-for="avatar in allAvatars"
@@ -21,9 +21,29 @@ export default {
       loading: 0
     }
   },
+  props: {
+    avatarIsAdding: {
+      required: false,
+      type: Boolean
+    }
+  },
   apollo: {
     allAvatars: {
       query: ALL_AVATARS
+    }
+  },
+  methods: {
+    addingAvatar () {
+      let newAvatarParent = document.querySelector('.avatars > li:first-child')
+      let newAvatar = newAvatarParent.firstChild
+      console.log(newAvatar)
+    }
+  },
+  watch: {
+    avatarIsAdding() {
+      if (this.avatarIsAdding) {
+        this.addingAvatar()
+      }
     }
   }
 }
@@ -50,6 +70,22 @@ export default {
       &__picture {
         max-width: none;
         width: 100%;
+      }
+    }
+
+    &.has-been-update {
+
+      .avatars__item:first-child {
+
+        img {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          height: 100%;
+          width: 100%;
+          transform: translate(-50%, -50%);
+          transition: all 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95)
+        }
       }
     }
   }
