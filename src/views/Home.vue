@@ -39,24 +39,44 @@
       <div class="home__avatars">
         <ul class="avatars">
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar1_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar1_body.png`">
+            <div class="avatar__head">
+              <img :src="`${publicPath}/img/avatars/avatar1_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar1_body.png`">
+            </div>
           </li>
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar2_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar2_body.png`">
+            <div class="avatar__head avatar__head--behind">
+              <img :src="`${publicPath}/img/avatars/avatar2_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar2_body.png`">
+            </div>
           </li>
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar3_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar3_body.png`">
+            <div class="avatar__head avatar__head--behind">
+              <img :src="`${publicPath}/img/avatars/avatar3_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar3_body.png`">
+            </div>
           </li>
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar4_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar4_body.png`">
+            <div class="avatar__head">
+              <img :src="`${publicPath}/img/avatars/avatar4_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar4_body.png`">
+            </div>
           </li>
           <li class="avatar">
-            <img class="avatar__head" :src="`${publicPath}/img/avatars/avatar5_head.png`">
-            <img class="avatar__body" :src="`${publicPath}/img/avatars/avatar5_body.png`">
+            <div class="avatar__head">
+              <img :src="`${publicPath}/img/avatars/avatar5_head.png`">
+            </div>
+            <div class="avatar__body" >
+              <img :src="`${publicPath}/img/avatars/avatar5_body.png`">
+            </div>
           </li>
         </ul>
       </div>
@@ -229,19 +249,54 @@ export default {
     }
 
     &__avatars {
-      margin-top: 80px;
-      max-height: 300px;
+      margin: 60px auto 0 auto;
+      height: 170px;
+      width: calc(100vw - 40px);
+      position: relative;
 
       .avatars {
-        list-style: none;
         display: flex;
+        justify-content: center;
         align-items: flex-end;
+        flex-wrap: wrap;
+
         .avatar {
-          &__head {
+          flex: 1;
+          position: relative;
+          width: 100px;
 
+          &__head, &__body {
+            display: block;
+            position: relative;
           }
-          &__body {
 
+          img {
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          &__head {
+            height: 130px;
+            margin-bottom: -18px;
+            z-index: 1;
+            &--behind {
+              z-index: 3;
+            }
+          }
+
+          &__body {
+            height: 60px;
+            z-index: 2;
+          }
+
+          &:nth-of-type(3) {
+            margin-left: -5px;
+          }
+
+          &:nth-of-type(4) {
+            margin-left: 10px;
           }
         }
       }
@@ -287,7 +342,7 @@ export default {
   }
 
   /* ----- TABLET ----- */
-  @media (min-width: 769px) and (max-width: 1024px)  {
+  @media (min-width: 768px) and (max-width: 1024px)  {
     .home {
 
       &__logo {
@@ -331,7 +386,34 @@ export default {
       }
 
       &__avatars {
-        max-height: 420px;
+        margin: 60px auto 0 auto;
+        height: 400px;
+        width: calc(100vw - 100px);
+
+        .avatars {
+
+          .avatar {
+            width: 140px;
+
+            &__head {
+              height: 350px;
+              margin-bottom: -50px;
+            }
+
+            &__body {
+              height: 140px;
+            }
+
+            &:nth-of-type(3) {
+              margin-left: -10px;
+            }
+
+            &:nth-of-type(4) {
+              margin-left: 30px;
+            }
+          }
+        }
+
       }
 
       &__about {
