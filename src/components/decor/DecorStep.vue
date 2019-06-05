@@ -193,16 +193,28 @@ export default {
     &.is-unactive {
       pointer-events: none;
       opacity: .7;
+
+      .list__item {
+        opacity: .15;
+
+        &.is-active {
+          opacity: .6;
+        }
+      }
     }
 
     .list__item {
       opacity: 0.2;
       margin: 0 10px -1px 10px;
+
+      transition: opacity .3s;
+
       .icon {
         padding: 10px;
       }
       &.is-active {
         opacity: 1;
+
         .icon {
           border-bottom: .5rem solid $color__black;
         }

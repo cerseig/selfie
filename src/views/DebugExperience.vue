@@ -1,8 +1,6 @@
 <template>
   <div class="panel panel--debug">
-    <div class="decor__list">
-      <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${selection.decor === decor.title ? 'is-active' : ''}`" :style="{backgroundImage: `url(${decor.background})`}"  :data-decor="decor.title"></div>
-    </div>
+    <Decors v-if="show.decor" :decors="decors" :selection="selection.decor" />
     <div class="panel__inner">
       <div class="panel__cover gui__wrapper">
         <h1 class="heading-1">Debug Experience</h1>
@@ -56,6 +54,7 @@ import config from '@/config/config'
 import Settings from '@/components/debug/Settings'
 import PersonnalisationStep from '@/components/personnalisation/PersonnalisationStep'
 import DecorStep from '@/components/decor/DecorStep'
+import Decors from '@/components/decor/Decors'
 
 // webgl
 import Scene from '@/modules/webgl/Scene.js'
@@ -65,7 +64,8 @@ export default {
   components: {
     Settings,
     PersonnalisationStep,
-    DecorStep
+    DecorStep,
+    Decors
   },
   data () {
     return {
@@ -73,14 +73,14 @@ export default {
         settings: false,
         camera: false,
         personnalisation: false,
-        events: true,
+        events: false,
         gui: false,
-        decor: false
+        decor: true
       },
+      decors: config.decors,
       selection: {
         decor: config.decors.default
       },
-      decors: config.decors,
       positions: {}
     }
   },
@@ -205,6 +205,8 @@ export default {
     this.$on('Decor:Change', this.onDecorChange)
 
     this.update()
+
+    console.log('selection', this)
   },
   beforeDestroy () {
     if (this.detectionManager) {
