@@ -14,7 +14,7 @@ class AvatarAnimations {
     this.config = params.config
 
     this.frameDuration = 8
-    this.durationTime = (this.frameDuration / 60) * 1000
+    this.durationTime = (this.frameDuration * 1.5 / 60) * 1000
     this.startTime = 0
     this.currentFrame = 0
 
