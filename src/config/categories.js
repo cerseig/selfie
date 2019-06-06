@@ -26,47 +26,47 @@ const categories = [
     ],
     attributes: [ // Hair cuts
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/none.png',
         ref: 'none'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_1.png',
         ref: 'hair_1'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_2.png',
         ref: 'hair_2'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_3.png',
         ref: 'hair_3'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_4.png',
         ref: 'hair_4'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_5.png',
         ref: 'hair_5'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_6.png',
         ref: 'hair_6'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_7.png',
         ref: 'hair_7'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_8.png',
         ref: 'hair_8'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_9.png',
         ref: 'hair_9'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/hair_10.png',
         ref: 'hair_10'
       }
     ]
@@ -151,39 +151,39 @@ const categories = [
     },
     attributes: [
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/none.png',
         ref: 'none'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/beard_1.png',
         ref: 'beard_1'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/beard_2.png',
         ref: 'beard_2'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/beard_3.png',
         ref: 'beard_3'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/beard_4.png',
         ref: 'beard_4'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/beard_5.png',
         ref: 'beard_5'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/beard_6.png',
         ref: 'beard_6'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/beard_7.png',
         ref: 'beard_7'
       },
       {
-        icon: '/img/thumbnails/glasses_none.png',
+        icon: '/img/thumbnails/beard_8.png',
         ref: 'beard_8'
       }
     ]

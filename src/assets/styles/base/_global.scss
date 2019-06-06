@@ -18,13 +18,13 @@ html, body {
 
 body {
   &.default {
-    background-color: $color__green--pastel;
+    background-color: $color__blue;
   }
   &.application {
     background-color: $color__white;
   }
   &.experience {
-    background-color: $color__blue--pastel;
+    background-color: $color__blue;
   }
 }
 

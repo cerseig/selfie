@@ -124,8 +124,9 @@ export default {
     .list__thumbnail {
       cursor: pointer;
       display: block;
-      background-size: 100% 100%;
+      background-size: auto 100%;
       background-position: center;
+      background-repeat: no-repeat;
     }
   }
 
@@ -258,7 +259,7 @@ export default {
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1024px)  {
+  @media (min-width: 769px) and (max-width: 1024px)  {
     .list--category,
     .list--attributes,
     .list--colors {

@@ -5,12 +5,12 @@
 
 <script>
 // Modules
-import Step from '@/modules/step/Step'
+import Step from '@/modules/sound/step/Step'
 import utils from '@/modules/helpers/utils.js'
 import Capture from '@/modules/images/Capture.js'
 import Picture from '@/modules/images/Picture.js'
 import store from '@/store/index'
-import SoundDesign from '@/modules/soundDesign/SoundDesign'
+import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -145,26 +145,26 @@ export default {
       }
     },
     takePhotos () {
-     const elementToCapture = document.querySelector('.experience__scene')
-     const capturePromise =  Capture.takeScreenshot(elementToCapture)
+      const elementToCapture = document.querySelector('.experience__scene')
+      const capturePromise = Capture.takeScreenshot(elementToCapture)
 
-     const video = this.detectionManager.getVideo()
-     const picturePromise = Picture.takePicture(video)
+      const video = this.detectionManager.getVideo()
+      const picturePromise = Picture.takePicture(video)
 
-     Promise.all([
-       capturePromise,
-       picturePromise
-     ]).then( (params) => {
-       const capture = params[0]
-       this.avatarId = capture.uniqId
+      Promise.all([
+        capturePromise,
+        picturePromise
+      ]).then((params) => {
+        const capture = params[0]
+        this.avatarId = capture.uniqId
 
-       const picture = params[1]
+        const picture = params[1]
 
-       store.commit('setAvatarPath', capture.path)
-       store.commit('setPicturePath', picture.path)
-       this.makeFlash()
-       this.validateStep()
-     })
+        store.commit('setAvatarPath', capture.path)
+        store.commit('setPicturePath', picture.path)
+        this.makeFlash()
+        this.validateStep()
+      })
     },
     makeFlash () {
       // create flash element
@@ -184,6 +184,9 @@ export default {
       this.takePhotos()
     }
   },
+  // mounted () {
+  //  this.onPosingValidate()
+  // },
   watch: {
     isActive () {
       this.createStepObject()

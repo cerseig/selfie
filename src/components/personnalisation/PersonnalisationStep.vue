@@ -14,7 +14,7 @@ import Icon from '@/components/icons/Icon.vue'
 import CategoryPanel from '@/components/personnalisation/CategoryPanel'
 import store from '@/store/index'
 import utils from '@/modules/helpers/utils.js'
-import Step from '@/modules/step/Step'
+import Step from '@/modules/sound/step/Step'
 
 // Config
 import stepsConfig from '@/config/steps'

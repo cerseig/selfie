@@ -1,9 +1,11 @@
 /* ----- MIXIN ----- */
-@mixin containedButton($padding, $font-size) { // button with background
+@mixin containedButton($padding, $font-size, $font-color, $bg-color) { // button with background
   padding: $padding;
+  max-width: 400px;
+  max-height: 74px;
 
-  color: $color__white;
-  background-color: $color__black;
+  color: $font-color;
+  background-color: $bg-color;
 
   border-radius: 50px;
 
