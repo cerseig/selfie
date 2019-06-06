@@ -15,7 +15,7 @@ import AvatarsGrid from '@/components/AvatarsGrid.vue'
 import { CREATE_AVATAR_MUTATION, CREATE_USER_REPRESENTATION_MUTATION } from '@/graphQL/mutations.js'
 import { ALL_AVATARS } from '@/graphQL/queries'
 import store from '@/store/index'
-import ModalConclusion from '@/components/ModalConclusion.vue'
+import ModalConclusion from '@/components/modal/ModalConclusion.vue'
 
 export default {
   name: 'gallery',

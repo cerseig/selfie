@@ -13,7 +13,7 @@
 
 import SVGSprite from '@/components/icons/SVGSprite.vue'
 import Icon from '@/components/icons/Icon.vue'
-import ModalProgress from '@/components/ModalProgress.vue'
+import ModalProgress from '@/components/modal/ModalProgress.vue'
 
 export default {
   name: 'Nav',
