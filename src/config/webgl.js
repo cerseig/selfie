@@ -47,6 +47,16 @@ const webgl = {
             color: 'rgb(255, 255, 255)'
           }
         ]
+      },
+      camera: {
+        position: {
+          x: 0,
+          y: 4,
+          z: 20,
+          up: {
+            y: 2
+          }
+        }
       }
     }
   },
@@ -96,6 +106,16 @@ const webgl = {
             color: 'rgb(255, 255, 255)'
           }
         ]
+      },
+      camera: {
+        position: {
+          x: 0,
+          y: 4,
+          z: 20,
+          up: {
+            y: 2
+          }
+        }
       }
     }
   }

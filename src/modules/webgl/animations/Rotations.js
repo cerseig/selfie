@@ -9,6 +9,7 @@ class Rotations {
     this.head = params.head
 
     this.durationTime = params.duration
+    this.blinkDurationTime = params.blinkDurationTime
 
     this.rotation = {
       x: {
