@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? './' : 'https://localhost:8080',
+  publicPath: process.env.NODE_ENV === 'production' ? './' : './',
   css: {
     loaderOptions: {
       sass: {
