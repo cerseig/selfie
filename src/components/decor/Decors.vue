@@ -27,7 +27,7 @@ export default {
     isActive: {
       type: Boolean,
       required: false
-    },
+    }
 
   },
   data () {
@@ -69,7 +69,6 @@ export default {
     &.is-active {
       opacity: 1;
     }
-
 
     .decor {
       &__item {
