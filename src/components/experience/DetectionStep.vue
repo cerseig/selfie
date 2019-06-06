@@ -146,10 +146,12 @@ export default {
                       this.soundDesign.playSpriteSoundDesign('success', () => {
                         this.stepObject.changeSubStepState('success', () => {
                           window.clearTimeout(callSuccess)
-                          this.stepObject.sound.stop()
-                          this.soundDesign.sound.stop()
-                          this.backgroundMusic.sound.stop()
-                          this.validateStep()
+                          this.backgroundMusic.fadeOut(() => {
+                            this.stepObject.sound.stop()
+                            this.soundDesign.sound.stop()
+                            this.backgroundMusic.sound.stop()
+                            this.validateStep()
+                          })
                         })
                       })
                     })
@@ -213,6 +215,8 @@ export default {
             this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
           }
         }, 40)
+      } else {
+        clearInterval(t)
       }
     },
     updateCheckProgression () {
