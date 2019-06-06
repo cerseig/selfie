@@ -1,15 +1,19 @@
 <template>
   <div class="intro">
-    <h1 class="intro__animation">A.M.Y.</h1>
+    <Icon class="intro__animation" width="500" height="500" name="logo"/>
   </div>
 </template>
 
 <script>
 import stepsConfig from '@/config/steps'
 import Step from '@/modules/sound/step/Step'
+import Icon from '@/components/icons/Icon.vue'
 
 export default {
   name: 'intro',
+  components: {
+    Icon
+  },
   data () {
     return {
       step: stepsConfig.intro

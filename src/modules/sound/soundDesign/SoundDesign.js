@@ -7,7 +7,7 @@ class SoundDesign {
     const source = '/sounds/sound_design.mp3'
     this.sound = new Howl({
       src: [source],
-      volume: 0.7,
+      volume: 0.6,
       sprite: soundDesignSprite
     })
   }

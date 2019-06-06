@@ -130,6 +130,7 @@ export default {
     bottom: 0;
     z-index: 3;
     opacity: 0;
+    pointer-events: none;
 
     &__next {
       @include outlinedButton(1rem 2rem, 1.5rem);
@@ -170,6 +171,7 @@ export default {
 
     &.is-active {
       opacity: 1;
+      pointer-events: auto;
     }
   }
 

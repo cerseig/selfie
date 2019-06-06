@@ -7,6 +7,7 @@
       class="avatars__item">
       <img class="avatars__item__picture" :src="avatar.url">
     </li>
+    <img class="avatars__item__picture current-avatar" alt="Avatar">
   </ul>
 </template>
 
@@ -18,13 +19,18 @@ export default {
   data () {
     return {
       allAvatars: [],
-      loading: 0
+      loading: 0,
+      currentAvatar: ''
     }
   },
   props: {
     avatarIsAdding: {
       required: false,
       type: Boolean
+    },
+    avatarPath: {
+      required: false,
+      type: String
     }
   },
   apollo: {
@@ -33,16 +39,41 @@ export default {
     }
   },
   methods: {
-    addingAvatar () {
-      let newAvatarParent = document.querySelector('.avatars > li:first-child')
-      let newAvatar = newAvatarParent.firstChild
-      console.log(newAvatar)
+    showCurrentAvatar () {
+      this.currentAvatar = document.querySelector('.current-avatar')
+      this.currentAvatar.setAttribute('src', this.avatarPath)
+    },
+
+    showAllAvatars () {
+      let currentAvatarParent = document.querySelector('.avatars > li:first-child')
+      this.currentAvatarParentProperties = {
+        width: currentAvatarParent.offsetWidth,
+        height: currentAvatarParent.offsetHeight,
+        top: currentAvatarParent.offsetTop,
+        left: currentAvatarParent.offsetLeft
+      }
+      currentAvatarParent.firstChild.remove()
+      currentAvatarParent.appendChild(this.currentAvatar)
+      this.addCurrentAvatarInGallery(this.currentAvatarParentProperties)
+    },
+
+    addCurrentAvatarInGallery (container) {
+      setTimeout(() => {
+        this.currentAvatar.style.width = container.width + 'px'
+        this.currentAvatar.style.height = container.height + 'px'
+        this.currentAvatar.style.top = container.top + 'px'
+        this.currentAvatar.style.left = container.left + 'px'
+        this.currentAvatar.style.transform = 'translate(0,0)'
+      }, 5000)
     }
+  },
+  mounted () {
+    this.showCurrentAvatar()
   },
   watch: {
     avatarIsAdding () {
       if (this.avatarIsAdding) {
-        this.addingAvatar()
+        this.showAllAvatars()
       }
     }
   }
@@ -63,17 +94,28 @@ export default {
       max-height: 250px;
       overflow: hidden;
 
+      .current-avatar {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 100%;
+        width: 100%;
+        transform: translate(-50%, -50%);
+        transition: all 1.5s cubic-bezier(0.445, 0.05, 0.55, 0.95)
+      }
+
       &:first-child {
-        box-shadow: 5px 5px 10px #aaa;
+        // box-shadow: 5px 5px 10px #aaa;
       }
 
       &__picture {
         max-width: none;
         width: 100%;
+
       }
     }
 
-    &.has-been-update {
+    /* &.has-been-update {
 
       .avatars__item:first-child {
 
@@ -84,10 +126,10 @@ export default {
           height: 100%;
           width: 100%;
           transform: translate(-50%, -50%);
-          transition: all 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95)
+          transition: all 1.5s cubic-bezier(0.445, 0.05, 0.55, 0.95)
         }
       }
-    }
+    } */
   }
 
 </style>
