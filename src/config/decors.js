@@ -18,7 +18,7 @@ const decors = {
       title: 'mountain',
       width: 80,
       height: 80,
-      background: '/img/decors/decor_park.png'
+      background: '/img/decors/decor_mountain.png'
     },
     // {
     //   title: 'museum',
