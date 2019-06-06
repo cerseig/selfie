@@ -27,7 +27,7 @@ class Morphs {
     this.positions = {
       smileLeft: { ...defaultValues },
       smileRight: { ...defaultValues },
-      eyeClose: { currentvalue: 1, beginValue: 1, endValue: 1 },
+      eyeOpen: { currentValue: 1, beginValue: 1, endValue: 1 },
       mouthOpen: { ...defaultValues },
       mouthOpenSmileLeft: { ...defaultValues },
       mouthOpenSmileRight: { ...defaultValues },
@@ -42,8 +42,10 @@ class Morphs {
   }
 
   updateBlinkEndValue (value) {
-    this.positions.eyeClose.beginValue = this.positions.eyeClose.beginValue ? this.positions.eyeClose.currentValue : value
-    this.positions.eyeClose.endValue = value
+    if (!isNaN(value)) {
+      this.positions.eyeOpen.beginValue = this.positions.eyeOpen.beginValue ? this.positions.eyeOpen.currentValue : value
+      this.positions.eyeOpen.endValue = value
+    }
   }
 
   updateMouthSmileMorph (deltaTime) {
@@ -86,11 +88,11 @@ class Morphs {
   }
 
   updateBlinkMorph (deltaTime) {
-    this.positions.eyeClose.currentValue = easings.linear(deltaTime, this.positions.eyeClose.beginValue, this.positions.eyeClose.endValue - this.positions.eyeClose.beginValue, this.durationTime) // Get interpolled value
+    this.positions.eyeOpen.currentValue = easings.linear(deltaTime, this.positions.eyeOpen.beginValue, this.positions.eyeOpen.endValue - this.positions.eyeOpen.beginValue, this.durationTime) // Get interpolled value
 
-    if (!isNaN(this.positions.eyeClose.currentValue) && this.positions.eyeClose.currentValue <= MAX_VAL && this.positions.eyeClose.currentValue >= MIN_VAL) {
-      this.elements.eyeLids[0].morphTargetInfluences[0] = this.positions.eyeClose.currentValue
-      this.elements.eyeLids[1].morphTargetInfluences[0] = this.positions.eyeClose.currentValue
+    if (!isNaN(this.positions.eyeOpen.currentValue) && this.positions.eyeOpen.currentValue <= MAX_VAL && this.positions.eyeOpen.currentValue >= MIN_VAL) {
+      this.elements.eyeLids[0].morphTargetInfluences[0] = this.positions.eyeOpen.currentValue
+      this.elements.eyeLids[1].morphTargetInfluences[0] = this.positions.eyeOpen.currentValue
     }
   }
 
@@ -125,9 +127,6 @@ class Morphs {
 
     this.updateMorphValue('eyeBrowLeftUp', events.eyeBrowLeftUp)
     this.updateMorphValue('eyeBrowRightUp', events.eyeBrowRightUp)
-
-    this.updateMorphValue('eyeClose', blinking)
-
   }
 }
 
