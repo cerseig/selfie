@@ -40,7 +40,7 @@ export default {
     }
   },
   watch: {
-    avatarIsAdding() {
+    avatarIsAdding () {
       if (this.avatarIsAdding) {
         this.addingAvatar()
       }

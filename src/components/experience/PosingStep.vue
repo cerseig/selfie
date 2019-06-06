@@ -145,26 +145,26 @@ export default {
       }
     },
     takePhotos () {
-     const elementToCapture = document.querySelector('.experience__scene')
-     const capturePromise =  Capture.takeScreenshot(elementToCapture)
+      const elementToCapture = document.querySelector('.experience__scene')
+      const capturePromise = Capture.takeScreenshot(elementToCapture)
 
-     const video = this.detectionManager.getVideo()
-     const picturePromise = Picture.takePicture(video)
+      const video = this.detectionManager.getVideo()
+      const picturePromise = Picture.takePicture(video)
 
-     Promise.all([
-       capturePromise,
-       picturePromise
-     ]).then( (params) => {
-       const capture = params[0]
-       this.avatarId = capture.uniqId
+      Promise.all([
+        capturePromise,
+        picturePromise
+      ]).then((params) => {
+        const capture = params[0]
+        this.avatarId = capture.uniqId
 
-       const picture = params[1]
+        const picture = params[1]
 
-       store.commit('setAvatarPath', capture.path)
-       store.commit('setPicturePath', picture.path)
-       this.makeFlash()
-       this.validateStep()
-     })
+        store.commit('setAvatarPath', capture.path)
+        store.commit('setPicturePath', picture.path)
+        this.makeFlash()
+        this.validateStep()
+      })
     },
     makeFlash () {
       // create flash element
@@ -173,7 +173,7 @@ export default {
       flash.setAttribute('ref', 'flash')
       this.$refs.posing.appendChild(flash)
       // add flash sound
-      //this.soundDesign.playSpriteSoundDesign('flash')
+      // this.soundDesign.playSpriteSoundDesign('flash')
       // fade out flash element
       const timeOut = setTimeout(() => {
         document.querySelector('.posing__flash').style.opacity = 0
@@ -184,9 +184,9 @@ export default {
       this.takePhotos()
     }
   },
-//  mounted () {
-//    this.onPosingValidate()
-//  },
+  //  mounted () {
+  //    this.onPosingValidate()
+  //  },
   watch: {
     isActive () {
       this.createStepObject()
