@@ -2,7 +2,7 @@ import saveImage from './SaveImage.js'
 
 const Picture = {
   takePicture (element) {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas')
       const width = element.videoWidth
       const height = element.videoHeight

@@ -25,9 +25,9 @@
 
 <script>
 // Modules
-import Step from '@/modules/step/Step'
-import SoundDesign from '@/modules/soundDesign/SoundDesign'
-import BackgroundMusic from '@/modules/backgroundMusic/BackgroundMusic'
+import Step from '@/modules/sound/step/Step'
+import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
+import BackgroundMusic from '@/modules/sound/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
 // Config
@@ -84,7 +84,6 @@ export default {
       this.stepObject = new Step(stepsConfig.detection)
       this.currentStep = this.stepObject.currentSubStep
       this.soundDesign = new SoundDesign()
-      this.backgroundMusic = new BackgroundMusic()
     },
     getPositionCenter () {
       this.stepObject.init()
@@ -191,6 +190,7 @@ export default {
     }
   },
   mounted () {
+    this.backgroundMusic = new BackgroundMusic()
     if (this.isActive) {
       this.initDetectionStep()
       this.loader()
@@ -198,8 +198,8 @@ export default {
   },
   watch: {
     isReady () { // when BRF is ready
-      this.backgroundMusic.playSpriteBackgroundMusic('detection')
       if (this.isReady && this.isActive) {
+        this.backgroundMusic.playSpriteBackgroundMusic('detection')
         this.counter = this.counter + 1
         const timeOut = setTimeout(() => {
           this.getPositionCenter()

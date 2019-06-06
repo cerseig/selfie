@@ -2,21 +2,20 @@ import utils from '@/modules/helpers/utils'
 import soundDesignSprite from '@/config/soundDesignSprite'
 import { Howl } from 'howler'
 
-class BackgroundMusic {
+class SoundDesign {
   constructor () {
     const source = '/sounds/sound_design.mp3'
     this.sound = new Howl({
       src: [source],
-      volume: 0.5,
+      volume: 0.6,
       sprite: soundDesignSprite
     })
   }
-  playSpriteBackgroundMusic (name, callback) {
-    const backgroundMusic = this.sound.play('backgroundMusic_' + name)
-    this.sound.loop(true, backgroundMusic)
+  playSpriteSoundDesign (name, callback) {
+    const sound = this.sound.play(name)
 
     this.sound.on('end', (audioId) => {
-      if (audioId === backgroundMusic) {
+      if (audioId === sound) {
         if (callback && utils.isFunction(callback)) {
           callback()
         }
@@ -25,4 +24,4 @@ class BackgroundMusic {
   }
 }
 
-export default BackgroundMusic
+export default SoundDesign

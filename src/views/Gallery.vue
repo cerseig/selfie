@@ -3,7 +3,7 @@
     <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
     <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
-      <AvatarsGrid :avatarIsAdding="avatarIsAdding"/>
+      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
     </div>
   </div>
 </template>

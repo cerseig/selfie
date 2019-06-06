@@ -1,5 +1,5 @@
 import DetectionInitializer from './DetectionInitializer'
-import Face from '../face/Face'
+import Face from './face/Face'
 import utils from '@/modules/helpers/utils.js'
 import store from '@/store/index'
 
@@ -289,7 +289,7 @@ class DetectionManager {
           this.positions = this.face.getAllExpressionsFunction(face)
         }
 
-        this.drawPoints(pointsDataCtx, face)
+        // this.drawPoints(pointsDataCtx, face)
       }
 
       this.createFace()

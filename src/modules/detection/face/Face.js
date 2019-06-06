@@ -302,27 +302,23 @@ class Face {
   }
   getEyeBrowRightUp (face) {
     let eyeBrowRight = this.calcEyeBrowRight(face)
-    if (this.rotation.x > -(0.2) && this.rotation.x < 0.2 && eyeBrowRight > this.eyeBrowRightInitial) {
-      let eyeBrowRightUpFactor = (eyeBrowRight - (this.eyeBrowRightInitial + 0.5)) / ((this.eyeBrowRightInitial + 3) - (this.eyeBrowRightInitial + 0.5))
+    let eyeBrowRightUpFactor = (eyeBrowRight - this.eyeBrowRightInitial) / ((this.eyeBrowRightInitial + 5) - this.eyeBrowRightInitial)
 
-      if (eyeBrowRightUpFactor > 1.0) { eyeBrowRightUpFactor = 1.0 }
-      if (eyeBrowRightUpFactor < 0.0) { eyeBrowRightUpFactor = 0.0 }
+    if (eyeBrowRightUpFactor > 1.0) { eyeBrowRightUpFactor = 1.0 }
+    if (eyeBrowRightUpFactor < 0.0) { eyeBrowRightUpFactor = 0.0 }
 
-      this.eyeBrowRightUpFactor = eyeBrowRightUpFactor
-      return eyeBrowRightUpFactor
-    }
+    this.eyeBrowRightUpFactor = eyeBrowRightUpFactor
+    return eyeBrowRightUpFactor
   }
   getEyeBrowLeftUp (face) {
     let eyeBrowLeft = this.calcEyeBrowLeft(face)
-    if (this.rotation.x > -(0.2) && this.rotation.x < 0.2 && eyeBrowLeft > this.eyeBrowLeftInitial) {
-      let eyeBrowLeftUpFactor = (eyeBrowLeft - (this.eyeBrowLeftInitial + 0.5)) / ((this.eyeBrowLeftInitial + 3) - (this.eyeBrowLeftInitial + 0.5))
+    let eyeBrowLeftUpFactor = (eyeBrowLeft - this.eyeBrowLeftInitial) / ((this.eyeBrowLeftInitial + 5) - this.eyeBrowLeftInitial)
 
-      if (eyeBrowLeftUpFactor > 1.0) { eyeBrowLeftUpFactor = 1.0 }
-      if (eyeBrowLeftUpFactor < 0.0) { eyeBrowLeftUpFactor = 0.0 }
+    if (eyeBrowLeftUpFactor > 1.0) { eyeBrowLeftUpFactor = 1.0 }
+    if (eyeBrowLeftUpFactor < 0.0) { eyeBrowLeftUpFactor = 0.0 }
 
-      this.eyeBrowLeftUpFactor = eyeBrowLeftUpFactor
-      return eyeBrowLeftUpFactor
-    }
+    this.eyeBrowLeftUpFactor = eyeBrowLeftUpFactor
+    return eyeBrowLeftUpFactor
   }
   getRotationUp (face) {
     let rotationUp = this.toDegree(face.rotationX)
