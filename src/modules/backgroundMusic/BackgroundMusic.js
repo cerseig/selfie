@@ -7,7 +7,7 @@ class BackgroundMusic {
     const source = '/sounds/sound_design.mp3'
     this.sound = new Howl({
       src: [source],
-      volume: 0.5,
+      volume: 0.7,
       sprite: soundDesignSprite
     })
   }
