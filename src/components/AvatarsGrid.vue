@@ -35,7 +35,10 @@ export default {
   },
   apollo: {
     allAvatars: {
-      query: ALL_AVATARS
+      query: ALL_AVATARS,
+      variables: {
+        orderBy: 'createdAt_DESC'
+      }
     }
   },
   methods: {
@@ -101,7 +104,8 @@ export default {
         height: 100%;
         width: 100%;
         transform: translate(-50%, -50%);
-        transition: all 1.5s cubic-bezier(0.445, 0.05, 0.55, 0.95)
+        transition: all 1.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        background-color: $color__white;
       }
 
       &:first-child {

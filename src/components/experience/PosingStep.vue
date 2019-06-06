@@ -86,7 +86,6 @@ export default {
         this.timeValidation = 0
       } else {
         this.isPosing = false
-        this.onPosingValidate()
       }
     },
     onMoveFace () {
@@ -128,6 +127,9 @@ export default {
           break
         case 'posing':
           this.currentStep.status = 'done'
+          if ((this.currentStep.index + 1) === this.stepObject.subSteps.length) {
+            this.takePhotos()
+          }
           const timeOutDone = setTimeout(() => {
             switch (this.currentStep.hasSuccess) {
               case true:
@@ -140,7 +142,7 @@ export default {
                 break
             }
             clearTimeout(timeOutDone)
-          }, 1000)
+          }, 500)
           break
       }
     },
@@ -179,9 +181,6 @@ export default {
         document.querySelector('.posing__flash').style.opacity = 0
         clearTimeout(timeOut)
       }, 300)
-    },
-    onPosingValidate () {
-      this.takePhotos()
     }
   },
   // mounted () {
