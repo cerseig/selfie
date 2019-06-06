@@ -1,9 +1,8 @@
 <template>
   <div class="experience gui__wrapper">
 
-    <Decors :isActive="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
     <div :class="`experience__scene ${currentStep === STEPS.ANALYSIS ? '' : 'is-active'}`" ref="scene">
-      <Decors v-if="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
+      <Decors :isActive="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
       <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
     </div>
 

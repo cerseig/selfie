@@ -1,6 +1,5 @@
 <template>
-  <div class="decor--list">
-    seletion : {{selection}}
+  <div :class="`decor--list ${isActive ? 'is-active' : ''}`">
     <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection === decor.title)? 'is-active' : ''} ${formerSelection === decor.title ? 'is-former-active' : ''}`"  :data-decor="decor.title">
       <div class="decor__wrapper">
         <div class="decor__background" :style="{backgroundImage: `url(${decor.background})`}"></div>
@@ -20,7 +19,12 @@ export default {
     selection: {
       type: String,
       required: false
-    }
+    },
+    isActive: {
+      type: Boolean,
+      required: false
+    },
+
   },
   data () {
     return {
@@ -56,6 +60,12 @@ export default {
     right: 0;
     bottom: 0;
     z-index: -1;
+    opacity: 0;
+
+    &.is-active {
+      opacity: 1;
+    }
+
 
     .decor {
       &__item {
