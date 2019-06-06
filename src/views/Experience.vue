@@ -2,7 +2,7 @@
   <div class="experience gui__wrapper">
 
     <div :class="`experience__scene ${currentStep === STEPS.ANALYSIS ? '' : 'is-active'}`" ref="scene">
-      <Decors :isActive="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
+      <Decors :isActive="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" :showAll="currentStep === STEPS.DECOR" />
       <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
     </div>
 
