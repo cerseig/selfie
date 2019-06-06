@@ -2,7 +2,6 @@
   <div class="home">
     <div class="home__container">
       <Icon class="home__logo" name="logo-baseline"/>
-      <!-- <img class="home__logo" :src="`${publicPath}/img/logos/logo_baseline.svg`"> -->
       <h2 class="home__description">{{ $t('home.description') }}</h2>
 
       <div class="home__actions" v-if="isIosSafari">
@@ -128,8 +127,10 @@ export default {
       }
     },
     updateBodyClass () {
-      document.querySelector('body').className = ''
-      document.querySelector('body').classList.add('default')
+      const body = document.querySelector('body')
+      body.className = ''
+      body.classList.add('default')
+
       document.querySelector('.nav').classList.add('nav--start')
     },
     onChangeLang () {
@@ -187,6 +188,7 @@ export default {
     &__logo {
       width: 180px;
       height: 180px;
+      pointer-events: none;
     }
 
     &__description {
@@ -257,6 +259,7 @@ export default {
       height: 170px;
       width: calc(100vw - 40px);
       position: relative;
+      pointer-events: none;
 
       .avatars {
         display: flex;

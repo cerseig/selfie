@@ -5,12 +5,12 @@
 
 <script>
 // Modules
-import Step from '@/modules/step/Step'
+import Step from '@/modules/sound/step/Step'
 import utils from '@/modules/helpers/utils.js'
 import Capture from '@/modules/images/Capture.js'
 import Picture from '@/modules/images/Picture.js'
 import store from '@/store/index'
-import SoundDesign from '@/modules/soundDesign/SoundDesign'
+import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
 // Config
 import stepsConfig from '@/config/steps'
 

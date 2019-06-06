@@ -21,7 +21,7 @@ import stepsConfig from '@/config/steps'
 import utils from '@/modules/helpers/utils.js'
 
 import Icon from '@/components/icons/Icon.vue'
-import Step from '@/modules/step/Step'
+import Step from '@/modules/sound/step/Step'
 
 export default {
   name: 'DecorStep',
