@@ -124,8 +124,9 @@ export default {
     .list__thumbnail {
       cursor: pointer;
       display: block;
-      background-size: 100% 100%;
+      background-size: auto 100%;
       background-position: center;
+      background-repeat: no-repeat;
     }
   }
 
