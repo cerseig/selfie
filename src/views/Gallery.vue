@@ -1,10 +1,12 @@
 <template>
   <div class="gallery">
+    <button @click="onClickConclusion">conclusion</button>
     <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
     <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
       <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
     </div>
+    <ModalConclusion :isActive="isModalActive" />
   </div>
 </template>
 
@@ -23,7 +25,8 @@ export default {
       url: '',
       picture: '',
       allAvatars: [],
-      avatarIsAdding: false
+      avatarIsAdding: false,
+      isModalActive: false
     }
   },
   apollo: {
@@ -32,7 +35,8 @@ export default {
     }
   },
   components: {
-    AvatarsGrid
+    AvatarsGrid,
+    ModalConclusion
   },
   computed: {
     isAvatarSavedInDB: () => store.getters.getIsAvatarSavedInDB,
@@ -94,11 +98,17 @@ export default {
     updateTemporaryTableId (tableId) {
       // Update temporary table store ID
       store.commit('setTemporaryTableId', tableId)
+    },
+    onClickConclusion () {
+      this.isModalActive = true
     }
   },
   mounted () {
     this.saveImagesInDB()
     this.updateBodyClass()
+    this.$on('Modal:Conclusion:Close', () => {
+      this.isModalActive = false
+    })
   }
 }
 </script>
