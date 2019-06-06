@@ -3,25 +3,13 @@ const MAX_VAL = 1
 const MIN_VAL = 0
 
 const MOUTH_MORPHS = {
-  SMILE: 0,
-  SMILE_RIGHT: 1,
-  SMILE_LEFT: 2,
-  SMILE_OPEN: 3,
-  SMILE_OPEN_RIGHT: 4,
-  SMILE_OPEN_LEFT: 5,
-  SMILE_OPEN_MID_RIGHT: 6,
-  SMILE_OPEN_MID_LEFT: 7,
-  MOUTH_OPEN: 8
+  SMILE_RIGHT: 0,
+  SMILE_LEFT: 1,
+  SMILE_OPEN_RIGHT: 2,
+  SMILE_OPEN_LEFT: 3,
+  SMILE_OPEN: 4,
+  MOUTH_OPEN: 5
 }
-
-// const MOUTH_MORPHS = {
-//   SMILE_RIGHT: 0,
-//   SMILE_LEFT: 1,
-//   SMILE_OPEN: 2,
-//   SMILE_OPEN_RIGHT: 4,
-//   SMILE_OPEN_LEFT: 5,
-//   MOUTH_OPEN: 8
-// }
 
 class Morphs {
   constructor (params) {
@@ -39,7 +27,7 @@ class Morphs {
     this.positions = {
       smileLeft: { ...defaultValues },
       smileRight: { ...defaultValues },
-      eyeClose: { ...defaultValues },
+      eyeClose: { currentvalue: 1, beginValue: 1, endValue: 1 },
       mouthOpen: { ...defaultValues },
       mouthOpenSmileLeft: { ...defaultValues },
       mouthOpenSmileRight: { ...defaultValues },
@@ -64,9 +52,11 @@ class Morphs {
 
     if (!isNaN(this.positions.smileRight.currentValue) && this.positions.smileRight.currentValue <= MAX_VAL && this.positions.smileRight.currentValue >= MIN_VAL) {
       this.elements.mouth.mouth_lips.morphTargetInfluences[MOUTH_MORPHS.SMILE_RIGHT] = this.positions.smileRight.currentValue
+      this.elements.mouth.mouth_teeth.morphTargetInfluences[MOUTH_MORPHS.SMILE_RIGHT] = this.positions.smileRight.currentValue
     }
     if (!isNaN(this.positions.smileLeft.currentValue) && this.positions.smileLeft.currentValue <= MAX_VAL && this.positions.smileLeft.currentValue >= MIN_VAL) {
       this.elements.mouth.mouth_lips.morphTargetInfluences[MOUTH_MORPHS.SMILE_LEFT] = this.positions.smileLeft.currentValue
+      this.elements.mouth.mouth_teeth.morphTargetInfluences[MOUTH_MORPHS.SMILE_LEFT] = this.positions.smileLeft.currentValue
     }
   }
 
@@ -85,13 +75,13 @@ class Morphs {
     this.positions.mouthOpenSmileRight.currentValue = easings.linear(deltaTime, this.positions.mouthOpenSmileRight.beginValue, this.positions.mouthOpenSmileRight.endValue - this.positions.mouthOpenSmileRight.beginValue, this.durationTime) // Get interpolled value
 
     if (!isNaN(this.positions.mouthOpenSmileLeft.currentValue) && this.positions.mouthOpenSmileLeft.currentValue <= MAX_VAL && this.positions.mouthOpenSmileLeft.currentValue >= MIN_VAL) {
-      this.elements.mouth.mouth_lips.morphTargetInfluences[MOUTH_MORPHS.SMILE_OPEN_RIGHT] = this.positions.mouthOpenSmileLeft.currentValue
-      this.elements.mouth.mouth_teeth.morphTargetInfluences[MOUTH_MORPHS.SMILE_OPEN_RIGHT] = this.positions.mouthOpenSmileLeft.currentValue
+      this.elements.mouth.mouth_lips.morphTargetInfluences[MOUTH_MORPHS.SMILE_OPEN_LEFT] = this.positions.mouthOpenSmileLeft.currentValue
+      this.elements.mouth.mouth_teeth.morphTargetInfluences[MOUTH_MORPHS.SMILE_OPEN_LEFT] = this.positions.mouthOpenSmileLeft.currentValue
     }
 
     if (!isNaN(this.positions.mouthOpenSmileRight.currentValue) && this.positions.mouthOpenSmileRight.currentValue <= MAX_VAL && this.positions.mouthOpenSmileRight.currentValue >= MIN_VAL) {
-      this.elements.mouth.mouth_lips.morphTargetInfluences[MOUTH_MORPHS.SMILE_OPEN_LEFT] = this.positions.mouthOpenSmileRight.currentValue
-      this.elements.mouth.mouth_teeth.morphTargetInfluences[MOUTH_MORPHS.SMILE_OPEN_LEFT] = this.positions.mouthOpenSmileRight.currentValue
+      this.elements.mouth.mouth_lips.morphTargetInfluences[MOUTH_MORPHS.SMILE_OPEN_RIGHT] = this.positions.mouthOpenSmileRight.currentValue
+      this.elements.mouth.mouth_teeth.morphTargetInfluences[MOUTH_MORPHS.SMILE_OPEN_RIGHT] = this.positions.mouthOpenSmileRight.currentValue
     }
   }
 
@@ -118,18 +108,17 @@ class Morphs {
   }
 
   updateModelMorphs (deltaTime) {
-    // this.updateMouthSmileMorph(deltaTime)
-    // this.updateMouthOpenMorph(deltaTime)
+    this.updateMouthSmileMorph(deltaTime)
+    this.updateMouthOpenMorph(deltaTime)
     this.updateMouthOpenSmileMorph(deltaTime)
     this.updateEyebrowsMorph(deltaTime)
   }
 
   updateMorphsValues (events, blinking) {
-    // this.updateMorphValue('mouthOpen', events.mouthOpen)
-
-    console.log(events.mouthOpenSmileLeft, events.mouthOpenSmileRight)
     this.updateMorphValue('mouthOpenSmileLeft', events.mouthOpenSmileLeft)
     this.updateMorphValue('mouthOpenSmileRight', events.mouthOpenSmileRight)
+
+    this.updateMorphValue('mouthOpen', events.mouthOpen)
 
     this.updateMorphValue('smileLeft', events.smileLeft)
     this.updateMorphValue('smileRight', events.smileRight)

@@ -197,7 +197,7 @@ const categories = [
     },
     default: {
       colors: 11,
-      attributes: 6
+      attributes: 0
     },
     colors: [
       { item: 'rgb(250, 228, 151)' },

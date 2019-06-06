@@ -68,7 +68,7 @@ class AvatarPersonnalisation {
     const category = categories[CATEGORIES.HAIR]
     const defaultValues = category.default
 
-    this.temps.hairs.parents.push({ name: 'none' })
+    this.temps.hairs.parents.unshift({ name: 'none' })
     this.bodyParts.hair = new BodyParts({
       bodyParts: this.temps.hairs.parents,
       currentBodyPart: defaultValues.attributes,
@@ -84,20 +84,13 @@ class AvatarPersonnalisation {
   }
 
   initBeard () {
-    const beardList = []
-    beardList.push({ name: 'none' })
-    this.head.children.forEach(item => {
-      const name = item.name.toLowerCase()
-      if (name.indexOf('beard') >= 0 || name.indexOf('mustache') >= 0) {
-        beardList.push(item)
-      }
-    })
+    this.temps.beard.unshift({ name: 'none' })
 
     const category = categories[CATEGORIES.BEARD]
     const defaultValues = category.default
 
     this.bodyParts.beard = new BodyParts({
-      bodyParts: beardList,
+      bodyParts: this.temps.beard,
       currentBodyPart: defaultValues.attributes
     })
 
@@ -134,17 +127,17 @@ class AvatarPersonnalisation {
   }
 
   initGlasses () {
-    this.temps.glasses.push({ name: 'none' })
+    this.temps.glasses.unshift({ name: 'none' })
 
     const category = categories[CATEGORIES.GLASSES]
     const defaultValues = category.default
 
     this.bodyParts.glasses = new BodyParts({
       bodyParts: this.temps.glasses,
-      currentBodyPart: defaultValues.attributes
-      // material: {
-      //   color: category.colors[defaultValues.colors]
-      // }
+      currentBodyPart: defaultValues.attributes,
+      material: {
+        color: category.colors[defaultValues.colors]
+      }
     })
 
     this.bodyParts.glasses.init()
