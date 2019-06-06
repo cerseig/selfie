@@ -6,7 +6,7 @@
 
 <script>
 import stepsConfig from '@/config/steps'
-import Step from '@/modules/step/Step'
+import Step from '@/modules/sound/step/Step'
 import Icon from '@/components/icons/Icon.vue'
 
 export default {

@@ -21,7 +21,7 @@ import stepsConfig from '@/config/steps'
 import utils from '@/modules/helpers/utils.js'
 
 import Icon from '@/components/icons/Icon.vue'
-import Step from '@/modules/step/Step'
+import Step from '@/modules/sound/step/Step'
 
 export default {
   name: 'DecorStep',
@@ -125,11 +125,11 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
-    display: none;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 3;
+    opacity: 0;
 
     &__next {
       @include outlinedButton(1rem 2rem, 1.5rem);
@@ -169,7 +169,7 @@ export default {
     }
 
     &.is-active {
-      display: block;
+      opacity: 1;
     }
   }
 

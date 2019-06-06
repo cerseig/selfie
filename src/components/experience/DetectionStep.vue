@@ -25,9 +25,9 @@
 
 <script>
 // Modules
-import Step from '@/modules/step/Step'
-import SoundDesign from '@/modules/soundDesign/SoundDesign'
-import BackgroundMusic from '@/modules/backgroundMusic/BackgroundMusic'
+import Step from '@/modules/sound/step/Step'
+import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
+import BackgroundMusic from '@/modules/sound/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
 // Config

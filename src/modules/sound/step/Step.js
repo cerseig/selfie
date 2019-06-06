@@ -1,4 +1,4 @@
-import store from '@/store/index'
+import store from '@/store'
 import utils from '@/modules/helpers/utils'
 import voiceSprite from '@/config/voiceSprite'
 import { Howl } from 'howler'
