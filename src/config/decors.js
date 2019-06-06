@@ -20,12 +20,12 @@ const decors = {
       height: 80,
       background: '/img/decors/decor_mountains.png'
     },
-    // {
-    //   title: 'museum',
-    //   background: 'https://news.artnet.com/app/news-upload/2018/02/install-view-of-basquiat-untitled-1024x684.jpg',
-    //   width: 80,
-    //   height: 80
-    // },
+    {
+      title: 'museum',
+      background: '/img/decors/decor_museum.png',
+      width: 80,
+      height: 80
+    },
     {
       title: 'bathroom',
       background: '/img/decors/decor_bath.png',

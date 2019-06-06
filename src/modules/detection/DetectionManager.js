@@ -1,5 +1,5 @@
 import DetectionInitializer from './DetectionInitializer'
-import Face from './Face'
+import Face from './face/Face'
 import utils from '@/modules/helpers/utils.js'
 import store from '@/store/index'
 

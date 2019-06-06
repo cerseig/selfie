@@ -125,11 +125,11 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
-    display: none;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 3;
+    opacity: 0;
 
     &__next {
       @include outlinedButton(1rem 2rem, 1.5rem);
@@ -169,7 +169,7 @@ export default {
     }
 
     &.is-active {
-      display: block;
+      opacity: 1;
     }
   }
 
