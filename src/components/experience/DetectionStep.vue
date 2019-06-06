@@ -183,6 +183,7 @@ export default {
             clearInterval(t)
           } else {
             this.counter = this.counter + 1
+            this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
           }
         }, 40)
       } else if (step === 1) {
@@ -191,6 +192,7 @@ export default {
             clearInterval(t)
           } else {
             this.counter = this.counter + 1
+            this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
           }
         }, 40)
       } else if (step === 2) {
@@ -199,6 +201,7 @@ export default {
             clearInterval(t)
           } else {
             this.counter = this.counter + 1
+            this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
           }
         }, 40)
       } else if (step === 3) {
@@ -207,10 +210,10 @@ export default {
             clearInterval(t)
           } else {
             this.counter = this.counter + 1
+            this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
           }
         }, 40)
       }
-      this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
     },
     updateCheckProgression () {
       this.checkProgression = this.checkProgression + (document.querySelector('.detection__check').offsetHeight / 4)

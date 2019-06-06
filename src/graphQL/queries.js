@@ -40,6 +40,7 @@ export const ALL_AVATARS = gql`
     allAvatars(orderBy: createdAt_DESC) {
       id
       url
+      createdAt
     }
   }
 `
