@@ -51,7 +51,7 @@ const webgl = {
       camera: {
         position: {
           x: 0,
-          y: 0,
+          y: 4,
           z: 20,
           up: {
             y: 2
@@ -110,7 +110,7 @@ const webgl = {
       camera: {
         position: {
           x: 0,
-          y: 0,
+          y: 4,
           z: 20,
           up: {
             y: 2

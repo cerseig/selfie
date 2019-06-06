@@ -22,7 +22,7 @@ class Scene {
     this.cameraPosY = {
       beginValue: this.config.camera.position.up.y,
       currentValue: this.config.camera.position.up.y,
-      endValue: 0
+      endValue: this.config.camera.position.y
     }
 
     this.isCameraDown = false
@@ -32,7 +32,7 @@ class Scene {
 
     this.initScene()
 
-    this.startTime = Date.now()
+    // this.startTime = Date.now()
   }
 
   initScene () {
@@ -127,10 +127,13 @@ class Scene {
       this.avatar.animations.update(positions, getDown)
     }
 
-    // if (getDown) {
-    //   const now = Date.now()
-    //   this.getCameraDown(now - this.startTime)
-    // }
+    if (getDown) {
+      const now = Date.now()
+      if (this.cameraPosY.beginValue === this.cameraPosY.currentValue && !this.startTime) {
+        this.startTime = now
+      }
+      this.getCameraDown(now - this.startTime)
+    }
   }
 }
 
