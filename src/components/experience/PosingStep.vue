@@ -185,6 +185,7 @@ export default {
     }
   },
   // mounted () {
+
   //  this.onPosingValidate()
   // },
   watch: {

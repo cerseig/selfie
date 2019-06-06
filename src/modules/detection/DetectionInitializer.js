@@ -17,6 +17,8 @@ class DetectionInitializer {
     this.resolution = null // the video stream resolution (usually 640x480)
     this.timeoutId = -1
 
+    this.loadingSteps = 0 // steps before detection is finally ready
+
     this.paths = {
       brfv4BaseURL: '/', // Directory where is located the lib
       brfv4SDKName: 'BRFv4_JS_CG210519_v4.2.1_commercial', // The current available library,
@@ -161,6 +163,9 @@ class DetectionInitializer {
       // Start the camera stream again on iOS.
       setTimeout(() => {
         console.log('Detection Initializer => delayed camera restart for iOS')
+        this.loadingSteps = this.loadingSteps + 1
+        const event = new CustomEvent('DetectionInitializer:loading', { detail: this.loadingSteps })
+        window.dispatchEvent(event)
         this.startCamera()
         this.restart = true
       }, 2000)
@@ -270,6 +275,9 @@ class DetectionInitializer {
       // this.ctxs.imageData = this.ui.$imageData.getContext('2d')
 
       window.addEventListener('resize', this.onResize)
+      this.loadingSteps = this.loadingSteps + 1
+      const event = new CustomEvent('DetectionInitializer:loading', { detail: this.loadingSteps })
+      window.dispatchEvent(event)
 
       // on iOS we want to close the video stream first and
       // wait for the heavy BRFv4 initialization to finish.
