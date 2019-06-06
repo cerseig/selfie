@@ -8,7 +8,7 @@ class Rotations {
     this.rotations = {}
     this.head = params.head
 
-    this.durationTime = params.duration
+    this.durationTime = params.duration * 1.25
 
     this.rotation = {
       x: {
