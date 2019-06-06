@@ -137,7 +137,7 @@ export default {
       this.rafID = requestAnimationFrame(this.update)
 
       this.positions = this.detectionManager.getPositions()
-      this.scene.update(this.positions, true)
+      this.scene.update(this.positions)
     },
 
     updateSizes () {
@@ -156,24 +156,6 @@ export default {
         this.avatarId = params.uniqId
         store.commit('setAvatarPath', params.path)
       })
-
-      // const capturePromise =  Capture.takeScreenshot(this.$refs.avatarElement)
-
-      // const video = this.detectionManager.getVideo()
-      // const picturePromise = Picture.takePicture(video)
-
-      // Promise.all([
-      //   capturePromise,
-      //   picturePromise
-      // ]).then( (params) => {
-      //   const capture = params[0]
-      //   this.avatarId = capture.uniqId
-
-      //   const picture = params[1]
-
-      //   store.commit('setAvatarPath', capture.path)
-      //   store.commit('setPicturePath', picture.path)
-      // })
     },
 
     takePicture () {
@@ -205,8 +187,6 @@ export default {
     this.$on('Decor:Change', this.onDecorChange)
 
     this.update()
-
-    console.log('selection', this)
   },
   beforeDestroy () {
     if (this.detectionManager) {
