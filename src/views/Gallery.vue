@@ -1,10 +1,12 @@
 <template>
   <div class="gallery">
+    <button @click="onClickConclusion">conclusion</button>
     <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
     <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
       <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
     </div>
+    <ModalConclusion :isActive="isModalActive" />
   </div>
 </template>
 
@@ -13,6 +15,7 @@ import AvatarsGrid from '@/components/AvatarsGrid.vue'
 import { CREATE_AVATAR_MUTATION, CREATE_USER_REPRESENTATION_MUTATION } from '@/graphQL/mutations.js'
 import { ALL_AVATARS } from '@/graphQL/queries'
 import store from '@/store/index'
+import ModalConclusion from '@/components/modal/ModalConclusion.vue'
 
 export default {
   name: 'gallery',
@@ -22,7 +25,8 @@ export default {
       url: '',
       picture: '',
       allAvatars: [],
-      avatarIsAdding: false
+      avatarIsAdding: false,
+      isModalActive: false
     }
   },
   apollo: {
@@ -31,7 +35,8 @@ export default {
     }
   },
   components: {
-    AvatarsGrid
+    AvatarsGrid,
+    ModalConclusion
   },
   computed: {
     isAvatarSavedInDB: () => store.getters.getIsAvatarSavedInDB,
@@ -64,7 +69,7 @@ export default {
         },
         update: (store, { data: { createAvatar } }) => {
           // Update avatars list when we had an avatar
-          const data = store.readQuery({ query: ALL_AVATARS })
+          const data = store.readQuery({ query: ALL_AVATARS, variables: {orderBy: 'createdAt_DESC'} })
           data.allAvatars.unshift(createAvatar)
           store.writeQuery({ query: ALL_AVATARS, data })
           // Get ID of last avatar
@@ -93,11 +98,17 @@ export default {
     updateTemporaryTableId (tableId) {
       // Update temporary table store ID
       store.commit('setTemporaryTableId', tableId)
+    },
+    onClickConclusion () {
+      this.isModalActive = true
     }
   },
   mounted () {
     this.saveImagesInDB()
     this.updateBodyClass()
+    this.$on('Modal:Conclusion:Close', () => {
+      this.isModalActive = false
+    })
   }
 }
 </script>

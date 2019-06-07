@@ -155,8 +155,6 @@ class Face {
         mouthOpenSmile: this.mouthOpenSmileFactor,
         mouthOpenSmileLeft: this.mouthOpenSmileLeftFactor,
         mouthOpenSmileRight: this.mouthOpenSmileRightFactor,
-        eyeLeftClose: this.getEyeLeftClose(face),
-        eyeRightClose: this.getEyeRightClose(face),
         rotationLeft: this.getRotationLeft(face),
         rotationRight: this.getRotationRight(face),
         rotationUp: this.getRotationUp(face),

@@ -2,13 +2,13 @@
   <div class="experience gui__wrapper">
 
     <div :class="`experience__scene ${currentStep === STEPS.ANALYSIS ? '' : 'is-active'}`" ref="scene">
-      <Decors :isActive="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" />
+      <Decors :isActive="currentStep >= STEPS.DECOR" :decors="decors" :selection="selection.decor" :showAll="currentStep === STEPS.DECOR" />
       <div :class="`avatar ${currentStep >= STEPS.PERSONNALISATION ? 'is-active' : ''}`" ref="avatarElement"></div>
     </div>
 
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <Detection />
-      <DetectionStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" :isReady="detection.states.isReady" :isAnalysed="detection.states.isAnalysed" :positions="detection.positions" :errors="detection.errors" :sizes="detection.resolutionFrameSize" />
+      <DetectionStep v-if="currentStep <= STEPS.DECOR" :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" :isReady="detection.states.isReady" :isAnalysed="detection.states.isAnalysed" :positions="detection.positions" :errors="detection.errors" :sizes="detection.resolutionFrameSize" />
     </div>
 
     <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />

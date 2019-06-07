@@ -3,6 +3,8 @@ import { gui } from './gui'
 import Avatar from './Avatar'
 import webgl from '@/config/webgl'
 
+import easings from '@/modules/helpers/easings.js'
+
 class Scene {
   constructor (params) {
     this.positions = null
@@ -13,29 +15,30 @@ class Scene {
     this.mode = params.mode ? params.mode : 'default'
     this.config = webgl[this.mode].scene
 
-    this.showDecor = params.showDecor
-
     this.state = {
       ready: false
     }
 
-    this.timing = {
-      duration: 10000
+    this.cameraPosY = {
+      beginValue: this.config.camera.position.up.y,
+      currentValue: this.config.camera.position.up.y,
+      endValue: this.config.camera.position.y
     }
 
-    this.startTime = 'now' in window.performance ? performance.now() : new Date().getTime()
+    this.isCameraDown = false
 
     this.decors = null
     this.avatar = null
 
     this.initScene()
+
+    // this.startTime = Date.now()
   }
 
   initScene () {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(45, this.sizes.width / this.sizes.height, 0.1, 50)
-    this.camera.position.set(0, 5, 20)
-    this.camera.lookAt(new THREE.Vector3(0, 3, 0))
+    this.camera.position.set(0, this.cameraPosY.currentValue, 20)
 
     this.renderer = new THREE.WebGLRenderer({ alpha: true, preserveDrawingBuffer: true, antialias: true })
     this.renderer.gammaOutput = true
@@ -96,6 +99,15 @@ class Scene {
     document.querySelector('.gui__wrapper').appendChild(gui.domElement)
   }
 
+  getCameraDown (deltaTime) {
+    if (this.cameraPosY.currentValue >= this.cameraPosY.endValue) {
+      this.cameraPosY.currentValue = easings.linear(deltaTime, this.cameraPosY.beginValue, this.cameraPosY.endValue - this.cameraPosY.beginValue, 600)
+      this.camera.position.y = this.cameraPosY.currentValue
+    } else if (!this.isCameraDown) {
+      this.isCameraDown = true
+    }
+  }
+
   updateSizes (width, height) {
     this.sizes = {
       width: width,
@@ -113,6 +125,14 @@ class Scene {
 
     if (this.avatar.animations) {
       this.avatar.animations.update(positions, getDown)
+    }
+
+    if (getDown) {
+      const now = Date.now()
+      if (this.cameraPosY.beginValue === this.cameraPosY.currentValue && !this.startTime) {
+        this.startTime = now
+      }
+      this.getCameraDown(now - this.startTime)
     }
   }
 }

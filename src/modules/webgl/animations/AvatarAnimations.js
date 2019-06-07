@@ -23,22 +23,23 @@ class AvatarAnimations {
       duration: this.durationTime
     })
 
-    this.morphs = new Morphs({
-      elements: this.elements,
-      duration: this.durationTime
-    })
-
     this.blinking = {
       deltaTime: null,
-      duration: (60 / 60) * 1000,
+      duration: this.durationTime,
       currentFrame: 0,
-      frameDuration: 150,
+      frameDuration: 300,
       isInDone: false,
       isInStart: false,
       isOutDone: false,
       isInEnd: false,
       count: 0
     }
+
+    this.morphs = new Morphs({
+      elements: this.elements,
+      duration: this.durationTime,
+      blinkDurationTime: this.blinking.duration
+    })
 
     this.isDown = false
 
@@ -52,7 +53,6 @@ class AvatarAnimations {
 
   getDown (deltaTime) {
     if (this.posY.currentValue >= this.posY.endValue) {
-      // console.log(this.posY.currentValue, this.posY.endValue)
       this.posY.currentValue = easings.linear(deltaTime, this.posY.beginValue, this.posY.endValue - this.posY.beginValue, 600)
       this.model.position.y = this.posY.currentValue
     } else if (!this.isDown) {
@@ -76,8 +76,7 @@ class AvatarAnimations {
         this.morphs.updateBlinkEndValue(0)
       } else {
         let deltaTime = now - this.blinking.startTime
-
-        if (!this.blinking.isOutStart && !this.blinking.isInDone && deltaTime >= this.durationTime) { // Is in done
+        if (!this.blinking.isOutStart && !this.blinking.isInDone && deltaTime >= this.blinking.duration) { // Is in done
           this.blinking.isInDone = true
           this.blinking.isOutStart = true
 
@@ -87,7 +86,7 @@ class AvatarAnimations {
           this.morphs.updateBlinkEndValue(1)
         }
 
-        if (this.blinking.isInDone && this.blinking.isOutStart && deltaTime >= this.durationTime) { // Is out not started
+        if (this.blinking.isInDone && this.blinking.isOutStart && deltaTime >= this.blinking.duration) { // Is out not started
           this.blinking.count++
           this.blinking.isInStart = false
           this.blinking.isInDone = false

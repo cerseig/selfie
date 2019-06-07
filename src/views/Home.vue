@@ -288,6 +288,7 @@ export default {
             height: 130px;
             margin-bottom: -18px;
             z-index: 1;
+            transform-origin: bottom;
             &--behind {
               z-index: 3;
             }
@@ -298,12 +299,24 @@ export default {
             z-index: 2;
           }
 
+          &:nth-of-type(1) {
+            .avatar__head {
+              animation: tiltLeft 4s infinite;
+            }
+          }
+
           &:nth-of-type(3) {
             margin-left: -5px;
+            .avatar__head {
+              animation: tiltRight 6s linear 3s infinite;
+            }
           }
 
           &:nth-of-type(4) {
             margin-left: 10px;
+            .avatar__head {
+              animation: tiltRightLeft 8s linear 2s infinite;
+            }
           }
         }
       }

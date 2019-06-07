@@ -11,12 +11,23 @@ class BackgroundMusic {
       sprite: soundDesignSprite
     })
   }
+  fadeOut (callback) {
+    const fadeDuration = 1500
+    this.sound.fade(0.7, 0, fadeDuration, this.backgroundMusic)
+
+    const timeOut = setTimeout(() => {
+      if (callback && utils.isFunction(callback)) {
+        callback()
+      }
+      clearTimeout(timeOut)
+    }, fadeDuration)
+  }
   playSpriteBackgroundMusic (name, callback) {
-    const backgroundMusic = this.sound.play('backgroundMusic_' + name)
-    this.sound.loop(true, backgroundMusic)
+    this.backgroundMusic = this.sound.play('backgroundMusic_' + name)
+    this.sound.loop(true, this.backgroundMusic)
 
     this.sound.on('end', (audioId) => {
-      if (audioId === backgroundMusic) {
+      if (audioId === this.backgroundMusic) {
         if (callback && utils.isFunction(callback)) {
           callback()
         }

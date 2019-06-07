@@ -146,10 +146,12 @@ export default {
                       this.soundDesign.playSpriteSoundDesign('success', () => {
                         this.stepObject.changeSubStepState('success', () => {
                           window.clearTimeout(callSuccess)
-                          this.stepObject.sound.stop()
-                          this.soundDesign.sound.stop()
-                          this.backgroundMusic.sound.stop()
-                          this.validateStep()
+                          this.backgroundMusic.fadeOut(() => {
+                            this.stepObject.sound.stop()
+                            this.soundDesign.sound.stop()
+                            this.backgroundMusic.sound.stop()
+                            this.validateStep()
+                          })
                         })
                       })
                     })
@@ -175,15 +177,47 @@ export default {
           break
       }
     },
-    loader () {
-      let t = setInterval(() => {
-        if (this.counter === 99) {
-          clearInterval(t)
-        } else {
-          this.counter = this.counter + 1
-          this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
-        }
-      }, 30)
+    loader (step) {
+      console.log(step)
+      if (step === 0) {
+        let t = setInterval(() => {
+          if (this.counter === 50) {
+            clearInterval(t)
+          } else {
+            this.counter = this.counter + 1
+            this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+          }
+        }, 40)
+      } else if (step === 1) {
+        let t = setInterval(() => {
+          if (this.counter === 75) {
+            clearInterval(t)
+          } else {
+            this.counter = this.counter + 1
+            this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+          }
+        }, 40)
+      } else if (step === 2) {
+        let t = setInterval(() => {
+          if (this.counter === 85) {
+            clearInterval(t)
+          } else {
+            this.counter = this.counter + 1
+            this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+          }
+        }, 40)
+      } else if (step === 3) {
+        let t = setInterval(() => {
+          if (this.counter === 99) {
+            clearInterval(t)
+          } else {
+            this.counter = this.counter + 1
+            this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
+          }
+        }, 40)
+      } else {
+        clearInterval(t)
+      }
     },
     updateCheckProgression () {
       this.checkProgression = this.checkProgression + (document.querySelector('.detection__check').offsetHeight / 4)
@@ -193,8 +227,12 @@ export default {
     this.backgroundMusic = new BackgroundMusic()
     if (this.isActive) {
       this.initDetectionStep()
-      this.loader()
     }
+    this.loader(0)
+    window.addEventListener('DetectionInitializer:loading', (index) => {
+      this.loadingDetectionStep = index.detail
+      this.loader(this.loadingDetectionStep)
+    })
   },
   watch: {
     isReady () { // when BRF is ready
