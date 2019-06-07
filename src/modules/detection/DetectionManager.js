@@ -236,7 +236,7 @@ class DetectionManager {
   }
 
   createFace () {
-    if (!this.isDebug && store.getters.getIsVoice === false) {
+    if (!this.isDebug && store.getters.getIsVoice === false && this.isAnalysed === false) {
       if (this.errors.tooFar === false && this.errors.tooClose === false && this.errors.outOfCamera === false) {
         if (this.timeValidation < 60) {
           this.timeValidation = utils.increase(this.timeValidation, 60)
