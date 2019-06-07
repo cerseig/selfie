@@ -103,38 +103,52 @@ const categories = [
     },
     colors: [
       {
-        item: 'rgb(228,198,180)',
+        item: 'rgb(252,218,202)',
         extended: {
-          noze: 'rgb(244,90,78)',
-          mouth_lips: 'rgb(34,63,145)'
+          noze: 'rgb(236,71,56)',
+          mouth_lips: 'rgb(72,88,190)'
         }
       },
       {
-        item: 'rgb(212, 167, 137)',
+        item: 'rgb(234, 198, 178)',
         extended: {
-          noze: 'rgb(220, 40, 29)',
-          mouth_lips: 'rgb(94, 193, 82)'
+          noze: 'rgb(208, 69, 50)',
+          mouth_lips: 'rgb(64, 84, 174)'
+        }
+      },
+      {
+        item: 'rgb(216, 176, 154)',
+        extended: {
+          noze: 'rgb(198, 62, 48)',
+          mouth_lips: 'rgb(56, 79, 160)'
         }
       },
       {
         item: 'rgb(181,139,106)',
         extended: {
-          noze: 'rgb(244,90,78)',
-          mouth_lips: 'rgb(34,63,145)'
+          noze: 'rgb(184, 61, 44)',
+          mouth_lips: 'rgb(56, 73, 147)'
+        }
+      },
+      {
+        item: 'rgb(145,113,88)',
+        extended: {
+          noze: 'rgb(170, 56, 40)',
+          mouth_lips: 'rgb(51, 67, 135)'
         }
       },
       {
         item: 'rgb(110,88,71)',
         extended: {
-          noze: 'rgb(244,90,78)',
-          mouth_lips: 'rgb(34,63,145)'
+          noze: 'rgb(156, 51, 37)',
+          mouth_lips: 'rgb(47, 61, 123)'
         }
       },
       {
         item: 'rgb(87,67,54)',
         extended: {
-          noze: 'rgb(244,90,78)',
-          mouth_lips: 'rgb(94, 193, 82)'
+          noze: 'rgb(127, 42, 30)',
+          mouth_lips: 'rgb(34, 44, 89)'
         }
       }
     ]
@@ -151,7 +165,7 @@ const categories = [
     },
     attributes: [
       {
-        icon: '/img/thumbnails/none.png',
+        icon: '/img/thumbnails/beard_none.png',
         ref: 'none'
       },
       {
