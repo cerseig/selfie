@@ -107,7 +107,7 @@ class AvatarPersonnalisation {
       bodyParts: this.temps.eyeColor,
       material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg',
-        color: category.colors[defaultValues.colors],
+        color: category.colors[defaultValues.colors]
         // roughness: 0,
         // envMap: true
       }

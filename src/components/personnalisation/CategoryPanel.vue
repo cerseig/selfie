@@ -253,8 +253,6 @@ export default {
 
     transition: transform .3s, opacity .3s;
 
-
-
     &__subpanel {
       z-index: 1;
     }

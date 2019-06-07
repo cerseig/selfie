@@ -77,7 +77,7 @@ class Avatar {
         elements.beard.push(item)
       } else if (this.isType(name, 'eye_iris')) {
         elements.eyeColor.push(item)
-      } else if (this.isType(name, 'eye',)) {
+      } else if (this.isType(name, 'eye')) {
         elements.eyes.push(item)
       } else if (this.isType(name, 'glasses')) {
         elements.glasses.push(item)
