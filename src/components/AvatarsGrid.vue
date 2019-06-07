@@ -1,13 +1,15 @@
 <template>
   <ul :class="`avatars ${avatarIsAdding ? 'has-been-update' : ''}`">
+    <img class="avatars__item__picture current-avatar" alt="Avatar">
     <p v-if="loading">Loading...</p>
     <li
+      v-if="allAvatars"
       v-for="avatar in allAvatars"
       :key="avatar.id"
+      :data-id="avatar.id"
       class="avatars__item">
       <img class="avatars__item__picture" :src="avatar.url">
     </li>
-    <img class="avatars__item__picture current-avatar" alt="Avatar">
   </ul>
 </template>
 
@@ -43,24 +45,30 @@ export default {
   },
   methods: {
     showCurrentAvatar () {
+      console.log('show current avatar')
       this.currentAvatar = document.querySelector('.current-avatar')
       this.currentAvatar.setAttribute('src', this.avatarPath)
     },
 
     showAllAvatars () {
-      let currentAvatarParent = document.querySelector('.avatars > li:first-child')
-      this.currentAvatarParentProperties = {
-        width: currentAvatarParent.offsetWidth,
-        height: currentAvatarParent.offsetHeight,
-        top: currentAvatarParent.offsetTop,
-        left: currentAvatarParent.offsetLeft
-      }
-      currentAvatarParent.firstChild.remove()
-      currentAvatarParent.appendChild(this.currentAvatar)
-      this.addCurrentAvatarInGallery(this.currentAvatarParentProperties)
+      console.log('show all avatars')
+      this.$nextTick(() => {
+        let currentAvatarParent = document.querySelectorAll('.avatars.has-been-update > li')[0]
+        console.log('current avatar parent', currentAvatarParent)
+        this.currentAvatarParentProperties = {
+          width: currentAvatarParent.offsetWidth,
+          height: currentAvatarParent.offsetHeight,
+          top: currentAvatarParent.offsetTop,
+          left: currentAvatarParent.offsetLeft
+        }
+        currentAvatarParent.firstChild.remove()
+        currentAvatarParent.appendChild(this.currentAvatar)
+        this.addCurrentAvatarInGallery(this.currentAvatarParentProperties)
+      })
     },
 
     addCurrentAvatarInGallery (container) {
+      console.log('add current avatar in gallery')
       setTimeout(() => {
         this.currentAvatar.style.width = container.width + 'px'
         this.currentAvatar.style.height = container.height + 'px'
@@ -75,7 +83,7 @@ export default {
   },
   watch: {
     avatarIsAdding () {
-      if (this.avatarIsAdding) {
+      if (this.avatarIsAdding && !this.loading) {
         this.showAllAvatars()
       }
     }
@@ -92,21 +100,22 @@ export default {
     padding: 0;
     margin: 0;
 
+    .current-avatar {
+      z-index: 5;
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 1.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+      background-color: $color__white;
+    }
+
     &__item {
       list-style: none;
       max-height: 250px;
       overflow: hidden;
-
-      .current-avatar {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        height: 100%;
-        width: 100%;
-        transform: translate(-50%, -50%);
-        transition: all 1.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-        background-color: $color__white;
-      }
 
       &:first-child {
         // box-shadow: 5px 5px 10px #aaa;
