@@ -27,7 +27,7 @@ const avatar = {
         y: -1,
         z: 0,
         up: {
-          y: 2
+          y: 1
         }
       }
     }

@@ -188,7 +188,7 @@ export default {
     background-color: $color__white;
 
     border-radius: 50px;
-    box-shadow: 0px 5px 10px #aaa;
+    box-shadow: 0px 5px 10px rgba($color__black, 0.1);
 
     transition: opacity .3s;
 

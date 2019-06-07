@@ -148,7 +148,7 @@ export default {
     padding: 0 20px;
     border-radius: 30px;
     margin: 0 auto;
-    box-shadow: 0px 6px 15px $color__gray--light;
+    box-shadow: 0px 6px 15px rgba($color__black, 0.1);
     .list__item {
       opacity: 0.2;
       &:last-child {
@@ -344,9 +344,9 @@ export default {
         }
         &.is-active {
           opacity: 1;
-          .list__button {
-            border-bottom: .5rem solid $color__black;
-          }
+          // .list__button {
+          //   border-bottom: .5rem solid $color__black;
+          // }
         }
       }
     }
