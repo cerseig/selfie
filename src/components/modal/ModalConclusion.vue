@@ -68,6 +68,8 @@ export default {
     bottom: 0;
     right: 0;
 
+    background: $color__white;
+
     opacity: 0;
     transition: opacity .5s;
 

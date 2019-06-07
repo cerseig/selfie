@@ -1,6 +1,5 @@
 <template>
   <div class="gallery">
-    <button @click="onClickConclusion">conclusion</button>
     <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
     <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
@@ -100,13 +99,19 @@ export default {
       // Update temporary table store ID
       store.commit('setTemporaryTableId', tableId)
     },
-    onClickConclusion () {
-      this.isModalActive = true
+    openConclusionModal () {
+      this.$on('Animation:Gallery:AvatarAdding', () => {
+        const timeOut = setTimeout(() => {
+          this.isModalActive = true
+          clearTimeout(timeOut)
+        }, 8000)
+      })
     }
   },
   mounted () {
     this.saveImagesInDB()
     this.updateBodyClass()
+    this.openConclusionModal()
     this.$on('Modal:Conclusion:Close', () => {
       this.isModalActive = false
     })

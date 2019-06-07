@@ -74,6 +74,7 @@ export default {
         this.currentAvatar.style.top = container.top + 'px'
         this.currentAvatar.style.left = container.left + 'px'
         this.currentAvatar.style.transform = 'translate(0,0)'
+        this.$parent.$emit('Animation:Gallery:AvatarAdding')
       }, 5000)
     }
   },
