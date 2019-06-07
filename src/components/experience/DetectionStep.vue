@@ -26,6 +26,7 @@
 <script>
 // Modules
 import Step from '@/modules/sound/step/Step'
+import AssetsLoader from '@/modules/loader/AssetsLoader'
 import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
 import BackgroundMusic from '@/modules/sound/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
@@ -227,6 +228,10 @@ export default {
     this.backgroundMusic = new BackgroundMusic()
     if (this.isActive) {
       this.initDetectionStep()
+      AssetsLoader.loadAssets('image').then((data) => {
+        console.log('Asset Loader : All assets pre-loaded')
+      })
+      this.loader()
     }
     this.loader(0)
     window.addEventListener('DetectionInitializer:loading', (index) => {
