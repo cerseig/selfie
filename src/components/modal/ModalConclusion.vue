@@ -1,10 +1,9 @@
 <template>
   <div :class="`modal modal--conclusion ${isActive ? 'is-active' : ''}`">
-    <button class="modal__close" @click="onClickClose">
-      <Icon name="close" width="30" height="30" fill="#000000" />
-    </button>
     <div class="modal__inner">
-      ANIMATION CONCLUSION
+      <video ref="video" class="modal__video" preload>
+        <source class="modal__video--source" :src="`${publicPath}/videos/conclusion.mp4`" type="video/mp4">
+      </video>
     </div>
   </div>
 </template>
@@ -22,19 +21,28 @@ export default {
       type: Boolean
     }
   },
+  data () {
+    return {
+      publicPath: process.env.BASE_URL
+    }
+  },
   components: {
     Icon
   },
   methods: {
-    onClickClose () {
-      this.$parent.$emit('Modal:Conclusion:Close')
-    },
     handleScroll (isActive) {
       if (isActive) {
         document.body.classList.add('is-unscrollable')
       } else {
         document.body.classList.remove('is-unscrollable')
       }
+    },
+    playVideo () {
+      this.$refs.video.play()
+      this.$refs.video.addEventListener('ended', () => {
+        this.$refs.video.pause()
+        this.$parent.$emit('Modal:Conclusion:Close')
+      });
     }
   },
   mounted () {
@@ -43,6 +51,9 @@ export default {
   watch: {
     isActive (nextProp) {
       this.handleScroll(nextProp)
+      if (this.isActive) {
+        this.playVideo()
+      }
     }
   }
 }
@@ -91,9 +102,15 @@ export default {
 
         font-size: 5rem;
         transform: translate(-50%, -50%);
-        background: $color__white--light;
         border-radius: 2.5rem;
+
+        overflow: hidden;
       }
+
+      &__video {
+        width: 100%;
+      }
+
     }
 
   }
