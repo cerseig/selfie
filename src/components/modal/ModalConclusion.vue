@@ -68,9 +68,8 @@ export default {
     bottom: 0;
     right: 0;
 
-    background-color: rgba($color__black, 0.4);
     opacity: 0;
-    transition: opacity .3s;
+    transition: opacity .5s;
 
     pointer-events: none;
 
