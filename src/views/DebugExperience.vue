@@ -23,7 +23,7 @@
         <div class="avatar" ref="avatarElement">
         </div>
       </div>
-      <PersonnalisationStep :class="`${show.personnalisation ? 'is-active' : ''}`"/>
+      <PersonnalisationStep :isActive="show.personnalisation"/>
       <DecorStep :isActive="show.decor"/>
       <div class="panel__settings">
         <Settings
@@ -72,10 +72,10 @@ export default {
       show: {
         settings: false,
         camera: false,
-        personnalisation: false,
+        personnalisation: true,
         events: false,
         gui: false,
-        decor: true
+        decor: false
       },
       decors: config.decors,
       selection: {

@@ -4,7 +4,7 @@
       {{ $t('experience.personnalisation.nextStep') }}
       <Icon name="little-arrow" width="12" height="12" stroke="#000000" />
     </a>
-    <CategoryPanel :categories="configCategories" :selectionChange="onSelectionChange" />
+    <CategoryPanel :categories="configCategories" :selectionChange="onSelectionChange" :show="isActive" />
   </div>
 </template>
 
@@ -89,11 +89,14 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
-    display: none;
+    opacity: 0;
+    pointer-events: none;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 3;
+    transition-property: opacity;
+    transition-delay: .3s;
 
     &__next {
       @include outlinedButton(1rem 2rem, 1.5rem);
@@ -117,7 +120,9 @@ export default {
     }
 
     &.is-active {
-      display: block;
+      opacity: 1;
+      pointer-events: all;
+      transition-delay: 0s;
     }
   }
 
