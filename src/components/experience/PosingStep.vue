@@ -111,9 +111,9 @@ export default {
           }, 1000)
           break
         case 'inprogress':
-          if (this.timeValidation < 40) {
-            this.timeValidation = utils.increase(this.timeValidation, 40)
-          } else if (this.timeValidation === 40) {
+          if (this.timeValidation < 30) {
+            this.timeValidation = utils.increase(this.timeValidation, 30)
+          } else if (this.timeValidation === 30) {
             if ((currentValue > minValue && currentValue < maxValue && rotationCondition) || (expressionCondition && currentValue > minValue)) {
               this.currentStep.status = 'posing'
             } else if (currentValue === undefined && rotationCondition) {
@@ -142,7 +142,7 @@ export default {
                 break
             }
             clearTimeout(timeOutDone)
-          }, 500)
+          }, 1000)
           break
       }
     },
@@ -165,7 +165,6 @@ export default {
         store.commit('setAvatarPath', capture.path)
         store.commit('setPicturePath', picture.path)
         this.makeFlash()
-        this.validateStep()
       })
     },
     makeFlash () {
@@ -175,17 +174,14 @@ export default {
       flash.setAttribute('ref', 'flash')
       this.$refs.posing.appendChild(flash)
       // add flash sound
-      this.soundDesign.playSpriteSoundDesign('flash')
-      // fade out flash element
-      const timeOut = setTimeout(() => {
-        document.querySelector('.posing__flash').style.opacity = 0
-        clearTimeout(timeOut)
-      }, 300)
+      this.soundDesign.playSpriteSoundDesign('flash', () => {
+        this.validateStep()
+      })
     }
   },
-  // mounted () {
-  //  this.onPosingValidate()
-  // },
+//   mounted () {
+//     this.takePhotos()
+//   },
   watch: {
     isActive () {
       this.createStepObject()

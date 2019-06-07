@@ -67,6 +67,18 @@ class BodyParts {
           }
         })
       }
+    } else {
+      if (material.roughness >= 0) {
+        this.bodyParts.forEach(bodyPart => {
+          if (bodyPart.material) {
+            bodyPart.material.roughness = material.roughness
+            bodyPart.material.metalness = material.roughness
+            bodyPart.material.emmissive = new THREE.Color(255, 255, 255)
+
+            bodyPart.material.needsUpdate = true
+          }
+        })
+      }
     }
   }
 

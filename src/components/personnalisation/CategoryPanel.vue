@@ -1,6 +1,7 @@
 <template>
-  <div class="panel panel--category">
+  <div :class="`panel panel--category ${show ? 'is-active' : ''}`">
     <ul class="list list--category">
+      <span class="list__indicator" :style="{transform: `translateX(${isActive * 9.5}rem)`}"></span>
       <li :class="`list__item ${isActive === index ? 'is-active' : ''}`" :data-index="index" @click="onClickCategory" v-for="(category, index) in categories" :key="`category-${index}`">
         <button class="list__button">
           <Icon :name="category.icon.title" :width="60" :height="60" stroke="#000000" fill="#000000"/>
@@ -52,6 +53,10 @@ export default {
     selectionChange: {
       required: true,
       type: Function
+    },
+    show: {
+      required: true,
+      type: Boolean
     }
   },
   components: {
@@ -133,15 +138,6 @@ export default {
   .list--colors,
   .list--attributes {
     margin: 0;
-    .list__item {
-      &.is-selected {
-        .list__button,
-        .list__thumbnail {
-          width: 2rem;
-          height: 2rem;
-        }
-      }
-    }
   }
 
   .list--category {
@@ -152,7 +148,7 @@ export default {
     padding: 0 20px;
     border-radius: 30px;
     margin: 0 auto;
-    box-shadow: 0px 6px 15px $color__gray--light;
+    box-shadow: 0px 6px 15px rgba($color__black, 0.1);
     .list__item {
       opacity: 0.2;
       &:last-child {
@@ -167,10 +163,18 @@ export default {
       }
       &.is-active {
         opacity: 1;
-        .list__button {
-          border-bottom: .2rem solid $color__black;
-        }
       }
+    }
+
+    .list__indicator {
+      content: '';
+      position: absolute;
+      left: 5rem;
+      bottom: 0;
+      width: 9rem;
+      height: .5rem;
+      background: $color__black;
+      transition: transform .3s;
     }
   }
 
@@ -194,8 +198,7 @@ export default {
       &.is-selected {
         border: .1rem solid $color__black;
         .list__button {
-          width: 1rem;
-          height: 1rem;
+          transform: scale(0.5);
         }
       }
       .list__button {
@@ -204,6 +207,7 @@ export default {
         width: 2rem;
         height: 2rem;
         padding: 0;
+        transition: transform .3s;
       }
     }
   }
@@ -234,8 +238,7 @@ export default {
         border-color: $color__black;
         .list__button,
         .list__thumbnail {
-          width: 3rem;
-          height: 3rem;
+          transform: scale(0.9)
         }
       }
     }
@@ -245,10 +248,19 @@ export default {
     width: 100%;
     position: absolute;
     bottom: 0;
+    opacity: 0;
+    transform: translateY(10rem);
+
+    transition: transform .3s, opacity .3s;
+
     &__subpanel {
       z-index: 1;
     }
     &--category {
+      &.is-active {
+        opacity: 1;
+        transform: translateY(0)
+      }
       .panel__inner {
         display: none;
 
@@ -268,18 +280,17 @@ export default {
       }
     }
 
-    .list--colors,
-    .list--attributes {
-      .list__item {
-        &.is-selected {
-          .list__button,
-          .list__thumbnail {
-            width: 2rem;
-            height: 2rem;
-          }
-        }
-      }
-    }
+    // .list--colors,
+    // .list--attributes {
+    //   .list__item {
+    //     &.is-selected {
+    //       .list__button,
+    //       .list__thumbnail {
+    //         transform: scale(0.8);
+    //       }
+    //     }
+    //   }
+    // }
 
     .list--colors {
       height: 160px;
@@ -308,12 +319,12 @@ export default {
         .list__thumbnail {
           width: 7rem;
           height: 7rem;
+          transition: transform .3s;
         }
         &.is-selected {
           .list__button,
           .list__thumbnail {
-            width: 4rem;
-            height: 4rem;
+            transform: scale(0.8)
           }
         }
       }
@@ -333,9 +344,9 @@ export default {
         }
         &.is-active {
           opacity: 1;
-          .list__button {
-            border-bottom: .5rem solid $color__black;
-          }
+          // .list__button {
+          //   border-bottom: .5rem solid $color__black;
+          // }
         }
       }
     }

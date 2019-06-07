@@ -69,14 +69,15 @@ export default {
         },
         update: (store, { data: { createAvatar } }) => {
           // Update avatars list when we had an avatar
-          const data = store.readQuery({ query: ALL_AVATARS, variables: {orderBy: 'createdAt_DESC'} })
+          const data = store.readQuery({ query: ALL_AVATARS, variables: {orderBy: 'createdAt_DESC'}})
           data.allAvatars.unshift(createAvatar)
-          store.writeQuery({ query: ALL_AVATARS, data })
+          store.writeQuery({ query: ALL_AVATARS, variables: {orderBy: 'createdAt_DESC'}, data})
           // Get ID of last avatar
           let avatarId = createAvatar.id
           this.addUserRepresentation(avatarId)
         }
       }).then((data) => {
+        console.log('avatar is added')
         this.avatarIsAdding = true
       })
     },
@@ -116,6 +117,16 @@ export default {
 <style lang="scss">
   .gallery {
     margin-top: 10rem;
+
+    &__overlay {
+      width: 100%;
+      height: 100%;
+      background-color: $color__white;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 5;
+    }
 
     &__title {
       margin-bottom: 2rem;

@@ -44,13 +44,15 @@ class AvatarPersonnalisation {
         {
           item: this.temps.mouth.mouth_lips,
           material: {
-            color: category.colors[defaultValues.colors].extended.lips
+            color: category.colors[defaultValues.colors].extended.lips,
+            matcap: '/models/textures/matcap_skin.jpg'
           }
         },
         {
           item: this.temps.nose,
           material: {
-            color: category.colors[defaultValues.colors].extended.nose
+            color: category.colors[defaultValues.colors].extended.nose,
+            matcap: '/models/textures/matcap_skin.jpg'
           }
         }
       ],
@@ -75,7 +77,7 @@ class AvatarPersonnalisation {
       needMorph: 'eyebrow',
       children: [...this.bodyParts.beard.bodyParts, ...this.temps.eyebrows, ...this.temps.hairs.children],
       material: {
-        matcap: '/models/textures/matcap-porcelain-white.jpg',
+        matcap: '/models/textures/matcap_skin.jpg',
         color: category.colors[defaultValues.colors]
       }
     })
@@ -106,10 +108,21 @@ class AvatarPersonnalisation {
       material: {
         matcap: '/models/textures/matcap-porcelain-white.jpg',
         color: category.colors[defaultValues.colors]
+        // roughness: 0,
+        // envMap: true
+      }
+    })
+
+    const eyesParts = new BodyParts({
+      bodyParts: this.temps.eyes,
+      material: {
+        roughness: 0,
+        envMap: true
       }
     })
 
     this.bodyParts.eyes.init()
+    eyesParts.init()
   }
 
   initBody () {
@@ -119,7 +132,8 @@ class AvatarPersonnalisation {
     this.bodyParts.body = new BodyParts({
       bodyParts: [this.temps.body],
       material: {
-        color: category.colors[defaultValues.colors]
+        color: category.colors[defaultValues.colors],
+        matcap: '/models/textures/matcap_body.png'
       }
     })
 

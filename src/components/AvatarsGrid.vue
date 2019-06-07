@@ -1,13 +1,15 @@
 <template>
   <ul :class="`avatars ${avatarIsAdding ? 'has-been-update' : ''}`">
+    <img class="avatars__item__picture current-avatar" alt="Avatar">
     <p v-if="loading">Loading...</p>
     <li
+      ref="avatarList"
       v-for="avatar in allAvatars"
       :key="avatar.id"
-      class="avatars__item">
+      :data-id="avatar.id"
+      class="avatars__item avatar">
       <img class="avatars__item__picture" :src="avatar.url">
     </li>
-    <img class="avatars__item__picture current-avatar" alt="Avatar">
   </ul>
 </template>
 
@@ -33,31 +35,36 @@ export default {
       type: String
     }
   },
-  apollo: {
-    allAvatars: {
-      query: ALL_AVATARS,
-      variables: {
-        orderBy: 'createdAt_DESC'
-      }
-    }
-  },
   methods: {
+    getAllAvatars () {
+      this.$apollo.query({
+        query: ALL_AVATARS,
+        variables: {
+          orderBy: 'createdAt_DESC'
+        }
+      }).then(result => {
+        this.allAvatars = result.data.allAvatars
+        this.showAllAvatars()
+      })
+    },
     showCurrentAvatar () {
       this.currentAvatar = document.querySelector('.current-avatar')
       this.currentAvatar.setAttribute('src', this.avatarPath)
     },
 
     showAllAvatars () {
-      let currentAvatarParent = document.querySelector('.avatars > li:first-child')
-      this.currentAvatarParentProperties = {
-        width: currentAvatarParent.offsetWidth,
-        height: currentAvatarParent.offsetHeight,
-        top: currentAvatarParent.offsetTop,
-        left: currentAvatarParent.offsetLeft
-      }
-      currentAvatarParent.firstChild.remove()
-      currentAvatarParent.appendChild(this.currentAvatar)
-      this.addCurrentAvatarInGallery(this.currentAvatarParentProperties)
+      this.$nextTick(() => {
+        const avatar = document.querySelectorAll('.avatar')
+        this.currentAvatarParentProperties = {
+          width: avatar[0].offsetWidth,
+          height: avatar[0].offsetHeight,
+          top: avatar[0].offsetTop,
+          left: avatar[0].offsetLeft
+        }
+        avatar[0].firstChild.remove()
+        avatar[0].appendChild(this.currentAvatar)
+        this.addCurrentAvatarInGallery(this.currentAvatarParentProperties)
+      })
     },
 
     addCurrentAvatarInGallery (container) {
@@ -76,7 +83,7 @@ export default {
   watch: {
     avatarIsAdding () {
       if (this.avatarIsAdding) {
-        this.showAllAvatars()
+        this.getAllAvatars()
       }
     }
   }
@@ -92,21 +99,22 @@ export default {
     padding: 0;
     margin: 0;
 
+    .current-avatar {
+      z-index: 5;
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 1.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+      background-color: $color__white;
+    }
+
     &__item {
       list-style: none;
       max-height: 250px;
       overflow: hidden;
-
-      .current-avatar {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        height: 100%;
-        width: 100%;
-        transform: translate(-50%, -50%);
-        transition: all 1.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-        background-color: $color__white;
-      }
 
       &:first-child {
         // box-shadow: 5px 5px 10px #aaa;

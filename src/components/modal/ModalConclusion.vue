@@ -10,42 +10,42 @@
 </template>
 
 <script>
-  import store from '../../store/index'
+import store from '../../store/index'
 
-  import Icon from '@/components/icons/Icon.vue'
+import Icon from '@/components/icons/Icon.vue'
 
-  export default {
-    name: 'ModalConclusion',
-    props: {
-      isActive: {
-        required: true,
-        type: Boolean
-      }
+export default {
+  name: 'ModalConclusion',
+  props: {
+    isActive: {
+      required: true,
+      type: Boolean
+    }
+  },
+  components: {
+    Icon
+  },
+  methods: {
+    onClickClose () {
+      this.$parent.$emit('Modal:Conclusion:Close')
     },
-    components: {
-      Icon
-    },
-    methods: {
-      onClickClose () {
-        this.$parent.$emit('Modal:Conclusion:Close')
-      },
-      handleScroll (isActive) {
-        if (isActive) {
-          document.body.classList.add('is-unscrollable')
-        } else {
-          document.body.classList.remove('is-unscrollable')
-        }
-      }
-    },
-    mounted () {
-      this.handleScroll(this.isActive)
-    },
-    watch: {
-      isActive (nextProp) {
-        this.handleScroll(nextProp)
+    handleScroll (isActive) {
+      if (isActive) {
+        document.body.classList.add('is-unscrollable')
+      } else {
+        document.body.classList.remove('is-unscrollable')
       }
     }
+  },
+  mounted () {
+    this.handleScroll(this.isActive)
+  },
+  watch: {
+    isActive (nextProp) {
+      this.handleScroll(nextProp)
+    }
   }
+}
 
 </script>
 
