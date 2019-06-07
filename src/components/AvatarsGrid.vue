@@ -3,11 +3,11 @@
     <img class="avatars__item__picture current-avatar" alt="Avatar">
     <p v-if="loading">Loading...</p>
     <li
-      v-if="allAvatars"
+      ref="avatarList"
       v-for="avatar in allAvatars"
       :key="avatar.id"
       :data-id="avatar.id"
-      class="avatars__item">
+      class="avatars__item avatar">
       <img class="avatars__item__picture" :src="avatar.url">
     </li>
   </ul>
@@ -35,40 +35,39 @@ export default {
       type: String
     }
   },
-  apollo: {
-    allAvatars: {
-      query: ALL_AVATARS,
-      variables: {
-        orderBy: 'createdAt_DESC'
-      }
-    }
-  },
   methods: {
+    getAllAvatars () {
+      this.$apollo.query({
+        query: ALL_AVATARS,
+        variables: {
+          orderBy: 'createdAt_DESC'
+        }
+      }).then(result => {
+        this.allAvatars = result.data.allAvatars
+        this.showAllAvatars()
+      })
+    },
     showCurrentAvatar () {
-      console.log('show current avatar')
       this.currentAvatar = document.querySelector('.current-avatar')
       this.currentAvatar.setAttribute('src', this.avatarPath)
     },
 
     showAllAvatars () {
-      console.log('show all avatars')
       this.$nextTick(() => {
-        let currentAvatarParent = document.querySelectorAll('.avatars.has-been-update > li')[0]
-        console.log('current avatar parent', currentAvatarParent)
+        const avatar = document.querySelectorAll('.avatar')
         this.currentAvatarParentProperties = {
-          width: currentAvatarParent.offsetWidth,
-          height: currentAvatarParent.offsetHeight,
-          top: currentAvatarParent.offsetTop,
-          left: currentAvatarParent.offsetLeft
+          width: avatar[0].offsetWidth,
+          height: avatar[0].offsetHeight,
+          top: avatar[0].offsetTop,
+          left: avatar[0].offsetLeft
         }
-        currentAvatarParent.firstChild.remove()
-        currentAvatarParent.appendChild(this.currentAvatar)
+        avatar[0].firstChild.remove()
+        avatar[0].appendChild(this.currentAvatar)
         this.addCurrentAvatarInGallery(this.currentAvatarParentProperties)
       })
     },
 
     addCurrentAvatarInGallery (container) {
-      console.log('add current avatar in gallery')
       setTimeout(() => {
         this.currentAvatar.style.width = container.width + 'px'
         this.currentAvatar.style.height = container.height + 'px'
@@ -83,8 +82,8 @@ export default {
   },
   watch: {
     avatarIsAdding () {
-      if (this.avatarIsAdding && !this.loading) {
-        this.showAllAvatars()
+      if (this.avatarIsAdding) {
+        this.getAllAvatars()
       }
     }
   }
