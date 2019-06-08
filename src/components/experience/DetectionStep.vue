@@ -26,6 +26,7 @@
 <script>
 // Modules
 import Step from '@/modules/sound/step/Step'
+import AssetsLoader from '@/modules/loader/AssetsLoader'
 import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
 import BackgroundMusic from '@/modules/sound/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
@@ -196,6 +197,10 @@ export default {
     this.backgroundMusic = new BackgroundMusic()
     if (this.isActive) {
       this.initDetectionStep()
+      AssetsLoader.loadAssets('image').then((data) => {
+        console.log('Asset Loader : All assets pre-loaded')
+      })
+      this.loader()
     }
     this.maxStep = 4
     this.stepLoading = 99 / this.maxStep
@@ -371,7 +376,7 @@ export default {
 
       &--progression {
         z-index: 1;
-        background-color: $color__green--pastel;
+        background-color: $color__black;
         bottom: 0;
         height: 0;
         transition: height 0.3s;
