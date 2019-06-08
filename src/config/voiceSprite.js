@@ -9,8 +9,9 @@ const voiceSprite = {
   detection_rotationLeft_advice: [43000, 2300], // end: 45300
   detection_rotationLeft_errorTooMuch: [38000, 4400], // end: 42400
   detection_rotationLeft_errorOpposite: [46000, 1200], // end: 47200
-  detection_rotationCentered_advice: [48000, 3400], // end: 51400
-  detection_rotationCentered_success: [53000, 6000], // end: 59000
+  detection_rotationCentered_advice: [48000, 1900], // end: 49900
+  detection_rotationCentered_success: [49900, 1500], // end: 51400
+  detection_rotationCentered_success_transition: [53000, 6000], // end: 59000
   avatarPersonnalisation_avatar_advice: [60000, 8800], // end: 68800
   decorPersonnalisation_park_advice: [70000, 6300], // end: 76300
   decorPersonnalisation_park_error: [86000, 2500], // end: 88500

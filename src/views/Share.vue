@@ -161,7 +161,7 @@ export default {
 <style scoped lang="scss">
 
 .share {
-  margin-top: 10rem;
+  padding-top: 10rem;
 
   &__title {
     padding-top: 6rem;

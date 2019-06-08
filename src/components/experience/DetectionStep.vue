@@ -145,12 +145,11 @@ export default {
             switch (this.currentStep.hasSuccess) {
               case true:
                 if (this.currentStep.name === 'rotationCentered') {
-                  let callSuccess = setTimeout(() => {
+                  this.stepObject.changeSubStepState('success', () => {
                     this.soundDesign.playSpriteSoundDesign('analyse', () => {
                       this.updateCheckProgression()
                       this.soundDesign.playSpriteSoundDesign('success', () => {
-                        this.stepObject.changeSubStepState('success', () => {
-                          window.clearTimeout(callSuccess)
+                        this.stepObject.changeSubStepState('success_transition', () => {
                           this.backgroundMusic.fadeOut(() => {
                             this.stepObject.sound.stop()
                             this.soundDesign.sound.stop()
@@ -160,7 +159,7 @@ export default {
                         })
                       })
                     })
-                  }, 500)
+                  })
                 } else {
                   this.updateCheckProgression()
                   this.soundDesign.playSpriteSoundDesign('validation', () => {

@@ -1,5 +1,6 @@
 <template>
   <div class="gallery">
+    <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
     <h1 class="gallery__title">{{ $t('gallery.title') }}</h1>
     <p class="gallery__subtitle"><span>{{ elementToIncrement }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
@@ -26,7 +27,8 @@ export default {
       allAvatars: [],
       avatarIsAdding: false,
       isModalActive: false,
-      elementToIncrement: 0
+      elementToIncrement: 0,
+      isConclusionDone: false
     }
   },
   apollo: {
@@ -125,6 +127,9 @@ export default {
           this.elementToIncrement = this.elementToIncrement + 1
         }
       }, 200)
+    },
+    redirectToShare () {
+      this.$router.push({ name: 'share' })
     }
   },
   mounted () {
@@ -134,6 +139,7 @@ export default {
     this.openConclusionModal()
     this.$on('Modal:Conclusion:Close', () => {
       this.isModalActive = false
+      this.isConclusionDone = true
     })
   }
 }
@@ -141,8 +147,7 @@ export default {
 
 <style lang="scss">
   .gallery {
-    margin-top: 16rem;
-    padding: 0 8rem;
+    padding: 16rem 8rem 0 8rem;
     text-align: left;
 
     &__overlay {
@@ -153,6 +158,20 @@ export default {
       left: 0;
       top: 0;
       z-index: 5;
+    }
+
+    &__share {
+      position: absolute;
+      top: 30px;
+      right: 50px;
+      @include outlinedButton(1rem 2rem, 1.5rem);
+      opacity: 0;
+      transition: opacify 0.5s ease-in;
+
+      &.is-active {
+        opacity: 1;
+      }
+
     }
 
     &__title {
