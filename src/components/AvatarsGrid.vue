@@ -44,7 +44,7 @@ export default {
         }
       }).then(result => {
         this.allAvatars = result.data.allAvatars
-        // this.showAllAvatars()
+        this.showAllAvatars()
       })
     },
     showCurrentAvatar () {
@@ -79,15 +79,15 @@ export default {
     }
   },
   mounted () {
-    // this.showCurrentAvatar()
-    this.getAllAvatars()
+    this.showCurrentAvatar()
+    //this.getAllAvatars()
   },
   watch: {
-//    avatarIsAdding () {
-//      if (this.avatarIsAdding) {
-//        this.getAllAvatars()
-//      }
-//    }
+    avatarIsAdding () {
+      if (this.avatarIsAdding) {
+        this.getAllAvatars()
+      }
+    }
   }
 }
 </script>
