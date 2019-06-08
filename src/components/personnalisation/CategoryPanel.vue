@@ -284,9 +284,9 @@ export default {
 
   .panel {
     position: absolute;
-    left: 2rem;
-    right: 2rem;
-    bottom: 2rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
     opacity: 0;
     transform: translateY(10rem);
 
