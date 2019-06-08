@@ -72,10 +72,10 @@ export default {
       show: {
         settings: false,
         camera: false,
-        personnalisation: true,
+        personnalisation: false,
         events: false,
         gui: false,
-        decor: false
+        decor: true
       },
       decors: config.decors,
       selection: {
