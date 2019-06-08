@@ -1,6 +1,5 @@
 <template>
   <div class="gallery">
-    <button @click="onClickConclusion">conclusion</button>
     <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
     <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
@@ -69,14 +68,15 @@ export default {
         },
         update: (store, { data: { createAvatar } }) => {
           // Update avatars list when we had an avatar
-          const data = store.readQuery({ query: ALL_AVATARS, variables: { orderBy: 'createdAt_DESC' } })
+          const data = store.readQuery({ query: ALL_AVATARS, variables: {orderBy: 'createdAt_DESC'}})
           data.allAvatars.unshift(createAvatar)
-          store.writeQuery({ query: ALL_AVATARS, data })
+          store.writeQuery({ query: ALL_AVATARS, variables: {orderBy: 'createdAt_DESC'}, data})
           // Get ID of last avatar
           let avatarId = createAvatar.id
           this.addUserRepresentation(avatarId)
         }
       }).then((data) => {
+        console.log('avatar is added')
         this.avatarIsAdding = true
       })
     },
@@ -99,13 +99,19 @@ export default {
       // Update temporary table store ID
       store.commit('setTemporaryTableId', tableId)
     },
-    onClickConclusion () {
-      this.isModalActive = true
+    openConclusionModal () {
+      this.$on('Animation:Gallery:AvatarAdding', () => {
+        const timeOut = setTimeout(() => {
+          this.isModalActive = true
+          clearTimeout(timeOut)
+        }, 8000)
+      })
     }
   },
   mounted () {
     this.saveImagesInDB()
     this.updateBodyClass()
+    this.openConclusionModal()
     this.$on('Modal:Conclusion:Close', () => {
       this.isModalActive = false
     })
@@ -116,6 +122,16 @@ export default {
 <style lang="scss">
   .gallery {
     margin-top: 10rem;
+
+    &__overlay {
+      width: 100%;
+      height: 100%;
+      background-color: $color__white;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 5;
+    }
 
     &__title {
       margin-bottom: 2rem;
