@@ -1,6 +1,6 @@
 <template>
   <div :class="`detection__box ${isActive ? 'is-active' : ''}`">
-    <div :class="`detection__loader ${isReady ? 'is-ready' : ''}`">
+    <div :class="`detection__loader ${isReady && isLoadedAssets ? 'is-ready' : ''}`">
       <div class="loader">
         <img class="loader__gif" :src="`${publicPath}/img/gifs/loader.gif`" alt="Loader">
         <div class="loader__counter">{{counter}}%</div>
@@ -31,6 +31,9 @@ import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
 import BackgroundMusic from '@/modules/sound/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
+
+import store from '@/store/index'
+
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -77,7 +80,8 @@ export default {
       errorPlayed: 0,
       loaderProgression: 0,
       checkProgression: 0,
-      timeValidation: 0
+      timeValidation: 0,
+      isLoadedAssets: false
     }
   },
   methods: {
@@ -141,12 +145,11 @@ export default {
             switch (this.currentStep.hasSuccess) {
               case true:
                 if (this.currentStep.name === 'rotationCentered') {
-                  let callSuccess = setTimeout(() => {
+                  this.stepObject.changeSubStepState('success', () => {
                     this.soundDesign.playSpriteSoundDesign('analyse', () => {
                       this.updateCheckProgression()
                       this.soundDesign.playSpriteSoundDesign('success', () => {
-                        this.stepObject.changeSubStepState('success', () => {
-                          window.clearTimeout(callSuccess)
+                        this.stepObject.changeSubStepState('success_transition', () => {
                           this.backgroundMusic.fadeOut(() => {
                             this.stepObject.sound.stop()
                             this.soundDesign.sound.stop()
@@ -156,7 +159,7 @@ export default {
                         })
                       })
                     })
-                  }, 500)
+                  })
                 } else {
                   this.updateCheckProgression()
                   this.soundDesign.playSpriteSoundDesign('validation', () => {
@@ -178,9 +181,15 @@ export default {
           break
       }
     },
-    loader (step) {
+    loader (loading) {
+      if (!loading) {
+        this.counterMax = Math.round(this.counter + this.stepLoading)
+      } else {
+        this.counterMax = loading
+      }
+
       let t = setInterval(() => {
-        if (this.counter === 50) {
+        if (this.counter === this.counterMax) {
           clearInterval(t)
         } else {
           this.counter = this.counter + 1
@@ -190,32 +199,42 @@ export default {
     },
     updateCheckProgression () {
       this.checkProgression = this.checkProgression + (document.querySelector('.detection__check').offsetHeight / 4)
+    },
+    updateStoreStep () {
+      store.commit('setStep', 0)
     }
   },
   mounted () {
     this.backgroundMusic = new BackgroundMusic()
     if (this.isActive) {
       this.initDetectionStep()
-      AssetsLoader.loadAssets('image').then((data) => {
-        console.log('Asset Loader : All assets pre-loaded')
+      AssetsLoader.loadAssets('image').then(() => {
+        this.isLoadedAssets = true
       })
-      this.loader()
     }
-    this.loader(0)
+    this.maxStep = 4
+    this.stepLoading = 99 / this.maxStep
     window.addEventListener('DetectionInitializer:loading', (index) => {
-      this.loadingDetectionStep = index.detail
-      // this.loader(this.loadingDetectionStep)
+      this.loader()
     })
   },
   watch: {
     isReady () { // when BRF is ready
       if (this.isReady && this.isActive) {
         this.backgroundMusic.playSpriteBackgroundMusic('detection')
-        this.counter = this.counter + 1
-        const timeOut = setTimeout(() => {
-          this.getPositionCenter()
-          clearTimeout(timeOut)
-        }, 1500)
+        if (this.isLoadedAssets) {
+          this.counter = this.counter + 1
+          const timeOut = setTimeout(() => {
+            this.updateStoreStep()
+            this.getPositionCenter()
+            clearTimeout(timeOut)
+          }, 1500)
+        } else {
+          const timeOut = setTimeout(() => {
+            this.isReady()
+            clearTimeout(timeOut)
+          }, 100)
+        }
       }
     },
     isAnalysed () { // when BRF got initial face values
@@ -375,7 +394,7 @@ export default {
 
       &--progression {
         z-index: 1;
-        background-color: $color__green--pastel;
+        background-color: $color__black;
         bottom: 0;
         height: 0;
         transition: height 0.3s;

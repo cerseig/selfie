@@ -34,8 +34,11 @@
     }
   },
   "gallery": {
-    "title": "Galerie",
-    "counter": "utilisateurs"
+    "title": "Pensais-tu vraiment que tu étais unique ?",
+    "counter": "autres le pensaient aussi.",
+    "button": {
+      "share": "Partager"
+    }
   },
   "intro": {
     "title": "La page intro"

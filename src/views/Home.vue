@@ -84,11 +84,18 @@
 </template>
 
 <script>
-import store from '../store/index'
+// Components
 import About from '@/components/About.vue'
 import Icon from '@/components/icons/Icon.vue'
+
+// Config
 import voiceSprite from '@/config/voiceSprite'
+
+// Libs
 import { Howl } from 'howler'
+
+// Modules
+import store from '../store/index'
 
 export default {
   name: 'home',
@@ -129,9 +136,6 @@ export default {
     updateBodyClass () {
       const body = document.querySelector('body')
       body.className = ''
-      body.classList.add('default')
-
-      document.querySelector('.nav').classList.add('nav--start')
     },
     onChangeLang () {
       let selectLanguage = document.querySelector('.is-selected').nextSibling
@@ -189,6 +193,7 @@ export default {
       width: 180px;
       height: 180px;
       pointer-events: none;
+      transition: transform .5s, opacity .2s .5s;
     }
 
     &__description {
@@ -260,6 +265,7 @@ export default {
       width: calc(100vw - 40px);
       position: relative;
       pointer-events: none;
+      transition: transform .3s;
 
       .avatars {
         display: flex;
@@ -327,6 +333,7 @@ export default {
       position: absolute;
       top: 30px;
       right: 30px;
+      transition: opacity .3s;
       &--button {
         @include textButton(1.4rem);
       }
@@ -361,6 +368,24 @@ export default {
     }
   }
 
+  //Transitions
+  .home-fade-leave-active {
+    .home__description,
+    .home__actions,
+    .home__about {
+      opacity: 0;
+    }
+
+    .home__avatars {
+      transform: translateY(100%);
+    }
+
+    .home__logo {
+      transform: translate(0, 70%) scale(1.25);
+      opacity: 0;
+    }
+  }
+
   /* ----- TABLET IPAD ----- */
   @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
     .home {
@@ -375,6 +400,7 @@ export default {
         line-height: 4rem;
         max-width: 600px;
         margin: 0 auto 6rem auto;
+        transition: opacity .3s;
       }
 
       &__select {

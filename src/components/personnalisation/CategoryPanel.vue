@@ -10,7 +10,7 @@
     </ul>
     <div class="panel__subpanel">
       <div :class="`panel__inner ${isActive === index ? 'is-active' : ''}`" v-for="(category, index) in categories" :key="`panel-${index}`">
-        <ul class="list--colors" v-if="category && category.colors && category.colors.length > 0">
+        <ul class="list list--colors" v-if="category && category.colors && category.colors.length > 0">
           <li
             v-for="(color, indexColor) in category.colors"
             :class="`list__item ${selection[index] && selection[index].colors === indexColor ? 'is-selected' : ''}`"
@@ -23,7 +23,7 @@
            <button class="list__button" :style="{ backgroundColor: color.item }"></button>
           </li>
         </ul>
-         <ul :class="`list--attributes ${!category.colors && isActive === index ? 'list--attributes--top' : ''}`" v-if="category && category.attributes && category.attributes.length > 0">
+         <ul :class="`list list--attributes ${!category.colors && isActive === index ? 'list--attributes--top' : ''}`" v-if="category && category.attributes && category.attributes.length > 0">
           <li
             v-for="(attribute, indexAttr) in category.attributes"
             :class="`list__item ${selection[index] && selection[index].attributes === indexAttr ? 'is-selected' : ''}`"
@@ -118,7 +118,6 @@ export default {
   .list--category,
   .list--attributes,
   .list--colors {
-    background-color: $color__white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,20 +141,24 @@ export default {
 
   .list--category {
     position: relative;
-    bottom: -40px;
-    z-index: 2;
-    width: fit-content;
-    padding: 0 20px;
-    border-radius: 30px;
+    bottom: -4rem;
     margin: 0 auto;
-    box-shadow: 0px 6px 15px rgba($color__black, 0.1);
+    padding: 0 2rem;
+    width: fit-content;
+    z-index: 2;
+    border-radius: 3rem;
+    box-shadow: 0 .6rem 1.5rem rgba($color__black, 0.1);
+    background: $color__white;
     .list__item {
       opacity: 0.2;
+      transform: scale(0);
+
       &:last-child {
         margin-right: 0;
       }
       .list__button {
-        padding: 3px 5px 0 3px;
+        padding: .3rem .5rem 0 .3rem;
+
         svg {
           width: 3.5rem;
           height: 3.5rem;
@@ -174,7 +177,8 @@ export default {
       width: 9rem;
       height: .5rem;
       background: $color__black;
-      transition: transform .3s;
+      transition: transform .3s, opacity .1s .3s;;
+      opacity: 0;
     }
   }
 
@@ -195,11 +199,27 @@ export default {
       width: 2rem;
       height: 2rem;
       flex-shrink: 0;
+      transform: scale(0);
       &.is-selected {
-        border: .1rem solid $color__black;
+        &:after {
+          opacity: 1;
+        }
+
         .list__button {
           transform: scale(0.5);
         }
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        border: .1rem solid $color__black;
+        opacity: 0;
+        transition: opacity .3s;
       }
       .list__button {
         border-radius: 50%;
@@ -213,7 +233,8 @@ export default {
   }
 
   .list--attributes {
-    height: 90px;
+    height: 9rem;
+    width: 100%;
     overflow-x: scroll; // a supprimer quand on utilisera le --overflow
     justify-content: initial; // a supprimer quand on utilisera le --overflow
     &--overflow {
@@ -221,32 +242,50 @@ export default {
       justify-content: initial;
     }
     .list__item {
-      border: .1rem solid $color__gray--light;
       width: 6rem;
       height: 6rem;
       display: flex;
       justify-content: center;
       align-items: center;
       margin: 0 5px;
-      border-radius: 10px;
+      border-radius: 1rem;
       flex-shrink: 0;
+      transform: scale(0);
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        border-radius: 1rem;
+        border: .1rem solid $color__black;
+        opacity: .1;
+        transition: opacity .3s;
+      }
+
       .list__thumbnail {
         width: 4.5rem;
         height: 4.5rem;
       }
       &.is-selected {
-        border-color: $color__black;
         .list__button,
         .list__thumbnail {
           transform: scale(0.9)
+        }
+
+        &:after {
+          opacity: 1;
         }
       }
     }
   }
 
   .panel {
-    width: 100%;
     position: absolute;
+    left: 0;
+    right: 0;
     bottom: 0;
     opacity: 0;
     transform: translateY(10rem);
@@ -256,16 +295,77 @@ export default {
     &__subpanel {
       z-index: 1;
     }
+
     &--category {
+      height: 35rem;
+      background: $color__white;
+
       &.is-active {
         opacity: 1;
-        transform: translateY(0)
+        transform: translateY(0);
+
+        .list--category {
+          .list__item {
+            @for $i from 1 through 6 {
+              &:nth-of-type(#{$i}) {
+                transform: scale(1);
+                transition: transform #{$i * .1s} .3s;
+              }
+            }
+          }
+
+          .list__indicator {
+            opacity: 1;
+          }
+        }
+
+        .panel__inner {
+          &.is-active {
+            .list--colors {
+              .list__item {
+                @for $i from 1 through 16 {
+                  &:nth-of-type(#{$i}) {
+                    transform: scale(1);
+                    transition: transform #{$i * .1s} .3s;
+                  }
+                }
+              }
+            }
+            .list--attributes {
+              .list__item {
+                @for $i from 1 through 16 {
+                  &:nth-of-type(#{$i}) {
+                    transform: scale(1);
+                    transition: transform #{$i * .1s} .3s;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
+
       .panel__inner {
-        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s;
 
         &.is-active {
-          display: block;
+          pointer-events: all;
+          opacity: 1;
+        }
+
+        .list {
+          &:last-of-type {
+            border-bottom: none;
+          }
         }
       }
     }
@@ -280,23 +380,11 @@ export default {
       }
     }
 
-    // .list--colors,
-    // .list--attributes {
-    //   .list__item {
-    //     &.is-selected {
-    //       .list__button,
-    //       .list__thumbnail {
-    //         transform: scale(0.8);
-    //       }
-    //     }
-    //   }
-    // }
-
     .list--colors {
-      height: 160px;
-      padding-top: 40px;
+      height: 16rem;
+      padding-top: 4rem;
       .list__item {
-        margin: 10px;
+        margin: 1rem;
         width: 4rem;
         height: 4rem;
         .list__button {
@@ -307,15 +395,17 @@ export default {
     }
 
     .list--attributes {
-      height: 150px;
+      height: 15rem;
+      padding-left: 5rem;
+
       &--top {
-        padding-top: 40px;
-        height: 180px;
+        padding-top: 4rem;
+        height: 17rem;
       }
       .list__item {
         width: 10rem;
         height: 10rem;
-        margin: 0 10px;
+        margin: 0 1rem;
         .list__thumbnail {
           width: 7rem;
           height: 7rem;
@@ -331,12 +421,12 @@ export default {
     }
 
     .list--category {
-      bottom: -40px;
-      padding: 0 50px;
-      border-radius: 50px;
+      bottom: 4rem;
+      padding: 0 5rem;
+      border-radius: 5rem;
       .list__item {
         .list__button {
-          padding: 10px 15px 5px 15px;
+          padding: 1rem 1.5rem .5rem 1.5rem;
           svg {
             width: 6rem;
             height: 6rem;
@@ -344,9 +434,6 @@ export default {
         }
         &.is-active {
           opacity: 1;
-          // .list__button {
-          //   border-bottom: .5rem solid $color__black;
-          // }
         }
       }
     }
@@ -357,11 +444,7 @@ export default {
       }
       &--category {
         .panel__inner {
-          display: none;
-
-          &.is-active {
-            display: block;
-          }
+          min-height: 35rem;
         }
       }
     }

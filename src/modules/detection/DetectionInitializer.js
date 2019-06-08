@@ -97,6 +97,10 @@ class DetectionInitializer {
   loadBRFv4Version () {
     console.log(`Detection Initializer => Checking support of WebAssembly: ${this.isWebAssemblySupported ? 'loading WASM (not ASM).' : 'loading ASM (not WASM).'} `)
 
+    this.loadingSteps = this.loadingSteps + 1
+    const event = new CustomEvent('DetectionInitializer:loading', { detail: this.loadingSteps })
+    window.dispatchEvent(event)
+
     if (this.isWebAssemblySupported) {
       this.readWASMBinary(`${this.paths.brfv4FilePath}.wasm`,
         (r) => {

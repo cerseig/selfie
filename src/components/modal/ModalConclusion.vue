@@ -9,10 +9,6 @@
 </template>
 
 <script>
-import store from '../../store/index'
-
-import Icon from '@/components/icons/Icon.vue'
-
 export default {
   name: 'ModalConclusion',
   props: {
@@ -25,9 +21,6 @@ export default {
     return {
       publicPath: process.env.BASE_URL
     }
-  },
-  components: {
-    Icon
   },
   methods: {
     handleScroll (isActive) {
@@ -42,7 +35,7 @@ export default {
       this.$refs.video.addEventListener('ended', () => {
         this.$refs.video.pause()
         this.$parent.$emit('Modal:Conclusion:Close')
-      });
+      })
     }
   },
   mounted () {

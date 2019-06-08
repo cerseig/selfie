@@ -1,7 +1,8 @@
 <template>
   <div class="gallery">
-    <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
-    <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
+    <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
+    <h1 class="gallery__title">{{ $t('gallery.title') }}</h1>
+    <p class="gallery__subtitle"><span>{{ elementToIncrement }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
       <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
     </div>
@@ -25,7 +26,9 @@ export default {
       picture: '',
       allAvatars: [],
       avatarIsAdding: false,
-      isModalActive: false
+      isModalActive: false,
+      elementToIncrement: 0,
+      isConclusionDone: false
     }
   },
   apollo: {
@@ -44,7 +47,15 @@ export default {
     picturePath: () => store.getters.getPicturePath
   },
   methods: {
+    getAllAvatars () {
+      this.$apollo.query({
+        query: ALL_AVATARS
+      }).then(result => {
+        this.usersCounter()
+      })
+    },
     updateBodyClass () {
+      document.querySelector('.nav').classList.add('is-active')
       document.querySelector('body').className = ''
       document.querySelector('body').classList.add('application')
     },
@@ -68,9 +79,9 @@ export default {
         },
         update: (store, { data: { createAvatar } }) => {
           // Update avatars list when we had an avatar
-          const data = store.readQuery({ query: ALL_AVATARS, variables: {orderBy: 'createdAt_DESC'}})
+          const data = store.readQuery({ query: ALL_AVATARS, variables: { orderBy: 'createdAt_DESC' } })
           data.allAvatars.unshift(createAvatar)
-          store.writeQuery({ query: ALL_AVATARS, variables: {orderBy: 'createdAt_DESC'}, data})
+          store.writeQuery({ query: ALL_AVATARS, variables: { orderBy: 'createdAt_DESC' }, data })
           // Get ID of last avatar
           let avatarId = createAvatar.id
           this.addUserRepresentation(avatarId)
@@ -106,14 +117,29 @@ export default {
           clearTimeout(timeOut)
         }, 8000)
       })
+    },
+    usersCounter () {
+      console.log(this.allAvatars.length)
+      let t = setInterval(() => {
+        if (this.elementToIncrement === this.allAvatars.length) {
+          clearInterval(t)
+        } else {
+          this.elementToIncrement = this.elementToIncrement + 1
+        }
+      }, 200)
+    },
+    redirectToShare () {
+      this.$router.push({ name: 'share' })
     }
   },
   mounted () {
+    this.getAllAvatars()
     this.saveImagesInDB()
     this.updateBodyClass()
     this.openConclusionModal()
     this.$on('Modal:Conclusion:Close', () => {
       this.isModalActive = false
+      this.isConclusionDone = true
     })
   }
 }
@@ -121,7 +147,8 @@ export default {
 
 <style lang="scss">
   .gallery {
-    margin-top: 10rem;
+    padding: 16rem 8rem 0 8rem;
+    text-align: left;
 
     &__overlay {
       width: 100%;
@@ -133,14 +160,46 @@ export default {
       z-index: 5;
     }
 
-    &__title {
-      margin-bottom: 2rem;
+    &__share {
+      position: absolute;
+      top: 30px;
+      right: 50px;
+      @include outlinedButton(1rem 2rem, 1.5rem);
+      opacity: 0;
+      transition: opacify 0.5s ease-in;
+
+      &.is-active {
+        opacity: 1;
+      }
+
     }
 
-    &__counter {
-      font-size: 1.5rem;
+    &__title {
+      margin-bottom: 1.5rem;
+      font-size: 5rem;
+      color: $color__blue--dark;
+    }
+
+    &__subtitle {
+      font-size: 3.5rem;
       font-weight: 300;
       margin-bottom: 6rem;
+      display: flex;
+      align-items: center;
+      font-family: $font__sintony;
+      span {
+        font-weight: 700;
+        margin-right: 10px;
+        position: relative;
+        &:before {
+          content: '';
+          width: 100%;
+          height: 8px;
+          background-color: $color__orange;
+          position: absolute;
+          bottom: -5px;
+        }
+      }
     }
 
     &__avatars {

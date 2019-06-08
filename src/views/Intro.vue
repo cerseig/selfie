@@ -5,7 +5,13 @@
 </template>
 
 <script>
+// Modules
+import AssetsLoader from '@/modules/loader/AssetsLoader'
+
+// Config
 import stepsConfig from '@/config/steps'
+
+// Components
 import Step from '@/modules/sound/step/Step'
 import Icon from '@/components/icons/Icon.vue'
 
@@ -31,6 +37,7 @@ export default {
     }
   },
   mounted () {
+    AssetsLoader.loadAsset('/img/gifs/loader.gif', 'image')
     this.createStepObject()
     this.playIntro()
   },
@@ -51,6 +58,21 @@ export default {
     &__animation {
       font-size: 15rem;
       animation: blink 2s infinite;
+      opacity: 0;
+      transition: opacity .5s;
+    }
+  }
+
+  //Transitions
+  .home-fade-enter {
+    .intro__animation {
+      opacity: 1;
+    }
+  }
+
+  .experience-fade-leave-active {
+    .intro__animation {
+      opacity: 0;
     }
   }
 </style>

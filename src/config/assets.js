@@ -1,10 +1,4 @@
 const assets = {
-  analysis: {
-    loader: {
-      url: '/img/gifs/loader.gif',
-      type: 'image'
-    }
-  },
   decors: {
     mountain: {
       url: '/img/decors/decor_bath.png',
