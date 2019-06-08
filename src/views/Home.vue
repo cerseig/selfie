@@ -84,11 +84,18 @@
 </template>
 
 <script>
-import store from '../store/index'
+// Components
 import About from '@/components/About.vue'
 import Icon from '@/components/icons/Icon.vue'
+
+// Config
 import voiceSprite from '@/config/voiceSprite'
+
+// Libs
 import { Howl } from 'howler'
+
+// Modules
+import store from '../store/index'
 
 export default {
   name: 'home',

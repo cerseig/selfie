@@ -13,7 +13,7 @@ class AssetsLoader {
             switch (type) {
               case 'image':
                 this.loadImage(assets[item][test].url, resolve)
-                break;
+                break
             }
           })
         )
@@ -25,6 +25,15 @@ class AssetsLoader {
         this.pendings = []
         resolve()
       })
+    })
+  }
+
+  loadAsset (url, type) {
+    return new Promise((resolve, reject) => {
+      switch (type) {
+        case 'image':
+          this.loadImage(url)
+      }
     })
   }
 
