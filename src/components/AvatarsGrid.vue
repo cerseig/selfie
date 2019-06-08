@@ -1,6 +1,6 @@
 <template>
   <ul :class="`avatars ${avatarIsAdding ? 'has-been-update' : ''}`">
-    <!--<img class="avatars__item__picture current-avatar" alt="Avatar">-->
+    <img class="avatars__item__picture current-avatar" alt="Avatar">
     <p v-if="loading">Loading...</p>
     <li
       ref="avatarList"
@@ -80,7 +80,7 @@ export default {
   },
   mounted () {
     this.showCurrentAvatar()
-    //this.getAllAvatars()
+    // this.getAllAvatars()
   },
   watch: {
     avatarIsAdding () {
