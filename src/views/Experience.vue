@@ -103,9 +103,7 @@ export default {
     updateBodyClass () {
       document.querySelector('.nav').classList.remove('nav--start')
       document.body.className = ''
-      if (this.detection.states.isAnalysed) {
-        document.body.classList.add('experience')
-      } else {
+      if (!this.detection.states.isAnalysed) {
         document.body.classList.add('application')
       }
     },

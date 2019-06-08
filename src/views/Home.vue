@@ -136,7 +136,6 @@ export default {
     updateBodyClass () {
       const body = document.querySelector('body')
       body.className = ''
-      body.classList.add('default')
 
       document.querySelector('.nav').classList.add('nav--start')
     },

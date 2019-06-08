@@ -17,14 +17,36 @@ html, body {
 }
 
 body {
-  &.default {
-    background-color: $color__blue;
-  }
   &.application {
-    background-color: $color__white;
+    &:after {
+      opacity: 1;
+    }
+
+    &:before {
+      opacity: 0;
+    }
   }
-  &.experience {
-    background-color: $color__blue;
+
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    transition: opacity .3s;
+  }
+
+  &:after {
+    background: $color__white;
+    z-index: -1;
+    opacity: 0;
+  }
+
+  &:before {
+    background: $color__blue;
+    opacity: 1;
   }
 }
 
