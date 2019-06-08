@@ -177,9 +177,10 @@ export default {
           break
       }
     },
-    loader (step) {
+    loader () {
+      let counterMax = this.counter + this.stepLoading
       let t = setInterval(() => {
-        if (this.counter === 50) {
+        if (this.counter === Math.round(counterMax)) {
           clearInterval(t)
         } else {
           this.counter = this.counter + 1
@@ -196,10 +197,10 @@ export default {
     if (this.isActive) {
       this.initDetectionStep()
     }
-    this.loader(0)
+    this.maxStep = 4
+    this.stepLoading = 99 / this.maxStep
     window.addEventListener('DetectionInitializer:loading', (index) => {
-      this.loadingDetectionStep = index.detail
-      // this.loader(this.loadingDetectionStep)
+      this.loader()
     })
   },
   watch: {
