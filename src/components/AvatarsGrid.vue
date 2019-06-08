@@ -98,7 +98,7 @@ export default {
     grid-template-columns: 200px 200px 200px 200px;
     grid-gap: 20px;
     padding: 0;
-    margin: 0;
+    margin: 0 0 50px 0;
 
     .current-avatar {
       z-index: 5;
