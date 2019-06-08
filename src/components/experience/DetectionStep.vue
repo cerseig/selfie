@@ -1,6 +1,6 @@
 <template>
   <div :class="`detection__box ${isActive ? 'is-active' : ''}`">
-    <div :class="`detection__loader ${isReady ? 'is-ready' : ''}`">
+    <div :class="`detection__loader ${isReady && isLoadedAssets ? 'is-ready' : ''}`">
       <div class="loader">
         <img class="loader__gif" :src="`${publicPath}/img/gifs/loader.gif`" alt="Loader">
         <div class="loader__counter">{{counter}}%</div>
@@ -77,7 +77,8 @@ export default {
       errorPlayed: 0,
       loaderProgression: 0,
       checkProgression: 0,
-      timeValidation: 0
+      timeValidation: 0,
+      isLoadedAssets: false
     }
   },
   methods: {
@@ -178,10 +179,15 @@ export default {
           break
       }
     },
-    loader () {
-      let counterMax = this.counter + this.stepLoading
+    loader (loading) {
+      if (!loading) {
+        this.counterMax = Math.round(this.counter + this.stepLoading)
+      } else {
+        this.counterMax = loading
+      }
+
       let t = setInterval(() => {
-        if (this.counter === Math.round(counterMax)) {
+        if (this.counter === this.counterMax) {
           clearInterval(t)
         } else {
           this.counter = this.counter + 1
@@ -197,10 +203,9 @@ export default {
     this.backgroundMusic = new BackgroundMusic()
     if (this.isActive) {
       this.initDetectionStep()
-      AssetsLoader.loadAssets('image').then((data) => {
-        console.log('Asset Loader : All assets pre-loaded')
+      AssetsLoader.loadAssets('image').then(() => {
+        this.isLoadedAssets = true
       })
-      this.loader()
     }
     this.maxStep = 4
     this.stepLoading = 99 / this.maxStep
@@ -212,11 +217,18 @@ export default {
     isReady () { // when BRF is ready
       if (this.isReady && this.isActive) {
         this.backgroundMusic.playSpriteBackgroundMusic('detection')
-        this.counter = this.counter + 1
-        const timeOut = setTimeout(() => {
-          this.getPositionCenter()
-          clearTimeout(timeOut)
-        }, 1500)
+        if (this.isLoadedAssets) {
+          this.counter = this.counter + 1
+          const timeOut = setTimeout(() => {
+            this.getPositionCenter()
+            clearTimeout(timeOut)
+          }, 1500)
+        } else {
+          const timeOut = setTimeout(() => {
+            this.isReady()
+            clearTimeout(timeOut)
+          }, 100)
+        }
       }
     },
     isAnalysed () { // when BRF got initial face values
