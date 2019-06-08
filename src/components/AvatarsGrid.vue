@@ -83,11 +83,11 @@ export default {
     this.getAllAvatars()
   },
   watch: {
-//    avatarIsAdding () {
-//      if (this.avatarIsAdding) {
-//        this.getAllAvatars()
-//      }
-//    }
+    //    avatarIsAdding () {
+    //      if (this.avatarIsAdding) {
+    //        this.getAllAvatars()
+    //      }
+    //    }
   }
 }
 </script>

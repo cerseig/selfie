@@ -12,9 +12,9 @@ import Nav from '@/components/Nav.vue'
 
 export default {
   name: 'app',
-  data() {
+  data () {
     return {
-      transitionName: '',
+      transitionName: ''
     }
   },
   components: {
@@ -22,17 +22,14 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      const toDepth = to.path.split('/').length
-      const fromDepth = from.path.split('/').length
-
-      switch(to.name) {
+      switch (to.name) {
         case 'intro':
           this.transitionName = 'home-fade'
-          break;
+          break
 
         case 'experience':
           this.transitionName = 'experience-fade'
-          break;
+          break
       }
     }
   }

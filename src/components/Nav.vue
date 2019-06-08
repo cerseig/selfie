@@ -1,7 +1,7 @@
 <template>
   <nav class="nav">
     <SVGSprite />
-    <div :class="`nav__menu ${isModalActive || step === 4 ? 'is-hidden' : ''}`" @click="onClickMenu">
+    <div :class="`nav__menu ${ isModalActive || step === 4 ? 'is-hidden' : ''}`" @click="onClickMenu">
       <span :class="`nav__menu__item ${step === (i - 1) ? 'is-active' : ''} ${step > (i - 1) ? 'is-done' : ''}`" v-for="i in 4" :key="`nav-menu-item-${i}`"><span>{{(i)}}</span></span>
     </div>
     <div class="nav__logo">
