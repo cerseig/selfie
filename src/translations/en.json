@@ -35,7 +35,10 @@
   },
   "gallery": {
     "title": "Gallery",
-    "counter": "users"
+    "counter": "users",
+    "button": {
+      "share": "Share"
+    }
   },
   "intro": {
     "title": "This is an intro page"
