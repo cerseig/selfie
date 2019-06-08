@@ -35,9 +35,6 @@ export default {
       formerSelection: null
     }
   },
-  mounted () {
-    console.log('mounted decor', this)
-  },
   watch: {
     selection (newProp, formerProp) {
       this.formerSelection = formerProp

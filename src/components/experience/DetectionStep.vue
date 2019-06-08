@@ -375,7 +375,7 @@ export default {
 
       &--progression {
         z-index: 1;
-        background-color: $color__green--pastel;
+        background-color: $color__black;
         bottom: 0;
         height: 0;
         transition: height 0.3s;

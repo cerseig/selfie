@@ -5,7 +5,13 @@
 </template>
 
 <script>
+//Modules
+import AssetsLoader from '@/modules/loader/AssetsLoader'
+
+//Config
 import stepsConfig from '@/config/steps'
+
+//Components
 import Step from '@/modules/sound/step/Step'
 import Icon from '@/components/icons/Icon.vue'
 
@@ -31,6 +37,7 @@ export default {
     }
   },
   mounted () {
+    AssetsLoader.loadAsset('/img/gifs/loader.gif', 'image')
     this.createStepObject()
     this.playIntro()
   },
