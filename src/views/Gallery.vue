@@ -1,7 +1,7 @@
 <template>
   <div class="gallery">
-    <h1 class="gallery__title heading-1">{{ $t('gallery.title') }}</h1>
-    <p class="gallery__counter"><span>{{ allAvatars.length }}</span> {{ $t('gallery.counter') }}</p>
+    <h1 class="gallery__title">{{ $t('gallery.title') }}</h1>
+    <p class="gallery__subtitle"><span>{{ elementToIncrement }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
       <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
     </div>
@@ -25,7 +25,8 @@ export default {
       picture: '',
       allAvatars: [],
       avatarIsAdding: false,
-      isModalActive: false
+      isModalActive: false,
+      elementToIncrement: 0
     }
   },
   apollo: {
@@ -44,6 +45,13 @@ export default {
     picturePath: () => store.getters.getPicturePath
   },
   methods: {
+    getAllAvatars () {
+      this.$apollo.query({
+        query: ALL_AVATARS
+      }).then(result => {
+        this.usersCounter()
+      })
+    },
     updateBodyClass () {
       document.querySelector('body').className = ''
       document.querySelector('body').classList.add('application')
@@ -106,9 +114,20 @@ export default {
           clearTimeout(timeOut)
         }, 8000)
       })
+    },
+    usersCounter () {
+      console.log(this.allAvatars.length)
+      let t = setInterval(() => {
+        if (this.elementToIncrement === this.allAvatars.length) {
+          clearInterval(t)
+        } else {
+          this.elementToIncrement = this.elementToIncrement + 1
+        }
+      }, 200)
     }
   },
   mounted () {
+    this.getAllAvatars()
     this.saveImagesInDB()
     this.updateBodyClass()
     this.openConclusionModal()
@@ -121,7 +140,9 @@ export default {
 
 <style lang="scss">
   .gallery {
-    margin-top: 10rem;
+    margin-top: 16rem;
+    padding: 0 8rem;
+    text-align: left;
 
     &__overlay {
       width: 100%;
@@ -134,13 +155,31 @@ export default {
     }
 
     &__title {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+      font-size: 5rem;
+      color: $color__blue--dark;
     }
 
-    &__counter {
-      font-size: 1.5rem;
+    &__subtitle {
+      font-size: 3.5rem;
       font-weight: 300;
       margin-bottom: 6rem;
+      display: flex;
+      align-items: center;
+      font-family: $font__sintony;
+      span {
+        font-weight: 700;
+        margin-right: 10px;
+        position: relative;
+        &:before {
+          content: '';
+          width: 100%;
+          height: 8px;
+          background-color: $color__orange;
+          position: absolute;
+          bottom: -5px;
+        }
+      }
     }
 
     &__avatars {

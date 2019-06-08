@@ -1,6 +1,6 @@
 <template>
   <ul :class="`avatars ${avatarIsAdding ? 'has-been-update' : ''}`">
-    <img class="avatars__item__picture current-avatar" alt="Avatar">
+    <!--<img class="avatars__item__picture current-avatar" alt="Avatar">-->
     <p v-if="loading">Loading...</p>
     <li
       ref="avatarList"
@@ -44,7 +44,7 @@ export default {
         }
       }).then(result => {
         this.allAvatars = result.data.allAvatars
-        this.showAllAvatars()
+        // this.showAllAvatars()
       })
     },
     showCurrentAvatar () {
@@ -79,14 +79,15 @@ export default {
     }
   },
   mounted () {
-    this.showCurrentAvatar()
+    // this.showCurrentAvatar()
+    this.getAllAvatars()
   },
   watch: {
-    avatarIsAdding () {
-      if (this.avatarIsAdding) {
-        this.getAllAvatars()
-      }
-    }
+//    avatarIsAdding () {
+//      if (this.avatarIsAdding) {
+//        this.getAllAvatars()
+//      }
+//    }
   }
 }
 </script>
@@ -98,7 +99,7 @@ export default {
     grid-template-columns: 200px 200px 200px 200px;
     grid-gap: 20px;
     padding: 0;
-    margin: 0;
+    margin: 0 0 50px 0;
 
     .current-avatar {
       z-index: 5;

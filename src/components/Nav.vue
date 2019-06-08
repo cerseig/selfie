@@ -1,7 +1,7 @@
 <template>
-  <nav class="nav nav--start">
+  <nav class="nav">
     <SVGSprite />
-    <div :class="`nav__menu ${isModalActive ? 'is-hidden' : ''}`" @click="onClickMenu">
+    <div :class="`nav__menu ${isModalActive || step === 4 ? 'is-hidden' : ''}`" @click="onClickMenu">
       <span :class="`nav__menu__item ${step === (i - 1) ? 'is-active' : ''} ${step > (i - 1) ? 'is-done' : ''}`" v-for="i in 4" :key="`nav-menu-item-${i}`">{{(i)}}</span>
     </div>
     <div class="nav__logo">
@@ -58,19 +58,16 @@ export default {
   width: 50vw;
   padding: 0 0 0 20px;
   justify-content: flex-end;
+  transition: opacity 0.5s ease-in;
 
     &--start {
-      background: none;
-
-      .nav__logo {
-        opacity: 0;
-      }
-
+      opacity: 0;
     }
 
     &__menu {
       position: absolute;
       left: 50px;
+      transition: opacity 0.5s ease-in;
 
       &.is-hidden {
         opacity: 0;
