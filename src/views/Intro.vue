@@ -5,13 +5,13 @@
 </template>
 
 <script>
-//Modules
+// Modules
 import AssetsLoader from '@/modules/loader/AssetsLoader'
 
-//Config
+// Config
 import stepsConfig from '@/config/steps'
 
-//Components
+// Components
 import Step from '@/modules/sound/step/Step'
 import Icon from '@/components/icons/Icon.vue'
 

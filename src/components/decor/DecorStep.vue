@@ -95,7 +95,7 @@ export default {
       this.stepObject = stepObject
     },
     onSelectItem (e) {
-      const item  = e.currentTarget
+      const item = e.currentTarget
       const selectionIndex = item.getAttribute('data-index')
       const decor = item.getAttribute('data-decor')
       this.$parent.$emit('Decor:Change', decor)

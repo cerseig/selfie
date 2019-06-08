@@ -42,7 +42,7 @@ export default {
       this.$refs.video.addEventListener('ended', () => {
         this.$refs.video.pause()
         this.$parent.$emit('Modal:Conclusion:Close')
-      });
+      })
     }
   },
   mounted () {
