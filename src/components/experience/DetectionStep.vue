@@ -31,6 +31,9 @@ import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
 import BackgroundMusic from '@/modules/sound/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
+
+import store from '@/store/index'
+
 // Config
 import stepsConfig from '@/config/steps'
 
@@ -197,6 +200,9 @@ export default {
     },
     updateCheckProgression () {
       this.checkProgression = this.checkProgression + (document.querySelector('.detection__check').offsetHeight / 4)
+    },
+    updateStoreStep () {
+      store.commit('setStep', 0)
     }
   },
   mounted () {
@@ -220,6 +226,7 @@ export default {
         if (this.isLoadedAssets) {
           this.counter = this.counter + 1
           const timeOut = setTimeout(() => {
+            this.updateStoreStep()
             this.getPositionCenter()
             clearTimeout(timeOut)
           }, 1500)

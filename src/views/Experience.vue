@@ -8,10 +8,10 @@
 
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
       <Detection />
-      <DetectionStep v-if="currentStep <= STEPS.DECOR" :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" :isReady="detection.states.isReady" :isAnalysed="detection.states.isAnalysed" :positions="detection.positions" :errors="detection.errors" :sizes="detection.resolutionFrameSize" />
+      <DetectionStep v-if="currentStep < STEPS.DECOR" :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" :isReady="detection.states.isReady" :isAnalysed="detection.states.isAnalysed" :positions="detection.positions" :errors="detection.errors" :sizes="detection.resolutionFrameSize" />
     </div>
 
-    <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION" />
+    <PersonnalisationStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.PERSONNALISATION"  v-if="currentStep < STEPS.POSING" />
     <DecorStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.DECOR" />
 
     <PosingStep :validateStep="onValidateStep" :isActive="currentStep === STEPS.POSING" :positions="detection.positions" :detectionManager="detectionManager"/>
@@ -101,7 +101,7 @@ export default {
       }
     },
     updateBodyClass () {
-      document.querySelector('.nav').classList.remove('nav--start')
+      document.querySelector('.nav').classList.add('is-active')
       document.body.className = ''
       if (!this.detection.states.isAnalysed) {
         document.body.classList.add('application')
@@ -177,7 +177,6 @@ export default {
     }
     this.updateBodyClass()
 
-    this.updateStoreStep()
     this.$on('Personnalisation:Change', this.onPersonnalisationChange)
     this.$on('Decor:Change', this.onDecorChange)
 

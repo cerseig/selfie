@@ -53,6 +53,7 @@ export default {
       })
     },
     updateBodyClass () {
+      document.querySelector('.nav').classList.add('is-active')
       document.querySelector('body').className = ''
       document.querySelector('body').classList.add('application')
     },
