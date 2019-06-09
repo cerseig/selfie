@@ -72,5 +72,10 @@
   "modalProgress": {
     "title": "Progression",
     "button": "Recommencer l'expérience"
+  },
+  "modalConclusion": {
+    "notification": {
+      "message": "Félicitation, comme les {usersLength} autres utilisateurs, tu as réussi à faire le selfie parfait pour toi !"
+    }
   }
 }

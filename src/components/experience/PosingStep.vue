@@ -127,10 +127,10 @@ export default {
           break
         case 'posing':
           this.currentStep.status = 'done'
-          if ((this.currentStep.index + 1) === this.stepObject.subSteps.length) {
-            this.takePhotos()
-          }
           const timeOutDone = setTimeout(() => {
+            if ((this.currentStep.index + 1) === this.stepObject.subSteps.length) {
+              this.takePhotos()
+            }
             switch (this.currentStep.hasSuccess) {
               case true:
                 this.stepObject.changeSubStepState('success', () => {
@@ -164,7 +164,6 @@ export default {
 
         store.commit('setAvatarPath', capture.path)
         store.commit('setPicturePath', picture.path)
-        this.makeFlash()
       })
     },
     makeFlash () {
@@ -179,9 +178,6 @@ export default {
       })
     }
   },
-  //   mounted () {
-  //     this.takePhotos()
-  //   },
   watch: {
     isActive () {
       this.createStepObject()
