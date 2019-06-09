@@ -164,6 +164,7 @@ export default {
 
         store.commit('setAvatarPath', capture.path)
         store.commit('setPicturePath', picture.path)
+        this.makeFlash()
       })
     },
     makeFlash () {
