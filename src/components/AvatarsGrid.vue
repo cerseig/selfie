@@ -44,7 +44,7 @@ export default {
         }
       }).then(result => {
         this.allAvatars = result.data.allAvatars
-        // this.showAllAvatars()
+        this.showAllAvatars()
       })
     },
     showCurrentAvatar () {
