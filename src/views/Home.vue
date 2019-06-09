@@ -187,6 +187,7 @@ export default {
 
     &__container {
       padding: 0 20px;
+      overflow: hidden;
     }
 
     &__logo {
