@@ -72,5 +72,10 @@
   "modalProgress": {
     "title": "Progress",
     "button": "Restart the experiment"
+  },
+  "modalConclusion": {
+    "notification": {
+      "message": "Congratulation, as others users, "
+    }
   }
 }
