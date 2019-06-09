@@ -210,7 +210,7 @@ export default {
           this.counter = this.counter + 1
           this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
         }
-      }, 40)
+      }, 30)
     },
     onProgressStep (duration) {
       this.isAnalyseProgress = true
