@@ -15,6 +15,15 @@
         <span><Icon name="corner" width="40" height="40" :fill="`${errors.detection === true ? '#FF0000' : '#FFFFFF'}`" /></span>
       </div>
     </div>
+    <!--<div class="detection__progress">-->
+      <!--<ul class="detection__progressBar progressBar">-->
+        <!--<li :class="`progressBar__step`">Centré</li>-->
+        <!--<li class="progressBar__step">Droite</li>-->
+        <!--<li class="progressBar__step">Gauche</li>-->
+        <!--<li class="progressBar__step">Centré</li>-->
+      <!--</ul>-->
+      <!--<Icon class="detection__progressCheck" name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />-->
+    <!--</div>-->
     <div class="detection__check">
       <div class="detection__check--progressRound"></div>
       <div class="detection__check--progression" :style="`height: ${checkProgression}px;`"></div>
