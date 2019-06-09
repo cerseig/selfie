@@ -1,7 +1,7 @@
 <template>
   <div :class="`modal modal--conclusion ${isActive ? 'is-active' : ''}`">
     <div class="modal__inner">
-      <video ref="video" class="modal__video" preload>
+      <video ref="video" class="modal__video" preload playsinline>
         <source class="modal__video--source" :src="`${publicPath}/videos/conclusion.mp4`" type="video/mp4">
       </video>
     </div>
