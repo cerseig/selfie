@@ -6,7 +6,8 @@
     </a>
     <div class="decor__inner">
       <ul :class="`list list--decor ${step && step.isVoice ? 'is-unactive' : ''}`">
-        <li v-for="(decor, index) in decors.list" :key="`decor-${index}`" :class="`list__item ${decor.title === selection ? 'is-active' : ''}`" @click="onSelectItem" :data-decor="decor.title">
+        <span class="list__indicator" :style="{transform: `translateX(${selectionIndex * 10}rem)`}"></span>
+        <li v-for="(decor, index) in decors.list" :key="`decor-${index}`" :class="`list__item ${decor.title === selection ? 'is-active' : ''}`" @click="onSelectItem" :data-decor="decor.title" :data-index="index">
            <Icon :name="decor.title" :width="decor.width" :height="decor.height" stroke="#000000" fill="#000000"/>
         </li>
       </ul>
@@ -42,6 +43,7 @@ export default {
     return {
       decors: decors,
       selection: decors.default,
+      selectionIndex: 0,
       errorPlayed: 0,
       maxLevelError: 5,
       step: null
@@ -93,17 +95,21 @@ export default {
       this.stepObject = stepObject
     },
     onSelectItem (e) {
-      const decor = e.currentTarget.getAttribute('data-decor')
+      const item = e.currentTarget
+      const selectionIndex = item.getAttribute('data-index')
+      const decor = item.getAttribute('data-decor')
       this.$parent.$emit('Decor:Change', decor)
       this.selection = decor
+      this.selectionIndex = selectionIndex
       this.launchSound()
     }
   },
   mounted () {
     this.step = new Step(stepsConfig.decorPersonnalisation)
-    this.decors.list.forEach(decor => {
+    this.decors.list.forEach((decor, index) => {
       if (decor.title === this.decors.default) {
         this.selection = decor.title
+        this.selectionIndex = index
       }
     })
     if (this.isActive) {
@@ -131,6 +137,8 @@ export default {
     z-index: 3;
     opacity: 0;
     pointer-events: none;
+    transform: translateY(10rem);
+    transition: transform .3s, opacity .3s;
 
     &__next {
       @include outlinedButton(1rem 2rem, 1.5rem);
@@ -172,6 +180,22 @@ export default {
     &.is-active {
       opacity: 1;
       pointer-events: auto;
+      transform: translateY(0);
+
+      .list__indicator {
+        opacity: 1;
+      }
+
+      .list--decor {
+        .list__item {
+           @for $i from 1 through 6 {
+            &:nth-of-type(#{$i}) {
+              transform: scale(1);
+              transition: transform #{$i * .1s} .3s, opacity .3s;;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -192,6 +216,18 @@ export default {
 
     transition: opacity .3s;
 
+    .list__indicator {
+      content: '';
+      position: absolute;
+      left: 5.5rem;
+      bottom: 0;
+      width: 9rem;
+      height: .5rem;
+      background: $color__black;
+      transition: transform .3s, opacity .1s .3s;;
+      opacity: 0;
+    }
+
     &.is-unactive {
       pointer-events: none;
       opacity: .7;
@@ -209,17 +245,13 @@ export default {
       opacity: 0.2;
       margin: 0 10px -1px 10px;
 
-      transition: opacity .3s;
+      transform: scale(0);
 
       .icon {
         padding: 10px;
       }
       &.is-active {
         opacity: 1;
-
-        .icon {
-          border-bottom: .5rem solid $color__black;
-        }
       }
     }
   }

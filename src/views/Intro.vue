@@ -5,13 +5,13 @@
 </template>
 
 <script>
-//Modules
+// Modules
 import AssetsLoader from '@/modules/loader/AssetsLoader'
 
-//Config
+// Config
 import stepsConfig from '@/config/steps'
 
-//Components
+// Components
 import Step from '@/modules/sound/step/Step'
 import Icon from '@/components/icons/Icon.vue'
 
@@ -58,6 +58,21 @@ export default {
     &__animation {
       font-size: 15rem;
       animation: blink 2s infinite;
+      opacity: 0;
+      transition: opacity .5s;
+    }
+  }
+
+  //Transitions
+  .home-fade-enter {
+    .intro__animation {
+      opacity: 1;
+    }
+  }
+
+  .experience-fade-leave-active {
+    .intro__animation {
+      opacity: 0;
     }
   }
 </style>
