@@ -34,7 +34,6 @@ import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
 import BackgroundMusic from '@/modules/sound/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
-
 import store from '@/store/index'
 
 // Config
@@ -93,6 +92,7 @@ export default {
   },
   methods: {
     initDetectionStep () {
+      this.backgroundMusic.playSpriteBackgroundMusic('detection')
       this.stepObject = new Step(stepsConfig.detection)
       this.currentStep = this.stepObject.currentSubStep
       this.soundDesign = new SoundDesign()
@@ -210,7 +210,7 @@ export default {
           this.counter = this.counter + 1
           this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
         }
-      }, 40)
+      }, 30)
     },
     onProgressStep (duration) {
       this.isAnalyseProgress = true
@@ -228,7 +228,6 @@ export default {
     }
   },
   mounted () {
-    this.backgroundMusic = new BackgroundMusic()
     if (this.isActive) {
       this.initDetectionStep()
       AssetsLoader.loadAssets('image').then(() => {
@@ -244,7 +243,6 @@ export default {
   watch: {
     isReady () { // when BRF is ready
       if (this.isReady && this.isActive) {
-        this.backgroundMusic.playSpriteBackgroundMusic('detection')
         if (this.isLoadedAssets) {
           this.counter = this.counter + 1
           const timeOut = setTimeout(() => {
@@ -278,7 +276,10 @@ export default {
         this.onDetection()
       }
     }
-  }
+  },
+  computed: {
+    backgroundMusic: () => store.getters.getMusic
+  },
 }
 </script>
 

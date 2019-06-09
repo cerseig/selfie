@@ -128,12 +128,12 @@ export default {
         case 'posing':
           this.currentStep.status = 'done'
           const timeOutDone = setTimeout(() => {
-            if ((this.currentStep.index + 1) === this.stepObject.subSteps.length) {
-              this.takePhotos()
-            }
             switch (this.currentStep.hasSuccess) {
               case true:
                 this.stepObject.changeSubStepState('success', () => {
+                  if ((this.currentStep.index + 1) === this.stepObject.subSteps.length) {
+                    this.takePhotos()
+                  }
                   this.changeStep()
                 })
                 break
