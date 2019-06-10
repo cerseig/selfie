@@ -110,7 +110,7 @@ export default {
         const timeOut = setTimeout(() => {
           this.isModalActive = true
           clearTimeout(timeOut)
-        }, 8000)
+        }, 4000)
       })
     },
     redirectToShare () {

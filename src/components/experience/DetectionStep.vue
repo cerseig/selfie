@@ -279,7 +279,7 @@ export default {
   },
   computed: {
     backgroundMusic: () => store.getters.getMusic
-  },
+  }
 }
 </script>
 

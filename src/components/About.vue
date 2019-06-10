@@ -5,13 +5,14 @@
       <p class="about__message">{{ $t('about.message') }}</p>
       <h2 class="about__title">{{ $t('about.team.title') }}:</h2>
       <ul class="about__list">
-        <li class="about__item">Léa TANDA</li>
-        <li class="about__item">Circé GRAND</li>
-        <li class="about__item">Justine LENOUVEL</li>
-        <li class="about__item">Anastasiia GULENKO</li>
+        <li class="about__item"><a href="https://leatanda.fr/" target="_blank">Léa TANDA _ Développeuse</a></li>
+        <li class="about__item"><a href="https://circegrand.fr/#/" target="_blank">Circé GRAND _ Développeuse</a></li>
+        <li class="about__item"><a href="http://justine-lenouvel.fr/" target="_blank">Justine LENOUVEL _ Designer</a></li>
+        <li class="about__item"><a href="http://anastasiiagulenko.com/" target="_blank">Anastasiia GULENKO _ Designer</a></li>
       </ul>
       <h2 class="about__title">{{ $t('about.acknowledgements.title') }}:</h2>
       <p class="about__message">{{ $t('about.acknowledgements.message') }}</p>
+      <img class="about__school-logos" :src="`${publicPath}/img/logos/logo-gobelins-cci.png`">
     </div>
   </div>
 </template>
@@ -51,6 +52,10 @@ export default {
       width: 100%;
       max-width: 680px;
       margin-bottom: 3rem;
+    }
+
+    &__school-logos {
+      width: 150px;
     }
 
     &__title {

@@ -179,6 +179,9 @@ export default {
       })
     }
   },
+  //  mounted () {
+  //    this.takePhotos()
+  //  },
   watch: {
     isActive () {
       this.createStepObject()

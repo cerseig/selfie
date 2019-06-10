@@ -96,6 +96,7 @@ export default {
       }
 
       &__item {
+        position: relative;
         display: inline-block;
         width: 4rem;
         height: 4rem;
@@ -111,6 +112,8 @@ export default {
         line-height: 3.5rem;
         color: $color__black;
         overflow: hidden;
+
+        -webkit-mask-image: -webkit-radial-gradient(white, black); //For fucked up safari
 
         transform: scale(0);
 
