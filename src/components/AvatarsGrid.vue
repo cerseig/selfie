@@ -61,6 +61,7 @@ export default {
           top: avatar[0].offsetTop,
           left: avatar[0].offsetLeft
         }
+        console.log(this.currentAvatarParentProperties)
         avatar[0].firstChild.remove()
         avatar[0].appendChild(this.currentAvatar)
         this.addCurrentAvatarInGallery(this.currentAvatarParentProperties)
@@ -75,7 +76,7 @@ export default {
         this.currentAvatar.style.left = container.left + 'px'
         this.currentAvatar.style.transform = 'translate(0,0)'
         this.$parent.$emit('Animation:Gallery:AvatarAdding')
-      }, 5000)
+      }, 3000)
     }
   },
   mounted () {
@@ -125,6 +126,7 @@ export default {
       &__picture {
         max-width: none;
         width: 100%;
+        min-height: 250px;
 
       }
     }
