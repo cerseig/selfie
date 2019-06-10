@@ -157,6 +157,7 @@ export default {
         capturePromise,
         picturePromise
       ]).then((params) => {
+        console.log('params', params)
         const capture = params[0]
         this.avatarId = capture.uniqId
 

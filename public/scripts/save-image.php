@@ -2,7 +2,6 @@
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Headers: *");
 
-    $dataJson = json_decode($_POST['data'], true);
     $typeUpload = $_POST['type'];
 
     $image = $_POST['imageUrl'];
@@ -45,7 +44,9 @@
     echo json_encode([
         'success' => true,
         'uniqId' => $uniqId,
-        'path' => $protocol.$_SERVER['HTTP_HOST'].$path
+        'path' => $protocol.$_SERVER['HTTP_HOST'].$path,
+        'typeUpload' => $typeUpload,
+        'image' => $image
     ]);
 
 ?>
