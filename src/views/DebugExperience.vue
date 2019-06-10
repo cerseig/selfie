@@ -23,8 +23,6 @@
           <Decors v-if="show.decor"  :isActive="show.decor" :decors="decors" :selection="selection.decor" />
           <div class="avatar is-active" ref="avatarElement"></div>
         </div>
-
-        </div>
       </div>
       <PersonnalisationStep :isActive="show.personnalisation"/>
       <DecorStep :isActive="show.decor"/>

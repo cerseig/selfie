@@ -59,7 +59,7 @@ export default {
     onClickClose () {
       this.isVideo = true
       this.playVideo()
-    },
+    }
   },
   mounted () {
     this.handleScroll(this.isActive)
@@ -130,11 +130,9 @@ export default {
           overflow: hidden;
           opacity: 1;
 
-
           &.is-hidden {
             opacity: 0;
           }
-
 
           &__close {
             position: absolute;
