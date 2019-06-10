@@ -5,7 +5,10 @@
       <span :class="`nav__menu__item ${step === (i - 1) ? 'is-active' : ''} ${step > (i - 1) ? 'is-done' : ''}`" v-for="i in 4" :key="`nav-menu-item-${i}`"><span>{{(i)}}</span></span>
     </div>
     <div class="nav__logo">
-      <Icon name="logo" width="120" height="120" fill="#000000" />
+      <div class="nav__voice">
+        <Icon :class="`logo ${ isVoice ? 'is-hidden' : ''}`" name="logo" width="120" height="120" fill="#000000" />
+        <img :class="`logo__active ${ isVoice ? 'is-active' : ''}`" :src="`${publicPath}/img/gifs/amy_active.gif`">
+      </div>
     </div>
     <ModalProgress :isActive="isModalActive" />
   </nav>
@@ -26,11 +29,13 @@ export default {
   },
   data () {
     return {
-      isModalActive: false
+      isModalActive: false,
+      publicPath: process.env.BASE_URL
     }
   },
   computed: {
-    step: () => store.getters.getStep
+    step: () => store.getters.getStep,
+    isVoice: () => store.getters.getIsVoice
   },
   methods: {
     onClickMenu () {
@@ -41,6 +46,11 @@ export default {
     this.$on('Modal:Progress:Close', () => {
       this.isModalActive = false
     })
+  },
+  watch: {
+    isVoice (newValue) {
+      console.log(newValue)
+    }
   }
 }
 
@@ -169,6 +179,37 @@ export default {
         opacity: 0;
         transition: opacity .3s .3s;
       }
+    }
+
+    &__voice {
+      position: relative;
+
+      .logo {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+
+        &.is-hidden {
+          opacity: 0;
+        }
+
+      }
+
+      .logo__active {
+        width: 110px;
+        position: absolute;
+        left: 50%;
+        top: 46%;
+        transform: translate(-50%,-50%);
+        transition: opacity 0.3s ease;
+
+        opacity: 0;
+
+        &.is-active {
+          opacity: 1;
+        }
+
+      }
+
     }
 
   }
