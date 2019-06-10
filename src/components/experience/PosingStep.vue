@@ -174,15 +174,14 @@ export default {
       flash.setAttribute('ref', 'flash')
       this.$refs.posing.appendChild(flash)
       // add flash sound
-      this.validateStep()
-//      this.soundDesign.playSpriteSoundDesign('flash', () => {
-//        this.validateStep()
-//      })
+      this.soundDesign.playSpriteSoundDesign('flash', () => {
+        this.validateStep()
+      })
     }
   },
-  mounted () {
-    this.takePhotos()
-  },
+//  mounted () {
+//    this.takePhotos()
+//  },
   watch: {
     isActive () {
       this.createStepObject()
