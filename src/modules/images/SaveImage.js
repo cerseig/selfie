@@ -4,10 +4,15 @@ import axios from 'axios'
 import config from '@/config/config'
 
 const saveImage = (imageUrl, type, clb) => {
+  const formData = new FormData()
+  formData.append('imageUrl', imageUrl)
+  formData.append('type', type)
+
   axios
-    .post(`${process.env.VUE_APP_SCRIPT_BASEURL}${config.server.saveImage}`, {
-      image: imageUrl,
-      type: type
+    .post(`${process.env.VUE_APP_SCRIPT_BASEURL}${config.server.saveImage}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     }).then(response => {
       if (response.data && response.data.uniqId) {
         clb({

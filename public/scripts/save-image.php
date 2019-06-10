@@ -2,11 +2,12 @@
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Headers: *");
 
-    $dataJson = json_decode(file_get_contents("php://input"), true);
-    $typeUpload = $dataJson['type'];
+    $dataJson = json_decode($_POST['data'], true);
+    $typeUpload = $_POST['type'];
 
-    if (preg_match('/^data:image\/(\w+);base64,/', $dataJson['image'], $type)) {
-        $data = substr($dataJson['image'], strpos($dataJson['image'], ',') + 1);
+    $image = $_POST['imageUrl'];
+    if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
+        $data = substr($image, strpos($image, ',') + 1);
         $type = strtolower($type[1]); // jpg, png, gif
     
         if (!in_array($type, [ 'jpg', 'jpeg', 'gif', 'png' ])) {
