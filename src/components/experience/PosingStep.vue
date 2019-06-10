@@ -127,13 +127,13 @@ export default {
           break
         case 'posing':
           this.currentStep.status = 'done'
-          if ((this.currentStep.index + 1) === this.stepObject.subSteps.length) {
-            this.takePhotos()
-          }
           const timeOutDone = setTimeout(() => {
             switch (this.currentStep.hasSuccess) {
               case true:
                 this.stepObject.changeSubStepState('success', () => {
+                  if ((this.currentStep.index + 1) === this.stepObject.subSteps.length) {
+                    this.takePhotos()
+                  }
                   this.changeStep()
                 })
                 break
@@ -179,9 +179,9 @@ export default {
       })
     }
   },
-  //   mounted () {
-  //     this.takePhotos()
-  //   },
+//  mounted () {
+//    this.takePhotos()
+//  },
   watch: {
     isActive () {
       this.createStepObject()

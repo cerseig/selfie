@@ -1,21 +1,19 @@
 <template>
   <div class="share">
-    <h2 class="share__title heading-1">{{ $t('share.title') }}</h2>
+    <h2 class="share__title">{{ $t('share.title') }}</h2>
+    <h3 class="share__subtitle">{{ $t('share.subtitle') }}</h3>
 
     <div class="share__inner">
-
-      <!-- <div v-if="temporaryTableId.length > 0" > TO KEEP
-        <TemporaryPictures :id="temporaryTableId" />
-      </div> -->
       <TemporaryPictures :selection="selection" />
 
-      <div class="share__bottom">
+      <div class="share__panel">
+        <div class="share__counter"><span>{{ picturesSelected }}</span></div>
         <div v-if="!selection.avatar && !selection.picture">
           <p class="teasing-1">{{ $t('share.indication') }}</p>
         </div>
 
         <div v-else>
-          <p class="teasing-1">Partager sur</p>
+          <p class="teasing-1">Partager via :</p>
           <div class="share__list--social">
             <button class="list__item" v-if="!selection.picture" data-type="facebook" @click="onClickSocialShare" >
               <Icon name="facebook" width="40" height="40" fill="#000000" />
@@ -70,7 +68,8 @@ export default {
         sent: false,
         success: false
       },
-      message: null
+      message: null,
+      picturesSelected: 1
     }
   },
   computed: {
@@ -87,6 +86,10 @@ export default {
     }
   },
   methods: {
+    updateBodyClass () {
+      document.querySelector('body').className = ''
+      document.querySelector('body').classList.add('default')
+    },
     setInitialParams () {
       const windowSize = {
         width: window.innerWidth,
@@ -107,10 +110,19 @@ export default {
         }
       }
     },
-
     onPictureSelected (key) {
       const formerValue = this.selection[key]
       this.selection[key] = !formerValue
+      this.getPicturesSelected(this.selection)
+    },
+    getPicturesSelected (selection) {
+      if (selection.avatar && selection.picture) {
+        this.picturesSelected = 2
+      } else if (selection.avatar || selection.picture) {
+        this.picturesSelected = 1
+      } else {
+        this.picturesSelected = 0
+      }
     },
     onClickSocialShare (e) {
       e.preventDefault()
@@ -152,6 +164,7 @@ export default {
     }
   },
   mounted () {
+    this.updateBodyClass()
     this.setInitialParams()
     this.$on('TemporaryPicture:Selection', this.onPictureSelected)
   }
@@ -161,11 +174,19 @@ export default {
 <style scoped lang="scss">
 
 .share {
-  padding-top: 10rem;
+  padding: 20rem 8rem 0 8rem;
+  text-align: left;
 
   &__title {
-    padding-top: 6rem;
-    margin-bottom: 6.5rem;
+    margin-bottom: .5rem;
+    font-size: 3rem;
+    font-weight: 300;
+  }
+
+  &__subtitle {
+    margin-bottom: 8rem;
+    font-size: 3rem;
+    font-weight: 600;
   }
 
   //Share list social
@@ -174,7 +195,7 @@ export default {
 
     .list__item {
       display: inline-block;
-      margin-right: 7.5rem;
+      margin-right: 7rem;
 
       &:last-of-type {
         margin-right: 0;
@@ -193,8 +214,37 @@ export default {
     @include outlinedButton(1rem 2rem, 1.5rem);
   }
 
-  &__bottom {
-    margin-top: 4.8rem;
+  &__counter {
+    position: absolute;
+    right: -15px;
+    top: -15px;
+
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    @include flexCenter();
+
+    font-family: $font__sintony;
+    font-size: 2.5rem;
+
+    background-color: $color__orange;
+    color: $color__white;
+  }
+
+  &__panel {
+    position: relative;
+    width: fit-content;
+
+    margin: 5rem auto 0 auto;
+    padding: 5rem 10rem;
+
+    background-color: $color__white;
+    border-radius: 2.5rem;
+
+    p {
+      max-width: 500px;
+    }
+
   }
 
 }

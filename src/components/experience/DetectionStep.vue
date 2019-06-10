@@ -7,7 +7,7 @@
         <div class="loader__progressBar"><span class="loader__progression" :style="`width: ${loaderProgression}px;`"></span></div>
       </div>
     </div>
-    <div :class="`detection__restriction ${errors.detection === true ? `hasError` : ``}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}">
+    <div :class="`detection__restriction ${errors.detection ? 'hasError' : ''} ${isAnalyseDone || isAnalyseProgress ? 'is-hidden' : ''}`"  :style="sizes.width !== null && sizes.height !== null ? {width: sizes.width + 'px', height: sizes.height + 'px' } : {}">
       <div class="detection__restriction__container">
         <span><Icon name="corner" width="40" height="40" :fill="`${errors.detection === true ? '#FF0000' : '#FFFFFF'}`" /></span>
         <span><Icon name="corner" width="40" height="40" :fill="`${errors.detection === true ? '#FF0000' : '#FFFFFF'}`" /></span>
@@ -15,10 +15,13 @@
         <span><Icon name="corner" width="40" height="40" :fill="`${errors.detection === true ? '#FF0000' : '#FFFFFF'}`" /></span>
       </div>
     </div>
-    <div class="detection__check">
-      <div class="detection__check--progressRound"></div>
-      <div class="detection__check--progression" :style="`height: ${checkProgression}px;`"></div>
-      <Icon name="check" width="70" height="70" fill="#FFFFFF" stroke="#FFFFFF" />
+    <div :class="`detection__validate validate ${isStepValidate ? 'is-active' : ''}`">
+      <div class="validate__check">
+        <Icon name="check" width="80" height="80" fill="#FFFFFF" stroke="#FFFFFF" />
+      </div>
+    </div>
+    <div :class="`detection__analyse analyse ${isAnalyseProgress ? 'is-active' : ''}`">
+      <div class="analyse__progressBar"><span class="analyse__progression" :style="`width: ${analyseProgression}%;`"></span></div>
     </div>
   </div>
 </template>
@@ -31,7 +34,6 @@ import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
 import BackgroundMusic from '@/modules/sound/backgroundMusic/BackgroundMusic'
 import utils from '@/modules/helpers/utils.js'
 import Icon from '@/components/icons/Icon.vue'
-
 import store from '@/store/index'
 
 // Config
@@ -76,16 +78,21 @@ export default {
     return {
       publicPath: process.env.BASE_URL,
       currentStep: {},
+      isLoadedAssets: false,
+      isStepValidate: false,
+      isAnalyseProgress: false,
+      isAnalyseDone: false,
       counter: 0,
       errorPlayed: 0,
       loaderProgression: 0,
       checkProgression: 0,
       timeValidation: 0,
-      isLoadedAssets: false
+      analyseProgression: 0
     }
   },
   methods: {
     initDetectionStep () {
+      this.backgroundMusic.playSpriteBackgroundMusic('detection')
       this.stepObject = new Step(stepsConfig.detection)
       this.currentStep = this.stepObject.currentSubStep
       this.soundDesign = new SoundDesign()
@@ -107,6 +114,10 @@ export default {
         this.stepObject.changeSubStep()
         this.errorPlayed = 0
         this.timeValidation = 0
+        const timeOut = setTimeout(() => {
+          this.isStepValidate = false
+          clearTimeout(timeOut)
+        }, 1000)
         this.onDetection()
       }
     },
@@ -142,13 +153,19 @@ export default {
         case 'posing':
           this.currentStep.status = 'done'
           const timeOutDone = setTimeout(() => {
+            this.isStepValidate = true
             switch (this.currentStep.hasSuccess) {
               case true:
                 if (this.currentStep.name === 'rotationCentered') {
+                  this.isStepValidate = false
                   this.stepObject.changeSubStepState('success', () => {
+                    this.onProgressStep(4100)
                     this.soundDesign.playSpriteSoundDesign('analyse', () => {
-                      this.updateCheckProgression()
+                      this.isAnalyseDone = true
+                      this.isAnalyseProgress = false
+                      this.isStepValidate = true
                       this.soundDesign.playSpriteSoundDesign('success', () => {
+                        this.isStepValidate = false
                         this.stepObject.changeSubStepState('success_transition', () => {
                           this.backgroundMusic.fadeOut(() => {
                             this.stepObject.sound.stop()
@@ -161,7 +178,6 @@ export default {
                     })
                   })
                 } else {
-                  this.updateCheckProgression()
                   this.soundDesign.playSpriteSoundDesign('validation', () => {
                     this.stepObject.changeSubStepState('success', () => {
                       this.changeStep()
@@ -170,7 +186,6 @@ export default {
                 }
                 break
               case false:
-                this.updateCheckProgression()
                 this.soundDesign.playSpriteSoundDesign('validation', () => {
                   this.changeStep()
                 })
@@ -195,17 +210,24 @@ export default {
           this.counter = this.counter + 1
           this.loaderProgression = (document.querySelector('.loader__progressBar').offsetWidth * this.counter) / 100
         }
-      }, 40)
+      }, 30)
     },
-    updateCheckProgression () {
-      this.checkProgression = this.checkProgression + (document.querySelector('.detection__check').offsetHeight / 4)
+    onProgressStep (duration) {
+      this.isAnalyseProgress = true
+      const time = duration / 100
+      let t = setInterval(() => {
+        if (this.analyseProgression === 100) {
+          clearInterval(t)
+        } else {
+          this.analyseProgression = this.analyseProgression + 1
+        }
+      }, time)
     },
     updateStoreStep () {
       store.commit('setStep', 0)
     }
   },
   mounted () {
-    this.backgroundMusic = new BackgroundMusic()
     if (this.isActive) {
       this.initDetectionStep()
       AssetsLoader.loadAssets('image').then(() => {
@@ -221,7 +243,6 @@ export default {
   watch: {
     isReady () { // when BRF is ready
       if (this.isReady && this.isActive) {
-        this.backgroundMusic.playSpriteBackgroundMusic('detection')
         if (this.isLoadedAssets) {
           this.counter = this.counter + 1
           const timeOut = setTimeout(() => {
@@ -239,8 +260,12 @@ export default {
     },
     isAnalysed () { // when BRF got initial face values
       if (!this.stepObject.isVoice && this.isAnalysed && this.isActive) {
+        this.isStepValidate = true
         this.soundDesign.playSpriteSoundDesign('validation')
-        this.updateCheckProgression()
+        const timeOut = setTimeout(() => {
+          this.isStepValidate = false
+          clearTimeout(timeOut)
+        }, 1000)
         this.stepObject.changeSubStepState('success', () => {
           this.stepObject.changeSubStep()
         })
@@ -251,7 +276,10 @@ export default {
         this.onDetection()
       }
     }
-  }
+  },
+  computed: {
+    backgroundMusic: () => store.getters.getMusic
+  },
 }
 </script>
 
@@ -310,6 +338,7 @@ export default {
       }
 
     }
+
     &__box {
       position: absolute;
       top: 0;
@@ -324,6 +353,10 @@ export default {
     &__restriction {
       position: absolute;
       max-height: 600px;
+
+      &.is-hidden {
+        display: none;
+      }
 
       &__container {
         width: 100%;
@@ -368,41 +401,63 @@ export default {
       transform: translateX(-50%);
     }
 
-    &__check {
+    &__validate {
+      opacity: 0;
+      transform: scale(0);
+      transition: all .3s ease;
+
+      &.is-active {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .validate {
+
+        &__check {
+          width: 80px;
+          height: 80px;
+
+          position: relative;
+          background-color: $color__green--pastel;
+          border-radius: 50%;
+        }
+
+      }
+
+    }
+
+    &__analyse {
       position: absolute;
-      bottom: 5rem;
-      @include flexCenter();
-      width: 70px;
-      height: 70px;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
-      -khtml-border-radius: 50%;
-      overflow: hidden;
+      opacity: 0;
+      transform: scale(0);
+      transition: all .3s ease;
 
-      &--progressRound, &--progression {
-        position: absolute;
-        width: 70px;
-        height: 70px;
+      &.is-active {
+        opacity: 1;
+        transform: scale(1);
       }
 
-      &--progressRound {
-        z-index: 0;
-        background-color: $color__black;
-        opacity: 0.2;
-      }
+      .analyse {
+        position: relative;
 
-      &--progression {
-        z-index: 1;
-        background-color: $color__black;
-        bottom: 0;
-        height: 0;
-        transition: height 0.3s;
-      }
+        &__progressBar {
+          position: relative;
+          width: 40rem;
+          height: 1rem;
+          background-color: $color__gray;
+          overflow: hidden;
+          border-radius: .5rem;
+        }
 
-      .icon {
-        z-index: 2;
-        position: absolute;
+        &__progression {
+          width: 0;
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 1rem;
+          background-color: $color__black;
+        }
+
       }
 
     }

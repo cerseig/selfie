@@ -2,11 +2,10 @@
   <div class="gallery">
     <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
     <h1 class="gallery__title">{{ $t('gallery.title') }}</h1>
-    <p class="gallery__subtitle"><span>{{ elementToIncrement }}</span> {{ $t('gallery.counter') }}</p>
     <div class="gallery__avatars">
       <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
     </div>
-    <ModalConclusion :isActive="isModalActive" />
+    <ModalConclusion :isActive="isModalActive" :usersNumber="allAvatars.length"/>
   </div>
 </template>
 
@@ -27,7 +26,6 @@ export default {
       allAvatars: [],
       avatarIsAdding: false,
       isModalActive: false,
-      elementToIncrement: 0,
       isConclusionDone: false
     }
   },
@@ -50,8 +48,6 @@ export default {
     getAllAvatars () {
       this.$apollo.query({
         query: ALL_AVATARS
-      }).then(result => {
-        this.usersCounter()
       })
     },
     updateBodyClass () {
@@ -87,7 +83,6 @@ export default {
           this.addUserRepresentation(avatarId)
         }
       }).then((data) => {
-        console.log('avatar is added')
         this.avatarIsAdding = true
       })
     },
@@ -115,18 +110,8 @@ export default {
         const timeOut = setTimeout(() => {
           this.isModalActive = true
           clearTimeout(timeOut)
-        }, 8000)
+        }, 4000)
       })
-    },
-    usersCounter () {
-      console.log(this.allAvatars.length)
-      let t = setInterval(() => {
-        if (this.elementToIncrement === this.allAvatars.length) {
-          clearInterval(t)
-        } else {
-          this.elementToIncrement = this.elementToIncrement + 1
-        }
-      }, 200)
     },
     redirectToShare () {
       this.$router.push({ name: 'share' })

@@ -7,6 +7,7 @@ import translation from './modules/translation'
 import appStore from './modules/appStore'
 import voice from './modules/voice'
 import step from './modules/step'
+import music from './modules/music'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     translation,
     appStore,
     voice,
-    step
+    step,
+    music
   }
 })

@@ -40,13 +40,10 @@
       "share": "Share"
     }
   },
-  "intro": {
-    "title": "This is an intro page"
-  },
   "share": {
     "title": "Share",
-    "message": "Hey ! Come create your perfect selfie on {appName} ",
     "subtitle": "Share",
+    "message": "Hey ! Come create your perfect selfie on {appName} ",
     "indication": "Select the picture(s) you want to share.",
     "share": {
       "facebook": {
@@ -72,5 +69,10 @@
   "modalProgress": {
     "title": "Progress",
     "button": "Restart the experiment"
+  },
+  "modalConclusion": {
+    "notification": {
+      "message": "Congratulation, as others users, "
+    }
   }
 }
