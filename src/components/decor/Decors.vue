@@ -2,6 +2,7 @@
   <div :class="`decor--list ${isActive ? 'is-active' : ''} ${isChosen ? 'is-chosen' : ''}`">
     <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection === decor.title)? 'is-active' : ''} ${formerSelection === decor.title ? 'is-former-active' : ''}`"  :data-decor="decor.title">
       <div class="decor__wrapper">
+        <!-- <img src="https://localhost:8080/img/decors/decor_mountains.png"/> -->
         <div class="decor__background" :style="{backgroundImage: `url(${decor.background})`}" v-if="showAll || selection === decor.title"></div>
       </div>
     </div>
@@ -75,6 +76,10 @@ export default {
       .decor__item {
         display: none;
 
+        .decor__wrapper {
+          transition: none;
+        }
+
         &.is-active {
           display: block;
           transform: none;
@@ -90,7 +95,6 @@ export default {
         right: 0;
         left: 0;
         bottom: 0;
-        height: 100vh;
 
         transform: translateX(50%);
         transform-origin: right;
