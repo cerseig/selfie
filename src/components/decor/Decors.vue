@@ -1,5 +1,5 @@
 <template>
-  <div :class="`decor--list ${isActive ? 'is-active' : ''}`">
+  <div :class="`decor--list ${isActive ? 'is-active' : ''} ${isChosen ? 'is-chosen' : ''}`">
     <div v-for="(decor, index) in decors.list" :key="`background-${index}`" :class="`decor__item ${(selection === decor.title)? 'is-active' : ''} ${formerSelection === decor.title ? 'is-former-active' : ''}`"  :data-decor="decor.title">
       <div class="decor__wrapper">
         <div class="decor__background" :style="{backgroundImage: `url(${decor.background})`}" v-if="showAll || selection === decor.title"></div>
@@ -12,6 +12,10 @@
 export default {
   name: 'Decors',
   props: {
+    isChosen: {
+      type: Boolean,
+      required: false
+    },
     showAll: {
       type: Boolean,
       required: false
@@ -61,9 +65,22 @@ export default {
     right: 0;
     bottom: 0;
     opacity: 0;
+    z-index: 2;
 
     &.is-active {
       opacity: 1;
+    }
+
+    &.is-chosen {
+      .decor__item {
+        display: none;
+
+        &.is-active {
+          display: block;
+          transform: none;
+          animation: none;
+        }
+      }
     }
 
     .decor {

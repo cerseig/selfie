@@ -1,6 +1,5 @@
 <template>
   <div class="panel panel--debug">
-    <Decors v-if="show.decor" :decors="decors" :selection="selection.decor" />
     <div class="panel__inner">
       <div class="panel__cover gui__wrapper">
         <h1 class="heading-1">Debug Experience</h1>
@@ -20,7 +19,11 @@
             </div>
           </li>
         </ul>
-        <div class="avatar" ref="avatarElement">
+        <div class="experience__scene is-active" ref="scene">
+          <Decors v-if="show.decor"  :isActive="show.decor" :decors="decors" :selection="selection.decor" />
+          <div class="avatar is-active" ref="avatarElement"></div>
+        </div>
+
         </div>
       </div>
       <PersonnalisationStep :isActive="show.personnalisation"/>
@@ -152,7 +155,7 @@ export default {
     },
 
     takeScreenshot () {
-      Capture.takeScreenshot(this.$refs.avatarElement).then(params => {
+      Capture.takeScreenshot(this.$refs.scene).then(params => {
         this.avatarId = params.uniqId
         store.commit('setAvatarPath', params.path)
       })
@@ -339,6 +342,8 @@ export default {
       }
     }
     .avatar {
+      position: absolute;
+      z-index: 3;
       min-width: 30%;
       margin-left: 4rem;
     }
