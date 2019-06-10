@@ -5,7 +5,7 @@
     $dataJson = json_decode($_POST['data'], true);
     $typeUpload = $_POST['type'];
 
-    $image = $_POST['image'];
+    $image = $_POST['imageUrl'];
     if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
         $data = substr($image, strpos($image, ',') + 1);
         $type = strtolower($type[1]); // jpg, png, gif
