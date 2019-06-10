@@ -2,7 +2,7 @@
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Headers: *");
 
-    $dataJson = json_decode(file_get_contents("php://input"), true);
+    $dataJson = json_decode($_POST['data'], true);
     $typeUpload = $dataJson['type'];
 
     if (preg_match('/^data:image\/(\w+);base64,/', $dataJson['image'], $type)) {
