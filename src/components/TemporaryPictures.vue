@@ -1,19 +1,19 @@
 <template>
   <div class="temporary__pictures">
     <div :class="`temporary__item ${selection.avatar ? 'is-active' : ''}`">
-        <!-- <img v-if="temporaryPictures.avatar" :src="temporaryPictures.avatar.url" class="temporary__image"> -->
-        <img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />
+        <img v-if="avatarPath" :src="avatarPath" class="temporary__image">
+        <!--<img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />-->
       <button class="temporary__item__button" @click="onButtonClick" data-key="avatar">
         <Icon name="plus" width="40" height="40" extraClasses="icon--select" fill="#000000" />
         <Icon name="plus" width="40" height="40" extraClasses="icon--unselect" fill="#fff" />
       </button>
     </div>
     <div :class="`temporary__item ${selection.picture ? 'is-active' : ''}`">
-      <!-- <img :src="temporaryPictures.picture" class="temporary__image"> -->
-       <img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />
+      <img v-if="picturePath" :src="picturePath" class="temporary__image temporary__image--picture">
+       <!--<img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />-->
       <button class="temporary__item__button" @click="onButtonClick" data-key="picture">
-        <Icon name="plus" width="40" height="40" fill="#000000" />
-        <Icon name="plus" width="40" height="40" fill="#fff" />
+        <Icon name="plus" width="40" height="40" extraClasses="icon--select" fill="#000000" />
+        <Icon name="plus" width="40" height="40" extraClasses="icon--unselect" fill="#fff" />
       </button>
     </div>
   </div>
@@ -21,6 +21,7 @@
 
 <script>
 import { GET_USER_REPRESENTATION } from '@/graphQL/queries'
+import store from '@/store/index'
 import Icon from '@/components/icons/Icon.vue'
 
 export default {
@@ -63,7 +64,11 @@ export default {
     }
   },
   mounted () {
-    this.getTemporaryPictures()
+    // this.getTemporaryPictures()
+  },
+  computed: {
+    avatarPath: () => store.getters.getAvatarPath,
+    picturePath: () => store.getters.getPicturePath
   }
 }
 </script>
@@ -72,16 +77,16 @@ export default {
 
 .temporary__pictures {
     display: flex;
-    padding-left: 5rem;
     padding-bottom: 6rem;
-    overflow: scroll;
 
   .temporary {
     &__item {
       position: relative;
-      min-width: 55%;
-      max-width: 55%;
+      flex: 1;
       margin-right: 3.8rem;
+      border-radius: 2.5rem;
+
+      background-color: $color__white;
 
       &:last-of-type {
         margin-right: 0;
@@ -95,12 +100,15 @@ export default {
         right: 0;
         bottom: 0;
 
-        border: 1px solid $color__black;
+        border: .4rem solid $color__black;
         border-radius: 2.5rem;
-        opacity: 0;
-        transform: scale(0.6);
+        opacity: 0.1;
+        transform: scale(1);
 
         transition: opacity .3s, transform .3s;
+        overflow: hidden;
+
+        box-shadow: 6px 6px 19px -2px rgba(0,0,0,0.31);
       }
 
       &__button {
@@ -133,20 +141,23 @@ export default {
       .temporary__image {
         width: 100%;
         height: auto;
+        transform: scaleX(0.857) scaleY(0.9);
 
         transition: transform .3s;
+
+        &--picture {
+          object-position: center;
+          object-fit: cover;
+          height: 100%;
+          max-width: none;
+          width: 100%;
+        }
+
       }
 
       &.is-active {
         &:before {
           opacity: 1;
-          transform: scale(1);
-        }
-
-        .temporary__image {
-          display: block;
-          transform: scaleX(0.857) scaleY(0.9);
-          transform-origin: center;
         }
 
         .temporary__item__button {
