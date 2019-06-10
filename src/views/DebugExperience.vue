@@ -20,7 +20,7 @@
           </li>
         </ul>
         <div class="experience__scene is-active" ref="scene">
-          <Decors v-if="show.decor"  :isActive="show.decor" :decors="decors" :selection="selection.decor" />
+          <Decors v-if="show.decor"  :isActive="show.decor" :decors="decors" :selection="selection.decor" :isChosen="true" />
           <div class="avatar is-active" ref="avatarElement"></div>
         </div>
       </div>
@@ -155,6 +155,7 @@ export default {
     takeScreenshot () {
       Capture.takeScreenshot(this.$refs.scene).then(params => {
         this.avatarId = params.uniqId
+        console.log('params', params)
         store.commit('setAvatarPath', params.path)
       })
     },
@@ -163,6 +164,7 @@ export default {
       const video = this.detectionManager.getVideo()
 
       Picture.takePicture(video).then(params => {
+        console.log('params', params)
         store.commit('setPicturePath', params.path)
       })
     },
