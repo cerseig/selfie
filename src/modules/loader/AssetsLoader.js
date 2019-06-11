@@ -6,9 +6,10 @@ class AssetsLoader {
   }
 
   loadAssets (type) {
+    const pendings = []
     Object.keys(assets).forEach(item => {
       Object.keys(assets[item]).forEach(test => {
-        this.pendings.push(
+        pendings.push(
           new Promise((resolve, reject) => {
             switch (type) {
               case 'image':
@@ -21,8 +22,7 @@ class AssetsLoader {
     })
 
     return new Promise((resolve, reject) => {
-      return Promise.all(this.pendings).then(val => {
-        this.pendings = []
+      return Promise.all(pendings).then(val => {
         resolve()
       })
     })
