@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <div class="home__container">
+  <div :class="`home`">
+    <div :class="`home__container ${isIntro ? 'is-hidden' : ''}`">
       <Icon class="home__logo" name="logo-baseline"/>
       <h2 class="home__description">{{ $t('home.description') }}</h2>
 
@@ -21,14 +21,14 @@
           <Icon name="little-arrow" width="15" height="15" fill="#000000" />
         </span>
         </div>
-        <router-link class="home__start" :to="{ name: 'intro' }"><button class="home__start--button">{{ $t('home.start') }}</button></router-link>
+        <button class="home__start--button" @click="openIntro">{{ $t('home.start') }}</button>
       </div>
       <div class="home__redirection" v-else>
         <h3>Pour vivre pleinement l'expérience, rends toi sur Safari</h3>
       </div>
 
       <button class="home__about home__about--button" @click="openAboutPopUp">{{ $t('home.about') }}</button>
-      <div :class="`home__popup ${isOpen === true ? 'home__popup--open' : ''}`">
+      <div :class="`home__popup ${isOpen ? 'home__popup--open' : ''}`">
         <button class="home__popup__close" @click="closePopUp">
           <Icon name="close" width="29" height="29" fill="#000000" />
         </button>
@@ -80,12 +80,16 @@
         </ul>
       </div>
     </div>
+    <div :class="`home__intro ${isIntro ? 'is-active' : ''}`">
+      <Intro :isIntro="isIntro" />
+    </div>
   </div>
 </template>
 
 <script>
 // Components
 import About from '@/components/About.vue'
+import Intro from '@/components/Intro.vue'
 import Icon from '@/components/icons/Icon.vue'
 
 // Config
@@ -101,7 +105,8 @@ export default {
   name: 'home',
   components: {
     About,
-    Icon
+    Icon,
+    Intro
   },
   data () {
     return {
@@ -117,6 +122,7 @@ export default {
         }
       ],
       isOpen: false,
+      isIntro: false,
       isIosSafari: true
     }
   },
@@ -155,6 +161,9 @@ export default {
     },
     closePopUp () {
       this.isOpen = false
+    },
+    openIntro () {
+      this.isIntro = true
     },
     initSoundContext () {
       const source = '/sounds/voice_fr.mp3'
@@ -364,6 +373,18 @@ export default {
       &--open {
         opacity: 1;
         z-index: 10;
+      }
+
+    }
+
+    &__intro {
+      position: absolute;
+      transform: scale(0);
+      transition: transform 0.3s ease;
+      z-index: 10;
+
+      &.is-active {
+        transform: scale(1);
       }
 
     }
