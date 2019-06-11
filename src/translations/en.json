@@ -72,7 +72,8 @@
   },
   "modalConclusion": {
     "notification": {
-      "message": "Congratulation, as others users, "
+      "title": "Congratulation !",
+      "message": "As {usersLength} users, you create your unique selfie."
     }
   }
 }

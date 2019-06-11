@@ -1,7 +1,7 @@
 <template>
   <div class="gallery">
     <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
-    <h1 class="gallery__title">{{ $t('gallery.title') }}</h1>
+    <!--<h1 class="gallery__title">{{ $t('gallery.title') }}</h1>-->
     <div class="gallery__avatars">
       <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
     </div>
@@ -132,7 +132,7 @@ export default {
 
 <style lang="scss">
   .gallery {
-    padding: 16rem 8rem 0 8rem;
+    padding: 18rem 8rem 0 8rem;
     text-align: left;
 
     &__overlay {

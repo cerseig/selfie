@@ -72,7 +72,8 @@
   },
   "modalConclusion": {
     "notification": {
-      "message": "Félicitation, comme les {usersLength} autres utilisateurs, tu as réussi à faire le selfie parfait pour toi !"
+      "title": "Félicitation !",
+      "message": "Comme <span class='counter'>{usersLength} utilisateurs</span>, tu as fais ton selfie unique."
     }
   }
 }
