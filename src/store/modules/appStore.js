@@ -1,12 +1,16 @@
 // initial state
 const state = {
-  currentStep: {}
+  currentStep: {},
+  gallery: []
 }
 
 // getters
 const getters = {
   getCurrentStep (state) {
     return state.currentStep
+  },
+  getGallery(state) {
+    return state.gallery
   }
 }
 
@@ -18,6 +22,9 @@ const actions = {
 const mutations = {
   setCurrentStep (state, currentStep) {
     state.currentStep = currentStep
+  },
+  setGallery (state, gallery) {
+    state.gallery = gallery
   }
 }
 

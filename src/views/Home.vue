@@ -152,6 +152,7 @@ export default {
         }
       }).then(result => {
         AssetsLoader.loadAssetsArray(result.data.allAvatars, 'image')
+        store.commit('setGallery', result.data.allAvatars)
       })
     },
     onDetectDevice () {
