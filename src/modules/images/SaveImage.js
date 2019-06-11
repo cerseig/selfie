@@ -12,7 +12,7 @@ const saveImage = (imageUrl, type, clb) => {
     .post(`${process.env.VUE_APP_SCRIPT_BASEURL}${config.server.saveImage}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'no-cache'
       }
     }).then(response => {
       if (response.data && response.data.uniqId) {

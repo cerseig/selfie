@@ -8,7 +8,10 @@ const Capture = {
         const imageUrl = canvas.toDataURL('image/png', 1)
         const type = 'avatar'
         saveImage(imageUrl, type, (params) => {
-          resolve(params)
+          resolve({
+            ...params,
+            imageBase64: imageUrl
+          })
         })
       })
     })
