@@ -284,6 +284,32 @@ export default {
 </script>
 
 <style lang="scss">
+  .experience-fade-enter {
+    .detection__loader {
+      .loader__gif,
+      .loader__progressBar {
+        transform: scale(0);
+      }
+      .loader__counter {
+        opacity: 0;
+      }
+
+    }
+  }
+
+  .experience-fade-enter-to {
+    .detection__loader {
+      .loader__gif,
+      .loader__progressBar {
+        transform: scale(1);
+      }
+      .loader__counter {
+        opacity: 1;
+      }
+
+    }
+  }
+
   .detection {
 
     &__loader {
@@ -294,14 +320,23 @@ export default {
       height: 100%;
       background: $color__blue;
       z-index: 3;
-      transition: opacity 0.3s;
+      // transition: opacity 0.3s;
       display: flex;
       justify-content: center;
       align-items: center;
+      pointer-events: none;
 
       &.is-ready {
-        transition-delay: 0.5s;
+        transition: opacity .3s .3s;
         opacity: 0;
+
+        .loader__gif,
+        .loader__progressBar {
+          transform: scale(0);
+        }
+        .loader__counter {
+          opacity: 0;
+        }
       }
 
       .loader {
@@ -311,12 +346,14 @@ export default {
           width: 200px;
           height: 200px;
           margin-bottom: 60px;
+          transition: transform .3s;
         }
 
         &__counter {
           font-size: 8rem;
           color: $color__blue--light;
           margin-bottom: 30px;
+          transition: opacity .5s;
         }
 
         &__progressBar {
@@ -324,6 +361,7 @@ export default {
           width: 25rem;
           height: 0.5rem;
           background-color: #D9F0FC;
+          transition: transform .5s;
         }
 
         &__progression {
