@@ -9,11 +9,10 @@
       <div class="share__panel">
         <div class="share__counter"><span>{{ picturesSelected }}</span></div>
         <div v-if="!selection.avatar && !selection.picture">
-          <p class="teasing-1">{{ $t('share.indication') }}</p>
+          <p class="share__message">{{ $t('share.indication') }}</p>
         </div>
 
         <div v-else>
-          <p class="teasing-1">Partager via :</p>
           <div class="share__list--social">
             <button class="list__item" v-if="!selection.picture" data-type="facebook" @click="onClickSocialShare" >
               <Icon name="facebook" width="40" height="40" fill="#000000" />
@@ -174,7 +173,7 @@ export default {
 <style scoped lang="scss">
 
 .share {
-  padding: 20rem 8rem 0 8rem;
+  padding: 16rem 8rem 0 8rem;
   text-align: left;
 
   &__title {
@@ -184,18 +183,23 @@ export default {
   }
 
   &__subtitle {
-    margin-bottom: 8rem;
+    margin-bottom: 6rem;
     font-size: 3rem;
     font-weight: 600;
   }
 
+  &__message {
+    font-size: 1.8rem;
+    max-width: 300px;
+  }
+
   //Share list social
   &__list--social {
-    margin-top: 5rem;
 
     .list__item {
       display: inline-block;
-      margin-right: 7rem;
+      margin-right: 5rem;
+      padding: 0;
 
       &:last-of-type {
         margin-right: 0;
@@ -236,15 +240,10 @@ export default {
     width: fit-content;
 
     margin: 5rem auto 0 auto;
-    padding: 5rem 10rem;
+    padding: 3rem 10rem;
 
     background-color: $color__white;
     border-radius: 2.5rem;
-
-    p {
-      max-width: 500px;
-    }
-
   }
 
 }

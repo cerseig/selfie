@@ -1,16 +1,18 @@
 <template>
   <div class="temporary__pictures">
     <div :class="`temporary__item ${selection.avatar ? 'is-active' : ''}`">
-        <img v-if="avatarPath" :src="avatarPath" class="temporary__image">
-        <!--<img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />-->
+        <!--<img v-if="avatarPath" :src="avatarPath" class="temporary__image">-->
+        <img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />
       <button class="temporary__item__button" @click="onButtonClick" data-key="avatar">
         <Icon name="plus" width="40" height="40" extraClasses="icon--select" fill="#000000" />
         <Icon name="plus" width="40" height="40" extraClasses="icon--unselect" fill="#fff" />
       </button>
     </div>
     <div :class="`temporary__item ${selection.picture ? 'is-active' : ''}`">
-      <img v-if="picturePath" :src="picturePath" class="temporary__image temporary__image--picture">
-       <!--<img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />-->
+      <!--<img v-if="picturePath" :src="picturePath" class="temporary__image temporary__image&#45;&#45;picture">-->
+      <div class="temporary__item__container">
+        <img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image temporary__image--picture" />
+      </div>
       <button class="temporary__item__button" @click="onButtonClick" data-key="picture">
         <Icon name="plus" width="40" height="40" extraClasses="icon--select" fill="#000000" />
         <Icon name="plus" width="40" height="40" extraClasses="icon--unselect" fill="#fff" />
@@ -84,9 +86,13 @@ export default {
       position: relative;
       flex: 1;
       margin-right: 3.8rem;
-      border-radius: 2.5rem;
+      border-radius: 1.5rem;
 
       background-color: $color__white;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       &:last-of-type {
         margin-right: 0;
@@ -100,8 +106,8 @@ export default {
         right: 0;
         bottom: 0;
 
-        border: .4rem solid $color__black;
-        border-radius: 2.5rem;
+        border: .2rem solid $color__black;
+        border-radius: 1.5rem;
         opacity: 0.1;
         transform: scale(1);
 
@@ -109,6 +115,14 @@ export default {
         overflow: hidden;
 
         box-shadow: 6px 6px 19px -2px rgba(0,0,0,0.31);
+      }
+
+      &__container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        max-height: 500px;
       }
 
       &__button {
@@ -148,9 +162,9 @@ export default {
         &--picture {
           object-position: center;
           object-fit: cover;
-          height: 100%;
           max-width: none;
           width: 100%;
+          height: 100%;
         }
 
       }
