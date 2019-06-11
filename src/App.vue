@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Nav />
-    <transition name="home-fade" mode="out-in">
+    <transition :name="transitionName" mode="out-in">
       <router-view/>
     </transition>
   </div>
@@ -48,8 +48,12 @@ export default {
   transition: .7s;
 }
 
-.home-fade-enter-active {
+.home-fade-enter {
   transition: .7s;
+}
+
+.experience-fade-enter {
+  transition: 20s;
 }
 
 .experience-fade-leave-active {
