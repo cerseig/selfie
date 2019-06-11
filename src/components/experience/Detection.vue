@@ -1,5 +1,5 @@
 <template>
-  <div class="detection__content js-detection">
+  <div :class="`detection__content js-detection ${isReady ? 'is-ready' : ''}`">
     <video class="detection__camera" id="_camera"></video>
     <canvas class="detection__image" id="_imageData"></canvas>
     <canvas class="detection__points" id="_points"></canvas>
@@ -8,7 +8,13 @@
 
 <script>
 export default {
-  name: 'Detection'
+  name: 'Detection',
+  props: {
+    isReady: {
+      type: Boolean,
+      required: false
+    }
+  }
 }
 </script>
 
@@ -24,6 +30,12 @@ export default {
       justify-content: center;
       align-items: center;
       background: $color__blue--pastel;
+      opacity: 0;
+      transition: opacity .6s .3s;
+
+      &.is-ready {
+          opacity: 1;
+      }
     }
 
     &__camera {
