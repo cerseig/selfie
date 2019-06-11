@@ -29,11 +29,6 @@ export default {
       isConclusionDone: false
     }
   },
-  apollo: {
-    allAvatars: {
-      query: ALL_AVATARS
-    }
-  },
   components: {
     AvatarsGrid,
     ModalConclusion
@@ -48,7 +43,12 @@ export default {
   methods: {
     getAllAvatars () {
       this.$apollo.query({
-        query: ALL_AVATARS
+        query: ALL_AVATARS,
+        variables: {
+          orderBy: 'createdAt_DESC'
+        }
+      }).then(result => {
+        this.allAvatars = result.data.allAvatars
       })
     },
     updateBodyClass () {
@@ -85,6 +85,7 @@ export default {
         }
       }).then((data) => {
         this.avatarIsAdding = true
+        this.getAllAvatars()
       })
     },
     addUserRepresentation (avatarId) {
@@ -119,7 +120,6 @@ export default {
     }
   },
   mounted () {
-    this.getAllAvatars()
     this.saveImagesInDB()
     this.updateBodyClass()
     this.openConclusionModal()
