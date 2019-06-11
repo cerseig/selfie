@@ -172,6 +172,48 @@ export default {
 
 <style scoped lang="scss">
 
+.share-fade-enter {
+  .share__title {
+    opacity: 0;
+    transform: translateY(10rem);
+  }
+
+  .share__subtitle {
+    opacity: 0;
+    transform: translateY(15rem);
+  }
+
+  .share__panel {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  .temporary__item {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+
+.share-fade-enter-to {
+  .share__title,
+  .share__subttile {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .share__panel {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  .temporary__item {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
 .share {
   padding: 16rem 8rem 0 8rem;
   text-align: left;
@@ -180,12 +222,14 @@ export default {
     margin-bottom: .5rem;
     font-size: 3rem;
     font-weight: 300;
+    transition: opacity .3s, transform .2s .3s;
   }
 
   &__subtitle {
     margin-bottom: 6rem;
     font-size: 3rem;
     font-weight: 600;
+    transition: opacity .3s .5s, transform .3s .5s;
   }
 
   &__message {
@@ -244,6 +288,9 @@ export default {
 
     background-color: $color__white;
     border-radius: 2.5rem;
+
+
+    transition: transform .3s, opacity .3s;
   }
 
 }
