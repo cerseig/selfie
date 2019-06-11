@@ -9,7 +9,7 @@ const getters = {
   getCurrentStep (state) {
     return state.currentStep
   },
-  getGallery(state) {
+  getGallery (state) {
     return state.gallery
   }
 }

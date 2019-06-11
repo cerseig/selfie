@@ -194,7 +194,6 @@ export default {
   }
 }
 
-
 .share-fade-enter-to {
   .share__title,
   .share__subttile {
@@ -212,7 +211,6 @@ export default {
     opacity: 1;
   }
 }
-
 
 .share {
   padding: 16rem 8rem 0 8rem;
@@ -288,7 +286,6 @@ export default {
 
     background-color: $color__white;
     border-radius: 2.5rem;
-
 
     transition: transform .3s, opacity .3s;
   }

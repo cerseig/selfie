@@ -6,6 +6,7 @@
       </div>
       <div class="panel__top">
         <router-link :to="{name: 'gallery'}" class="link">Go to gallery</router-link>
+        <router-link :to="{name: 'share'}" class="link">Go to share</router-link>
         <button class="panel__button" @click="onClickSettings">Settings</button>
       </div>
       <div class="panel__body" ref="panelBodyElement">
@@ -76,7 +77,7 @@ export default {
         personnalisation: false,
         events: false,
         gui: false,
-        decor: true
+        decor: false
       },
       decors: config.decors,
       selection: {
@@ -205,7 +206,7 @@ export default {
     position: relative;
     min-height: 100vh;
     width: 100vw;
-    background: #fef0de;
+    background: #fff;
     z-index: 3;
     text-align: left;
     font-family: 'Montserrat';
@@ -272,6 +273,7 @@ export default {
 
       &__body {
         position: relative;
+        height: 100vh;
         z-index: 3;
         display: flex;
         align-items: center;

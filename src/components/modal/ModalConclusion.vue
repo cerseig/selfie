@@ -168,7 +168,6 @@ export default {
         }
       }
 
-
       &__video {
         width: 100%;
         position: absolute;

@@ -83,7 +83,6 @@ export default {
   }
 }
 
-
 .share-fade-enter-to {
   .temporary__item {
     transform: scale(1);

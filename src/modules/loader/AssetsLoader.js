@@ -28,7 +28,7 @@ class AssetsLoader {
     })
   }
 
-  loadAssetsArray(array, type) {
+  loadAssetsArray (array, type) {
     array.forEach(item => {
       this.pendings.push(
         new Promise((resolve, reject) => {
