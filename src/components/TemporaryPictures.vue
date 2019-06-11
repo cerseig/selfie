@@ -76,6 +76,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.share-fade-enter {
+  .temporary__item {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.share-fade-enter-to {
+  .temporary__item {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
 .temporary__pictures {
     display: flex;
@@ -93,6 +106,8 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+
+      transition: opacity .2s .3s, transform .2s .3s;
 
       &:last-of-type {
         margin-right: 0;

@@ -144,9 +144,17 @@ export default {
 </script>
 
 <style lang="scss">
+
+  .share-fade-leave-active {
+    .gallery {
+      opacity: 0;
+    }
+  }
+
   .gallery {
     padding: 18rem 8rem 0 8rem;
     text-align: left;
+    transition: opacity .3s;
 
     &__overlay {
       width: 100%;
