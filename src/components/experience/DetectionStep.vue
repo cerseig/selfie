@@ -352,7 +352,7 @@ export default {
 
     &__restriction {
       position: absolute;
-      max-height: 600px;
+      max-height: 500px;
 
       &.is-hidden {
         display: none;

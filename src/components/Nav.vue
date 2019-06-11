@@ -48,9 +48,7 @@ export default {
     })
   },
   watch: {
-    isVoice (newValue) {
-      console.log(newValue)
-    }
+    isVoice (newValue) {}
   }
 }
 
@@ -189,16 +187,16 @@ export default {
         transition: opacity 0.3s ease;
 
         &.is-hidden {
-          opacity: 0;
+          opacity: 0!important;
         }
 
       }
 
       .logo__active {
-        width: 110px;
+        width: 100px;
         position: absolute;
         left: 50%;
-        top: 46%;
+        top: 42%;
         transform: translate(-50%,-50%);
         transition: opacity 0.3s ease;
 
