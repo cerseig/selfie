@@ -2,7 +2,7 @@
   <div class="gallery">
     <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
     <div class="gallery__avatars">
-      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarBase64Path" :allAvatars="allAvatars"/>
+      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarBase64Path" :allAvatars="allAvatars" />
     </div>
     <ModalConclusion :isActive="isModalActive" :usersNumber="allAvatars.length"/>
   </div>
@@ -118,7 +118,7 @@ export default {
     openConclusionModal () {
       this.$on('Animation:Gallery:AvatarAdding', () => {
         const timeOut = setTimeout(() => {
-          this.soundDesign.playSpriteSoundDesign('conclusion')
+          this.soundDesign.playSpriteSoundDesign('notification')
           this.isModalActive = true
           clearTimeout(timeOut)
         }, 4000)

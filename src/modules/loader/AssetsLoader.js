@@ -28,6 +28,27 @@ class AssetsLoader {
     })
   }
 
+  loadAssetsArray(array, type) {
+    array.forEach(item => {
+      this.pendings.push(
+        new Promise((resolve, reject) => {
+          switch (type) {
+            case 'image':
+              this.loadImage(item.url, resolve)
+              break
+          }
+        })
+      )
+    })
+
+    return new Promise((resolve, reject) => {
+      return Promise.all(this.pendings).then(val => {
+        this.pendings = []
+        resolve()
+      })
+    })
+  }
+
   loadAsset (url, type) {
     return new Promise((resolve, reject) => {
       switch (type) {
