@@ -1,20 +1,25 @@
 <template>
   <div class="gallery">
     <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
-    <!--<h1 class="gallery__title">{{ $t('gallery.title') }}</h1>-->
     <div class="gallery__avatars">
-      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarBase64Path"/>
+      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarBase64Path" :allAvatars="allAvatars"/>
     </div>
     <ModalConclusion :isActive="isModalActive" :usersNumber="allAvatars.length"/>
   </div>
 </template>
 
 <script>
+// Modules
+import store from '@/store/index'
+import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
+
+// Components
 import AvatarsGrid from '@/components/AvatarsGrid.vue'
+import ModalConclusion from '@/components/modal/ModalConclusion.vue'
+
+// GraphQL
 import { CREATE_AVATAR_MUTATION, CREATE_USER_REPRESENTATION_MUTATION } from '@/graphQL/mutations.js'
 import { ALL_AVATARS } from '@/graphQL/queries'
-import store from '@/store/index'
-import ModalConclusion from '@/components/modal/ModalConclusion.vue'
 
 export default {
   name: 'gallery',
@@ -41,6 +46,9 @@ export default {
     picturePath: () => store.getters.getPicturePath
   },
   methods: {
+    launchSoundDesign () {
+      this.soundDesign = new SoundDesign()
+    },
     getAllAvatars () {
       this.$apollo.query({
         query: ALL_AVATARS,
@@ -110,6 +118,7 @@ export default {
     openConclusionModal () {
       this.$on('Animation:Gallery:AvatarAdding', () => {
         const timeOut = setTimeout(() => {
+          this.soundDesign.playSpriteSoundDesign('conclusion')
           this.isModalActive = true
           clearTimeout(timeOut)
         }, 4000)
@@ -120,6 +129,7 @@ export default {
     }
   },
   mounted () {
+    this.launchSoundDesign()
     this.saveImagesInDB()
     this.updateBodyClass()
     this.openConclusionModal()
