@@ -75,7 +75,7 @@ export default {
       font-size: 15rem;
       animation: blink 2s infinite;
       opacity: 0;
-      transition: opacity .5s;
+      transition: opacity .2s .5s;
     }
   }
 
