@@ -6,7 +6,7 @@
     </div>
     <div class="nav__logo">
       <div class="nav__voice">
-        <Icon :class="`logo ${ isVoice ? 'is-hidden' : ''}`" name="logo" width="120" height="120" fill="#000000" />
+        <Icon :class="`logo ${ isVoice ? 'is-hidden' : ''}`" name="logo" width="90" height="90" fill="#000000" />
         <img :class="`logo__active ${ isVoice ? 'is-active' : ''}`" :src="`${publicPath}/img/gifs/amy_active.gif`">
       </div>
     </div>
@@ -193,7 +193,7 @@ export default {
       }
 
       .logo__active {
-        width: 100px;
+        width: 80px;
         position: absolute;
         left: 50%;
         top: 42%;
