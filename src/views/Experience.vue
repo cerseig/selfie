@@ -7,7 +7,7 @@
     </div>
 
     <div :class="`detection ${currentStep === STEPS.ANALYSIS ? 'is-active' : ''}`">
-      <Detection />
+      <Detection :isReady="detection.states.isReady" />
       <DetectionStep v-if="currentStep < STEPS.DECOR" :validateStep="onValidateStep" :isActive="currentStep === STEPS.ANALYSIS" :isReady="detection.states.isReady" :isAnalysed="detection.states.isAnalysed" :positions="detection.positions" :errors="detection.errors" :sizes="detection.resolutionFrameSize" />
     </div>
 
@@ -224,11 +224,13 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s .3s;
     z-index: 3;
 
     &.is-active {
-      display: block;
+      opacity: 1;
     }
   }
 
