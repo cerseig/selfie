@@ -225,6 +225,21 @@ export default {
     },
     updateStoreStep () {
       store.commit('setStep', 0)
+    },
+    startExperiment () {
+      if (this.isLoadedAssets) {
+        this.counter = this.counter + 1
+        const timeOut = setTimeout(() => {
+          this.updateStoreStep()
+          this.getPositionCenter()
+          clearTimeout(timeOut)
+        }, 1500)
+      } else {
+        const timeOut = setTimeout(() => {
+          this.startExperiment()
+          clearTimeout(timeOut)
+        }, 100)
+      }
     }
   },
   mounted () {
@@ -243,19 +258,7 @@ export default {
   watch: {
     isReady () { // when BRF is ready
       if (this.isReady && this.isActive) {
-        if (this.isLoadedAssets) {
-          this.counter = this.counter + 1
-          const timeOut = setTimeout(() => {
-            this.updateStoreStep()
-            this.getPositionCenter()
-            clearTimeout(timeOut)
-          }, 1500)
-        } else {
-          const timeOut = setTimeout(() => {
-            this.isReady()
-            clearTimeout(timeOut)
-          }, 100)
-        }
+        this.startExperiment()
       }
     },
     isAnalysed () { // when BRF got initial face values

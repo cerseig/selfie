@@ -1,20 +1,25 @@
 <template>
   <div class="gallery">
     <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
-    <!--<h1 class="gallery__title">{{ $t('gallery.title') }}</h1>-->
     <div class="gallery__avatars">
-      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
+      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarBase64Path" :allAvatars="allAvatars" />
     </div>
     <ModalConclusion :isActive="isModalActive" :usersNumber="allAvatars.length"/>
   </div>
 </template>
 
 <script>
+// Modules
+import store from '@/store/index'
+import SoundDesign from '@/modules/sound/soundDesign/SoundDesign'
+
+// Components
 import AvatarsGrid from '@/components/AvatarsGrid.vue'
+import ModalConclusion from '@/components/modal/ModalConclusion.vue'
+
+// GraphQL
 import { CREATE_AVATAR_MUTATION, CREATE_USER_REPRESENTATION_MUTATION } from '@/graphQL/mutations.js'
 import { ALL_AVATARS } from '@/graphQL/queries'
-import store from '@/store/index'
-import ModalConclusion from '@/components/modal/ModalConclusion.vue'
 
 export default {
   name: 'gallery',
@@ -29,25 +34,30 @@ export default {
       isConclusionDone: false
     }
   },
-  apollo: {
-    allAvatars: {
-      query: ALL_AVATARS
-    }
-  },
   components: {
     AvatarsGrid,
     ModalConclusion
   },
   computed: {
+    storeAvatars: () => store.getters.getGallery,
     isAvatarSavedInDB: () => store.getters.getIsAvatarSavedInDB,
     isPictureSavedInDB: () => store.getters.getIsPictureSavedInDB,
     avatarPath: () => store.getters.getAvatarPath,
+    avatarBase64Path: () => store.getters.getAvatarBase64Path,
     picturePath: () => store.getters.getPicturePath
   },
   methods: {
+    launchSoundDesign () {
+      this.soundDesign = new SoundDesign()
+    },
     getAllAvatars () {
       this.$apollo.query({
-        query: ALL_AVATARS
+        query: ALL_AVATARS,
+        variables: {
+          orderBy: 'createdAt_DESC'
+        }
+      }).then(result => {
+        this.allAvatars = result.data.allAvatars
       })
     },
     updateBodyClass () {
@@ -84,6 +94,8 @@ export default {
         }
       }).then((data) => {
         this.avatarIsAdding = true
+        this.allAvatars = this.storeAvatars
+        // this.getAllAvatars()
       })
     },
     addUserRepresentation (avatarId) {
@@ -108,6 +120,7 @@ export default {
     openConclusionModal () {
       this.$on('Animation:Gallery:AvatarAdding', () => {
         const timeOut = setTimeout(() => {
+          this.soundDesign.playSpriteSoundDesign('notification')
           this.isModalActive = true
           clearTimeout(timeOut)
         }, 4000)
@@ -118,7 +131,7 @@ export default {
     }
   },
   mounted () {
-    this.getAllAvatars()
+    this.launchSoundDesign()
     this.saveImagesInDB()
     this.updateBodyClass()
     this.openConclusionModal()
@@ -131,9 +144,17 @@ export default {
 </script>
 
 <style lang="scss">
+
+  .share-fade-leave-active {
+    .gallery {
+      opacity: 0;
+    }
+  }
+
   .gallery {
     padding: 18rem 8rem 0 8rem;
     text-align: left;
+    transition: opacity .3s;
 
     &__overlay {
       width: 100%;

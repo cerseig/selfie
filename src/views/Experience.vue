@@ -116,6 +116,7 @@ export default {
       this.updateStoreStep()
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
+        this.backgroundMusic.playSpriteBackgroundMusic('experience')
       } else if (this.currentStep > this.STEPS.POSING) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
@@ -193,6 +194,12 @@ export default {
     if (this.stepObject && this.stepObject.sound) {
       this.stepObject.sound.stop()
     }
+    if (this.backgroundMusic && this.backgroundMusic.sound) {
+      this.backgroundMusic.sound.stop()
+    }
+  },
+  computed: {
+    backgroundMusic: () => store.getters.getMusic
   }
 }
 </script>
@@ -206,12 +213,20 @@ export default {
   overflow: hidden;
 
   &__scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
     height: 100vh;
-    display: none;
+    opacity: 0;
+
+    // display: none;
 
     &.is-active {
-      display: block;
+      opacity: 1;
+      // display: block;
     }
   }
 
@@ -226,7 +241,7 @@ export default {
     height: 100%;
     opacity: 0;
     pointer-events: none;
-    transition: opacity .2s .3s;
+    transition: opacity .5s .3s;
     z-index: 3;
 
     &.is-active {

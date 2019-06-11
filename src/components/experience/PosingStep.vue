@@ -164,6 +164,7 @@ export default {
         const picture = params[1]
 
         store.commit('setAvatarPath', capture.path)
+        store.commit('setAvatarBase64Path', capture.imageBase64)
         store.commit('setPicturePath', picture.path)
         this.makeFlash()
       })

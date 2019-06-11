@@ -20,7 +20,6 @@ export default {
   name: 'AvatarsGrid',
   data () {
     return {
-      allAvatars: [],
       loading: 0,
       currentAvatar: ''
     }
@@ -33,20 +32,13 @@ export default {
     avatarPath: {
       required: false,
       type: String
+    },
+    allAvatars: {
+      required: false,
+      type: Array
     }
   },
   methods: {
-    getAllAvatars () {
-      this.$apollo.query({
-        query: ALL_AVATARS,
-        variables: {
-          orderBy: 'createdAt_DESC'
-        }
-      }).then(result => {
-        this.allAvatars = result.data.allAvatars
-        this.showAllAvatars()
-      })
-    },
     showCurrentAvatar () {
       this.currentAvatar = document.querySelector('.current-avatar')
       this.currentAvatar.setAttribute('src', this.avatarPath)
@@ -81,13 +73,10 @@ export default {
   },
   mounted () {
     this.showCurrentAvatar()
-    // this.getAllAvatars()
   },
   watch: {
-    avatarIsAdding () {
-      if (this.avatarIsAdding) {
-        this.getAllAvatars()
-      }
+    allAvatars () {
+      this.showAllAvatars()
     }
   }
 }
@@ -127,7 +116,8 @@ export default {
         max-width: none;
         width: 100%;
         min-height: 250px;
-
+        object-fit: cover;
+        object-position: center;
       }
     }
   }

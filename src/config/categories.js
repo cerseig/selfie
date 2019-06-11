@@ -7,8 +7,8 @@ const categories = [
       height: 60
     },
     default: {
-      colors: 9,
-      attributes: 3
+      colors: 0,
+      attributes: 1
     },
     colors: [
       { item: 'rgb(30,26,20)' },
@@ -79,16 +79,19 @@ const categories = [
       height: 60
     },
     default: {
-      colors: 5
+      colors: 0
     },
     colors: [
-      { item: 'rgb(191, 146, 113)' },
-      { item: 'rgb(111, 76, 36)' },
-      { item: 'rgb(59, 43, 37)' },
-      { item: 'rgb(18, 13, 11)' },
-      { item: 'rgb(210, 209, 209)' },
-      { item: 'rgb(72, 145, 220)' },
-      { item: 'rgb(94, 193, 82)' }
+      { item: 'rgb(71, 35, 20)' },
+      { item: 'rgb(119, 66, 35)' },
+      { item: 'rgb(158, 84, 48)' },
+      { item: 'rgb(67, 87, 176)' },
+      { item: 'rgb(95, 155, 170)' },
+      { item: 'rgb(73, 111, 124)' },
+      { item: 'rgb(53, 109, 71)' },
+      { item: 'rgb(84, 158, 114)' },
+      { item: 'rgb(157, 150, 152)' },
+      { item: 'rgb(108, 103, 104)' }
     ]
   },
   {
@@ -99,7 +102,7 @@ const categories = [
       height: 60
     },
     default: {
-      colors: 1
+      colors: 0
     },
     colors: [
       {
@@ -210,23 +213,22 @@ const categories = [
       height: 60
     },
     default: {
-      colors: 11,
+      colors: 0,
       attributes: 0
     },
     colors: [
+      { item: 'rgb(234,220,193)' },
       { item: 'rgb(250, 228, 151)' },
-      { item: 'rgb(255, 224, 0)' },
-      { item: 'rgb(255, 161, 47)' },
-      { item: 'rgb(220, 40, 29)' },
-      { item: 'rgb(191, 146, 113)' },
-      { item: 'rgb(111, 76, 36)' },
-      { item: 'rgb(59, 43, 37)' },
-      { item: 'rgb(18, 13, 11)' },
-      { item: 'rgb(210, 209, 209)' },
-      { item: 'rgb(249, 90, 121)' },
-      { item: 'rgb(171, 38, 170)' },
-      { item: 'rgb(72, 145, 220)' },
-      { item: 'rgb(94, 193, 82)' }
+      { item: 'rgb(252,201,200)' },
+      { item: 'rgb(244,90,78)' },
+      { item: 'rgb(90,177,157)' },
+      { item: 'rgb(201,230,244)' },
+      { item: 'rgb(190,160,247)' },
+      { item: 'rgb(113,46,119)' },
+      { item: 'rgb(34,63,145)' },
+      { item: 'rgb(135,37,37)' },
+      { item: 'rgb(124,118,112)' },
+      { item: 'rgb(18, 13, 11)' }
     ],
     attributes: [
       {
@@ -263,23 +265,22 @@ const categories = [
       height: 60
     },
     default: {
-      colors: 8,
+      colors: 0,
       attributes: 0
     },
     colors: [
+      { item: 'rgb(234,220,193)' },
       { item: 'rgb(250, 228, 151)' },
-      { item: 'rgb(255, 224, 0)' },
-      { item: 'rgb(255, 161, 47)' },
-      { item: 'rgb(220, 40, 29)' },
-      { item: 'rgb(191, 146, 113)' },
-      { item: 'rgb(111, 76, 36)' },
-      { item: 'rgb(59, 43, 37)' },
-      { item: 'rgb(18, 13, 11)' },
-      { item: 'rgb(210, 209, 209)' },
-      { item: 'rgb(249, 90, 121)' },
-      { item: 'rgb(171, 38, 170)' },
-      { item: 'rgb(72, 145, 220)' },
-      { item: 'rgb(94, 193, 82)' }
+      { item: 'rgb(252,201,200)' },
+      { item: 'rgb(244,90,78)' },
+      { item: 'rgb(90,177,157)' },
+      { item: 'rgb(201,230,244)' },
+      { item: 'rgb(190,160,247)' },
+      { item: 'rgb(113,46,119)' },
+      { item: 'rgb(34,63,145)' },
+      { item: 'rgb(135,37,37)' },
+      { item: 'rgb(124,118,112)' },
+      { item: 'rgb(18, 13, 11)' }
     ]
   }
 ]

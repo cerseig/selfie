@@ -5,8 +5,8 @@ const soundDesignSprite = {
   success: [84500, 3500], // end: 88000
   timer: [89000, 2100], // end: 91100
   flash: [92000, 400], // end: 92400
-  backgroundMusic_beach: [94000, 100600], // end: 194600
-  backgroundMusic_park: [200000, 45000] // end: 245000
+  notification: [94000, 4000], // end: 98000
+  backgroundMusic_experience: [100000, 106762] // end : 206762
 }
 
 export default soundDesignSprite
