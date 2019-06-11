@@ -38,7 +38,6 @@ export default {
       }
     }
 
-
     &__camera {
       display: none;
     }

@@ -30,7 +30,6 @@ export default {
         case 'experience':
           this.transitionName = 'experience-fade'
           break
-
       }
     }
   }
