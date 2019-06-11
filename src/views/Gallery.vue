@@ -3,7 +3,7 @@
     <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
     <!--<h1 class="gallery__title">{{ $t('gallery.title') }}</h1>-->
     <div class="gallery__avatars">
-      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
+      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarBase64Path"/>
     </div>
     <ModalConclusion :isActive="isModalActive" :usersNumber="allAvatars.length"/>
   </div>
@@ -42,6 +42,7 @@ export default {
     isAvatarSavedInDB: () => store.getters.getIsAvatarSavedInDB,
     isPictureSavedInDB: () => store.getters.getIsPictureSavedInDB,
     avatarPath: () => store.getters.getAvatarPath,
+    avatarBase64Path: () => store.getters.getAvatarBase64Path,
     picturePath: () => store.getters.getPicturePath
   },
   methods: {
