@@ -116,7 +116,8 @@ export default {
         max-width: none;
         width: 100%;
         min-height: 250px;
-
+        object-fit: cover;
+        object-position: center;
       }
     }
   }
