@@ -1,6 +1,9 @@
 <template>
   <div class="intro">
-    <Icon class="intro__animation" width="500" height="500" name="logo"/>
+    <!--<Icon class="intro__animation" width="500" height="500" name="logo"/>-->
+    <video :class="`intro__video`" ref="video"  preload playsinline>
+      <source class="intro__video--source" :src="`${publicPath}/videos/amy_intro.mp4`" type="video/mp4">
+    </video>
   </div>
 </template>
 
@@ -24,18 +27,17 @@ export default {
   },
   data () {
     return {
-      step: stepsConfig.intro
+      step: stepsConfig.intro,
+      publicPath: process.env.BASE_URL
     }
   },
   methods: {
     playIntro () {
-      this.stepObject.init(() => {
+      this.$refs.video.play()
+      this.$refs.video.addEventListener('ended', () => {
+        this.$refs.video.pause()
         this.$router.push({ name: 'experience' })
       })
-    },
-    createStepObject () {
-      let stepObject = new Step(this.step)
-      this.stepObject = stepObject
     },
     createMusicObject () {
       this.backgroundMusic = new BackgroundMusic()
@@ -45,11 +47,7 @@ export default {
   mounted () {
     AssetsLoader.loadAsset('/img/gifs/loader.gif', 'image')
     this.createMusicObject()
-    this.createStepObject()
     this.playIntro()
-  },
-  beforeDestroy () {
-    this.stepObject.sound.stop()
   }
 }
 </script>

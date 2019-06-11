@@ -1,7 +1,7 @@
 <template>
   <div :class="`panel panel--category ${show ? 'is-active' : ''}`">
     <ul class="list list--category">
-      <span class="list__indicator" :style="{transform: `translateX(${isActive * 9.5}rem)`}"></span>
+      <span class="list__indicator" :style="{transform: `translateX(${isActive * 10}rem)`}"></span>
       <li :class="`list__item ${isActive === index ? 'is-active' : ''}`" :data-index="index" @click="onClickCategory" v-for="(category, index) in categories" :key="`category-${index}`">
         <button class="list__button">
           <Icon :name="category.icon.title" :width="60" :height="60" stroke="#000000" fill="#000000"/>
