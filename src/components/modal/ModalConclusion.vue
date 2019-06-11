@@ -5,9 +5,8 @@
         <button class="notification__close" @click="onClickClose">
           <Icon name="close" width="25" height="25" fill="#000000" />
         </button>
-        <p class="notification__content">
-          {{ $t('modalConclusion.notification.message', { usersLength: usersNumber }) }}
-        </p>
+        <h2 class="notification__title">{{ $t('modalConclusion.notification.title') }}</h2>
+        <p class="notification__content" v-html="$t('modalConclusion.notification.message', { usersLength: usersNumber })"></p>
       </div>
       <video :class="`modal__video ${isVideo ? 'is-active' : ''}`" ref="video"  preload playsinline>
         <source class="modal__video--source" :src="`${publicPath}/videos/conclusion.mp4`" type="video/mp4">
@@ -142,12 +141,41 @@ export default {
             cursor: pointer;
           }
 
+          &__title {
+            font-size: 5rem;
+            margin-bottom: 5rem;
+            color: $color__blue--dark;
+            text-align: center;
+          }
+
           &__content {
             text-align: center;
+            font-size: 3.5rem;
+            line-height: 5rem;
             max-width: 400px;
           }
+
+          & /deep/ .counter {
+            position: relative;
+            z-index: 2;
+
+            &:before {
+              content: '';
+              z-index: -1;
+              position: absolute;
+              bottom: -1px;
+              left: 40px;
+              width: 90%;
+              height: 2rem;
+              background-color: $color__orange;
+              opacity: .5;
+            }
+
+          }
+
         }
       }
+
 
       &__video {
         width: 100%;

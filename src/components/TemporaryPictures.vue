@@ -1,7 +1,9 @@
 <template>
   <div class="temporary__pictures">
     <div :class="`temporary__item ${selection.avatar ? 'is-active' : ''}`">
+      <div class="temporary__item__container">
         <img v-if="avatarPath" :src="avatarPath" class="temporary__image">
+      </div>
         <!--<img src="https://dummyimage.com/530x720/a9f5e3/a5a8d1.png&text=Avatar+Image" class="temporary__image" />-->
       <button class="temporary__item__button" @click="onButtonClick" data-key="avatar">
         <Icon name="plus" width="40" height="40" extraClasses="icon--select" fill="#000000" />
@@ -122,7 +124,7 @@ export default {
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        max-height: 500px;
+        height: 500px;
       }
 
       &__button {
@@ -154,7 +156,7 @@ export default {
 
       .temporary__image {
         width: 100%;
-        height: auto;
+        height: 100%;
         transform: scaleX(0.857) scaleY(0.9);
 
         transition: transform .3s;
@@ -163,8 +165,6 @@ export default {
           object-position: center;
           object-fit: cover;
           max-width: none;
-          width: 100%;
-          height: 100%;
         }
 
       }
