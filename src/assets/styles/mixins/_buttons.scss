@@ -35,9 +35,18 @@
 
   transition: background .3s;
 
-  &:hover {
+  svg {
+    stroke: $color__black;
+    fill: $color__black;
+  }
+
+  &:hover, &:active {
     background: $color__black;
     color: $color__white;
+    svg {
+      stroke: $color__white;
+      fill: $color__white;
+    }
   }
 }
 

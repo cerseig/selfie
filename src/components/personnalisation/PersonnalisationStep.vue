@@ -2,7 +2,7 @@
   <div :class="`personnalisation ${isActive ? 'is-active' : ''}`">
     <a class="personnalisation__next" href="#" @click="onValidateStep">
       {{ $t('experience.personnalisation.nextStep') }}
-      <Icon name="little-arrow" width="12" height="12" stroke="#000000" />
+      <Icon name="little-arrow" width="12" height="12" />
     </a>
     <CategoryPanel :categories="configCategories" :selectionChange="onSelectionChange" :show="isActive" />
   </div>

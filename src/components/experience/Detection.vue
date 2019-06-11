@@ -17,7 +17,7 @@ export default {
     &__content {
       overflow: hidden;
       width: calc(100vw - 20%);
-      height: calc(100vh - 25%);
+      height: calc(100vh - 35%);
       max-width: 824px;
       position: relative;
       display: flex;
