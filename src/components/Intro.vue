@@ -1,6 +1,5 @@
 <template>
   <div class="intro">
-    <!--<Icon class="intro__animation" width="500" height="500" name="logo"/>-->
     <video :class="`intro__video`" ref="video"  preload playsinline>
       <source class="intro__video--source" :src="`${publicPath}/videos/amy_intro.mp4`" type="video/mp4">
     </video>
@@ -25,6 +24,12 @@ export default {
   components: {
     Icon
   },
+  props: {
+    isIntro: {
+      required: true,
+      type: Boolean
+    }
+  },
   data () {
     return {
       step: stepsConfig.intro,
@@ -47,7 +52,13 @@ export default {
   mounted () {
     AssetsLoader.loadAsset('/img/gifs/loader.gif', 'image')
     this.createMusicObject()
-    this.playIntro()
+  },
+  watch: {
+    isIntro () {
+      if (this.isIntro) {
+        this.playIntro()
+      }
+    }
   }
 }
 </script>
