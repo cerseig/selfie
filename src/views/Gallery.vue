@@ -34,6 +34,7 @@ export default {
     ModalConclusion
   },
   computed: {
+    storeAvatars: () => store.getters.getGallery,
     isAvatarSavedInDB: () => store.getters.getIsAvatarSavedInDB,
     isPictureSavedInDB: () => store.getters.getIsPictureSavedInDB,
     avatarPath: () => store.getters.getAvatarPath,
@@ -85,7 +86,8 @@ export default {
         }
       }).then((data) => {
         this.avatarIsAdding = true
-        this.getAllAvatars()
+        this.allAvatars = this.storeAvatars
+        // this.getAllAvatars()
       })
     },
     addUserRepresentation (avatarId) {
