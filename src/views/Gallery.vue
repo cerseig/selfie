@@ -3,7 +3,7 @@
     <button :class="`gallery__share ${isConclusionDone ? 'is-active' : ''}`" @click="redirectToShare">{{ $t('gallery.button.share') }}</button>
     <!--<h1 class="gallery__title">{{ $t('gallery.title') }}</h1>-->
     <div class="gallery__avatars">
-      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath"/>
+      <AvatarsGrid :avatarIsAdding="avatarIsAdding" :avatarPath="avatarPath" :allAvatars="allAvatars"/>
     </div>
     <ModalConclusion :isActive="isModalActive" :usersNumber="allAvatars.length"/>
   </div>
@@ -29,11 +29,6 @@ export default {
       isConclusionDone: false
     }
   },
-  apollo: {
-    allAvatars: {
-      query: ALL_AVATARS
-    }
-  },
   components: {
     AvatarsGrid,
     ModalConclusion
@@ -47,7 +42,12 @@ export default {
   methods: {
     getAllAvatars () {
       this.$apollo.query({
-        query: ALL_AVATARS
+        query: ALL_AVATARS,
+        variables: {
+          orderBy: 'createdAt_DESC'
+        }
+      }).then(result => {
+        this.allAvatars = result.data.allAvatars
       })
     },
     updateBodyClass () {
@@ -84,6 +84,7 @@ export default {
         }
       }).then((data) => {
         this.avatarIsAdding = true
+        this.getAllAvatars()
       })
     },
     addUserRepresentation (avatarId) {
@@ -118,7 +119,6 @@ export default {
     }
   },
   mounted () {
-    this.getAllAvatars()
     this.saveImagesInDB()
     this.updateBodyClass()
     this.openConclusionModal()

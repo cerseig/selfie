@@ -152,25 +152,17 @@ export default {
             text-align: center;
             font-size: 3.5rem;
             line-height: 5rem;
-            max-width: 400px;
+            max-width: 420px;
           }
 
           & /deep/ .counter {
             position: relative;
+            padding-right: 10px;
             z-index: 2;
-
-            &:before {
-              content: '';
-              z-index: -1;
-              position: absolute;
-              bottom: -1px;
-              left: 40px;
-              width: 90%;
-              height: 2rem;
-              background-color: $color__orange;
-              opacity: .5;
-            }
-
+            background-image: linear-gradient(180deg, rgba($color__orange, .5), rgba($color__orange, .5));
+            background-size: 100% 58%;
+            background-repeat: no-repeat;
+            background-position: 10px 130%;
           }
 
         }

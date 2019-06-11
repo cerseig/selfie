@@ -180,9 +180,9 @@ export default {
       })
     }
   },
-  //  mounted () {
-  //    this.takePhotos()
-  //  },
+//    mounted () {
+//      this.takePhotos()
+//    },
   watch: {
     isActive () {
       this.createStepObject()

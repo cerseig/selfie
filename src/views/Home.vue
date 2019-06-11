@@ -92,6 +92,9 @@ import About from '@/components/About.vue'
 import Intro from '@/components/Intro.vue'
 import Icon from '@/components/icons/Icon.vue'
 
+// GraphQL
+import { ALL_AVATARS } from '@/graphQL/queries'
+
 // Config
 import voiceSprite from '@/config/voiceSprite'
 
@@ -123,10 +126,21 @@ export default {
       ],
       isOpen: false,
       isIntro: false,
-      isIosSafari: true
+      isIosSafari: true,
+      allAvatars: []
     }
   },
   methods: {
+    getAllAvatars () {
+      this.$apollo.query({
+        query: ALL_AVATARS,
+        variables: {
+          orderBy: 'createdAt_DESC'
+        }
+      }).then(result => {
+        this.allAvatars = result.data.allAvatars
+      })
+    },
     onDetectDevice () {
       let isIOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform) // true or false
       if (isIOS) {
@@ -178,6 +192,7 @@ export default {
     lang: () => store.getters.getLang
   },
   mounted () {
+    this.getAllAvatars()
     this.updateBodyClass()
     this.initSoundContext()
     this.onDetectDevice()
