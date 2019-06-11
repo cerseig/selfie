@@ -30,6 +30,9 @@ export default {
         case 'experience':
           this.transitionName = 'experience-fade'
           break
+
+        case 'share':
+          this.transitionName = 'share-fade'
       }
     }
   }
@@ -58,5 +61,9 @@ export default {
 
 .experience-fade-leave-active {
   transition: .3s;
+}
+
+.share-fade-enter {
+  transition: 2s;
 }
 </style>
