@@ -7,13 +7,13 @@ class BackgroundMusic {
     const source = '/sounds/sound_design.mp3'
     this.sound = new Howl({
       src: [source],
-      volume: 0.7,
+      volume: 0.3,
       sprite: soundDesignSprite
     })
   }
   fadeOut (callback) {
     const fadeDuration = 1500
-    this.sound.fade(0.7, 0, fadeDuration, this.backgroundMusic)
+    this.sound.fade(0.5, 0, fadeDuration, this.backgroundMusic)
 
     const timeOut = setTimeout(() => {
       if (callback && utils.isFunction(callback)) {

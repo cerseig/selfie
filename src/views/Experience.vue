@@ -116,6 +116,7 @@ export default {
       this.updateStoreStep()
       if (this.currentStep === this.STEPS.PERSONNALISATION) {
         this.updateBodyClass()
+        this.backgroundMusic.playSpriteBackgroundMusic('experience')
       } else if (this.currentStep > this.STEPS.POSING) {
         // todo : camera screenshot
         this.$router.push({ name: 'gallery' })
@@ -193,6 +194,12 @@ export default {
     if (this.stepObject && this.stepObject.sound) {
       this.stepObject.sound.stop()
     }
+    if (this.backgroundMusic && this.backgroundMusic.sound) {
+      this.backgroundMusic.sound.stop()
+    }
+  },
+  computed: {
+    backgroundMusic: () => store.getters.getMusic
   }
 }
 </script>
