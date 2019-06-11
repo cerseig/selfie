@@ -84,12 +84,12 @@ const categories = [
     colors: [
       { item: 'rgb(71, 35, 20)' },
       { item: 'rgb(119, 66, 35)' },
-      { item: 'rgb(181, 100, 53)' },
+      { item: 'rgb(158, 84, 48)' },
       { item: 'rgb(67, 87, 176)' },
-      { item: 'rgb(121, 181, 199)' },
+      { item: 'rgb(95, 155, 170)' },
       { item: 'rgb(73, 111, 124)' },
       { item: 'rgb(53, 109, 71)' },
-      { item: 'rgb(94, 173, 126)' },
+      { item: 'rgb(84, 158, 114)' },
       { item: 'rgb(157, 150, 152)' },
       { item: 'rgb(108, 103, 104)' }
     ]
@@ -102,7 +102,7 @@ const categories = [
       height: 60
     },
     default: {
-      colors: 3
+      colors: 0
     },
     colors: [
       {
